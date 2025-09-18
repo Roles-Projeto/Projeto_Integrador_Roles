@@ -1,0 +1,91 @@
+/* Fonte global */
+body {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+/* Navbar */
+.navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 11px 20px;
+    background-color: #fff;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+/* Logo */
+.logo {
+    font-weight: 700;
+    font-size: 22px;
+    background: linear-gradient(90deg, #8e2de2, #4a00e0);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* Menu */
+.menu ul {
+    display: flex;
+    list-style: none;
+    gap: 16px;
+    margin: 0;
+    padding: 0;
+}
+
+.menu li a {
+    text-decoration: none;
+    color: #222;
+    font-weight: 500;
+    transition: 0.3s;
+}
+
+.menu li a:hover {
+    color: #8e2de2;
+}
+
+/* Busca + Local */
+.search-location {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.search-location input {
+    padding: 6px 12px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    outline: none;
+}
+
+.location-btn {
+    padding: 6px 12px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background: #f9f9f9;
+    cursor: pointer;
+}
+
+/* Botões */
+.auth-buttons {
+    display: flex;
+    gap: 10px;
+}
+
+.login-btn {
+    background: transparent;
+    border: none;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.signup-btn {
+    background: #000;
+    color: #fff;
+    border: none;
+    padding: 6px 14px;
+    border-radius: 8px;
+    font-weight: 500;
+    cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
