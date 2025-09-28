@@ -1,12 +1,9 @@
-/* Fonte padrão */
 body {
     font-family: 'Poppins', sans-serif;
     margin: 0;
     padding: 0;
 }
 
-
-/* Barra de navegação */
 .navbar {
     width: 100%;  /* largura fixa */
     height: 61px;  /* altura fixa */
@@ -29,8 +26,6 @@ body {
     object-fit: contain;
 }
 
-
-/* Menu */
 .menu {
     list-style: none;
     display: flex;
@@ -52,14 +47,12 @@ body {
     color: #8e2de2;
 }
 
-/* Direita */
 .right-section {
     display: flex;
     align-items: center;
     gap: 12px;
 }
 
-/* Busca */
 .search-container {
     display: flex;
     align-items: center;
@@ -68,7 +61,6 @@ body {
     padding: 5px 10px;
 }
 
-/*Icone lupa*/
 .search-container i {
     color: #6B7280;
     margin-right: 5px;
@@ -81,7 +73,6 @@ body {
     font-size: 12px;
 }
 
-/* Botão cidade */
 .city-btn {
     display: flex;
     align-items: center;
@@ -95,12 +86,10 @@ body {
     color: #000;
 }
 
-/*Icone localização*/
 .city-btn i {
     color: #6B7280;
 }
 
-/* Login */
 .login {
     text-decoration: none;
     color: #000;
@@ -108,7 +97,6 @@ body {
     margin-left: 5px;
 }
 
-/* Cadastrar */
 .btn-header-cadastro {
     background: #000;
     color: #fff;
@@ -125,13 +113,11 @@ body {
     ;
 }
 
-/* Reset para páginas principais */
 html, body {
     margin: 0;
     padding: 0;
 }
 
-/* Ajustes para os iframes de header e footer */
 #header-wrap, #footer-wrap {
     width: 100%;
     margin: 0;
