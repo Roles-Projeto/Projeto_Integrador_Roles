@@ -1,35 +1,35 @@
-/* Fonte padrão */
 body {
     font-family: 'Poppins', sans-serif;
     margin: 0;
     padding: 0;
 }
 
-
-/* Barra de navegação */
 .navbar {
+    width: 100%;  /* largura fixa */
+    height: 61px;  /* altura fixa */
+    background-color: #ffff
+    ;
     display: flex;
-    align-items: center;
     justify-content: space-between;
-    padding: 0 20px;
-    height: 70px;
-    background-color: #fff;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    align-items: center;
+    margin: 0 auto; /* centraliza no body */
+    padding: 20px 50px;
+    box-sizing: border-box;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
 }
 
-/* LOGO */
+
 .logo img {
     height: 100px;
-    width: auto;
+    max-width: 80%;
     object-fit: contain;
 }
 
-
-/* Menu */
 .menu {
     list-style: none;
     display: flex;
-    gap: 20px;
+    gap: 30px;
     margin: 0;
     padding: 0;
 
@@ -39,7 +39,7 @@ body {
     text-decoration: none;
     color: #000;
     font-weight: 500;
-    font-size: 14px;
+    font-size: 12px;
     transition: 0.3s;
 }
 
@@ -47,14 +47,12 @@ body {
     color: #8e2de2;
 }
 
-/* Direita */
 .right-section {
     display: flex;
     align-items: center;
-    gap: 25px;
+    gap: 12px;
 }
 
-/* Busca */
 .search-container {
     display: flex;
     align-items: center;
@@ -63,7 +61,6 @@ body {
     padding: 5px 10px;
 }
 
-/*Icone lupa*/
 .search-container i {
     color: #6B7280;
     margin-right: 5px;
@@ -73,10 +70,9 @@ body {
     border: none;
     background: transparent;
     outline: none;
-    font-size: 14px;
+    font-size: 12px;
 }
 
-/* Botão cidade */
 .city-btn {
     display: flex;
     align-items: center;
@@ -86,35 +82,52 @@ body {
     padding: 6px 12px;
     border-radius: 6px;
     cursor: pointer;
-    font-size: 14px;
+    font-size: 12px;
     color: #000;
 }
 
-/*Icone localização*/
 .city-btn i {
     color: #6B7280;
 }
 
-/* Login */
 .login {
     text-decoration: none;
     color: #000;
-    font-size: 14px;
+    font-size: 12px;
     margin-left: 5px;
 }
 
-/* Cadastrar */
-.btn-cadastrar {
+.btn-header-cadastro {
     background: #000;
     color: #fff;
     padding: 6px 12px;
     border-radius: 6px;
     text-decoration: none;
-    font-size: 14px;
+    font-size: 12px;
     font-weight: bold;
+
 }
 
-.btn-cadastrar:hover {
+.btn-header-cadastro:hover {
     opacity: 0.8;
     ;
+}
+
+html, body {
+    margin: 0;
+    padding: 0;
+}
+
+#header-wrap, #footer-wrap {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+#site-header, #site-footer {
+    display: block;
+    width: 100%;
+    border: none;
+    margin: 0;
+    padding: 0;
 }

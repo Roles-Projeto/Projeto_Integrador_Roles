@@ -1,0 +1,150 @@
+body {
+  margin: 0;
+  padding: 0;
+  background-color: var(--cor-fundo-principal) !important;
+}
+
+:root {
+  --cor-fundo-principal: #03021A;
+  --cor-texto-claro: #f0f0f0;
+  --cor-destaque: #f8c92f;
+  --cor-sub-texto: #a0a0a0;
+  --cor-linha: #333333;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: #fff;
+}
+
+
+.rodape {
+  background-color: var(--cor-fundo-principal);
+  color: var(--cor-texto-claro);
+  padding: 80px 20px 20px;
+}
+
+.rodape-conteudo {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  padding-bottom: 30px;
+}
+
+.coluna-info {
+  max-width: 250px;
+}
+
+.logo {
+  color: var(--cor-destaque);
+  font-size: 24px;
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+
+.slogan {
+  color: var(--cor-sub-texto);
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.sociais {
+  margin-top: 15px;
+}
+
+.sociais a {
+  color: var(--cor-sub-texto);
+  font-size: 20px;
+  margin-right: 15px;
+  transition: color 0.3s;
+}
+
+.sociais a:hover {
+  color: var(--cor-destaque);
+}
+
+.coluna-links h3,
+.coluna-contato h3 {
+  color: var(--cor-destaque);
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 15px;
+}
+
+.coluna-links ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.coluna-links li {
+  margin-bottom: 5px;
+}
+
+.coluna-links a {
+  color: var(--cor-sub-texto);
+  text-decoration: none;
+  font-size: 13px;
+  transition: color 0.3s;
+}
+
+.coluna-links a:hover {
+  color: var(--cor-destaque);
+}
+
+.coluna-contato p {
+  margin: 0 0 5px 0;
+  color: var(--cor-sub-texto);
+  font-size: 13px;
+}
+
+.coluna-contato .email a,
+.coluna-contato .telefone {
+  color: var(--cor-texto-claro);
+  font-weight: bold;
+  text-decoration: none;
+  font-size: 13px;
+}
+
+.coluna-contato .email a:hover {
+  color: var(--cor-destaque);
+}
+
+.rodape-base {
+  max-width: 1200px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.separador {
+  border: none;
+  border-top: 1px solid var(--cor-linha);
+  margin: 20px 0 30px;
+}
+
+.copyright {
+  color: var(--cor-sub-texto);
+  font-size: 12px;
+  margin-bottom: 10px;
+}
+
+/* --- RESPONSIVIDADE  --- */
+@media (max-width: 768px) {
+  .rodape-conteudo {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 30px;
+    padding-bottom: 30px;
+  }
+
+  .coluna-info {
+    max-width: 100%;
+  }
+
+  .coluna-links {
+    margin-top: 15px;
+  }
+}
