@@ -1,47 +1,10 @@
 /* ===== Configuração geral ===== */
 body {
   margin: 0;
-  font-family: Arial, sans-serif;
+  font-family: 'Poppins', sans-serif;
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
-}
-
-/* ===== Cabeçalho ===== */
-header {
-  background: #fff;
-  padding: 10px 20px;
-  border-bottom: 1px solid #ddd;
-}
-
-header nav {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-header nav a {
-  margin: 0 10px;
-  text-decoration: none;
-  color: #000;
-  font-size: 14px;
-}
-
-header nav a:hover {
-  color: #4A148C; /* roxo escuro */
-}
-
-/* Botão "Cadastrar" em destaque */
-.btn-cadastrar {
-  background: #000;
-  color: #fff !important;
-  padding: 6px 14px;
-  border-radius: 6px;
-  transition: 0.3s;
-}
-
-.btn-cadastrar:hover {
-  background: #333;
+  min-height: 135vh;
 }
 
 /* ===== Conteúdo principal ===== */
@@ -80,47 +43,3 @@ main {
   background: #333;
 }
 
-/* ===== Rodapé ===== */
-footer {
-  background: #0a0a1a;
-  color: #ccc;
-  padding: 40px 20px;
-}
-
-footer .container {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 20px;
-}
-
-footer h4, footer h3 {
-  margin-bottom: 10px;
-  color: #fff;
-}
-
-footer .brand {
-  color: yellow;
-  font-weight: bold;
-}
-
-footer ul {
-  list-style: none;
-  padding: 0;
-}
-
-footer ul li {
-  margin-bottom: 6px;
-  font-size: 14px;
-}
-
-footer p, footer li {
-  font-size: 14px;
-  color: #ccc;
-}
-
-.copy {
-  text-align: center;
-  margin-top: 20px;
-  font-size: 12px;
-  color: #777;
-}
