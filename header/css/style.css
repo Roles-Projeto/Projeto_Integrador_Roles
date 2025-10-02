@@ -7,7 +7,8 @@ body {
 .navbar {
     width: 100%;  /* largura fixa */
     height: 61px;  /* altura fixa */
-    background-color: #ffff;
+    background-color: #ffff
+    ;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -15,8 +16,7 @@ body {
     padding: 20px 50px;
     box-sizing: border-box;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    border-bottom: 1px solid #ddd;
-    
+
 }
 
 
