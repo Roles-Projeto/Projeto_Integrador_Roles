@@ -1,0 +1,47 @@
+/* Reset básico */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+
+.search {
+  padding: 6px 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+.btn {
+  padding: 6px 12px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.btn-dark {
+  background: #000;
+  color: #fff;
+}
+
+/* Conteúdo principal */
+.main-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 60vh;
+}
+
+.login-box {
+  text-align: center;
+  border: 1px solid #ddd;
+  padding: 30px;
+  border-radius: 8px;
+  background: #fff;
+}
+
+.login-box p {
+  margin-bottom: 15px;
+  color: #555;
+}
+

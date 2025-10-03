@@ -20,16 +20,16 @@
 
       <!-- Logo -->
       <div class="logo">
-        <a href="../Home/home.html"><img src="../Imagens/logo_Rolês.png" alt="Rolês Logo"></a>
+        <a href="../index.html"><img src="../Imagens/logo_Rolês.png" alt="Rolês Logo"></a>
       </div>
 
       <!-- Menu -->
       <ul class="menu">
-        <li><a href="../Home/home.html">Início</a></li>
-        <li><a href="../locais/Locais.html">Locais</a></li>
+        <li><a href="../index.html">Início</a></li>
+        <li><a href="../locais/index.html">Locais</a></li>
         <li><a href="#">Eventos</a></li>
         <li><a href="#">Para Empresários</a></li>
-        <li><a href="#">Quem Somos</a></li>
+        <li><a href="../quem somos/index.html">Quem Somos</a></li>
         <li><a href="#">Contato</a></li>
       </ul>
 
@@ -49,6 +49,15 @@
       </div>
 
     </nav>
+    <script>
+      window.onload = function () {
+        const iframe = document.getElementById("site-header");
+        iframe.onload = function () {
+          iframe.style.height = iframe.contentWindow.document.body.scrollHeight + "px";
+        };
+      };
+    </script>
+
 
   </header>
 
