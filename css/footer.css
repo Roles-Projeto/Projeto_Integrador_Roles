@@ -3,9 +3,11 @@
 ================================================== */
 
 body {
-  margin: 0;
-  padding: 0;
-  background-color: var(--cor-fundo-principal) !important;
+  font-family: 'Poppins', sans-serif;
+  margin: 0%;
+  padding: 0%;
+  width: 100%;
+  
 }
 
 :root {
@@ -14,12 +16,6 @@ body {
   --cor-destaque: #f8c92f;
   --cor-sub-texto: #a0a0a0;
   --cor-linha: #333333;
-}
-
-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background-color: #fff;
 }
 
 
@@ -151,4 +147,23 @@ body {
   .coluna-links {
     margin-top: 15px;
   }
+}
+
+footer {
+  display: block;
+  unicode-bidi: isolate;
+}
+
+@media (max-width: 768px) {
+    /* Em telas menores, todos os cards ocupam a metade da tela (2 por linha) */
+    .numero-card, .valor-card, .membro-card {
+        /* Largura para 2 cards por linha */
+        width: calc(50% - 15px); 
+    }
+}
+iframe {
+    /* 1. Remove qualquer borda que o HTML não removeu */
+    border: none; 
+    /* 2. Garante que ele se alinhe perfeitamente na esquerda */
+    display: block; 
 }

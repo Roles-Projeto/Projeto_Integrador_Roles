@@ -623,11 +623,9 @@ body {
     padding: 0 20px;
 }
 
-/* Títulos já estilizados por .section-title e .section-subtitle */
 
 .eventos-grid {
     display: grid;
-    /* Grade de 3 colunas, como na imagem */
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 30px;
     max-width: 1100px;
@@ -680,7 +678,6 @@ body {
     margin-bottom: 10px;
     line-height: 1.4;
     height: 36px;
-    /* Altura fixa para alinhar descrições */
     overflow: hidden;
 }
 
@@ -698,7 +695,7 @@ body {
     color: #fff;
     z-index: 10;
     background-color: rgba(0, 0, 0, 0.5);
-    /* Fundo semi-transparente */
+    
 }
 
 /* Estilos de Data e Local */
@@ -781,4 +778,14 @@ body {
 
 .btn-confirmar-evento:hover {
     background-color: #9333ea;
+}
+
+@media (max-width: 768px) {
+    .numero-card, .valor-card, .membro-card {
+        width: calc(50% - 15px); 
+    }
+}
+iframe {
+    border: none; 
+    display: block; 
 }

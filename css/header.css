@@ -9,17 +9,20 @@ body {
 }
 
 .navbar {
-    width: 100%;  /* largura fixa */
-    height: 61px;  /* altura fixa */
-    background-color: #ffff ;
+    width: 100%;
+    /* largura fixa */
+    height: 61px;
+    /* altura fixa */
+    background-color: #ffff;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin: 0 auto; /* centraliza no body */
+    margin: 0 auto;
+    /* centraliza no body */
     padding: 20px 50px;
     box-sizing: border-box;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-     border-bottom: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
 }
 
 
@@ -113,21 +116,23 @@ body {
 
 .btn-header-cadastro:hover {
     opacity: 0.8;
-    ;
 }
 
-html, body {
+html,
+body {
     margin: 0;
     padding: 0;
 }
 
-#header-wrap, #footer-wrap {
+#header-wrap,
+#footer-wrap {
     width: 100%;
     margin: 0;
     padding: 0;
 }
 
-#site-header, #site-footer {
+#site-header,
+#site-footer {
     display: block;
     width: 100%;
     border: none;
