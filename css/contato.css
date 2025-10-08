@@ -1,0 +1,278 @@
+body {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    background-color: #ffffff;
+}
+
+/* --------------------------------- CONTAINER PRINCIPAL --------------------------------- */
+
+.contato-container {
+    max-width: 900px;
+    margin: auto;
+    padding: 10px 20px;
+    text-align: center;
+}
+
+.titulo {
+    font-size: 28px;
+    font-weight: 500;
+    margin-bottom: 5px;
+    color: #0c0c1d;
+}
+
+.subtitulo {
+    font-size: 16px;
+    color: #666;
+    margin-bottom: 40px;
+}
+
+/* --------------------------------- GRID DE CONTATO --------------------------------- */
+
+.contato-grid {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: 30px;
+    align-items: start;
+}
+
+.card {
+    background: #fff;
+    border: 1px solid #e5e5e5;
+    border-radius: 8px;
+    padding: 20px;
+    text-align: left;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+}
+
+.card h2 {
+    font-size: 20px;
+    font-weight: 500;
+    margin-bottom: 8px;
+    color: #0c0c1d;
+}
+
+.card h3 {
+    font-size: 15px;
+    font-weight: 500;
+    margin: 0;
+    color: #333;
+}
+
+.card p {
+    font-size: 13px;
+    color: #555;
+    line-height: 1.5;
+    margin: 0;
+}
+
+/* --------------------------------- COLUNA ESQUERDA: FORMULÁRIO --------------------------------- */
+
+.formulario {
+    padding: 25px 30px;
+}
+
+.formulario .descricao-form {
+    font-size: 13px;
+    margin-bottom: 20px;
+}
+
+.formulario form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.formulario .linha {
+    display: flex;
+    gap: 15px;
+}
+
+input,
+select,
+textarea {
+    width: 100%;
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    box-sizing: border-box;
+}
+
+.linha input {
+    width: 50%;
+}
+
+textarea {
+    resize: vertical;
+    min-height: 100px;
+}
+
+button {
+    background: #0c0c1d;
+    color: #fff;
+    padding: 12px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+    margin-top: 10px;
+    width: 100%;
+    
+}
+
+/* --------------------------------- COLUNA DIREITA: INFORMAÇÕES E ÍCONES --------------------------------- */
+
+.info-contato {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+
+.info-item .item-content {
+    display: flex;
+    align-items: flex-start;
+    gap: 15px;
+}
+
+
+.icone-card {
+    font-size: 20px;
+    color: #0c0c1d;
+    margin-top: 1px;
+    flex-shrink: 0;
+    
+}
+
+.conteudo-info p {
+    font-size: 13px;
+    margin-top: 2px;
+}
+
+/* --------------------------------- FAQ (Perguntas Frequentes) --------------------------------- */
+
+.faq {
+    padding: 20px;
+}
+
+.faq h3 {
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.faq .subtitulo-faq {
+    font-size: 13px;
+    margin-bottom: 15px;
+    color: #555;
+}
+
+.lista-faq {
+    padding: 0;
+    list-style: none;
+}
+
+.lista-faq li {
+    margin-bottom: 18px;
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+}
+
+.lista-faq li:last-child {
+    margin-bottom: 0;
+}
+
+.icone-faq {
+    font-size: 18px;
+    color: #777;
+    margin-top: 2px;
+    flex-shrink: 0;
+}
+
+.texto-faq b {
+    display: block;
+    margin-bottom: 2px;
+    font-size: 14px;
+    font-weight: 500;
+    color: #333;
+}
+
+.texto-faq p {
+    font-size: 12px;
+    margin-top: 0;
+}
+
+/* --------------------------------- INFORMAÇÕES IMPORTANTES --------------------------------- */
+
+.informacoes-importantes {
+    padding: 20px;
+}
+
+.informacoes-importantes h3 {
+    font-size: 16px;
+    margin-bottom: 10px;
+}
+
+.informacoes-importantes p {
+    font-size: 13px;
+    margin-bottom: 8px;
+}
+
+.informacoes-importantes p b {
+    font-weight: 600;
+    color: #333;
+}
+
+/* RESPONSIVIDADE */
+@media (max-width: 992px) {
+    .contato-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .contato-container {
+        padding: 30px 15px;
+    }
+
+    .formulario .linha {
+        flex-direction: column;
+        gap: 10px;
+    }
+}
+
+iframe {
+    border: none;
+    display: block;
+}
+
+/* --------------------------------- MENSAGEM DE SUCESSO (Visual) --------------------------------- */
+.mensagem-sucesso {
+    text-align: center;
+    max-width: 600px;
+    margin: 80px auto;
+    padding: 40px;
+    border: 2px solid #0c0c1d;
+    border-radius: 10px;
+    background-color: #ffffff;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+.mensagem-sucesso h2 {
+    font-size: 28px;
+    color: #0c0c1d;
+    margin-bottom: 15px;
+}
+.mensagem-sucesso p {
+    font-size: 16px;
+    color: #555;
+    line-height: 1.6;
+}
+.mensagem-sucesso a {
+    color: #0c0c1d;
+    font-weight: 600;
+    text-decoration: none;
+}
+.mensagem-sucesso a:hover {
+    text-decoration: underline;
+}
