@@ -67,3 +67,46 @@ function adicionarEstiloMensagem() {
 /* ==================================================
 ==================== /////// ==========================
 ================================================== */
+// Botões de alternância Cliente / Empresário
+const clienteBtn = document.getElementById("cliente-btn");
+const empresarioBtn = document.getElementById("empresario-btn");
+const mainText = document.getElementById("main-text");
+const subText = document.getElementById("sub-text");
+
+clienteBtn.addEventListener("click", () => {
+  clienteBtn.classList.add("active");
+  empresarioBtn.classList.remove("active");
+  mainText.textContent = "O Rolês conecta você aos melhores lugares da cidade";
+  subText.textContent = "Entre rapidamente com";
+});
+
+empresarioBtn.addEventListener("click", () => {
+  empresarioBtn.classList.add("active");
+  clienteBtn.classList.remove("active");
+  mainText.textContent = "Cadastre seu estabelecimento e atraia mais clientes";
+  subText.textContent = "Entre rapidamente com";
+});
+
+
+// Simulação de login
+const form = document.getElementById("loginForm");
+const email = document.getElementById("email");
+const senha = document.getElementById("senha");
+const msg = document.getElementById("msg");
+
+form.addEventListener("submit", (e) => {
+  e.preventDefault();
+
+  if (email.value.trim() === "" || senha.value.trim() === "") {
+    msg.textContent = "⚠️ Preencha todos os campos!";
+    msg.className = "mensagem erro";
+  } else {
+    msg.textContent = "✅ Login efetuado com sucesso!";
+    msg.className = "mensagem sucesso";
+    
+    // Simula um redirecionamento (pode trocar o link depois)
+    setTimeout(() => {
+      alert("Bem-vindo ao Rolês, " + (btnCliente.classList.contains("active") ? "Cliente!" : "Empresário!"));
+    }, 1000);
+  }
+});
