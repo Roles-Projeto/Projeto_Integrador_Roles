@@ -6,27 +6,8 @@
   font-family: "Poppins", sans-serif;
 }
 
-body {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-  background: linear-gradient(135deg, #6a11cb, #2575fc);
-  color: #333;
-}
 
-/* HEADER E FOOTER */
-header iframe, footer iframe {
-  width: 100%;
-  border: none;
-}
 
-header iframe {
-  height: 80px;
-}
-
-footer iframe {
-  height: 250px;
-}
 
 /* CONTEÚDO PRINCIPAL */
 main {
@@ -59,7 +40,7 @@ main {
 /* TÍTULO */
 .login-box h1 {
   font-size: 2rem;
-  color: #2575fc;
+  color: #232324;
   margin-bottom: 20px;
 }
 
@@ -82,7 +63,7 @@ main {
 }
 
 .toggle-buttons .active {
-  background: #2575fc;
+  background: #3d0e66;
   color: #fff;
 }
 
@@ -154,11 +135,11 @@ main {
 }
 
 #login-form input:focus {
-  border-color: #2575fc;
+  border-color: #8e2de2;
 }
 
 .login-btn {
-  background: #2575fc;
+  background: #000;
   color: #fff;
   border: none;
   padding: 12px;
@@ -169,7 +150,7 @@ main {
 }
 
 .login-btn:hover {
-  background: #1a5fd1;
+  background: #313131;
 }
 
 /* LINK CADASTRO */
@@ -192,4 +173,18 @@ main {
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(20px); }
   to { opacity: 1; transform: translateY(0); }
+}
+/* Media Query para Telas Pequenas (Mobile) */
+@media (max-width: 768px) {
+    /* Em telas menores, todos os cards ocupam a metade da tela (2 por linha) */
+    .numero-card, .valor-card, .membro-card {
+        /* Largura para 2 cards por linha */
+        width: calc(50% - 15px); 
+    }
+}
+iframe {
+    /* 1. Remove qualquer borda que o HTML não removeu */
+    border: none; 
+    /* 2. Garante que ele se alinhe perfeitamente na esquerda */
+    display: block; 
 }
