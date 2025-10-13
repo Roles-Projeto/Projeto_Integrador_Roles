@@ -13,6 +13,7 @@ footer{
     background-color: #03021A;
 }
 
+
 /* ======= SEÇÃO TOPO ======= */
 .todos-locais {
   text-align: center;
@@ -178,4 +179,239 @@ main {
     justify-content: space-between;
   }
 }
+.opçoes{
+  display:flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin: 20px 40px;
+}
+.opçoes-abaixo{
+  border: 1px solid #ccc;
+  background-color: white;
+  color: #333;
+  padding: 8px 18px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;}
+  
+  .opçoes button:hover{
+      background-color: #ddd;
+  }
+  
+  .opçoes button:active{
+      background-color: #000;
+  color: #fff;
+  border-color: #000;
+  }
+
+
+.cards-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 32px;
+  padding: 40px;
+}
+
+/* CARD */
+.card {
+  width: 416px;
+  height: 700px;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0px 4px 20px rgba(0,0,0,0.1);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: all 0.3s ease;
+}
+
+.card:hover {
+  transform: scale(1.02);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+}
+
+/* IMAGEM */
+.card-img {
+  position: relative;
+  width: 100%;
+  height: 200px;
+}
+
+.card-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* CATEGORIA E NOTA */
+.categoria,
+.nota {
+  position: absolute;
+  top: 12px;
+  background: #fff;
+  padding: 6px 14px;
+  border-radius: 30px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #000;
+}
+
+.categoria { left: 12px; }
+.nota { right: 12px; }
+
+/* CONTEÚDO */
+.card-content {
+  flex-grow: 1;
+  padding: 18px 22px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.card-content h3 {
+  font-size: 20px;
+  font-weight: 600;
+  color: #000;
+}
+
+.preco {
+  color: #00A859;
+  font-weight: 700;
+}
+
+.local {
+  font-size: 15px;
+  color: #6b6b6b;
+  margin-bottom: 8px;
+}
+
+.descricao {
+  font-size: 14px;
+  color: #555;
+  margin-bottom: 10px;
+}
+
+/* INFO */
+.info {
+  font-size: 14px;
+  color: #444;
+  margin-bottom: 10px;
+}
+
+.info i {
+  margin-right: 6px;
+  color: #666;
+}
+
+/* TAGS */
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.tags span {
+  border: 1px solid #ccc;
+  border-radius: 30px;
+  padding: 6px 12px;
+  font-size: 13px;
+  color: #444;
+}
+
+/* RODAPÉ */
+.footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.avaliacoes {
+  font-size: 14px;
+  color: #6b6b6b;
+}
+
+.detalhes {
+  background: #0B0B0B;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 16px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: 0.2s ease;
+}
+
+.detalhes:hover {
+  background: #2b2b2b;
+} 
+
+.stats-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 40px;
+  gap: 30px;
+}
+
+/* Botão “Ver Todos os Locais” */
+.ver-mais {
+  background-color: white;
+  color: black;
+  border: 1px solid #ccc;
+  border-radius: 12px;
+  padding: 10px 25px;
+  font-size: 16px;
+  font-family: "Poppins", sans-serif;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.ver-mais:hover {
+  background-color: black;
+  color: white;
+}
+
+/* Cards das estatísticas */
+.cards-stats {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  flex-wrap: wrap;
+}
+
+.stat-card {
+  width: 402px;
+  height: 180px;
+  border: 1px solid #e0e0e0;
+  border-radius: 12px;
+  background-color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  transition: transform 0.3s ease;
+}
+
+.stat-card:hover {
+  transform: translateY(-5px);
+}
+
+.stat-card h2 {
+  font-size: 36px;
+  margin: 0;
+  font-family: "Poppins", sans-serif;
+  font-weight: 600;
+}
+
+.stat-card p {
+  font-size: 15px;
+  color: #555;
+  font-family: "Poppins", sans-serif;
+}
+
 
