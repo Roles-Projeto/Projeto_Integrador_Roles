@@ -13,6 +13,9 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
   <link rel="stylesheet" href="../css/locais.css">
+  
+  <script src="https://unpkg.com/feather-icons"></script>
+
 
 </head>
 
@@ -22,11 +25,38 @@
       <iframe id="site-header" src="../header/index.html" frameborder="0" scrolling="no" width="100%" height="80"></iframe>
     </div>
   </header>
+<section class="todos-locais">
+  <h1>Todos os Locais</h1>
+  <p>Descubra os melhores lugares para sair e se divertir na sua cidade</p>
 
-  <main>
-    <h1>TESTE</h1>
-    
-  </main>
+  <div class="search-box">
+    <i data-feather="search" class="icon"></i>
+    <input type="text" placeholder="Buscar locais, bairros, tipos..." />
+  </div>
+</section>
+
+
+<main>
+  <section class="barra-filtros">
+  <div class="filtro-esquerda">
+    <svg xmlns="http://www.w3.org/2000/svg" class="icone-filtro" viewBox="0 0 24 24" fill="none" stroke="#333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <polygon points="22 3 2 3 10 13 10 19 14 21 14 13 22 3"></polygon>
+    </svg>
+    <span>Filtros</span>
+  </div>
+
+  <div class="filtro-direita">
+    <button class="botao-categoria">Todas as Categorias</button>
+    <button class="botao-avaliacao">Melhor avaliados</button>
+  </div>
+</section>
+
+</main>
+
+<script>
+  feather.replace();
+</script>
+
 
   <footer>
     <iframe src="../footer/index.html" frameborder="0" scrolling="no" width="100%" height="450"></iframe>

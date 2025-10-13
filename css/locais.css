@@ -1,10 +1,181 @@
-/* ==================================================
-==================== Locais ==========================
-================================================== */
-
+/* ======= CONFIG GERAL ======= */
 body {
-   font-family: 'Poppins', sans-serif;
+  font-family: 'Poppins', sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #1D1F3A;
+  color: white;
+}
+
+footer{
     margin: 0%;
     padding: 0%;
-    width: 100%;
+    background-color: #03021A;
 }
+
+/* ======= SEÇÃO TOPO ======= */
+.todos-locais {
+  text-align: center;
+  padding: 80px 20px;
+  background-color: #1D1F3A;
+}
+
+.todos-locais h1 {
+  font-size: 32px;
+  font-weight: 380;
+  margin-bottom: 10px;
+}
+
+.todos-locais p {
+  font-size: 18px;
+  opacity: 0.8;
+  margin-bottom: 40px;
+}
+
+/* ======= CAMPO DE BUSCA ======= */
+.search-box {
+  position: relative;
+  display: inline-block;
+}
+
+.search-box .icon {
+  position: absolute;
+  top: 50%;
+  left: 18px;
+  transform: translateY(-50%);
+  color: rgba(255,255,255,0.6);
+  width: 22px;
+  height: 22px;
+}
+
+.search-box input {
+  width: 500px;
+  max-width: 90%;
+  padding: 14px 18px 14px 50px;
+  border-radius: 10px;
+  border: 1px solid rgba(255,255,255,0.4);
+  background-color: transparent;
+  color: white;
+  font-size: 16px;
+  outline: none;
+  transition: 0.3s;
+}
+
+.search-box input:focus {
+  border-color: white;
+}
+
+.search-box input::placeholder {
+  color: rgba(255,255,255,0.5);
+}
+
+/* ======= PARTE BRANCA ABAIXO ======= */
+main {
+  background-color: #fff;
+  color: #222;
+  border-radius: 0; /* deixa reto */
+  padding: 40px 20px 100px 20px;
+}
+
+
+/* ======= EXEMPLO DE CATEGORIAS ======= */
+.categorias {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.categorias button {
+  background-color: #f2f2f2;
+  border: none;
+  border-radius: 10px;
+  padding: 12px 24px;
+  font-size: 16px;
+  cursor: pointer;
+  font-family: inherit;
+  transition: 0.3s;
+}
+
+.categorias button:hover {
+  background-color: #ddd;
+}
+
+.categorias p {
+  font-size: 16px;
+  color: #555;
+}
+/* Barra de filtros */
+.barra-filtros {
+  width: 90%;
+  max-width: 1200px;
+  margin: 30px auto;
+  background-color: #ffffff;
+  border: 1px solid #e5e5e5;
+  border-radius: 12px;
+  padding: 16px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+/* Lado esquerdo (ícone + texto Filtros) */
+.filtro-esquerda {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.icone-filtro {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+}
+
+.filtro-esquerda span {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 500;
+  font-size: 16px;
+  color: #333;
+}
+
+/* Lado direito (botões) */
+.filtro-direita {
+  display: flex;
+  gap: 12px;
+}
+
+.botao-categoria,
+.botao-avaliacao {
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 8px 16px;
+  font-family: 'Poppins', sans-serif;
+  font-size: 14px;
+  color: #333;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.botao-categoria:hover,
+.botao-avaliacao:hover {
+  background-color: #efefef;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .barra-filtros {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .filtro-direita {
+    width: 100%;
+    justify-content: space-between;
+  }
+}
+
