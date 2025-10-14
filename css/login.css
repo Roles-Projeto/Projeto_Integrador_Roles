@@ -1,0 +1,190 @@
+/* RESET GERAL */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+
+
+
+/* CONTEÚDO PRINCIPAL */
+main {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px 20px;
+}
+
+/* CONTAINER LOGIN */
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.login-box {
+  background: #fff;
+  border-radius: 16px;
+  padding: 40px;
+  box-shadow: 0 6px 25px rgba(0, 0, 0, 0.2);
+  max-width: 400px;
+  width: 100%;
+  text-align: center;
+  animation: fadeIn 0.8s ease;
+}
+
+/* TÍTULO */
+.login-box h1 {
+  font-size: 2rem;
+  color: #232324;
+  margin-bottom: 20px;
+}
+
+/* BOTÕES CLIENTE/EMPRESÁRIO */
+.toggle-buttons {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.toggle-buttons button {
+  background: #eee;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  font-weight: 600;
+  border-radius: 25px;
+  margin: 0 5px;
+  transition: all 0.3s ease;
+}
+
+.toggle-buttons .active {
+  background: #3d0e66;
+  color: #fff;
+}
+
+/* TEXTOS */
+.text-muted {
+  color: #555;
+  margin-bottom: 8px;
+}
+
+.small {
+  font-size: 0.9rem;
+  color: #777;
+  margin-bottom: 15px;
+}
+
+/* SOCIAL LOGIN */
+.social-login {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.social-login button {
+  background: #f1f1f1;
+  border: none;
+  border-radius: 50%;
+  width: 45px;
+  height: 45px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: transform 0.3s;
+}
+
+.social-login button:hover {
+  transform: scale(1.1);
+}
+
+/* DIVISOR */
+.divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 15px;
+}
+
+.divider span {
+  background: #fff;
+  padding: 0 10px;
+  color: #888;
+  font-size: 0.9rem;
+}
+
+/* FORMULÁRIO */
+#login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+#login-form input {
+  padding: 10px 15px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  outline: none;
+  transition: border 0.2s ease;
+}
+
+#login-form input:focus {
+  border-color: #8e2de2;
+}
+
+.login-btn {
+  background: #000;
+  color: #fff;
+  border: none;
+  padding: 12px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background 0.3s ease;
+}
+
+.login-btn:hover {
+  background: #313131;
+}
+
+/* LINK CADASTRO */
+.register-link {
+  margin-top: 10px;
+  font-size: 0.9rem;
+}
+
+.register-link a {
+  color: #2575fc;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.register-link a:hover {
+  text-decoration: underline;
+}
+
+/* ANIMAÇÃO */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+/* Media Query para Telas Pequenas (Mobile) */
+@media (max-width: 768px) {
+    /* Em telas menores, todos os cards ocupam a metade da tela (2 por linha) */
+    .numero-card, .valor-card, .membro-card {
+        /* Largura para 2 cards por linha */
+        width: calc(50% - 15px); 
+    }
+}
+iframe {
+    /* 1. Remove qualquer borda que o HTML não removeu */
+    border: none; 
+    /* 2. Garante que ele se alinhe perfeitamente na esquerda */
+    display: block; 
+}
