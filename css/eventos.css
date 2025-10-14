@@ -1,0 +1,78 @@
+/* 1. Estilos Globais e do Fundo Gradiente */
+body {
+    margin: 0;
+    font-family: poppins, sans-serif;
+}
+
+.hero-section {
+    /* O gradiente roxo (esquerda) para rosa (direita) */
+    background: linear-gradient(to right, #6A0DAD, #FF1493); /* Cores de exemplo */
+    height: 300px; /* Altura da seção, ajuste conforme a necessidade */
+    display: flex;
+    justify-content: center; /* Centraliza horizontalmente */
+    align-items: center; /* Centraliza verticalmente */
+    text-align: center;
+    color: white; /* Cor do texto no fundo gradiente */
+}
+
+.content-wrapper {
+    width: 90%;
+    max-width: 600px; /* Limita a largura do conteúdo central */
+}
+
+/* 2. Estilos do Texto */
+h1 {
+    font-size: 1.8em;
+    margin-bottom: 5px;
+    font-weight: 500;
+}
+
+p {
+    font-size: 1em;
+    margin-bottom: 25px;
+    opacity: 0.8;
+}
+
+/* 3. Estilos da Barra de Pesquisa */
+.search-bar {
+    display: flex;
+    align-items: center;
+    padding: 10px 15px;
+    border-radius: 25px; /* Deixa a barra arredondada */
+    
+    /* Configuração do fundo/borda do campo de busca */
+    background-color: rgba(255, 255, 255, 0.2); /* Fundo branco semi-transparente */
+    border: 1px solid rgba(255, 255, 255, 0.4); /* Borda sutil */
+    
+    /* Para a Barra de Pesquisa parecer flutuar um pouco */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+}
+
+.search-bar input[type="text"] {
+    flex-grow: 1; /* Faz o campo de texto ocupar o máximo de espaço */
+    border: none;
+    background: transparent;
+    color: white; /* Cor do texto digitado */
+    font-size: 1em;
+    padding: 0 10px; /* Espaçamento interno */
+}
+
+/* Remove a borda padrão do placeholder ao focar */
+.search-bar input[type="text"]:focus {
+    outline: none;
+}
+
+/* Estilo do placeholder (o texto "Buscar eventos...") */
+.search-bar input::placeholder {
+    color: rgba(255, 255, 255, 0.8); /* Cor mais clara */
+    opacity: 1; /* Garante que não há opacidade extra */
+    font-style: italic;
+}
+
+/* Estilo do Ícone de Busca */
+.search-icon {
+    font-size: 1.2em;
+    color: rgba(255, 255, 255, 0.8); /* Cor do ícone */
+}
+
+/*---------Filtro de eventos---------*/
