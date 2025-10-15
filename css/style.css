@@ -695,7 +695,7 @@ body {
     color: #fff;
     z-index: 10;
     background-color: rgba(0, 0, 0, 0.5);
-    
+
 }
 
 /* Estilos de Data e Local */
@@ -781,12 +781,15 @@ body {
 }
 
 @media (max-width: 768px) {
-    .numero-card, .valor-card, .membro-card {
-        width: calc(50% - 15px); 
+
+    .numero-card,
+    .valor-card,
+    .membro-card {
+        width: calc(50% - 15px);
     }
 }
-iframe {
-    border: none; 
-    display: block; 
-}
 
+iframe {
+    border: none;
+    display: block;
+}

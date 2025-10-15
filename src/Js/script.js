@@ -67,4 +67,35 @@ function adicionarEstiloMensagem() {
 /* ==================================================
 ==================== EVENTOS ==========================
 ================================================== */
+function atualizarContador() {
+  const todos = Array.from(document.querySelectorAll('.evento-card'));
+  const visiveis = todos.filter(c => c.style.display !== 'none');
+  document.getElementById('qtdEventos').innerText = visiveis.length;
+}
+atualizarContador(); // chamada inicial
 
+// atualizar contador sempre que a busca ou filtros rodarem:
+// já temos listeners no seu script; garanta chamar atualizarContador() dentro deles.
+// Para robustez, adiciona observer simples:
+const observer = new MutationObserver(() => atualizarContador());
+observer.observe(document.getElementById('eventosContainer'), { childList: true, subtree: true, attributes: true, attributeFilter: ['style'] });
+
+document.getElementById('pillsContainer').addEventListener('click', (e) => {
+  if (!e.target.matches('.pill')) return;
+  document.querySelectorAll('.pill').forEach(p => p.classList.remove('active'));
+  e.target.classList.add('active');
+
+  const cat = e.target.getAttribute('data-cat');
+  const cards = document.querySelectorAll('.evento-card');
+
+  cards.forEach(card => {
+    if (cat === 'todas') {
+      card.style.display = 'flex';
+      return;
+    }
+    const cardCat = (card.getAttribute('data-categoria') || '').toLowerCase();
+    card.style.display = cardCat.includes(cat) ? 'flex' : 'none';
+  });
+
+  atualizarContador();
+});

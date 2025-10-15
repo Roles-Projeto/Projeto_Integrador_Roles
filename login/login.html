@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tela de Login - Rolês</title>
+  <link rel="stylesheet" href="../css/login.css">
+
+  <!-- Ícones Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+  <!-- HEADER -->
+  <header>
+    <div id="header-wrap">
+      <iframe id="site-header" src="../header/header.html" frameborder="0" scrolling="no" width="100%"
+        height="80"></iframe>
+    </div>
+  </header>
+
+  <!-- CONTEÚDO PRINCIPAL -->
+  <main>
+    <div class="login-container">
+      <div class="login-box">
+        <h1>Entrar no Rolês</h1>
+
+        <div class="toggle-buttons">
+          <button id="cliente-btn" class="active">Cliente</button>
+          <button id="empresario-btn">Empresário</button>
+        </div>
+
+        <p id="main-text" class="text-muted">
+          Encontre os melhores lugares para sair e se divertir
+        </p>
+        <p id="sub-text" class="small">Entre rapidamente com</p>
+
+        <div class="social-login">
+          <button><i class="fab fa-google"></i></button>
+          <button><i class="fab fa-facebook-f"></i></button>
+          <button><i class="fab fa-apple"></i></button>
+        </div>
+
+        <div class="divider">
+          <span>ou</span>
+        </div>
+
+        <form id="login-form">
+          <input type="email" id="email" placeholder="E-mail" required>
+          <input type="password" id="password" placeholder="Senha" required>
+          <button type="submit" class="login-btn">Entrar</button>
+        </form>
+
+        <p class="register-link">
+          Não tem conta? <a href="#">Cadastre-se</a>
+        </p>
+      </div>
+    </div>
+  </main>
+
+  <!-- FOOTER -->
+  <footer>
+    <iframe src="../footer/footer.html" frameborder="0" scrolling="no" width="100%" height="450"></iframe>
+  </footer>
+
+  <!-- SCRIPT -->
+  <script>
+    const clienteBtn = document.getElementById("cliente-btn");
+    const empresarioBtn = document.getElementById("empresario-btn");
+    const mainText = document.getElementById("main-text");
+    const subText = document.getElementById("sub-text");
+    const form = document.getElementById("login-form");
+
+    clienteBtn.addEventListener("click", () => {
+      clienteBtn.classList.add("active");
+      empresarioBtn.classList.remove("active");
+      mainText.textContent = "Encontre os melhores lugares para sair e se divertir";
+      subText.textContent = "Entre rapidamente com";
+    });
+
+    empresarioBtn.addEventListener("click", () => {
+      empresarioBtn.classList.add("active");
+      clienteBtn.classList.remove("active");
+      mainText.textContent = "Cadastre seu estabelecimento e aumente sua visibilidade";
+      subText.textContent = "Entre rapidamente com";
+    });
+
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+
+      if (email && password) {
+        alert("✅ Login efetuado com sucesso!");
+      } else {
+        alert("⚠️ Preencha todos os campos!");
+      }
+    });
+  </script>
+</body>
+
+</html>

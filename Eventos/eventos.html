@@ -1,38 +1,263 @@
+<!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Busca com Gradiente</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Eventos | Rolê.AI</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="../css/eventos.css">
 </head>
-<body>
 
+<body>
+    <!-- Header -->
     <header>
-        <div id="header-wrap">
-            <iframe id="site-header" src="../header/header.html" frameborder="0" scrolling="no" width="100%"
-                height="60"></iframe>
-        </div>
+        <iframe src="../header/header.html" frameborder="0" scrolling="no" width="100%" height="60"></iframe>
     </header>
 
-    <main>
-        <section class="hero-section">
-            <div class="content-wrapper">
-                <h1>Todos os Eventos</h1>
-                <p>Encontre os eventos mais incríveis acontecendo na sua cidade.</p>
+    <!-- Hero / Busca -->
+    <section class="hero-section">
+        <div class="content-wrapper">
+            <h1>Todos os Eventos</h1>
+            <p>Encontre os eventos mais incríveis acontecendo na sua cidade</p>
 
-                <div class="search-bar">
-                    <i class="fas fa-search search-icon"></i>
-                    <input type="text" placeholder="Buscar eventos, local, artistas...">
+            <div class="search-bar">
+                <i class="fas fa-search search-icon" aria-hidden="true"></i>
+                <input id="searchInput" type="text" placeholder="Buscar eventos, locais, artistas..."
+                    aria-label="Buscar eventos">
+            </div>
+        </div>
+    </section>
+
+    <!-- Filtros  -->
+    <section class="filtros-container">
+        <div class="filtros-inner">
+            <div class="filtros-row">
+                <button class="btn-filtro" id="abrirFiltros"><i class="fa-solid fa-filter"></i> Filtros</button>
+
+                <div class="filtros-selects">
+                    <div class="select-wrap">
+                        <select id="dataFiltro" aria-label="Filtrar por data">
+                            <option value="todas">Todas as datas</option>
+                            <option value="hoje">Hoje</option>
+                            <option value="amanha">Amanhã</option>
+                            <option value="semana">Esta semana</option>
+                            <option value="mes">Este mês</option>
+                        </select>
+                    </div>
+
+                    <div class="select-wrap">
+                        <select id="categoriaFiltro" aria-label="Filtrar por categoria">
+                            <option value="todas">Todas as categorias</option>
+                            <option value="festa">Festa</option>
+                            <option value="show">Show</option>
+                            <option value="festival">Festival</option>
+                            <option value="gastronomia">Gastronomia</option>
+                            <option value="workshop">Workshop</option>
+                        </select>
+                    </div>
+
+                    <div class="select-wrap">
+                        <select id="ordenarPor" aria-label="Ordenar por">
+                            <option value="data">Data do evento</option>
+                            <option value="populares">Mais populares</option>
+                            <option value="nome">Nome A-Z</option>
+                            <option value="preco">Preço</option>
+                        </select>
+                    </div>
                 </div>
             </div>
-        </section>
 
-        
+            <!-- Linha abaixo com contador + pills -->
+            <div class="filtros-meta">
+                <div class="encontrados" id="contadorEventos">Encontrados <strong id="qtdEventos">6</strong> eventos
+                </div>
+                <div class="pills" id="pillsContainer">
+                    <button class="pill active" data-cat="todas">Todos</button>
+                    <button class="pill" data-cat="festa">Festas</button>
+                    <button class="pill" data-cat="show">Shows</button>
+                    <button class="pill" data-cat="festival">Festivais</button>
+                </div>
+            </div>
+        </div>
+    </section>
 
+
+    <!-- Container de eventos -->
+    <main class="eventos-lista" id="eventosContainer" aria-live="polite">
+        <!-- Card 1 -->
+        <article class="evento-card" data-categoria="happy hour" data-nome="Happy Hour Especial">
+            <div class="evento-imagem">
+                <img src="../Imagens/7º imagem card.png" alt="Happy Hour Especial" />
+                <span class="badge">Happy Hour</span>
+            </div>
+            <div class="evento-info">
+                <h3>Happy Hour Especial</h3>
+                <p class="descricao">Drinks especiais com vista panorâmica da cidade. DJ ao vivo e promoções
+                    imperdíveis!</p>
+                <p class="meta"><i class="fa-regular fa-calendar"></i> sex., 31 de jan. &nbsp; <i
+                        class="fa-regular fa-clock"></i> 18:00</p>
+                <p class="meta"><i class="fa-solid fa-location-dot"></i> Sky Bar Rooftop, Setor Bueno</p>
+                <p class="meta"><i class="fa-regular fa-user"></i> 80 pessoas interessadas</p>
+
+                <div class="card-footer">
+                    <span class="preco">Entrada Gratuita <small class="taxa">+ 10% taxa</small></span>
+                    <div class="acoes">
+                        <button class="btn-detalhes">Mais Detalhes</button>
+                        <button class="btn-confirmar">Confirmar Presença</button>
+                    </div>
+                </div>
+            </div>
+        </article>
+
+        <!-- Card 2 -->
+        <article class="evento-card" data-categoria="festa" data-nome="Noite da Salsa">
+            <div class="evento-imagem">
+                <img src="../Imagens/8º imagem card.png" alt="Noite da Salsa" />
+                <span class="badge">Dança</span>
+            </div>
+            <div class="evento-info">
+                <h3>Noite da Salsa</h3>
+                <p class="descricao">Aulas gratuitas seguidas de muita dança e diversão. Para todos os níveis!</p>
+                <p class="meta"><i class="fa-regular fa-calendar"></i> dom., 2 de fev. &nbsp; <i
+                        class="fa-regular fa-clock"></i> 21:00</p>
+                <p class="meta"><i class="fa-solid fa-location-dot"></i> Club Latino, Setor Oeste</p>
+                <p class="meta"><i class="fa-regular fa-user"></i> 120 pessoas interessadas</p>
+
+                <div class="card-footer">
+                    <span class="preco">R$ 30 <small class="taxa">+ 10% taxa</small></span>
+                    <div class="acoes">
+                        <button class="btn-detalhes">Mais Detalhes</button>
+                        <button class="btn-confirmar">Confirmar Presença</button>
+                    </div>
+                </div>
+            </div>
+        </article>
+
+        <!-- Card 3 -->
+        <article class="evento-card" data-categoria="gastronomia" data-nome="Degustação de Vinhos">
+            <div class="evento-imagem">
+                <img src="../Imagens/9º imagem card.png" alt="Degustação de Vinhos" />
+                <span class="badge">Gastronomia</span>
+            </div>
+            <div class="evento-info">
+                <h3>Degustação de Vinhos</h3>
+                <p class="descricao">Seleção especial de vinhos com sommelier profissional. Harmonização com queijos e
+                    petiscos.</p>
+                <p class="meta"><i class="fa-regular fa-calendar"></i> ter., 4 de fev. &nbsp; <i
+                        class="fa-regular fa-clock"></i> 19:30</p>
+                <p class="meta"><i class="fa-solid fa-location-dot"></i> Wine & Bistro, Setor Marista</p>
+                <p class="meta"><i class="fa-regular fa-user"></i> 40 pessoas interessadas</p>
+
+                <div class="card-footer">
+                    <span class="preco">R$ 80 <small class="taxa">+ 10% taxa</small></span>
+                    <div class="acoes">
+                        <button class="btn-detalhes">Mais Detalhes</button>
+                        <button class="btn-confirmar">Confirmar Presença</button>
+                    </div>
+                </div>
+            </div>
+        </article>
+
+        <!-- Card 4 -->
+        <article class="evento-card" data-categoria="gastronomia" data-nome="Brunch de Domingo">
+            <div class="evento-imagem">
+                <img src="../Imagens/10º imagem card.png" alt="Brunch de Domingo" />
+                <span class="badge">Gastronomia</span>
+            </div>
+            <div class="evento-info">
+                <h3>Brunch de Domingo</h3>
+                <p class="descricao">Brunch especial com produtos frescos e atmosfera relaxante. Buffet completo!</p>
+                <p class="meta"><i class="fa-regular fa-calendar"></i> sáb., 8 de fev. &nbsp; <i
+                        class="fa-regular fa-clock"></i> 10:00</p>
+                <p class="meta"><i class="fa-solid fa-location-dot"></i> Café da Manhã, Setor Sul</p>
+                <p class="meta"><i class="fa-regular fa-user"></i> 60 pessoas interessadas</p>
+
+                <div class="card-footer">
+                    <span class="preco">R$ 42 <small class="taxa">+ 10% taxa</small></span>
+                    <div class="acoes">
+                        <button class="btn-detalhes">Mais Detalhes</button>
+                        <button class="btn-confirmar">Confirmar Presença</button>
+                    </div>
+                </div>
+            </div>
+        </article>
+
+        <!-- Card 5 -->
+        <article class="evento-card" data-categoria="musica" data-nome="Show de Rock Nacional">
+            <div class="evento-imagem">
+                <img src="../Imagens/11º imagem card.png" alt="Show de Rock Nacional" />
+                <span class="badge">Música</span>
+            </div>
+            <div class="evento-info">
+                <h3>Show de Rock Nacional</h3>
+                <p class="descricao">Bandas nacionais em uma noite inesquecível de rock. Line-up completo com 4 bandas!
+                </p>
+                <p class="meta"><i class="fa-regular fa-calendar"></i> dom., 9 de fev. &nbsp; <i
+                        class="fa-regular fa-clock"></i> 22:00</p>
+                <p class="meta"><i class="fa-solid fa-location-dot"></i> Club Underground, Setor Oeste</p>
+                <p class="meta"><i class="fa-regular fa-user"></i> 300 pessoas interessadas</p>
+
+                <div class="card-footer">
+                    <span class="preco">A partir de R$ 35 <small class="taxa">+ 10% taxa</small></span>
+                    <div class="acoes">
+                        <button class="btn-detalhes">Mais Detalhes</button>
+                        <button class="btn-confirmar">Confirmar Presença</button>
+                    </div>
+                </div>
+            </div>
+        </article>
+
+        <!-- Card 6 -->
+        <article class="evento-card" data-categoria="musica" data-nome="Festival de Jazz ao Ar Livre">
+            <div class="evento-imagem">
+                <img src="../Imagens/12º imagem card.png" alt="Festival de Jazz ao Ar Livre" />
+                <span class="badge">Música</span>
+            </div>
+            <div class="evento-info">
+                <h3>Festival de Jazz ao Ar Livre</h3>
+                <p class="descricao">Uma noite mágica com os melhores músicos de jazz da cidade. Food trucks e muito
+                    mais!</p>
+                <p class="meta"><i class="fa-regular fa-calendar"></i> sex., 14 de fev. &nbsp; <i
+                        class="fa-regular fa-clock"></i> 20:00</p>
+                <p class="meta"><i class="fa-solid fa-location-dot"></i> Parque Areião, Goiânia</p>
+                <p class="meta"><i class="fa-regular fa-user"></i> 250 pessoas interessadas</p>
+
+                <div class="card-footer">
+                    <span class="preco">A partir de R$ 35 <small class="taxa">+ 10% taxa</small></span>
+                    <div class="acoes">
+                        <button class="btn-detalhes">Mais Detalhes</button>
+                        <button class="btn-confirmar">Confirmar Presença</button>
+                    </div>
+                </div>
+            </div>
+        </article>
     </main>
 
+    <!-- Carregar mais -->
+    <div class="carregar-container">
+        <button id="carregarMais" class="btn-carregar">Carregar mais eventos</button>
+    </div>
+
+    <!-- Estatísticas -->
+    <section class="estatisticas">
+        <div class="item">
+            <i class="fa-solid fa-calendar-check" aria-hidden="true"></i>
+            <p>6+<br><span>Eventos cadastrados</span></p>
+        </div>
+        <div class="item">
+            <i class="fa-solid fa-clock-rotate-left" aria-hidden="true"></i>
+            <p>24/7<br><span>Atualizações constantes</span></p>
+        </div>
+        <div class="item">
+            <i class="fa-solid fa-unlock-keyhole" aria-hidden="true"></i>
+            <p>Grátis<br><span>Acesso às informações</span></p>
+        </div>
+    </section>
+
+    <!-- Footer -->
     <footer>
         <iframe src="../footer/footer.html" frameborder="0" scrolling="no" width="100%" height="450"></iframe>
     </footer>
