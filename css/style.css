@@ -589,22 +589,25 @@ body {
 }
 
 .btn-ver-todos {
-    background-color: #fff;
-    color: #9333ea;
-    border: 2px solid #9333ea;
-    padding: 12px 30px;
-    border-radius: 10px;
-    font-size: 16px;
-    font-weight: 600;
-    cursor: pointer;
-    margin-top: 40px;
-    transition: background-color 0.2s, color 0.2s;
+  background: linear-gradient(90deg, #9333ea, #4a00e0);
+  color: #fff;
+  border: none;
+  padding: 14px 35px;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 40px;
+  transition: transform 0.2s ease, box-shadow 0.3s ease;
+  box-shadow: 0 8px 20px rgba(147, 51, 234, 0.3);
+  text-decoration: none;
 }
 
 .btn-ver-todos:hover {
-    background-color: #9333ea;
-    color: #fff;
+  transform: translateY(-3px);
+  box-shadow: 0 12px 25px rgba(147, 51, 234, 0.5);
 }
+
 
 /* ================================== */
 /* === SEÇÃO EVENTOS PRÓXIMOS CSS === */
@@ -695,7 +698,7 @@ body {
     color: #fff;
     z-index: 10;
     background-color: rgba(0, 0, 0, 0.5);
-    
+
 }
 
 /* Estilos de Data e Local */
@@ -781,11 +784,15 @@ body {
 }
 
 @media (max-width: 768px) {
-    .numero-card, .valor-card, .membro-card {
-        width: calc(50% - 15px); 
+
+    .numero-card,
+    .valor-card,
+    .membro-card {
+        width: calc(50% - 15px);
     }
 }
+
 iframe {
-    border: none; 
-    display: block; 
+    border: none;
+    display: block;
 }

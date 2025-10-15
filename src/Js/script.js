@@ -65,48 +65,37 @@ function adicionarEstiloMensagem() {
 }
 
 /* ==================================================
-==================== /////// ==========================
+==================== EVENTOS ==========================
 ================================================== */
-// Botões de alternância Cliente / Empresário
-const clienteBtn = document.getElementById("cliente-btn");
-const empresarioBtn = document.getElementById("empresario-btn");
-const mainText = document.getElementById("main-text");
-const subText = document.getElementById("sub-text");
+function atualizarContador() {
+  const todos = Array.from(document.querySelectorAll('.evento-card'));
+  const visiveis = todos.filter(c => c.style.display !== 'none');
+  document.getElementById('qtdEventos').innerText = visiveis.length;
+}
+atualizarContador(); // chamada inicial
 
-clienteBtn.addEventListener("click", () => {
-  clienteBtn.classList.add("active");
-  empresarioBtn.classList.remove("active");
-  mainText.textContent = "O Rolês conecta você aos melhores lugares da cidade";
-  subText.textContent = "Entre rapidamente com";
-});
+// atualizar contador sempre que a busca ou filtros rodarem:
+// já temos listeners no seu script; garanta chamar atualizarContador() dentro deles.
+// Para robustez, adiciona observer simples:
+const observer = new MutationObserver(() => atualizarContador());
+observer.observe(document.getElementById('eventosContainer'), { childList: true, subtree: true, attributes: true, attributeFilter: ['style'] });
 
-empresarioBtn.addEventListener("click", () => {
-  empresarioBtn.classList.add("active");
-  clienteBtn.classList.remove("active");
-  mainText.textContent = "Cadastre seu estabelecimento e atraia mais clientes";
-  subText.textContent = "Entre rapidamente com";
-});
+document.getElementById('pillsContainer').addEventListener('click', (e) => {
+  if (!e.target.matches('.pill')) return;
+  document.querySelectorAll('.pill').forEach(p => p.classList.remove('active'));
+  e.target.classList.add('active');
 
+  const cat = e.target.getAttribute('data-cat');
+  const cards = document.querySelectorAll('.evento-card');
 
-// Simulação de login
-const form = document.getElementById("loginForm");
-const email = document.getElementById("email");
-const senha = document.getElementById("senha");
-const msg = document.getElementById("msg");
+  cards.forEach(card => {
+    if (cat === 'todas') {
+      card.style.display = 'flex';
+      return;
+    }
+    const cardCat = (card.getAttribute('data-categoria') || '').toLowerCase();
+    card.style.display = cardCat.includes(cat) ? 'flex' : 'none';
+  });
 
-form.addEventListener("submit", (e) => {
-  e.preventDefault();
-
-  if (email.value.trim() === "" || senha.value.trim() === "") {
-    msg.textContent = "⚠️ Preencha todos os campos!";
-    msg.className = "mensagem erro";
-  } else {
-    msg.textContent = "✅ Login efetuado com sucesso!";
-    msg.className = "mensagem sucesso";
-    
-    // Simula um redirecionamento (pode trocar o link depois)
-    setTimeout(() => {
-      alert("Bem-vindo ao Rolês, " + (btnCliente.classList.contains("active") ? "Cliente!" : "Empresário!"));
-    }, 1000);
-  }
+  atualizarContador();
 });

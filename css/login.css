@@ -6,9 +6,6 @@
   font-family: "Poppins", sans-serif;
 }
 
-
-
-
 /* CONTEÚDO PRINCIPAL */
 main {
   flex: 1;
@@ -171,20 +168,32 @@ main {
 
 /* ANIMAÇÃO */
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
+
 /* Media Query para Telas Pequenas (Mobile) */
 @media (max-width: 768px) {
-    /* Em telas menores, todos os cards ocupam a metade da tela (2 por linha) */
-    .numero-card, .valor-card, .membro-card {
-        /* Largura para 2 cards por linha */
-        width: calc(50% - 15px); 
-    }
+
+  /* Em telas menores, todos os cards ocupam a metade da tela (2 por linha) */
+  .numero-card,
+  .valor-card,
+  .membro-card {
+    /* Largura para 2 cards por linha */
+    width: calc(50% - 15px);
+  }
 }
+
 iframe {
-    /* 1. Remove qualquer borda que o HTML não removeu */
-    border: none; 
-    /* 2. Garante que ele se alinhe perfeitamente na esquerda */
-    display: block; 
+  /* 1. Remove qualquer borda que o HTML não removeu */
+  border: none;
+  /* 2. Garante que ele se alinhe perfeitamente na esquerda */
+  display: block;
 }

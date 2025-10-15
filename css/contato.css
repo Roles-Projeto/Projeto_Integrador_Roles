@@ -120,7 +120,7 @@ button {
     font-weight: 600;
     margin-top: 10px;
     width: 100%;
-    
+
 }
 
 /* --------------------------------- COLUNA DIREITA: INFORMAÇÕES E ÍCONES --------------------------------- */
@@ -144,7 +144,7 @@ button {
     color: #0c0c1d;
     margin-top: 1px;
     flex-shrink: 0;
-    
+
 }
 
 .conteudo-info p {
@@ -258,21 +258,25 @@ iframe {
     background-color: #ffffff;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
+
 .mensagem-sucesso h2 {
     font-size: 28px;
     color: #0c0c1d;
     margin-bottom: 15px;
 }
+
 .mensagem-sucesso p {
     font-size: 16px;
     color: #555;
     line-height: 1.6;
 }
+
 .mensagem-sucesso a {
     color: #0c0c1d;
     font-weight: 600;
     text-decoration: none;
 }
+
 .mensagem-sucesso a:hover {
     text-decoration: underline;
 }
