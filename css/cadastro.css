@@ -1,159 +1,212 @@
 /* VARIÁVEIS DE CORES */
 :root {
-    --black: #000000;
-    --white: #ffffff;
-    --text-primary: #333333;
-    --text-secondary: #707070;
-    --border-light: #dddddd;
-    --icon-bg: #f5f5f5;
+  --black: #000000;
+  --white: #ffffff;
+  --text-primary: #333333;
+  --text-secondary: #707070;
+  --border-light: #dddddd;
+  --icon-bg: #f5f5f5;
 }
 
-/* ESTILOS BASE E CENTRALIZAÇÃO */
+/* BASE */
 body {
-    font-family: 'Poppins', sans-serif; /* Use a fonte que você está utilizando (Poppins na imagem original) */
-    margin: 0;
-    min-height: 100vh; /* Garante que o body ocupe toda a altura da viewport */
-    display: flex;
-    flex-direction: column; /* Para empilhar header, main e footer */
+  font-family: 'Poppins', sans-serif;
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
-/* Centraliza o conteúdo principal na tela */
+/* CONTEÚDO CENTRAL */
 .creation-container {
-    flex-grow: 1; /* Ocupa o espaço disponível entre header e footer */
-    display: flex;
-    justify-content: center; /* Centraliza horizontalmente */
-    align-items: center; /* Centraliza verticalmente */
-    width: 100%;
-    max-width: 1200px;
-    margin: 0 auto; /* Importante para centralização horizontal dentro do body */
-    padding: 20px;
-    box-sizing: border-box;
+  flex-grow: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+  box-sizing: border-box;
 }
 
 .account-creation {
-    text-align: center;
-    width: 100%;
-    /* Reduz o espaçamento superior e inferior para um visual mais compacto e centralizado */
+  text-align: center;
+  width: 100%;
 }
 
 .account-creation h1 {
-    font-size: 28px;
-    font-weight: 600;
-    margin-bottom: 5px;
+  font-size: 1.75rem;
+  font-weight: 600;
+  margin-bottom: 0.3rem;
 }
 
 .account-creation p:first-of-type {
-    color: var(--text-secondary);
-    margin-bottom: 40px;
+  color: var(--text-secondary);
+  margin-bottom: 2.5rem;
 }
 
-/* OPÇÕES DE CONTA (CARDS) */
+/* ============================== */
+/*      SEÇÃO DOS CARDS           */
+/* ============================== */
+
 .account-options {
-    display: flex;
-    justify-content: center;
-    gap: 30px;
-    margin-bottom: 30px;
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  max-width: 1200px;
+  justify-content: center;
+  gap: 1.25rem;
+  margin-bottom: 1.875rem;
+  box-sizing: border-box;
 }
 
+/* CARD BASE */
 .option-card {
-    flex: 0 1 450px;
-    padding: 40px 30px;
-    border: 1px solid var(--border-light);
-    border-radius: 8px;
-    text-align: center;
-    transition: box-shadow 0.3s ease;
+  flex: 1 1 18rem;
+  max-width: 22rem;
+  min-width: 14rem;
+  padding: 1.25rem;
+  border: 1px solid var(--border-light);
+  border-radius: 0.5rem;
+  text-align: center;
+  transition: box-shadow 0.3s ease;
+  box-sizing: border-box;
 }
 
 .option-card:hover {
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
 }
 
 .option-card h2 {
-    font-size: 20px;
-    margin: 10px 0 5px;
-    font-weight: 600;
+  font-size: 1.125rem;
+  margin: 0.5rem 0 0.25rem;
+  font-weight: 600;
 }
 
 .option-card .description {
-    color: var(--text-secondary);
-    margin-bottom: 30px;
-    min-height: 40px; /* Mantém o alinhamento dos cards */
+  color: var(--text-secondary);
+  font-size: 0.9375rem;
+  margin-bottom: 1.5rem;
+  min-height: 2.5rem;
 }
 
 /* ÍCONES */
 .icon-circle {
-    width: 80px;
-    height: 80px;
-    background-color: var(--icon-bg);
-    border-radius: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 0 auto 15px;
+  width: 5rem;
+  height: 5rem;
+  background-color: var(--icon-bg);
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto 0.75rem;
 }
 
 .icon-circle i {
-    font-size: 36px;
-    color: var(--text-primary);
+  font-size: 2.25rem;
+  color: var(--text-primary);
 }
 
 /* LISTA DE RECURSOS */
 .features-list {
-    list-style: none;
-    padding: 0;
-    text-align: left;
-    margin-bottom: 30px;
-    min-height: 120px; /* Mantém o alinhamento dos botões */
+  list-style: none;
+  padding: 0;
+  text-align: left;
+  margin-bottom: 1.5rem;
+  min-height: 7.5rem;
 }
 
 .features-list li {
-    font-size: 14px;
-    color: var(--text-primary);
-    margin-bottom: 10px;
-    display: flex;
-    align-items: center;
+  font-size: 0.875rem;
+  color: var(--text-primary);
+  margin-bottom: 0.5rem;
+  display: flex;
+  align-items: center;
 }
 
 .features-list i {
-    font-size: 10px;
-    margin-right: 10px;
-    color: var(--text-secondary);
+  font-size: 0.625rem;
+  margin-right: 0.5rem;
+  color: var(--text-secondary);
 }
 
 /* BOTÕES */
 .btn {
-    display: block;
-    width: 100%;
-    padding: 12px 20px;
-    border: none;
-    border-radius: 4px;
-    font-size: 16px;
-    cursor: pointer;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    background-color: var(--black); /* Ambos os botões são pretos */
-    color: var(--white);
-    transition: background-color 0.3s ease;
+  display: block;
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: none;
+  border-radius: 0.375rem;
+  font-size: 0.95rem;
+  cursor: pointer;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  background-color: var(--black);
+  color: var(--white);
+  transition: background-color 0.3s ease;
 }
 
 .btn:hover {
-    background-color: #333333;
+  background-color: #333333;
 }
 
 /* LINK DE LOGIN */
 .login-link {
-    font-size: 14px;
-    margin-top: 20px;
+  font-size: 0.875rem;
+  margin-top: 1.25rem;
 }
 
 .login-link a {
-    color: var(--black);
-    text-decoration: none;
-    font-weight: 600;
+  color: var(--black);
+  text-decoration: none;
+  font-weight: 600;
 }
 
 .login-link a:hover {
-    text-decoration: underline;
+  text-decoration: underline;
 }
 
+/* ============================== */
+/*         RESPONSIVIDADE         */
+/* ============================== */
+
+/* Tablets e telas médias */
+@media (max-width: 900px) {
+  .option-card {
+    flex: 1 1 16rem;
+    max-width: 20rem;
+  }
+
+  .icon-circle {
+    width: 4.5rem;
+    height: 4.5rem;
+  }
+
+  .icon-circle i {
+    font-size: 2rem;
+  }
+}
+
+/* Celulares */
+@media (max-width: 600px) {
+  .account-options {
+    gap: 1rem;
+  }
+
+  .option-card {
+    flex: 1 1 100%;
+    max-width: 36rem;
+    padding: 1rem;
+    margin-inline: 0.5rem;
+  }
+
+  .features-list {
+    min-height: auto;
+  }
+
+  .creation-container {
+    padding: 1rem;
+  }
+}
