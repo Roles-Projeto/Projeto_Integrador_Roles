@@ -2,224 +2,169 @@
 ==================== Footer ==========================
 ================================================== */
 
-body {
-  font-family: 'Poppins', sans-serif;
-  margin: 0;
-  padding: 0;
-  width: 100%;
-}
-
 :root {
-  --cor-fundo-principal: #03021A;
-  --cor-texto-claro: #f0f0f0;
-  --cor-destaque: #f8c92f;
-  --cor-sub-texto: #a0a0a0;
-  --cor-linha: #333333;
+    font-size: 62.5%;
+    --color-bg: #03021A;
+    --color-text-light: #fefefe;
+    --color-text-dimmed: #b3b3b3;
+    --color-highlight: #ffc600;
+    --color-divider: #333333;
 }
 
-/* ----- Rodapé Principal ----- */
-.rodape {
-  background-color: var(--cor-fundo-principal);
-  color: var(--cor-texto-claro);
-  padding: 80px 20px 20px;
-  width: 100%;
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
-.rodape-conteudo {
-  max-width: 1200px;
-  margin: 0 auto;
-  display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 30px;
-  padding-bottom: 30px;
+body {
+    background-color: var(--color-bg);
+    color: var(--color-text-light);
+    font-family: 'Poppins', sans-serif;
+    line-height: 1.6;
 }
 
-/* ----- Coluna 1 - Logo e sociais ----- */
-.coluna-info {
-  max-width: 250px;
-  flex: 1 1 250px;
-}
-
-.logo {
-  color: var(--cor-destaque);
-  font-size: 26px;
-  margin-bottom: 10px;
-  font-weight: bold;
-}
-
-.slogan {
-  color: var(--cor-sub-texto);
-  font-size: 12px;
-  line-height: 1.6;
-}
-
-.sociais {
-  margin-top: 15px;
-}
-
-.sociais a {
-  color: var(--cor-sub-texto);
-  font-size: 12px;
-  margin-right: 15px;
-  transition: color 0.3s;
-}
-
-.sociais a:hover {
-  color: var(--cor-destaque);
-}
-
-/* ----- Colunas de Links e Contato ----- */
-.coluna-links,
-.coluna-contato {
-  flex: 1 1 200px;
-  min-width: 160px;
-}
-
-.coluna-links h3,
-.coluna-contato h3 {
-  color: var(--cor-destaque);
-  font-size: 14px;
-  font-weight: bold;
-  margin-bottom: 15px;
-}
-
-.coluna-links ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.coluna-links li {
-  margin-bottom: 6px;
-}
-
-.coluna-links a {
-  color: var(--cor-sub-texto);
-  text-decoration: none;
-  font-size: 12px;
-  transition: color 0.3s;
-}
-
-.coluna-links a:hover {
-  color: var(--cor-destaque);
-}
-
-.coluna-contato p {
-  margin: 0 0 6px 0;
-  color: var(--cor-sub-texto);
-  font-size: 14px;
-}
-
-.coluna-contato .email a,
-.coluna-contato .telefone {
-  color: var(--cor-texto-claro);
-  font-weight: bold;
-  text-decoration: none;
-  font-size: 14px;
-}
-
-.coluna-contato .email a:hover {
-  color: var(--cor-destaque);
-}
-
-/* ----- Base do Rodapé ----- */
-.rodape-base {
-  max-width: 1200px;
-  margin: 0 auto;
-  text-align: center;
-}
-
-.separador {
-  border: none;
-  border-top: 1px solid var(--cor-linha);
-  margin: 20px 0 30px;
-}
-
-.copyright {
-  color: var(--cor-sub-texto);
-  font-size: 13px;
-  margin-bottom: 10px;
-}
-
-/* ==================================================
-=================== RESPONSIVIDADE ===================
-================================================== */
-
-/* --- Laptops pequenos / Tablets horizontais --- */
-@media (max-width: 992px) {
-  .rodape-conteudo {
-    flex-wrap: wrap;
-    justify-content: flex-start;
-    gap: 40px;
-  }
-
-  .coluna-info,
-  .coluna-links,
-  .coluna-contato {
-    flex: 1 1 45%;
-  }
-
-  .slogan {
-    font-size: 13px;
-  }
-}
-
-/* --- Tablets verticais / Celulares grandes --- */
-@media (max-width: 768px) {
-  .rodape {
-    padding: 60px 20px 20px;
-  }
-
-  .rodape-conteudo {
-    flex-direction: column;
-    align-items: flex-start;
-    text-align: left;
-    gap: 30px;
-  }
-
-  .coluna-links h3,
-  .coluna-contato h3 {
-    font-size: 16px;
-  }
-
-  .coluna-links a,
-  .coluna-contato p {
-    font-size: 13px;
-  }
-}
-
-/* --- Celulares pequenos (até 480px) --- */
-@media (max-width: 480px) {
-  .logo {
-    font-size: 22px;
-  }
-
-  .sociais a {
-    font-size: 18px;
-  }
-
-  .rodape {
-    padding: 50px 15px;
-  }
-
-  .coluna-links,
-  .coluna-contato {
+.main-footer {
     width: 100%;
-  }
-
-  .copyright {
-    font-size: 12px;
-  }
+    background-color: var(--color-bg);
+    padding: 4rem 2rem 2rem;
 }
 
-/* --- Ajustes gerais --- */
-iframe {
-  border: none;
-  display: block;
+.footer-content-wrapper {
+    max-width: 100rem;
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 3rem;
+    padding-bottom: 2rem;
 }
 
-footer {
-  display: block;
-  unicode-bidi: isolate;
+
+.footer-column {
+    width: 100%;
+    margin-bottom: 3rem;
+}
+
+
+.column-title {
+    font-size: 1.4rem;
+    margin-bottom: 1.5rem;
+    color: var(--color-text-light);
+    font-weight: 600;
+    
+}
+
+
+.footer-column ul {
+    list-style: none;
+}
+
+.footer-column ul li {
+    margin-bottom: 0.5rem;
+}
+
+
+.footer-column a {
+    color: var(--color-text-dimmed);
+    text-decoration: none;
+    font-size: 1.2rem;
+    transition: color 0.3s;
+}
+
+
+.footer-column a:hover {
+    color: var(--color-highlight);
+    
+}
+
+
+.footer-branding {
+    flex: 1 1 25rem;
+    min-width: 25rem;
+}
+
+.footer-logo {
+    font-size: 2.8rem;
+    font-weight: 700;
+    color: var(--color-highlight);
+    margin-bottom: 1rem;
+}
+
+
+.footer-description {
+    font-size: 1.2rem;
+    color: var(--color-text-dimmed);
+    margin-bottom: 2rem;
+    max-width: 30rem;
+}
+
+
+.social-links a {
+    font-size: 2.2rem;
+    margin-right: 1.5rem;
+    color: var(--color-text-light);
+    transition: color 0.3s;
+}
+
+
+.social-links a:hover {
+    color: var(--color-highlight);
+    
+}
+
+.footer-contact-info .contact-line {
+    font-size: 1.2rem;
+    color: var(--color-text-dimmed);
+    margin-bottom: 0.8rem;
+}
+
+
+.footer-bottom {
+    max-width: 120rem;
+    margin: 4rem auto 0;
+    text-align: center;
+}
+
+.footer-divider {
+    border: none;
+    height: 0.1rem;
+    background-color: var(--color-divider);
+    margin-bottom: 2rem;
+}
+
+
+.footer-copyright {
+    font-size: 1.2rem;
+    color: var(--color-text-dimmed);
+    padding: 1rem 0;
+}
+
+
+/* Responsividade  */
+
+/* Para telas maiores que 550px */
+@media (min-width: 55rem) {
+    .footer-column:not(.footer-branding) {
+        width: auto;
+        flex: 1 1 15rem;
+        margin-bottom: 0;
+    }
+
+    .footer-branding {
+        flex: 1 1 30rem;
+    }
+}
+
+/* Para telas maiores que 990px */
+@media (min-width: 99rem) {
+    .footer-content-wrapper {
+        display: grid;
+        grid-template-columns: 1.7fr 1fr 1fr 1.3fr;
+        gap: 6rem;
+        text-align: left;
+    }
+
+    .footer-column {
+        margin-bottom: 0;
+    }
 }
