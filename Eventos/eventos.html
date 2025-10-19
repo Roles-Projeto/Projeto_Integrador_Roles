@@ -31,55 +31,52 @@
         </div>
     </section>
 
-    <!-- Filtros  -->
+    <!-- Filtros -->
     <section class="filtros-container">
-        <div class="filtros-inner">
-            <div class="filtros-row">
-                <button class="btn-filtro" id="abrirFiltros"><i class="fa-solid fa-filter"></i> Filtros</button>
-
-                <div class="filtros-selects">
-                    <div class="select-wrap">
-                        <select id="dataFiltro" aria-label="Filtrar por data">
-                            <option value="todas">Todas as datas</option>
-                            <option value="hoje">Hoje</option>
-                            <option value="amanha">Amanhã</option>
-                            <option value="semana">Esta semana</option>
-                            <option value="mes">Este mês</option>
-                        </select>
-                    </div>
-
-                    <div class="select-wrap">
-                        <select id="categoriaFiltro" aria-label="Filtrar por categoria">
-                            <option value="todas">Todas as categorias</option>
-                            <option value="festa">Festa</option>
-                            <option value="show">Show</option>
-                            <option value="festival">Festival</option>
-                            <option value="gastronomia">Gastronomia</option>
-                            <option value="workshop">Workshop</option>
-                        </select>
-                    </div>
-
-                    <div class="select-wrap">
-                        <select id="ordenarPor" aria-label="Ordenar por">
-                            <option value="data">Data do evento</option>
-                            <option value="populares">Mais populares</option>
-                            <option value="nome">Nome A-Z</option>
-                            <option value="preco">Preço</option>
-                        </select>
-                    </div>
-                </div>
+        <div class="filtros-box">
+            <div class="filtros-esquerda">
+                <i class="fa-solid fa-filter"></i>
+                <span>Filtros</span>
             </div>
 
-            <!-- Linha abaixo com contador + pills -->
-            <div class="filtros-meta">
-                <div class="encontrados" id="contadorEventos">Encontrados <strong id="qtdEventos">6</strong> eventos
-                </div>
-                <div class="pills" id="pillsContainer">
-                    <button class="pill active" data-cat="todas">Todos</button>
-                    <button class="pill" data-cat="festa">Festas</button>
-                    <button class="pill" data-cat="show">Shows</button>
-                    <button class="pill" data-cat="festival">Festivais</button>
-                </div>
+            <div class="filtros-direita">
+                <select id="dataFiltro" aria-label="Filtrar por data">
+                    <option value="todas">Todas as datas</option>
+                    <option value="hoje">Hoje</option>
+                    <option value="amanha">Amanhã</option>
+                    <option value="semana">Esta semana</option>
+                    <option value="mes">Este mês</option>
+                </select>
+
+                <select id="categoriaFiltro" aria-label="Filtrar por categoria">
+                    <option value="todas">Todas as categorias</option>
+                    <option value="festa">Festa</option>
+                    <option value="show">Show</option>
+                    <option value="festival">Festival</option>
+                    <option value="gastronomia">Gastronomia</option>
+                    <option value="workshop">Workshop</option>
+                </select>
+
+                <select id="ordenarPor" aria-label="Ordenar por">
+                    <option value="data">Data do evento</option>
+                    <option value="populares">Mais populares</option>
+                    <option value="nome">Nome A-Z</option>
+                    <option value="preco">Preço</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Linha abaixo com contador + pills -->
+        <div class="filtros-meta">
+            <div class="encontrados" id="contadorEventos">
+                Encontrados <strong id="qtdEventos">6</strong> eventos
+            </div>
+
+            <div class="pills" id="pillsContainer">
+                <button class="pill active" data-cat="todas">Todos</button>
+                <button class="pill" data-cat="festa">Festas</button>
+                <button class="pill" data-cat="show">Shows</button>
+                <button class="pill" data-cat="festival">Festivais</button>
             </div>
         </div>
     </section>
@@ -103,7 +100,7 @@
                 <p class="meta"><i class="fa-regular fa-user"></i> 80 pessoas interessadas</p>
 
                 <div class="card-footer">
-                    <span class="preco">Entrada Gratuita <small class="taxa">+ 10% taxa</small></span>
+                    <span class="preco">Entrada Gratuita <small class="taxa"></small></span>
                     <div class="acoes">
                         <button class="btn-detalhes">Mais Detalhes</button>
                         <button class="btn-confirmar">Confirmar Presença</button>
@@ -259,7 +256,7 @@
 
     <!-- Footer -->
     <footer>
-        <iframe src="../footer/footer.html" frameborder="0" scrolling="no" width="100%" height="450"></iframe>
+        <iframe src="../footer/footer.html" frameborder="0" scrolling="no" width="100%" height="auto"></iframe>
     </footer>
 
     <script src="../src/Js/script.js"></script>

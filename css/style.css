@@ -796,3 +796,8 @@ iframe {
     border: none;
     display: block;
 }
+
+footer iframe {
+    min-height: 22rem; /* Exemplo: Defina uma altura generosa em rem */
+    display: block;
+}
