@@ -67,129 +67,225 @@ p {
     color: rgba(255, 255, 255, 0.8);
 }
 
-/* ---- Filtros ---- */
+/* ==== CONTAINER PRINCIPAL ==== */
 .filtros-container {
-    padding: 18px 16px;
-    background: #fff;
-}
-
-.filtros-wrapper {
     max-width: 1100px;
-    margin: 0 auto;
-    display: flex;
-    gap: 12px;
-    align-items: center;
-    justify-content: space-between;
-    flex-wrap: wrap;
+    margin: 22px auto;
+    padding: 0 16px;
+    box-sizing: border-box;
 }
 
-.btn-filtro {
-    display: inline-flex;
+/* ==== BLOCO SUPERIOR ==== */
+.filtros-box {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    background: #fff;
+    border: 1px solid #e6e6e6;
+    border-radius: 8px;
+    padding: 12px 18px;
+}
+
+/* Lado esquerdo (ícone + texto “Filtros”) */
+.filtros-esquerda {
+    display: flex;
     align-items: center;
     gap: 8px;
-    padding: 8px 12px;
-    border-radius: 8px;
-    border: 1px solid #e6e6e6;
-    background: #fff;
-    cursor: pointer;
-    font-weight: 600;
+    font-size: 15px;
+    font-weight: 500;
+    color: #333;
 }
 
-.selects {
+.filtros-esquerda i {
+    color: #444;
+    font-size: 15px;
+}
+
+.filtros-direita select {
+    background: #e6e5e6;
+    border: 1px solid #9c9c9c;
+    border-radius: 8px;
+    padding: 8px 12px;
+    font-size: 14px;
+    color: #0e0d0d;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    min-width: 180px;
+    appearance: none;
+}
+
+.filtros-direita select:hover,
+.filtros-direita select:focus {
+    background: #c4c2c4;
+    border-color: #dddcdc;
+    outline: none;
+}
+
+/* seta de seleção customizada opcional */
+.filtros-direita select {
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg fill='%23666' height='16' viewBox='0 0 24 24' width='16' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 25px;
+    padding-right: 30px;
+}
+
+
+/* Texto “Encontrados X eventos” */
+.encontrados {
+    font-size: 14px;
+    color: #333;
+    font-weight: 500;
+}
+
+/* Pills (botões de categoria) */
+.pills {
     display: flex;
     gap: 10px;
-    align-items: center;
     flex-wrap: wrap;
 }
 
-.selects select {
-    padding: 8px 12px;
-    border-radius: 8px;
-    border: 1px solid #e6e6e6;
-    background: #fff;
-    font-size: 14px;
+.pill {
+    background: #f9f9fb;
+    border: 1px solid #ddd;
+    border-radius: 20px;
+    padding: 6px 14px;
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.2s ease;
 }
 
-/* ---- Lista de eventos / Cards ---- */
+.pill:hover {
+    background: #f1f1f5;
+}
+
+.pill.active {
+    background: #7b2cbf;
+    color: #fff;
+    border-color: #7b2cbf;
+}
+
+/* Cards */
 .eventos-lista {
     max-width: 1100px;
     margin: 22px auto;
     display: flex;
     flex-direction: column;
-    gap: 20px;
-    padding: 0 16px 8px;
+    gap: 24px;
+    padding: 0 16px;
+    box-sizing: border-box;
 }
 
+/* Card: altura  */
 .evento-card {
     display: flex;
-    gap: 0;
+    flex-direction: row;
+    align-items: stretch;
     background: #fff;
     border: 1px solid #eee;
     border-radius: 12px;
-    overflow: hidden;
-    align-items: stretch;
-    box-shadow: 0 6px 18px rgba(10, 10, 10, 0.03);
-    height: 250px;
-}
-
-/* Imagem */
-.evento-imagem {
-    position: relative;
-    flex: 0 0 360px;
-    min-height: 210px;
-    overflow: hidden;
-}
-
-.evento-imagem img {
+    overflow: visible;
     width: 100%;
-    height: 100%;
-
+    height: 210px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+    transition: transform 0.18s ease, box-shadow 0.18s ease;
 }
 
-/* Badge categoria */
-.badge {
-    position: absolute;
-    top: 12px;
-    left: 12px;
-    background: rgba(0, 0, 0, 0.6);
-    color: #fff;
-    padding: 6px 10px;
-    border-radius: 12px;
-    font-size: 12px;
-    font-weight: 600;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+/* Hover */
+.evento-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+}
+
+/* Imagem: largura */
+.evento-card img,
+.evento-imagem img {
+    width: 320px;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    border-top-left-radius: 12px;
+    border-bottom-left-radius: 12px;
+}
+
+.evento-imagem {
+    width: 120px;
+    flex: 0 0 320px;
+    height: 210px;
+    overflow: hidden;
 }
 
 /* Conteúdo do card */
 .evento-info {
-    padding: 18px 22px;
-    display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    flex: 1;
+    padding: 8px 15px;
+    flex: 1 1 auto;
+    min-width: 0;
+    overflow: visible;
 }
 
+/* Título e descrição */
 .evento-info h3 {
     margin: 0 0 8px;
     font-size: 18px;
     color: #111;
+    font-weight: 600;
 }
 
 .descricao {
-    margin: 0 0 10px;
+    margin: 0 0 12px;
     color: #555;
     font-size: 14px;
-    line-height: 1.3;
+    line-height: 1.45;
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
 }
 
+/* Meta (data, local, interessados) */
 .meta {
-    margin: 6px 0;
     color: #777;
     font-size: 13px;
-    display: flex;
-    gap: 8px;
-    align-items: center;
+    margin: 6px 0;
 }
+
+/* Rodapé do card (preço e botões) */
+.card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1px;
+    margin-top: 10px;
+}
+
+.preco {
+    font-weight: 700;
+    color: #16a34a;
+    /* verde */
+}
+
+/* Botões */
+.btn-detalhes,
+.btn-confirmar {
+    border: none;
+    padding: 8px 14px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 13px;
+}
+
+.btn-detalhes {
+    background: #f5f5f5;
+}
+
+.btn-confirmar {
+    background: #0b1220;
+    color: #fff;
+}
+
+
 
 /* Rodapé do card */
 .card-footer {
@@ -214,8 +310,7 @@ p {
 }
 
 .acoes {
-    display: flex;
-    gap: 10px;
+    gap: 1px;
     align-items: center;
 }
 
@@ -405,7 +500,7 @@ p {
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
 }
 
-/* painel branco arredondado que contém os selects (à direita) */
+/* painel branco  */
 .filtros-selects {
     display: flex;
     gap: 10px;
@@ -429,13 +524,11 @@ p {
     min-width: 160px;
 }
 
-/* seta do select (mantida pela borda do painel) */
 .select-wrap {
     position: relative;
     display: inline-block;
 }
 
-/* linha de baixo: contador e pills */
 .filtros-meta {
     display: flex;
     align-items: center;
@@ -476,4 +569,11 @@ p {
     color: #fff;
     border-color: #071028;
     box-shadow: 0 6px 18px rgba(7, 16, 40, 0.12);
+}
+
+
+/* FOOTER */
+footer iframe {
+    min-height: 22rem;
+    display: block;
 }
