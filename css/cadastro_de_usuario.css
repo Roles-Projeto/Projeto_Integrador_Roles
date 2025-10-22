@@ -130,3 +130,9 @@ footer {
     /* Adiciona uma margem de 40 pixels acima do footer */
     margin-top: 40px; 
 }
+
+/* FOOTER */
+footer iframe {
+    min-height: 22rem;
+    display: block;
+}

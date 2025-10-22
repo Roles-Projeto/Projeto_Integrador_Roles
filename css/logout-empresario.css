@@ -46,3 +46,10 @@ main {
 .login-box button:hover {
   background: #333;
 }
+
+
+/* FOOTER */
+footer iframe {
+  min-height: 22rem;
+  display: block;
+}

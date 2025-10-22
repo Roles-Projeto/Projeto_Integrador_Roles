@@ -54,42 +54,45 @@
       </form>
 
       <p class="termos">
-        Ao criar uma conta, você concorda com nossos <a href="#">Termos de Uso</a> e <a href="#">Política de Privacidade</a>.
+        Ao criar uma conta, você concorda com nossos <a href="#">Termos de Uso</a> e <a href="#">Política de
+          Privacidade</a>.
       </p>
 
       <p class="login">
-        Já tem uma conta? <a href="#">Fazer login</a><br>
-        É empresário? <a href="#">Cadastre seu estabelecimento</a>
+        Já tem uma conta? <a href="../login/login.html">Fazer login</a><br>
+        É empresário? <a href="../Cadastrar/cadastro.html">Cadastre seu estabelecimento</a>
       </p>
     </div>
   </main>
 
   <footer>
-    <iframe src="../footer/footer.html" frameborder="0" scrolling="no" width="100%" height="400"></iframe>
+    <iframe src="../footer/footer.html" frameborder="0" scrolling="no" width="100%" height="auto"></iframe>
   </footer>
+
 </body>
+
 <script>
-    const form = document.getElementById('cadastroForm');
+  const form = document.getElementById('cadastroForm');
 
-form.addEventListener('submit', (e) => {
-  e.preventDefault();
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
 
-  const senha = document.getElementById('senha').value;
-  const confirmar = document.getElementById('confirmarSenha').value;
+    const senha = document.getElementById('senha').value;
+    const confirmar = document.getElementById('confirmarSenha').value;
 
-  if (senha !== confirmar) {
-    alert('As senhas não coincidem!');
-    return;
-  }
+    if (senha !== confirmar) {
+      alert('As senhas não coincidem!');
+      return;
+    }
 
-  if (senha.length < 6) {
-    alert('A senha deve ter no mínimo 6 caracteres.');
-    return;
-  }
+    if (senha.length < 6) {
+      alert('A senha deve ter no mínimo 6 caracteres.');
+      return;
+    }
 
-  alert('Conta criada com sucesso!');
-  form.reset();
-});
+    alert('Conta criada com sucesso!');
+    form.reset();
+  });
 
 </script>
 
