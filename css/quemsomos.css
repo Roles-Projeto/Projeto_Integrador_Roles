@@ -485,9 +485,9 @@ h3 {
     }
 }
 
-iframe {
-    /* 1. Remove qualquer borda que o HTML não removeu */
-    border: none;
-    /* 2. Garante que ele se alinhe perfeitamente na esquerda */
+
+/* FOOTER */
+footer iframe {
+    min-height: 22rem;
     display: block;
 }

@@ -589,23 +589,23 @@ body {
 }
 
 .btn-ver-todos {
-  background: linear-gradient(90deg, #9333ea, #4a00e0);
-  color: #fff;
-  border: none;
-  padding: 14px 35px;
-  border-radius: 12px;
-  font-size: 16px;
-  font-weight: 600;
-  cursor: pointer;
-  margin-top: 40px;
-  transition: transform 0.2s ease, box-shadow 0.3s ease;
-  box-shadow: 0 8px 20px rgba(147, 51, 234, 0.3);
-  text-decoration: none;
+    background: linear-gradient(90deg, #9333ea, #4a00e0);
+    color: #fff;
+    border: none;
+    padding: 14px 35px;
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 40px;
+    transition: transform 0.2s ease, box-shadow 0.3s ease;
+    box-shadow: 0 8px 20px rgba(147, 51, 234, 0.3);
+    text-decoration: none;
 }
 
 .btn-ver-todos:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 12px 25px rgba(147, 51, 234, 0.5);
+    transform: translateY(-3px);
+    box-shadow: 0 12px 25px rgba(147, 51, 234, 0.5);
 }
 
 
@@ -798,6 +798,6 @@ iframe {
 }
 
 footer iframe {
-    min-height: 22rem; /* Exemplo: Defina uma altura generosa em rem */
+    min-height: 22rem;
     display: block;
 }

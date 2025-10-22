@@ -210,3 +210,9 @@ body {
     padding: 1rem;
   }
 }
+
+/* FOOTER */
+footer iframe {
+    min-height: 22rem;
+    display: block;
+}

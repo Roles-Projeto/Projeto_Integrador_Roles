@@ -580,3 +580,9 @@ a:hover {
     /* Ocultar ou remover se você usar os ícones corretamente */
     display: none; 
 }
+
+/* FOOTER */
+footer iframe {
+    min-height: 22rem;
+    display: block;
+}
