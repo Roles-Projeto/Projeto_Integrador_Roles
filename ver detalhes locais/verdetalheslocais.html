@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Rolês - Início</title>
+
+  <!--link header-->
+  <link rel="stylesheet" href="../header/css/style.css">
+
+  <!--link icones-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <link rel="stylesheet" href="../css/verdetalheslocais.css">
+
+</head>
+  <body>
+     <header>
+    <div id="header-wrap">
+      <iframe id="site-header" src="../header/header.html" frameborder="0" scrolling="no" width="100%"
+        height="60"></iframe>
+    </div>
+  </header>
+<main>
+  <section>
+    <div class="first-img">
+      <img src="../Imagens/lebistrot2 (1) 1.png" alt="banner-img">
+
+      
+<div class="overlay-content">
+        <div class="header-overlay">
+          <button class="back-button">
+            <i class="fas fa-arrow-left"></i> Voltar 
+          </button>
+
+          <div class="action-buttons">
+            <button class="share-button"><i class="fas fa-share-alt"></i></button>
+            <button class="favorite-button"><i class="far fa-bookmark"></i></button> 
+          </div>
+        </div>
+
+
+        <div class="footer-overlay">
+            <div class="restaurant-info">
+              <h1>Bistro Gourmet</h1>
+              <div class="rating">
+                <i class="fas fa-star"></i> 4.8 (234 avaliações) <p class="address"> <img src="../Imagens/Vector.png" alt=""> <p class="jardim">Jardins, Goiânia</p></p>
+              </div>
+             
+            </div>
+
+            <div class="price-range">
+                <img src="../Imagens/$.png" alt="Símbolo de Dólar" class="price-icon-img">
+                Faixa de preço 
+            </div>
+        </div>
+
+      </div>
+      
+</div>
+  </section>
+  <!-- ====== INÍCIO: Conteúdo de detalhes (cole logo após o seu banner section) ====== -->
+<section class="detalhes-container">
+
+  <!-- TABS DENTRO DE CARD -->
+  <div class="tabs-card">
+    <nav class="tabs-inner">
+      <button class="tab active">Visão Geral</button>
+      <button class="tab">Fotos</button>
+      <button class="tab">Avaliações</button>
+    </nav>
+  </div>
+
+  <!-- GRID PRINCIPAL: ESQUERDA (conteúdo) + DIREITA (card de ações) -->
+  <div class="detalhes-grid">
+
+    <!-- COLUNA ESQUERDA -->
+    <div class="col-esquerda">
+
+      <!-- SOBRE O LOCAL (card separado) -->
+      <article class="card">
+        <h3>Sobre o Local</h3>
+        <p class="lead">
+          Um restaurante com clima acolhedor, decoração moderna e excelente custo-benefício.
+          Ideal para encontros, aniversários ou reuniões. O cardápio mistura pratos tradicionais
+          com gastronomia moderna.
+        </p>
+        <p>
+          Atendimento das 18h às 23h durante a semana e de 11h às 23h aos sábados. Ambiente climatizado,
+          música ambiente e opções vegetarianas.
+        </p>
+      </article>
+
+      <!-- HORÁRIO (card separado) -->
+      <article class="card">
+        <h3>Horário de Funcionamento</h3>
+        <ul class="lista-horarios">
+          <li><strong>Segunda:</strong> Fechado</li>
+          <li><strong>Terça:</strong> 18:00 — 23:00</li>
+          <li><strong>Quarta:</strong> 18:00 — 23:00</li>
+          <li><strong>Quinta:</strong> 18:00 — 23:00</li>
+          <li><strong>Sexta:</strong> 18:00 — 00:00</li>
+          <li><strong>Sábado:</strong> 11:00 — 00:00</li>
+          <li><strong>Domingo:</strong> 11:00 — 22:00</li>
+        </ul>
+      </article>
+
+      <!-- COMODIDADES (card separado) -->
+      <article class="card">
+        <h3>Comodidades</h3>
+        <div class="comodidades">
+          <span class="comod">Wi-Fi</span>
+          <span class="comod">Estacionamento</span>
+          <span class="comod">Pet Friendly</span>
+          <span class="comod">Acessibilidade</span>
+          <span class="comod">Ar-condicionado</span>
+        </div>
+      </article>
+
+      <!-- AVALIAÇÕES / CTA (card separado) -->
+      <article class="card">
+        <h3>Informações</h3>
+        <p><strong>Telefone:</strong> (62) 98234-4321</p>
+        <p><strong>Endereço:</strong> Rua T-25, Setor Bueno, Goiânia - GO</p>
+      </article>
+
+    </div>
+
+    <!-- COLUNA DIREITA (card lateral) -->
+    <aside class="col-direita">
+      <div class="side-card">
+        <div class="score-row">
+          <div class="score">4.8</div>
+          <div class="stars"><i class="fas fa-star"></i> <span>234</span></div>
+        </div>
+
+        <div class="price-row">
+          <img src="../Imagens/$.png" alt="Preço" class="price-icon-img">
+          <div class="price-text">Faixa de preço</div>
+        </div>
+
+        <hr>
+
+        <button class="btn-primary full">Confirmar Interesse</button>
+        <button class="btn-secondary full">Reservar Mesa</button>
+        <button class="btn-secondary full">Como Chegar</button>
+
+        <div class="side-info">
+          <p><strong>Telefone:</strong> (62) 98234-4321</p>
+          <p><strong>Endereço:</strong> Rua T-25, Setor Bueno, Goiânia - GO</p>
+        </div>
+      </div>
+    </aside>
+
+  </div> <!-- fim detalhes-grid -->
+</section>
+<!-- ====== FIM: Conteúdo de detalhes ====== -->
+
+</main>
+   <footer>
+    <iframe src="../footer/footer.html" frameborder="0" scrolling="no" width="100%" height="450"></iframe>
+  </footer>
+
+  
+    
+  </body>
+</html>

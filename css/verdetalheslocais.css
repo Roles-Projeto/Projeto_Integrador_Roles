@@ -1,0 +1,370 @@
+/* No seu arquivo ../css/verdetalheslocais.css */
+
+/* --- RESET BÁSICO (Mantenha) --- */
+body, header {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body {
+    font-family: 'Poppins', sans-serif; 
+}
+
+/* --- CONTÊINER PRINCIPAL (Mantenha) --- */
+.first-img {
+    position: relative; 
+    width: 100%; 
+    height: auto; 
+    overflow: hidden; 
+    margin-top: 0; 
+    padding-top: 0; 
+}
+
+
+
+/* --- OVERLAY PRINCIPAL (Adaptado para a nova estrutura) --- */
+.overlay-content {
+    position: absolute; 
+    top: 0; 
+    left: 0; 
+    width: 100%;
+    height: 100%;
+    /* Cor de texto e padding */
+    color: white; 
+    padding: 20px; /* Padding interno do contêiner */
+    box-sizing: border-box; 
+    
+    /* NOVO: Flexbox para separar o topo do rodapé */
+    display: flex; 
+    flex-direction: column; 
+    justify-content: space-between; 
+    
+
+}
+
+/* --- ESTRUTURA TOP: Botão Voltar e Ações --- */
+.header-overlay {
+    display: flex;
+    justify-content: space-between; /* Move itens para os cantos */
+    width: 100%;
+}
+
+.back-button {
+    background-color: white; 
+    color: black;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px; 
+    width: fit-content; 
+    /* Margem para descolar da borda superior do padding de .overlay-content */
+    margin-top: 0; 
+}
+
+.back-button i {
+    font-size: 18px;
+}
+
+.action-buttons {
+    display: flex;
+    gap: 10px; /* Espaçamento entre os botões */
+}
+
+.action-buttons button {
+    background-color: white; 
+    color: black; 
+    border: none;
+    width: 40px; 
+    height: 40px;
+    border-radius: 50%; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 18px; 
+    cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2); 
+}
+
+/* --- ESTRUTURA BASE: Informações e Faixa de Preço --- */
+.footer-overlay {
+    display: flex;
+    justify-content: space-between; /* Move info para a esquerda e preço para a direita */
+    align-items: flex-end; /* Alinha o conteúdo verticalmente na parte inferior */
+    width: 100%;
+}
+
+.restaurant-info {
+    /* Não precisa mais de margin-top: auto; pois está dentro de .footer-overlay */
+    padding-left: 10px; 
+}
+
+.restaurant-info h1 {
+    margin: 0 0 5px 0;
+    font-size: 28px;
+    color: white;
+}
+
+.rating {
+    font-size: 16px;
+    margin-bottom: 5px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    color: white; 
+}
+.jardim{
+ 
+}
+
+
+.rating i {
+    color: #ffd700; 
+}
+
+.address {
+    margin: 0;
+    font-size: 14px;
+    color: white;
+}
+
+/* --- 2. Faixa de Preço (Ajustado) --- */
+.price-range {
+    background-color: transparent; 
+    color: white;
+    padding: 8px 15px;
+    
+    /* 1. FLEXBOX: FORÇA A COLUNA */
+    display: flex;
+    flex-direction: column !important; /* Adicione !important se necessário para garantir que não seja sobrescrito */
+    
+    /* 2. ALINHAMENTO: ALINHA O CONTEÚDO À DIREITA */
+    align-items: flex-end; 
+    
+    /* 3. ESTILO DO TEXTO */
+    font-size: 16px;
+    font-family: 'Poppins', sans-serif; /* Use a fonte correta */
+    text-transform: uppercase; 
+    font-weight: bold;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6); 
+    
+    /* Outros */
+    border-radius: 5px;
+    height: fit-content; 
+    gap: 0; /* Garante que não há espaço entre os itens */
+}
+
+/* --- 3. Estilo do Cifrão (o ícone em si) --- */
+.price-range .price-icon {
+    /* Faz o ícone se comportar como um bloco para ocupar sua própria linha */
+    display: block; 
+}
+
+.price-range .price-icon i {
+    font-size: 22px; /* Tamanho grande para o cifrão */
+    line-height: 1; 
+    /* Pode ser necessário ajustar essa margem negativa para 'grudar' no texto */
+    margin-bottom: -10px; 
+    display: block; 
+}
+
+/* ====== ESTILOS DA NOVA SEÇÃO DE DETALHES (desktop) ====== */
+
+/* container geral */
+.detalhes-container {
+  width: 1100px; /* fixado para desktop conforme pedido */
+  margin: 40px auto 80px;
+  font-family: 'Poppins', sans-serif;
+  color: #0b0f19; /* texto escuro */
+}
+
+/* TABS dentro de card */
+.tabs-card {
+  background:#ECE9E9; /* chumbo escuro do tema B */
+  padding: 10px 10px;
+  border-radius: 5px;
+  margin-bottom: 18px;
+  box-shadow: 0 8px 24px rgba(15,16,18,0.12);
+}
+
+.tabs-inner {
+  display: flex;
+  gap: 18px;
+}
+
+.tab {
+  background: transparent;
+  border: none;
+  color: black;
+  font-size: 15px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.tab.active {
+  color: #ffffff;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.06);
+  font-weight: 600;
+}
+
+/* GRID PRINCIPAL */
+.detalhes-grid {
+  display: grid;
+  grid-template-columns: 2fr 380px;
+  gap: 28px;
+  align-items: start;
+}
+
+/* CARDS (cada seção é um card separado) */
+.card {
+  background: #ffffff;
+  border: 1px solid #e5e5e5;
+  border-radius: 10px;
+  padding: 22px;
+  box-shadow: 0 6px 18px rgba(9,10,11,0.04);
+  margin-bottom: 18px;
+}
+
+.card h3 {
+  margin: 0 0 12px 0;
+  font-size: 18px;
+  color: #0b0f19;
+}
+
+.lead {
+  color: #40444a;
+  line-height: 1.6;
+  margin-bottom: 10px;
+}
+
+.lista-horarios {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  color: #333;
+  line-height: 1.8;
+}
+
+/* comodidades estilo pills */
+.comodidades {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.comod {
+  background: #f4f5f7;
+  padding: 8px 12px;
+  border-radius: 999px;
+  font-size: 14px;
+  color: #222;
+  border: 1px solid #ececec;
+}
+
+/* COLUNA DIREITA - SIDE CARD */
+.col-direita .side-card {
+  background: transparent;
+  border-radius: 12px;
+  color: #fff;
+  box-shadow: 0 10px 30px rgba(15,16,18,0.18);
+  border: 1px solid rgba(255,255,255,0.04);
+}
+
+.score-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.score {
+  font-size: 34px;
+  font-weight: 800;
+  background: linear-gradient(180deg,black,#ddd);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.stars {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  color: #cfcfcf;
+}
+
+.price-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.price-icon-img {
+  width: 28px;
+  height: 28px;
+  object-fit: contain;
+}
+
+.price-text {
+  font-size: 14px;
+  color: #d7d7d7;
+}
+
+/* botões no side-card */
+.side-card .full {
+  width: 100%;
+  padding: 12px 14px;
+  border-radius: 8px;
+  font-weight: 700;
+  margin-bottom: 10px;
+  border: none;
+  cursor: pointer;
+}
+
+.btn-primary {
+  background: #0b0f19; /* azul/escuro do tema definido antes */
+  color: #fff;
+}
+
+.btn-secondary {
+  background: #ffffff;
+  color: #0b0f19;
+}
+
+.btn-outline {
+  background: transparent;
+  color: #fff;
+  border: 1px solid rgba(255,255,255,0.12);
+}
+
+/* informações finais no side-card */
+.side-info {
+  margin-top: 12px;
+  color: #d6d6d6;
+  font-size: 14px;
+}
+
+/* pequenas correções para integrar com seu overlay/banner existente */
+.first-img img {
+  width: 100%;
+  display: block;
+}
+
+/* garantir que os iframes do header/footer não quebrem o layout */
+#header-wrap, footer iframe {
+  width: 100%;
+}
+
+/* hover states */
+.card button:hover, .tab:hover {
+  opacity: 0.92;
+  transform: translateY(-1px);
+  transition: all 0.14s ease;
+}

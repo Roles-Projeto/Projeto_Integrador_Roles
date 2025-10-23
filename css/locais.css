@@ -350,12 +350,7 @@ main {
   color: #444;
 }
 
-/* RODAPÉ */
-.footer {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
+
 
 .avaliacoes {
   font-size: 14px;
@@ -442,6 +437,11 @@ main {
   font-size: 15px;
   color: #555;
   font-family: "Poppins", sans-serif;
+}
+.footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 
