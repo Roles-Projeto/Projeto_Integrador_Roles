@@ -1,0 +1,405 @@
+/* No seu arquivo ../css/verdetalheslocais.css */
+
+/* --- RESET BÁSICO (Mantenha) --- */
+body, header {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body {
+    font-family: 'Poppins', sans-serif; 
+}
+
+/* --- CONTÊINER PRINCIPAL (Mantenha) --- */
+.first-img {
+    position: relative; 
+    width: 100%; 
+    height: auto; 
+    overflow: hidden; 
+    margin-top: 0; 
+    padding-top: 0; 
+}
+
+
+
+/* --- OVERLAY PRINCIPAL (Adaptado para a nova estrutura) --- */
+.overlay-content {
+    position: absolute; 
+    top: 0; 
+    left: 0; 
+    width: 100%;
+    height: 100%;
+    /* Cor de texto e padding */
+    color: white; 
+    padding: 20px; /* Padding interno do contêiner */
+    box-sizing: border-box; 
+    
+    /* NOVO: Flexbox para separar o topo do rodapé */
+    display: flex; 
+    flex-direction: column; 
+    justify-content: space-between; 
+    
+
+}
+
+/* --- ESTRUTURA TOP: Botão Voltar e Ações --- */
+.header-overlay {
+    display: flex;
+    justify-content: space-between; /* Move itens para os cantos */
+    width: 100%;
+}
+
+.back-button {
+    background-color: white; 
+    color: black;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px; 
+    width: fit-content; 
+    /* Margem para descolar da borda superior do padding de .overlay-content */
+    margin-top: 0; 
+}
+
+.back-button i {
+    font-size: 18px;
+}
+
+.action-buttons {
+    display: flex;
+    gap: 10px; /* Espaçamento entre os botões */
+}
+
+.action-buttons button {
+    background-color: white; 
+    color: black; 
+    border: none;
+    width: 40px; 
+    height: 40px;
+    border-radius: 50%; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 18px; 
+    cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2); 
+}
+
+/* --- ESTRUTURA BASE: Informações e Faixa de Preço --- */
+.footer-overlay {
+    display: flex;
+    justify-content: space-between; /* Move info para a esquerda e preço para a direita */
+    align-items: flex-end; /* Alinha o conteúdo verticalmente na parte inferior */
+    width: 100%;
+}
+
+.restaurant-info {
+    /* Não precisa mais de margin-top: auto; pois está dentro de .footer-overlay */
+    padding-left: 10px; 
+}
+
+.restaurant-info h1 {
+    margin: 0 0 5px 0;
+    font-size: 28px;
+    color: white;
+}
+
+.rating {
+    font-size: 16px;
+    margin-bottom: 5px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    color: white; 
+}
+.jardim{
+ 
+}
+
+
+.rating i {
+    color: #ffd700; 
+}
+
+.address {
+    margin: 0;
+    font-size: 14px;
+    color: white;
+}
+
+
+.tabs-container {
+  width: 100%;
+  max-width: 900px;
+  margin: 30px auto;
+  display: flex;
+  justify-content: center;
+  gap: 0;
+  background-color: #f5f2f2;
+  border-radius: 20px;
+  overflow: hidden;
+  border: 1px solid #e5e5e5;
+}
+
+
+.tab {
+  flex: 1;
+  padding: 10px 0;
+  font-size: 15px;
+  color: #6f6f6f;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.tab.active {
+  background-color: white;
+  font-weight: 600;
+  color: black;
+  border-bottom: 2px solid #cfcfcf;
+}
+
+.tab:hover {
+  background-color: #ececec;
+}
+.card-sobre {
+  width: 100%;
+  max-width: 900px;
+  margin: 20px auto;
+  background: white;
+  border: 1px solid #e6e6e6;
+  border-radius: 12px;
+  padding: 25px;
+  font-family: Arial, sans-serif;
+   box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.card-sobre h2 {
+  font-size: 20px;
+  margin-bottom: 15px;
+  color: #000;
+}
+
+.card-sobre .descricao {
+  font-size: 15px;
+  color: #555;
+  margin-bottom: 20px;
+}
+
+.tags {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 25px;
+}
+
+.tags span {
+  background: white;
+  border: 1px solid #ddd;
+  padding: 8px 14px;
+  border-radius: 20px;
+  font-size: 13px;
+  cursor: default;
+}
+
+.info-row {
+  display: flex;
+  justify-content: space-between;
+  padding-top: 15px;
+  border-top: 1px solid #eee;
+}
+
+.info-box {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.info-box strong {
+  font-size: 14px;
+}
+
+.info-box p {
+  font-size: 13px;
+  color: #666;
+}
+
+/* Ícones básicos (você pode trocar depois por svg) */
+.icon {
+  width: 20px;
+  height: 20px;
+  display: inline-block;
+}
+
+.icon.clock {
+  background: url('https://img.icons8.com/ios-filled/50/000000/clock--v1.png') center/contain no-repeat;
+}
+
+.icon.phone {
+  background: url('https://img.icons8.com/ios-filled/50/000000/phone.png') center/contain no-repeat;
+}
+.card-comodidades {
+  width: 100%;
+  max-width: 900px;
+  margin: 20px auto;
+  background: white;
+  border: 1px solid #e6e6e6;
+  border-radius: 12px;
+  padding: 25px;
+  font-family: Arial, sans-serif;
+   box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.card-comodidades h2 {
+  font-size: 20px;
+  margin-bottom: 20px;
+  color: #000;
+}
+
+.comodidades-list {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.comodidade-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 15px;
+  color: #333;
+}
+
+.comodidade-item img {
+  width: 22px;
+  height: 22px;
+  opacity: 0.8;
+}
+.container-geral {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  position: relative;
+  gap: 24px;
+  margin-top: 20px;
+}
+
+.lado-esquerdo {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.lado-direito {
+  flex: 0 0 auto;
+  align-self: flex-start; /* <-- adiciona isso */
+  margin-top:0px;
+}
+
+.card-direita {
+  background: #fff;
+  border: 1px solid #e5e5e5;
+  border-radius: 12px;
+  padding: 20px;
+  width: 390px;
+  font-family: 'Inter', sans-serif;
+ box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.card-info-topo {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.estrela {
+  font-size: 16px;
+  color: #f8b400;
+  font-weight: 600;
+}
+
+.estrela small {
+  color: #888;
+  font-weight: normal;
+}
+
+.preco {
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.categoria {
+  color: #777;
+  margin-bottom: 20px;
+}
+
+.info-contato p {
+  margin: 5px 0;
+  color: #333;
+}
+
+.botoes-card {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.btn-preto {
+  background-color: #0d0d15;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 10px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.btn-branco {
+  background-color: #fff;
+  border: 1px solid #ccc;
+  color: #000;
+  border-radius: 8px;
+  padding: 10px;
+  cursor: pointer;
+  font-weight: 600;
+}
+.info-card {
+  width: 390px;
+  background-color: white;
+  padding: 25px;
+  border-radius: 20px;
+  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
+  margin-top: 20px;
+}
+
+.info-card h2 {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.info-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+  gap: 10px;
+}
+
+.info-item i {
+  font-size: 22px;
+  color: #000;
+}
+.info-wrapper {
+  display: flex;
+  justify-content: flex-end;
+  margin-right: 10px;  /* empurra o card para o lado direito */
+  margin-top:-100px; /* sobe o card para perto do conteúdo de cima */
+
+}
