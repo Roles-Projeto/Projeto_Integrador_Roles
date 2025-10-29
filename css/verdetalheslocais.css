@@ -131,240 +131,275 @@ body {
     color: white;
 }
 
-/* --- 2. Faixa de Preço (Ajustado) --- */
-.price-range {
-    background-color: transparent; 
-    color: white;
-    padding: 8px 15px;
-    
-    /* 1. FLEXBOX: FORÇA A COLUNA */
-    display: flex;
-    flex-direction: column !important; /* Adicione !important se necessário para garantir que não seja sobrescrito */
-    
-    /* 2. ALINHAMENTO: ALINHA O CONTEÚDO À DIREITA */
-    align-items: flex-end; 
-    
-    /* 3. ESTILO DO TEXTO */
-    font-size: 16px;
-    font-family: 'Poppins', sans-serif; /* Use a fonte correta */
-    text-transform: uppercase; 
-    font-weight: bold;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6); 
-    
-    /* Outros */
-    border-radius: 5px;
-    height: fit-content; 
-    gap: 0; /* Garante que não há espaço entre os itens */
-}
 
-/* --- 3. Estilo do Cifrão (o ícone em si) --- */
-.price-range .price-icon {
-    /* Faz o ícone se comportar como um bloco para ocupar sua própria linha */
-    display: block; 
-}
-
-.price-range .price-icon i {
-    font-size: 22px; /* Tamanho grande para o cifrão */
-    line-height: 1; 
-    /* Pode ser necessário ajustar essa margem negativa para 'grudar' no texto */
-    margin-bottom: -10px; 
-    display: block; 
-}
-
-/* ====== ESTILOS DA NOVA SEÇÃO DE DETALHES (desktop) ====== */
-
-/* container geral */
-.detalhes-container {
-  width: 1100px; /* fixado para desktop conforme pedido */
-  margin: 40px auto 80px;
-  font-family: 'Poppins', sans-serif;
-  color: #0b0f19; /* texto escuro */
-}
-
-/* TABS dentro de card */
-.tabs-card {
-  background:#ECE9E9; /* chumbo escuro do tema B */
-  padding: 10px 10px;
-  border-radius: 5px;
-  margin-bottom: 18px;
-  box-shadow: 0 8px 24px rgba(15,16,18,0.12);
-}
-
-.tabs-inner {
+.tabs-container {
+  width: 100%;
+  max-width: 900px;
+  margin: 30px auto;
   display: flex;
-  gap: 18px;
+  justify-content: center;
+  gap: 0;
+  background-color: #f5f2f2;
+  border-radius: 20px;
+  overflow: hidden;
+  border: 1px solid #e5e5e5;
 }
+
 
 .tab {
+  flex: 1;
+  padding: 10px 0;
+  font-size: 15px;
+  color: #6f6f6f;
   background: transparent;
   border: none;
-  color: black;
-  font-size: 15px;
-  padding: 8px 12px;
-  border-radius: 8px;
   cursor: pointer;
+  transition: 0.3s;
 }
 
 .tab.active {
-  color: #ffffff;
-  background: rgba(255,255,255,0.06);
-  border: 1px solid rgba(255,255,255,0.06);
+  background-color: white;
   font-weight: 600;
+  color: black;
+  border-bottom: 2px solid #cfcfcf;
 }
 
-/* GRID PRINCIPAL */
-.detalhes-grid {
-  display: grid;
-  grid-template-columns: 2fr 380px;
-  gap: 28px;
-  align-items: start;
+.tab:hover {
+  background-color: #ececec;
+}
+.card-sobre {
+  width: 100%;
+  max-width: 900px;
+  margin: 20px auto;
+  background: white;
+  border: 1px solid #e6e6e6;
+  border-radius: 12px;
+  padding: 25px;
+  font-family: Arial, sans-serif;
+   box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
 }
 
-/* CARDS (cada seção é um card separado) */
-.card {
-  background: #ffffff;
-  border: 1px solid #e5e5e5;
-  border-radius: 10px;
-  padding: 22px;
-  box-shadow: 0 6px 18px rgba(9,10,11,0.04);
-  margin-bottom: 18px;
+.card-sobre h2 {
+  font-size: 20px;
+  margin-bottom: 15px;
+  color: #000;
 }
 
-.card h3 {
-  margin: 0 0 12px 0;
-  font-size: 18px;
-  color: #0b0f19;
+.card-sobre .descricao {
+  font-size: 15px;
+  color: #555;
+  margin-bottom: 20px;
 }
 
-.lead {
-  color: #40444a;
-  line-height: 1.6;
-  margin-bottom: 10px;
-}
-
-.lista-horarios {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  color: #333;
-  line-height: 1.8;
-}
-
-/* comodidades estilo pills */
-.comodidades {
+.tags {
   display: flex;
   gap: 10px;
-  flex-wrap: wrap;
+  margin-bottom: 25px;
 }
 
-.comod {
-  background: #f4f5f7;
-  padding: 8px 12px;
-  border-radius: 999px;
+.tags span {
+  background: white;
+  border: 1px solid #ddd;
+  padding: 8px 14px;
+  border-radius: 20px;
+  font-size: 13px;
+  cursor: default;
+}
+
+.info-row {
+  display: flex;
+  justify-content: space-between;
+  padding-top: 15px;
+  border-top: 1px solid #eee;
+}
+
+.info-box {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.info-box strong {
   font-size: 14px;
-  color: #222;
-  border: 1px solid #ececec;
 }
 
-/* COLUNA DIREITA - SIDE CARD */
-.col-direita .side-card {
-  background: transparent;
+.info-box p {
+  font-size: 13px;
+  color: #666;
+}
+
+/* Ícones básicos (você pode trocar depois por svg) */
+.icon {
+  width: 20px;
+  height: 20px;
+  display: inline-block;
+}
+
+.icon.clock {
+  background: url('https://img.icons8.com/ios-filled/50/000000/clock--v1.png') center/contain no-repeat;
+}
+
+.icon.phone {
+  background: url('https://img.icons8.com/ios-filled/50/000000/phone.png') center/contain no-repeat;
+}
+.card-comodidades {
+  width: 100%;
+  max-width: 900px;
+  margin: 20px auto;
+  background: white;
+  border: 1px solid #e6e6e6;
   border-radius: 12px;
-  color: #fff;
-  box-shadow: 0 10px 30px rgba(15,16,18,0.18);
-  border: 1px solid rgba(255,255,255,0.04);
+  padding: 25px;
+  font-family: Arial, sans-serif;
+   box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
 }
 
-.score-row {
+.card-comodidades h2 {
+  font-size: 20px;
+  margin-bottom: 20px;
+  color: #000;
+}
+
+.comodidades-list {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 12px;
-  margin-bottom: 14px;
 }
 
-.score {
-  font-size: 34px;
-  font-weight: 800;
-  background: linear-gradient(180deg,black,#ddd);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-.stars {
+.comodidade-item {
   display: flex;
   align-items: center;
   gap: 8px;
-  font-size: 14px;
-  color: #cfcfcf;
+  font-size: 15px;
+  color: #333;
 }
 
-.price-row {
+.comodidade-item img {
+  width: 22px;
+  height: 22px;
+  opacity: 0.8;
+}
+.container-geral {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  position: relative;
+  gap: 24px;
+  margin-top: 20px;
+}
+
+.lado-esquerdo {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.lado-direito {
+  flex: 0 0 auto;
+  align-self: flex-start; /* <-- adiciona isso */
+  margin-top:0px;
+}
+
+.card-direita {
+  background: #fff;
+  border: 1px solid #e5e5e5;
+  border-radius: 12px;
+  padding: 20px;
+  width: 390px;
+  font-family: 'Inter', sans-serif;
+ box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.card-info-topo {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.estrela {
+  font-size: 16px;
+  color: #f8b400;
+  font-weight: 600;
+}
+
+.estrela small {
+  color: #888;
+  font-weight: normal;
+}
+
+.preco {
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.categoria {
+  color: #777;
+  margin-bottom: 20px;
+}
+
+.info-contato p {
+  margin: 5px 0;
+  color: #333;
+}
+
+.botoes-card {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.btn-preto {
+  background-color: #0d0d15;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 10px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.btn-branco {
+  background-color: #fff;
+  border: 1px solid #ccc;
+  color: #000;
+  border-radius: 8px;
+  padding: 10px;
+  cursor: pointer;
+  font-weight: 600;
+}
+.info-card {
+  width: 390px;
+  background-color: white;
+  padding: 25px;
+  border-radius: 20px;
+  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
+  margin-top: 20px;
+}
+
+.info-card h2 {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.info-item {
   display: flex;
   align-items: center;
+  margin-bottom: 15px;
   gap: 10px;
-  margin-bottom: 12px;
 }
 
-.price-icon-img {
-  width: 28px;
-  height: 28px;
-  object-fit: contain;
+.info-item i {
+  font-size: 22px;
+  color: #000;
 }
+.info-wrapper {
+  display: flex;
+  justify-content: flex-end;
+  margin-right: 10px;  /* empurra o card para o lado direito */
+  margin-top:-100px; /* sobe o card para perto do conteúdo de cima */
 
-.price-text {
-  font-size: 14px;
-  color: #d7d7d7;
-}
-
-/* botões no side-card */
-.side-card .full {
-  width: 100%;
-  padding: 12px 14px;
-  border-radius: 8px;
-  font-weight: 700;
-  margin-bottom: 10px;
-  border: none;
-  cursor: pointer;
-}
-
-.btn-primary {
-  background: #0b0f19; /* azul/escuro do tema definido antes */
-  color: #fff;
-}
-
-.btn-secondary {
-  background: #ffffff;
-  color: #0b0f19;
-}
-
-.btn-outline {
-  background: transparent;
-  color: #fff;
-  border: 1px solid rgba(255,255,255,0.12);
-}
-
-/* informações finais no side-card */
-.side-info {
-  margin-top: 12px;
-  color: #d6d6d6;
-  font-size: 14px;
-}
-
-/* pequenas correções para integrar com seu overlay/banner existente */
-.first-img img {
-  width: 100%;
-  display: block;
-}
-
-/* garantir que os iframes do header/footer não quebrem o layout */
-#header-wrap, footer iframe {
-  width: 100%;
-}
-
-/* hover states */
-.card button:hover, .tab:hover {
-  opacity: 0.92;
-  transform: translateY(-1px);
-  transition: all 0.14s ease;
 }
