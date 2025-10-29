@@ -280,3 +280,9 @@ iframe {
 .mensagem-sucesso a:hover {
     text-decoration: underline;
 }
+
+/* FOOTER */
+footer iframe {
+    min-height: 22rem;
+    display: block;
+}

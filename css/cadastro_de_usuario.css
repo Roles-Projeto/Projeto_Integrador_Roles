@@ -1,0 +1,138 @@
+body {
+  margin: 0;
+  font-family: "Poppins", sans-serif;
+  background: linear-gradient(to bottom, #ffffff, #fafafa);
+  color: #212121;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 90vh;
+}
+
+.card {
+  background-color: #fff;
+  padding: 40px;
+  width: 400px;
+  border-radius: 16px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.05);
+  text-align: center;
+}
+
+.user-icon {
+  font-size: 40px;
+  color: #212121;
+  background: #f3f3f3;
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto 10px;
+}
+
+h2 {
+  margin-bottom: 5px;
+  font-size: 18px;
+}
+
+p {
+  font-size: 14px;
+  color: #555;
+}
+
+.social-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 20px 0;
+}
+
+.social-buttons button {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 10px;
+  background: #fff;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background 0.3s;
+}
+
+.social-buttons button:hover {
+  background: #f9f9f9;
+}
+
+.google i { color: #DB4437; margin-right: 8px; }
+.facebook i { color: #4267B2; margin-right: 8px; }
+.apple i { color: #000; margin-right: 8px; }
+
+.divider {
+  margin: 20px 0;
+  font-size: 12px;
+  color: #777;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+}
+
+label {
+  font-size: 13px;
+  margin-top: 10px;
+}
+
+input {
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  margin-top: 4px;
+  font-size: 14px;
+}
+
+.btn-criar {
+  margin-top: 20px;
+  background-color: #212121;
+  color: #fff;
+  border: none;
+  padding: 12px;
+  border-radius: 8px;
+  font-size: 15px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.btn-criar:hover {
+  background-color: #4A148C;
+}
+
+.termos, .login {
+  margin-top: 20px;
+  font-size: 12px;
+  color: #777;
+}
+
+.termos a, .login a {
+  color: #F50057;
+  text-decoration: none;
+}
+
+.termos a:hover, .login a:hover {
+  text-decoration: underline;
+}
+/* Arquivo: ../css/cadastro.css */
+
+footer {
+    /* Adiciona uma margem de 40 pixels acima do footer */
+    margin-top: 40px; 
+}
+
+/* FOOTER */
+footer iframe {
+    min-height: 22rem;
+    display: block;
+}

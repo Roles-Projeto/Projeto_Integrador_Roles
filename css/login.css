@@ -197,3 +197,11 @@ iframe {
   /* 2. Garante que ele se alinhe perfeitamente na esquerda */
   display: block;
 }
+
+
+
+/* FOOTER */
+footer iframe {
+    min-height: 22rem;
+    display: block;
+}
