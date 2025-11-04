@@ -235,3 +235,229 @@ document.addEventListener('DOMContentLoaded', () => {
         console.warn("Lógica de Seleção de Ingressos: Elementos de ingressos ou de resumo de compra não encontrados.");
     }
 });
+
+document.addEventListener('DOMContentLoaded', () => {
+    const editProfileButton = document.getElementById('editProfileButton');
+    const saveProfileButton = document.getElementById('saveProfileButton');
+    const cancelEditButton = document.getElementById('cancelEditButton');
+    const editProfileSection = document.getElementById('editProfileSection');
+
+    // Função para mostrar a seção de edição
+    function showEditSection() {
+        editProfileSection.classList.remove('hidden');
+        // Você pode esconder outras seções se desejar
+        // Ex: document.querySelector('.favorite-places-section').classList.add('hidden');
+        // E o botão "Editar Perfil"
+        editProfileButton.classList.add('hidden');
+    }
+
+    // Função para esconder a seção de edição
+    function hideEditSection() {
+        editProfileSection.classList.add('hidden');
+        // Você pode mostrar as outras seções novamente
+        // Ex: document.querySelector('.favorite-places-section').classList.remove('hidden');
+        // E o botão "Editar Perfil"
+        editProfileButton.classList.remove('hidden');
+    }
+
+    // Evento para o botão "Editar Perfil"
+    if (editProfileButton) {
+        editProfileButton.addEventListener('click', showEditSection);
+    }
+
+    // Evento para o botão "Salvar"
+    if (saveProfileButton) {
+        saveProfileButton.addEventListener('click', () => {
+            // Aqui você adicionaria a lógica para salvar os dados
+            // Ex: coletar valores dos inputs, enviar para um servidor, etc.
+            console.log('Dados do perfil salvos!');
+            // Depois de salvar, esconde a seção de edição
+            hideEditSection();
+            // Opcional: Atualizar os dados exibidos na sidebar
+            const newName = document.getElementById('editName').value;
+            const newEmail = document.getElementById('editEmail').value;
+            const newPhone = document.getElementById('editPhone').value;
+
+            document.querySelector('.profile-card h2').textContent = newName;
+            // Para email e telefone, seria necessário ajustar o HTML se eles tivessem IDs específicos ou fossem mais dinâmicos
+            // Por simplicidade, para este exemplo, apenas o nome é atualizado aqui.
+        });
+    }
+
+    // Evento para o botão "Cancelar"
+    if (cancelEditButton) {
+        cancelEditButton.addEventListener('click', hideEditSection);
+    }
+});
+
+// tela de perfil usuario  
+
+
+
+const userData = {
+  nome: "Usuário Google",
+  email: "usuario@gmail.com",
+  telefone: "(11) 99999-9999",
+  cidade: "São Paulo, SP",
+  membroDesde: "Jan 2024",
+  avatar: "https://via.placeholder.com/120/4a148c/ffffff?text=UG",
+  favoritos: [
+    { nome: "Bar do João", tipo: "Bar", nota: 4.8 },
+    { nome: "Restaurante Villa", tipo: "Restaurante", nota: 4.9 },
+    { nome: "Club Manhattan", tipo: "Balada", nota: 4.7 },
+  ],
+  recentes: [
+    { nome: "Pizzaria Bella", data: "14/01/2024", nota: 5 },
+    { nome: "Café Central", data: "09/01/2024", nota: 5 },
+    { nome: "Bar Rooftop", data: "07/01/2024", nota: 5 },
+  ],
+};
+
+// --- FUNÇÕES DE RENDERIZAÇÃO E INICIALIZAÇÃO ---
+document.addEventListener("DOMContentLoaded", () => {
+  // Elementos do Card Lateral
+  const nameDisplay = document.getElementById("user-name");
+  const emailDisplay = document.getElementById("user-email");
+  const phoneDisplay = document.getElementById("user-phone");
+  const cityDisplay = document.getElementById("user-location");
+  const memberDisplay = document.getElementById("user-member-since");
+  const avatar = document.getElementById("user-avatar");
+  const avatarHeader = document.getElementById("user-avatar-header");
+
+  // Elementos de Conteúdo
+  const favContainer = document.getElementById("favoritos-list");
+  const recContainer = document.getElementById("recentes-list");
+
+  // Campos de Edição
+  const editNome = document.getElementById("edit-nome");
+  const editEmail = document.getElementById("edit-email");
+  const editTelefone = document.getElementById("edit-telefone");
+
+  // Função para renderizar os dados do usuário e listas
+  const renderizarPerfil = () => {
+    nameDisplay.textContent = userData.nome;
+    emailDisplay.textContent = userData.email;
+    phoneDisplay.textContent = userData.telefone;
+    cityDisplay.textContent = userData.cidade;
+    memberDisplay.textContent = userData.membroDesde;
+    avatar.src = userData.avatar;
+    avatarHeader.src = userData.avatar;
+
+    // Preenche campos de edição
+    editNome.value = userData.nome;
+    editEmail.value = userData.email;
+    editTelefone.value = userData.telefone;
+
+    // Renderiza Favoritos
+    favContainer.innerHTML = "";
+    userData.favoritos.forEach((fav) => {
+      const div = document.createElement("div");
+      div.classList.add("lista-item");
+      div.innerHTML = `
+        <div>
+          <strong>${fav.nome}</strong><br>
+          <small>${fav.tipo}</small>
+        </div>
+        <div class="estrelas">⭐ ${fav.nota}</div>
+      `;
+      favContainer.appendChild(div);
+    });
+
+    // Renderiza Recentes
+    recContainer.innerHTML = "";
+    userData.recentes.forEach((r) => {
+      const div = document.createElement("div");
+      div.classList.add("lista-item");
+      const estrelasHtml = "⭐".repeat(r.nota);
+      div.innerHTML = `
+        <div>
+          <strong>${r.nome}</strong><br>
+          <small>${r.data}</small>
+        </div>
+        <div class="estrelas">${estrelasHtml}</div>
+      `;
+      recContainer.appendChild(div);
+    });
+  };
+
+  renderizarPerfil(); // Inicializa o perfil na tela
+
+  // --- LÓGICA DE EDIÇÃO E BOTÕES ---
+  const editarBtn = document.getElementById("editar-btn");
+  const sairBtn = document.getElementById("sair-btn");
+  const salvarBtn = document.getElementById("salvar-btn");
+  const cancelarBtn = document.getElementById("cancelar-btn");
+
+  const conteudoCard = document.querySelector(".conteudo");
+  const edicaoCard = document.querySelector(".editar-perfil-card");
+
+  const entrarModoEdicao = () => {
+    conteudoCard.classList.add("oculto");
+    edicaoCard.classList.remove("oculto");
+    editNome.value = userData.nome;
+    editEmail.value = userData.email;
+    editTelefone.value = userData.telefone;
+  };
+
+  const sairModoEdicao = () => {
+    edicaoCard.classList.add("oculto");
+    conteudoCard.classList.remove("oculto");
+  };
+
+  editarBtn?.addEventListener("click", entrarModoEdicao);
+  cancelarBtn?.addEventListener("click", sairModoEdicao);
+
+  sairBtn?.addEventListener("click", () => {
+    alert("Você saiu da sua conta!");
+    // Aqui vai a lógica real de logout, se necessário
+  });
+
+  salvarBtn?.addEventListener("click", () => {
+    const novoNome = editNome.value.trim();
+    const novoEmail = editEmail.value.trim();
+    const novoTelefone = editTelefone.value.trim();
+
+    if (!novoNome || !novoEmail) {
+      alert("Nome e Email são obrigatórios!");
+      return;
+    }
+
+    userData.nome = novoNome;
+    userData.email = novoEmail;
+    userData.telefone = novoTelefone;
+
+    renderizarPerfil();
+    alert("Perfil atualizado com sucesso!");
+    sairModoEdicao();
+  });
+
+  // --- ATUALIZAÇÃO DO AVATAR ---
+  const avatarInput = document.getElementById("avatar-input");
+  avatarInput?.addEventListener("change", (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (ev) => {
+        userData.avatar = ev.target.result;
+        avatar.src = userData.avatar;
+        avatarHeader.src = userData.avatar;
+      };
+      reader.readAsDataURL(file);
+    }
+  });
+
+  // --- DROPDOWN DO AVATAR NO HEADER ---
+  const dropdown = document.getElementById("dropdown-card");
+
+  avatarHeader?.addEventListener("click", (e) => {
+    e.stopPropagation();
+    dropdown?.classList.toggle("show");
+  });
+
+  // Fecha o dropdown ao clicar fora
+  document.addEventListener("click", (e) => {
+    if (!dropdown?.contains(e.target) && e.target !== avatarHeader) {
+      dropdown?.classList.remove("show");
+    }
+  });
+});
