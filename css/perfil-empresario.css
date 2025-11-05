@@ -1,0 +1,181 @@
+/* RESET GERAL */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #6a11cb, #2575fc);
+  color: #333;
+}
+
+/* HEADER E FOOTER */
+header iframe, footer iframe {
+  width: 100%;
+  border: none;
+}
+
+header iframe {
+  height: 80px;
+}
+
+footer iframe {
+  height: 250px;
+}
+
+/* CONTEÚDO PRINCIPAL */
+main {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px 20px;
+}
+
+/* CONTAINER GERAL */
+.profile-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 40px;
+  background: #fff;
+  padding: 40px;
+  border-radius: 20px;
+  box-shadow: 0 6px 25px rgba(0, 0, 0, 0.2);
+  max-width: 900px;
+  width: 100%;
+}
+
+/* CARTÃO DE PERFIL */
+.profile-card {
+  background: #f9f9f9;
+  border-radius: 15px;
+  padding: 25px;
+  text-align: center;
+  flex: 1 1 300px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.profile-pic {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid #2575fc;
+  margin-bottom: 15px;
+}
+
+.profile-card h2 {
+  color: #2575fc;
+  margin-bottom: 5px;
+}
+
+.tag {
+  background: #2575fc;
+  color: #fff;
+  display: inline-block;
+  padding: 5px 15px;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  margin-bottom: 15px;
+}
+
+.profile-info {
+  text-align: left;
+  margin: 15px 0;
+  line-height: 1.8;
+  font-size: 0.95rem;
+}
+
+.buttons {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-top: 15px;
+}
+
+.buttons button {
+  border: none;
+  padding: 10px 18px;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+#editar-btn {
+  background-color: #2575fc;
+  color: white;
+}
+
+#editar-btn:hover {
+  background-color: #1a5fd1;
+}
+
+#sair-btn {
+  background-color: #e74c3c;
+  color: white;
+}
+
+#sair-btn:hover {
+  background-color: #c0392b;
+}
+
+/* CARTÃO DE ESTATÍSTICAS */
+.stats-card {
+  flex: 1 1 250px;
+  background: #f9f9f9;
+  border-radius: 15px;
+  padding: 25px;
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.stat {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.stat i {
+  font-size: 2rem;
+  color: #2575fc;
+}
+
+.stat h3 {
+  font-size: 1.1rem;
+  color: #333;
+}
+
+.stat p {
+  font-size: 1.4rem;
+  font-weight: bold;
+  color: #2575fc;
+}
+
+/* RESPONSIVIDADE */
+@media (max-width: 768px) {
+  .profile-container {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .stats-card {
+    width: 100%;
+  }
+}
+footer iframe { 
+    min-height: 22rem; 
+    display: block; 
+}
