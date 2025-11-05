@@ -29,7 +29,8 @@ body {
 .logo {
   font-size: 1.8rem;
   font-weight: 700;
-  color: var(--rosa);
+  color: var(--roxo);
+  background: linear-gradient(to right, );
 }
 
 .menu {
