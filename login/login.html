@@ -66,38 +66,49 @@
 
   <!-- SCRIPT -->
   <script>
-    const clienteBtn = document.getElementById("cliente-btn");
-    const empresarioBtn = document.getElementById("empresario-btn");
-    const mainText = document.getElementById("main-text");
-    const subText = document.getElementById("sub-text");
-    const form = document.getElementById("login-form");
+  const clienteBtn = document.getElementById("cliente-btn");
+  const empresarioBtn = document.getElementById("empresario-btn");
+  const mainText = document.getElementById("main-text");
+  const subText = document.getElementById("sub-text");
+  const form = document.getElementById("login-form");
 
-    clienteBtn.addEventListener("click", () => {
-      clienteBtn.classList.add("active");
-      empresarioBtn.classList.remove("active");
-      mainText.textContent = "Encontre os melhores lugares para sair e se divertir";
-      subText.textContent = "Entre rapidamente com";
-    });
+  // Alterna entre Cliente e Empresário
+  clienteBtn.addEventListener("click", () => {
+    clienteBtn.classList.add("active");
+    empresarioBtn.classList.remove("active");
+    mainText.textContent = "Encontre os melhores lugares para sair e se divertir";
+    subText.textContent = "Entre rapidamente com";
+  });
 
-    empresarioBtn.addEventListener("click", () => {
-      empresarioBtn.classList.add("active");
-      clienteBtn.classList.remove("active");
-      mainText.textContent = "Cadastre seu estabelecimento e aumente sua visibilidade";
-      subText.textContent = "Entre rapidamente com";
-    });
+  empresarioBtn.addEventListener("click", () => {
+    empresarioBtn.classList.add("active");
+    clienteBtn.classList.remove("active");
+    mainText.textContent = "Cadastre seu estabelecimento e aumente sua visibilidade";
+    subText.textContent = "Entre rapidamente com";
+  });
 
-    form.addEventListener("submit", (e) => {
-      e.preventDefault();
-      const email = document.getElementById("email").value;
-      const password = document.getElementById("password").value;
+  // Lógica de login
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
 
-      if (email && password) {
-        alert("✅ Login efetuado com sucesso!");
-      } else {
-        alert("⚠️ Preencha todos os campos!");
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
+
+    if (email && password) {
+      alert("✅ Login efetuado com sucesso!");
+
+      // Verifica qual botão está ativo e redireciona
+      if (clienteBtn.classList.contains("active")) {
+        window.location.href = "../Perfil_usuario/Perfil_usuario.html"; // 🔹 Ajuste o caminho conforme sua pasta
+      } else if (empresarioBtn.classList.contains("active")) {
+        window.location.href = "../Perfiel Empresario/perfil-empresario.html"; // 🔹 Ajuste o caminho conforme sua pasta
       }
-    });
-  </script>
+    } else {
+      alert("⚠️ Preencha todos os campos!");
+    }
+  });
+</script>
+
 </body>
 
 </html>
