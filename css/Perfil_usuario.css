@@ -1,445 +1,361 @@
+/* Variáveis de Cores */
 :root {
-  --roxo: #4a148c;
-  --rosa: #f50057;
-  --branco: #f9f9f9;
-  --preto: #212121;
-  --cinza: #e0e0e0;
+    --primary-color: #6C1DCE;
+    --secondary-color: #ffffff;
+    --text-color-dark: #333333;
+    --text-color-medium: #666666;
+    --text-color-light: #AAAAAA;
+    --border-color: #E0E0E0;
+    --star-filled: #FFC107;
+    --star-empty: #E0E0E0;
 }
 
+/* 1. Estilos Globais e Body */
 body {
-  font-family: "Poppins", sans-serif;
-  background-color: var(--branco);
-  color: var(--preto);
-  margin: 0;
+    font-family: 'Poppins', sans-serif;
+    margin: 0; 
+    padding: 0;
+    background-color: #2b0b77;
+    color: var(--text-color-dark);
+    display: block; 
+    min-height: 100vh;
+    padding-top: 120px; 
 }
 
-/* HEADER */
-.header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 12px 40px;
-  background-color: var(--branco);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-  position: sticky;
-  top: 0;
-  z-index: 10;
+h3 {
+    font-size: 18px; 
+    font-weight: 600;
+    margin-bottom: 20px;
+    color: var(--primary-color);
 }
 
-.logo {
-  font-size: 1.8rem;
-  font-weight: 700;
-  color: var(--roxo);
-  background: linear-gradient(to right, );
+/* 3. Container Principal (Centralização) */
+.profile-container {
+    display: flex;
+    gap: 30px;
+    width: 100%;
+    max-width: 1280px; 
+    justify-content: center;
+    margin: 20px auto 50px auto; 
+    padding: 0 20px; 
 }
 
-.menu {
-  display: flex;
-  gap: 25px;
-}
-
-.menu a {
-  text-decoration: none;
-  color: var(--preto);
-  font-weight: 500;
-  transition: 0.2s;
-}
-
-.menu a:hover {
-  color: var(--rosa);
-}
-
-.perfil-header {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.search {
-  padding: 7px 15px;
-  border-radius: 20px;
-  border: 1px solid var(--cinza);
-  outline: none;
-  width: 200px;
-}
-
-.search:focus {
-  border-color: var(--rosa);
-}
-
-.cidade {
-  font-size: 0.95rem;
-  font-weight: 500;
-}
-
-#user-avatar-header {
-  width: 38px;
-  height: 38px;
-  border-radius: 50%;
-  object-fit: cover;
-}
-
-/* CONTEÚDO PRINCIPAL */
-.container {
-  display: flex;
-  justify-content: center;
-  gap: 40px;
-  padding: 50px 30px;
-  min-height: calc(100vh - 200px); 
-}
-
-/* CARD PERFIL LATERAL */
-.perfil-card {
-  background: #fff;
-  border-radius: 16px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-  padding: 25px;
-  width: 290px;
-  text-align: center;
-  transition: 0.3s;
-}
-
-.perfil-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
-}
-
-/* NOVO ESTILO PARA A FOTO E INPUT */
-.foto-wrapper {
-  position: relative;
-  margin-bottom: 10px;
-  /* Define as dimensões do wrapper para o input */
-  width: 120px; 
-  height: 120px;
-  margin: 0 auto 10px; 
-}
-
-#user-avatar {
-  width: 120px;
-  height: 120px;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 3px solid var(--rosa);
-}
-
-#avatar-input {
-  /* Posiciona o input de arquivo exatamente sobre a imagem */
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  /* Torna o input invisível, mas clicável */
-  opacity: 0;
-  cursor: pointer;
-  z-index: 5; /* Garante que fique acima da imagem */
-  border-radius: 50%; /* Mantém o formato circular para melhor UX */
-}
-
-.tipo {
-  display: inline-block;
-  margin-top: 5px;
-  background-color: var(--rosa);
-  color: white;
-  padding: 3px 10px;
-  border-radius: 12px;
-  font-size: 0.8rem;
-  font-weight: 500;
-}
-
-.info {
-  margin: 20px 0;
-  font-size: 0.9rem;
-  color: #555;
-  text-align: left;
-}
-
-.botoes button {
-  width: 100%;
-  border: none;
-  padding: 10px;
-  border-radius: 10px;
-  margin-bottom: 10px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: 0.3s;
-}
-
-.editar {
-  background-color: #fff;
-  border: 2px solid var(--rosa);
-  color: var(--rosa);
-}
-
-.editar:hover {
-  background-color: var(--rosa);
-  color: #fff;
-}
-
-.sair {
-  background-color: var(--rosa);
-  color: #fff;
-}
-
-.sair:hover {
-  background-color: #c40046;
-}
-
-/* LISTAS DE FAVORITOS E VISITAS (CONTEÚDO) */
-.conteudo {
-  flex: 1;
-  max-width: 600px;
-}
-
-.card-lista {
-  background: #fff;
-  border-radius: 16px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-  padding: 20px 25px;
-  margin-bottom: 25px;
-  transition: 0.3s;
-}
-
-.card-lista:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
-}
-
-.card-lista h3 {
-  margin-top: 0;
-  color: var(--roxo);
-  font-size: 1.1rem;
-  border-bottom: 1px solid var(--cinza);
-  padding-bottom: 8px;
-  margin-bottom: 10px;
-}
-
-.lista-item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background: var(--branco);
-  padding: 12px 14px;
-  border-radius: 12px;
-  margin-bottom: 10px;
-  border: 1px solid #eee;
-}
-
-.lista-item strong {
-  color: var(--preto);
-  font-weight: 600;
-}
-
-.lista-item small {
-  color: #777;
-}
-
-.estrelas {
-  color: gold;
-  font-size: 1rem;
-  display: flex;
-  align-items: center;
-  gap: 4px;
-}
-
-/* --- ESTILOS PARA O CARD DE EDIÇÃO --- */
-.oculto {
-  display: none !important;
-}
-
-.editar-perfil-card {
-  background: #fff;
-  border-radius: 16px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-  padding: 25px;
-  flex: 1;
-  max-width: 600px;
-}
-
-.editar-perfil-card h2 {
-  margin-top: 0;
-  color: var(--roxo);
-  font-size: 1.5rem;
-  border-bottom: 1px solid var(--cinza);
-  padding-bottom: 10px;
-  margin-bottom: 20px;
-}
-
-.campo {
-  margin-bottom: 15px;
-}
-
-.campo label {
-  display: block;
-  font-weight: 600;
-  color: #444;
-  margin-bottom: 5px;
-}
-
-.campo input {
-  width: 100%;
-  padding: 10px 15px;
-  border: 1px solid var(--cinza);
-  border-radius: 8px;
-  font-size: 1rem;
-  box-sizing: border-box; 
-}
-
-.campo input:focus {
-  border-color: var(--rosa);
-  outline: none;
-  box-shadow: 0 0 0 2px rgba(245, 0, 87, 0.1);
-}
-
-.botoes-edicao {
-  display: flex;
-  justify-content: flex-start;
-  gap: 15px;
-  margin-top: 25px;
-}
-
-.botoes-edicao button {
-  padding: 10px 25px;
-  border: none;
-  border-radius: 10px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: 0.3s;
-}
-
-.salvar {
-  background-color: var(--rosa);
-  color: #fff;
-}
-
-.salvar:hover {
-  background-color: #c40046;
-}
-
-.cancelar {
-  background-color: var(--cinza);
-  color: var(--preto);
-}
-
-.cancelar:hover {
-  background-color: #bdbdbd;
+/* Estilo para o CARD GIGANTE que envolve todo o conteúdo */
+.main-profile-card {
+    display: flex; 
+    gap: 30px;
+    background-color: var(--secondary-color); 
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 30px; 
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 900px; 
 }
 
 
-/* --- ESTILOS DO FOOTER --- */
+/* 4. Footer (Mantido) */
+footer {
+    width: 100%;
+    margin-top: 40px; 
+    background-color: #f8f8f8;
+    clear: both; 
+}
+
 footer iframe {
-    min-height: 22rem;
-    display: block;
-}
-.footer {
-  background-color: var(--preto); 
-  color: var(--branco);
-  padding: 40px 30px;
-  margin-top: 50px; 
+    display: block;
+    width: 100%;
+    min-height: 22rem; 
+    border: none;
 }
 
-.footer-container {
-  display: flex;
-  justify-content: space-around;
-  max-width: 1200px;
-  margin: 0 auto;
-  flex-wrap: wrap; 
+/* 5. Sidebar (Coluna Lateral) */
+.profile-sidebar {
+    width: 300px;
+    flex-shrink: 0;
+    background-color: var(--secondary-color);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 20px; 
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
 }
 
-.footer-coluna {
-  width: 22%; 
-  min-width: 150px; 
-  margin-bottom: 20px;
+.profile-info-content {
+    padding: 0; 
+    text-align: center;
 }
 
-.footer-coluna-principal {
-    width: 30%; 
+
+/* 6. Foto de Perfil (Mantido) */
+.profile-picture-container {
+    position: relative;
+    width: 100px;
+    height: 100px;
+    margin: 0 auto 15px;
 }
 
-.footer-logo {
-  font-size: 2rem;
-  font-weight: 700;
-  color: var(--rosa);
-  margin-bottom: 15px;
+.profile-picture {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid var(--primary-color);
 }
 
-.footer-coluna p {
-  font-size: 0.9rem;
-  line-height: 1.5;
-  color: #aaa;
+.edit-picture-btn {
+    position: absolute;
+    bottom: -5px; 
+    right: -5px;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background-color: var(--primary-color);
+    color: white;
+    border: 2px solid white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s;
+    padding: 0;
+    line-height: 1;
 }
 
-.footer-coluna h4 {
-  font-size: 1.1rem;
-  color: var(--branco);
-  margin-top: 0;
-  margin-bottom: 15px;
+.edit-picture-btn:hover {
+    background-color: #5a14a3; 
 }
 
-.footer-coluna ul {
-  list-style: none;
-  padding: 0;
+.profile-name {
+    font-size: 22px; 
+    font-weight: 700;
+    margin-bottom: 5px;
 }
 
-.footer-coluna li {
-  margin-bottom: 8px;
-  font-size: 0.9rem;
-  color: #aaa;
-  cursor: pointer;
+.profile-badge {
+    display: inline-block;
+    background-color: var(--primary-color); 
+    color: white; 
+    font-size: 12px;
+    padding: 2px 8px;
+    border-radius: 4px;
+    margin-bottom: 20px;
+    font-weight: 500;
 }
 
-.footer-coluna li:hover {
-  color: var(--rosa);
+.profile-detail {
+    font-size: 14px;
+    color: var(--text-color-medium);
+    margin: 5px 0;
+    line-height: 1.4;
 }
 
-/* --- MEDIA QUERIES (RESPONSIVIDADE) --- */
-
-@media (max-width: 992px) {
-    .header {
-        padding: 12px 20px;
-    }
-    .menu {
-        display: none; 
-    }
-    .container {
-        flex-direction: column; 
-        align-items: center;
-        gap: 20px;
-        padding: 30px 20px;
-    }
-    .perfil-card, .conteudo, .editar-perfil-card {
-        width: 100%;
-        max-width: 500px; 
-    }
-    
-    .footer-container {
-        justify-content: space-between;
-    }
-    .footer-coluna {
-        width: 48%; 
-    }
-    .footer-coluna-principal {
-        width: 100%; 
-    }
+.member-since {
+    font-size: 12px;
+    color: var(--text-color-light);
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 1px solid var(--border-color);
 }
 
-@media (max-width: 576px) {
-    .header {
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 10px;
-    }
-    .perfil-header {
-        width: 100%;
-        justify-content: space-between;
-    }
-    .search {
-        width: 150px;
-    }
-    
-    .footer-coluna {
-        width: 100%; 
-        margin-bottom: 25px;
-    }
-    
+/* 7. Botões de Ação (Mantido) */
+.action-btn {
+    width: 100%;
+    padding: 10px;
+    margin-top: 15px;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    border: none; 
+}
+
+.edit-btn {
+    background-color: var(--primary-color); 
+    color: white;
+    border: 1px solid var(--primary-color);
+}
+
+.edit-btn:hover {
+    background-color: #5a14a3;
+}
+
+.logout-btn {
+    background-color: #F8F8F8; 
+    color: var(--text-color-dark);
+    border: 1px solid var(--border-color);
+}
+
+.logout-btn:hover {
+    background-color: #E0E0E0;
+}
+
+
+/* 8. Conteúdo Principal */
+.profile-content {
+    flex-grow: 1;
+    max-width: 600px;
+    display: flex; 
+    flex-direction: column;
+    /* 🔴 CORREÇÃO: Garante que o gap funcione entre os itens flex diretos */
+    gap: 20px; 
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* Estilo para as SUB-SEÇÕES (Formulário, Favoritos, Visitas) */
+.content-section {
+    background-color: var(--secondary-color);
+    border: 1px solid var(--border-color); 
+    border-radius: 8px; 
+    padding: 20px; 
+    margin-bottom: 0; /* Garante que o gap em profile-content faz a separação */
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05); 
+}
+
+/* 🔴 NOVO ESTILO: Garante o espaçamento entre as listas se elas estiverem aninhadas de forma diferente */
+/* Se #lists-section é o pai direto de .favorites-list e .recent-visits-list, então este estilo aplica o gap */
+#lists-section {
+    display: flex;
+    flex-direction: column;
+    gap: 20px; /* Adiciona o gap entre "Lugares Favoritos" e "Visitas Recentes" */
+}
+
+
+/* 9. Formulário de Edição (Mantido) */
+.edit-profile-form-container {
+    /* Mantido o padding de 20px do .content-section */
+}
+
+/* 10. Listas (Favoritos e Visitas) (Mantido) */
+.favorites-list h3, .recent-visits-list h3 {
+    display: flex;
+    align-items: center;
+    color: var(--text-color-dark);
+    font-size: 16px;
+}
+
+.favorites-list h3 i {
+    color: #FF69B4; 
+    margin-right: 10px;
+}
+.recent-visits-list h3 {
+    margin-top: 0;
+}
+
+/* ... Estilos de Formulário e Lista (Mantidos) ... */
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    font-size: 14px;
+    font-weight: 500;
+    margin-bottom: 5px;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    background-color: var(--secondary-color);
+    font-family: 'Poppins', sans-serif;
+    font-size: 14px;
+    box-sizing: border-box;
+}
+
+.form-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 25px;
+}
+
+.save-btn, .cancel-btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: opacity 0.3s;
+}
+
+.save-btn {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.save-btn:hover {
+    opacity: 0.9;
+}
+
+.cancel-btn {
+    background-color: #E0E0E0; 
+    color: var(--text-color-dark);
+}
+
+.cancel-btn:hover {
+    opacity: 0.9;
+}
+
+.place-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.place-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid #F0F0F0;
+}
+
+.place-item:last-child {
+    border-bottom: none;
+}
+
+.place-name {
+    font-size: 14px;
+    font-weight: 600;
+    flex-grow: 1;
+}
+
+.place-category {
+    font-size: 12px;
+    color: var(--text-color-medium);
+    margin-left: 10px;
+}
+
+.place-rating {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-color-medium);
+    margin-left: 15px;
+    display: flex;
+    align-items: center;
+}
+
+.place-rating i {
+    color: var(--star-filled);
+    margin-right: 5px;
+    font-size: 10px;
+}
+
+.place-rating-stars {
+    font-size: 14px;
+}
+
+.place-rating-stars .fa-star {
+    color: var(--star-empty);
+}
+
+.place-rating-stars .fa-star.filled {
+    color: var(--star-filled);
 }

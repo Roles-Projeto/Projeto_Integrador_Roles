@@ -11,7 +11,7 @@ body {
 .contato-container {
     max-width: 900px;
     margin: auto;
-    padding: 10px 20px;
+    padding: 60px 20px;
     text-align: center;
 }
 
@@ -280,6 +280,52 @@ iframe {
 .mensagem-sucesso a:hover {
     text-decoration: underline;
 }
+
+
+.mensagem-feedback {
+    position: fixed;
+    top: 80px; /* logo abaixo do header */
+    left: 50%;
+    transform: translateX(-50%) translateY(-30px);
+    background-color: #4CAF50;
+    color: #fff;
+    padding: 16px 32px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    font-size: 15px;
+    font-weight: 600;
+    opacity: 0;
+    pointer-events: none;
+    z-index: 1000;
+    transition: all 0.5s ease, opacity 0.3s ease;
+    animation: none;
+}
+
+/* Exibe com animação */
+.mensagem-feedback.mostrar {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+    pointer-events: all;
+    animation: pulseFeedback 0.4s ease;
+}
+
+/* Cor de erro */
+.mensagem-feedback.erro {
+    background-color: #e74c3c;
+}
+
+/* Animação elegante de entrada */
+@keyframes pulseFeedback {
+    0% {
+        transform: translateX(-50%) scale(0.8);
+        opacity: 0;
+    }
+    100% {
+        transform: translateX(-50%) scale(1);
+        opacity: 1;
+    }
+}
+
 
 /* FOOTER */
 footer iframe {

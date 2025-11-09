@@ -9,6 +9,17 @@ body {
     width: 100%;
 }
 
+/* ------------------------------------------------------------------ */
+/* CRÍTICO: CORREÇÃO PARA O HEADER FIXO */
+/* Adiciona um preenchimento superior à tag <main> igual ou um pouco maior */
+/* que a altura do header fixo (que está com height="220" no iframe). */
+/* Isso empurra o conteúdo para baixo. */
+/* ------------------------------------------------------------------ */
+main {
+    padding-top: 80px; 
+}
+
+
 /* Se 'Sobre o Rolês' é seu título principal (H1) */
 h1 {
     font-family: 'Poppins', sans-serif;
@@ -40,7 +51,7 @@ h2 {
     /* 5. Espaçamento entre as letras (Ajuste crucial para fontes geométricas como a Poppins) */
     letter-spacing: -1px;
     /* Use valores negativos (como -0.5px ou -1px) para diminuir o espaço, 
-       deixando o texto mais compacto, como no Figma. */
+         deixando o texto mais compacto, como no Figma. */
 
     /* 6. Alinhamento */
     text-align: center;
@@ -151,8 +162,8 @@ h2 {
 }
 
 /*==================================================
-          NUMEROS
- ==================================================*/
+      NUMEROS
+ ==================================================*/
 
 .cards-container {
     /* Ativa o Flexbox para alinhar os cards lado a lado */
@@ -211,19 +222,36 @@ h2 {
 }
 
 /* Estilo do Card Individual */
-.numero-card {
-    /* Largura para 4 cards por linha, descontando o espaço do gap */
-    /* Usamos flex-basis para dar prioridade à largura: 22.5px é (30px gap * 3) / 4 */
-    flex: 0 0 calc(25% - 22.5px);
+.card-metrica {
+    /* Define o Flexbox para centralizar o CONTEÚDO (ícone, 0+, texto) */
+    display: flex;
+    flex-direction: column;
+    /* Organiza os itens verticalmente */
+    align-items: center;
+    /* Centraliza os itens na horizontal */
+    justify-content: center;
+    /* Centraliza os itens na vertical (se necessário) */
 
-    /* Estilo e aparência */
-    text-align: center;
-    padding: 30px 15px;
+    /* Tamanho e visual do card */
+    width: 25%;
+    /* Cada card ocupa 25% do container para ter 4 em linha */
+    min-width: 200px;
+    /* Garante um tamanho mínimo em telas menores */
+    height: 200px;
+    /* Altura fixa para todos */
+
+    padding: 20px;
     border: 1px solid #ddd;
     border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
-    margin-bottom: 30px;
-    /* Garante espaço para o card de baixo ou a próxima seção */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+    /* Sombra suave */
+    background-color: #fff;
+    transition: transform 0.3s;
+}
+
+.card-metrica:hover {
+    transform: translateY(-5px);
+    /* Efeito ao passar o mouse */
 }
 
 /* Estilo para o Ícone (Placeholder) */
@@ -263,8 +291,8 @@ h2 {
 }
 
 /* ==============================================
-         valores
-         =======================================*/
+      valores
+      =======================================*/
 
 /* Seção "Nossos Valores" */
 .nossos-valores {
@@ -407,16 +435,11 @@ h2 {
     background-color: #fff;
 }
 
-/* ... Código para h2 e .valores-container permanece o mesmo ... */
-
 /* Estilo de cada card de valor (2 por linha) */
 .valor-card {
     /* CORREÇÃO 2: Ajusta o tamanho para garantir 2 cards por linha */
     /* Deixamos o flex: 0 1 calc(50% - 15px) e removemos o min-width. */
     flex: 0 1 calc(50% - 15px);
-
-    /* REMOVEMOS: min-width: 450px; - Isso estava forçando a quebra de linha. */
-    /* REMOVEMOS: width: auto; - Deixamos o flexbox definir a largura. */
 
     height: auto;
 
@@ -433,8 +456,6 @@ h2 {
     text-align: left;
 }
 
-/* ... Resto do seu CSS permanece o mesmo ... */
-
 
 
 h3 {
@@ -444,7 +465,7 @@ h3 {
 }
 
 /*===============================================
-        NOssa EQUIPE
+      NOssa EQUIPE
 =================================================*/
 
 /* --- Estilos para "Nossa Equipe" --- */

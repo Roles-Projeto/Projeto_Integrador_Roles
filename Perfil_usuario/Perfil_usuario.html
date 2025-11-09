@@ -1,101 +1,332 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Perfil de Usuário | Rolês</title>
-  <link rel="stylesheet" href="../css/Perfil_usuario.css" />
-  <script defer src="../src/Js/script.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perfil do Usuário</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="../css/Perfil_usuario.css">
 </head>
+
 <body>
-  <header class="header">
-    <div class="logo">Rolês</div>
-    <nav class="menu">
-      <a href="#">Início</a>
-      <a href="#">Locais</a>
-      <a href="#">Eventos</a>
-      <a href="#">Para Empresários</a>
-      <a href="#">Quem Somos</a>
-      <a href="#">Contato</a>
-    </nav>
-    <div class="perfil-header">
-      <input
-        type="text"
-        class="search"
-        placeholder="Buscar locais..."
-      />
-      <span class="cidade">📍 Goiânia</span>
-      <img
-        id="user-avatar-header"
-        src="https://via.placeholder.com/40"
-        alt="Avatar"
-      />
-    </div>
-  </header>
+    <header>
+        <iframe id="site-header" src="../header/header.html" frameborder="0" scrolling="no" width="100%" height="200"
+            style="position: fixed; top: 0; left: 0; z-index: 999999999;"></iframe>
+    </header>
 
-  <main class="container">
-    
-    <section class="perfil-card">
-      <div class="foto-wrapper">
-        <img
-          id="user-avatar"
-          src="https://via.placeholder.com/120"
-          alt="Foto do usuário"
-        />
-        <input type="file" id="avatar-input" accept="image/*" />
-      </div>
-      <h2 id="user-name">Usuário Google</h2>
-      <span class="tipo">Cliente</span>
+    <main class="profile-container">
+        
+        <div class="main-profile-card">
+            
+            <aside class="profile-sidebar">
+                
+                <div class="profile-info-content">
 
-      <div class="info">
-        <p>📧 <span id="user-email">usuario@gmail.com</span></p>
-        <p>📞 <span id="user-phone">(11) 99999-9999</span></p>
-        <p>📍 <span id="user-location">São Paulo, SP</span></p>
-        <p>📅 Membro desde <span id="user-member-since">Jan 2024</span></p>
-      </div>
+                    <div class="profile-picture-container">
+                        <img src="https://i.imgur.com/default-placeholder.png" alt="Foto de Perfil" class="profile-picture">
+                        <button id="edit-picture-btn" class="edit-picture-btn" title="Editar Foto de Perfil">
+                            <i class="fas fa-camera"></i>
+                        </button>
+                        <input type="file" id="picture-upload" accept="image/*" style="display: none;">
+                    </div>
 
-      <div class="botoes">
-        <button id="editar-btn" class="editar">Editar Perfil</button>
-        <button id="sair-btn" class="sair">Sair</button>
-      </div>
-    </section>
+                    <h2 class="profile-name"></h2> 
+                    <span class="profile-badge">Cliente</span>
 
-    <section class="conteudo">
-      <div class="card-lista">
-        <h3>❤️ Lugares Favoritos</h3>
-        <div id="favoritos-list"></div>
-      </div>
+                    <p class="profile-detail" id="profile-email-display"></p>
+                    <p class="profile-detail" id="profile-phone-display">(62) 99999-9999</p>
+                    <p class="profile-detail">Goiânia - GO</p>
+                    <p class="profile-detail member-since">Membro desde Jan 2026</p>
 
-      <div class="card-lista">
-        <h3>🕓 Visitas Recentes</h3>
-        <div id="recentes-list"></div>
-      </div>
-    </section>
-    
-    <section class="editar-perfil-card oculto">
-      <h2>Editar Perfil</h2>
-      <div class="campo">
-        <label for="edit-nome">Nome</label>
-        <input type="text" id="edit-nome" value="Usuário Google" />
-      </div>
-      <div class="campo">
-        <label for="edit-email">Email</label>
-        <input type="email" id="edit-email" value="usuario@gmail.com" />
-      </div>
-      <div class="campo">
-        <label for="edit-telefone">Telefone</label>
-        <input type="text" id="edit-telefone" value="(11) 99999-9999" />
-      </div>
-      <div class="botoes-edicao">
-        <button id="salvar-btn" class="salvar">Salvar</button>
-        <button id="cancelar-btn" class="cancelar">Cancelar</button>
-      </div>
-    </section>
-  </main>
-  
- <footer>
-    <iframe src="../footer/footer.html" frameborder="0" scrolling="no" width="100%" height="auto"></iframe>
-  </footer>
+                    <button id="edit-profile-btn" class="action-btn edit-btn">Editar Perfil</button>
+                    <button class="action-btn logout-btn">Sair</button>
+                </div>
+                
+            </aside>
 
+            <section class="profile-content">
+
+                <div id="edit-profile-section" class="content-section edit-profile-form-container hidden">
+                    <h3>Editar Perfil</h3>
+                    <form class="edit-profile-form" id="editProfileForm"> 
+                        <div class="form-group">
+                            <label for="nome">Nome</label>
+                            <input type="text" id="nome" value="">
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" value="">
+                        </div>
+                        <div class="form-group">
+                            <label for="telefone">Telefone</label>
+                            <input type="tel" id="telefone" value="(62) 99999-9999">
+                        </div>
+                        <div class="form-group">
+                            <label for="senha">Senha</label>
+                            <input type="password" id="senha" value="********">
+                        </div>
+
+                        <div class="form-actions">
+                            <button type="submit" class="save-btn">Salvar</button>
+                            <button type="button" id="cancel-edit-btn" class="cancel-btn">Cancelar</button>
+                        </div>
+                    </form>
+                </div>
+
+                <div id="lists-section" class="content-sections-wrapper">
+                    
+                    <div class="content-section favorites-list">
+                        <h3><i class="fas fa-heart"></i> Lugares Favoritos</h3>
+                        <ul class="place-list">
+                            <li class="place-item">
+                                <span class="place-name">Bar do João</span>
+                                <span class="place-category">Bar</span>
+                                <div class="place-rating">
+                                    <i class="fas fa-star"></i> 4.6
+                                </div>
+                            </li>
+                            <li class="place-item">
+                                <span class="place-name">Restaurante Villa</span>
+                                <span class="place-category">Restaurante</span>
+                                <div class="place-rating">
+                                    <i class="fas fa-star"></i> 4.8
+                                </div>
+                            </li>
+                            <li class="place-item">
+                                <span class="place-name">Club Manhattan</span>
+                                <span class="place-category">Restaurante</span>
+                                <div class="place-rating">
+                                    <i class="fas fa-star"></i> 4.9
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="content-section recent-visits-list">
+                        <h3>Visitas Recentes</h3>
+                        <ul class="place-list">
+                            <li class="place-item">
+                                <span class="place-name">Pizzaria Bella</span>
+                                <div class="place-rating-stars">
+                                    <i class="fas fa-star filled"></i><i class="fas fa-star filled"></i><i
+                                        class="fas fa-star filled"></i><i class="fas fa-star filled"></i><i
+                                        class="fas fa-star empty"></i>
+                                </div>
+                            </li>
+                            <li class="place-item">
+                                <span class="place-name">Queen Tribute</span>
+                                <div class="place-rating-stars">
+                                    <i class="fas fa-star filled"></i><i class="fas fa-star filled"></i><i
+                                        class="fas fa-star filled"></i><i class="fas fa-star filled"></i><i
+                                        class="fas fa-star empty"></i>
+                                </div>
+                            </li>
+                            <li class="place-item">
+                                <span class="place-name">Club Manhattan</span>
+                                <div class="place-rating-stars">
+                                    <i class="fas fa-star filled"></i><i class="fas fa-star filled"></i><i
+                                        class="fas fa-star filled"></i><i class="fas fa-star filled"></i><i
+                                        class="fas fa-star empty"></i>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+            </section>
+        
+        </div>
+    </main>
+
+    <footer>
+        <iframe src="../footer/footer.html" frameborder="0" scrolling="no" width="100%" height="auto"></iframe>
+    </footer>
+
+    <script>
+        // Elementos de Perfil (source of truth)
+        const profilePicture = document.querySelector('.profile-picture');
+        const profileNameDisplay = document.querySelector('.profile-name');
+        const profileEmailDisplay = document.getElementById('profile-email-display');
+        const profilePhoneDisplay = document.getElementById('profile-phone-display');
+
+        // Inputs do Formulário
+        const inputNome = document.getElementById('nome');
+        const inputEmail = document.getElementById('email');
+        const inputTelefone = document.getElementById('telefone');
+
+        // Elementos de Ação
+        const editProfileForm = document.querySelector('.edit-profile-form');
+        const editPictureBtn = document.getElementById('edit-picture-btn');
+        const pictureUploadInput = document.getElementById('picture-upload');
+        const editProfileBtn = document.getElementById('edit-profile-btn');
+        const cancelEditBtn = document.getElementById('cancel-edit-btn');
+        const editProfileSection = document.getElementById('edit-profile-section');
+        const listsSection = document.getElementById('lists-section'); // Adicionado
+        const headerIframe = document.getElementById('site-header');
+
+        // =========================================================
+        // 1. 🔑 FUNÇÃO CRUCIAL: CARREGA DADOS DO LOCALSTORAGE
+        // =========================================================
+        function loadProfileData() {
+            // Busca dados salvos no localStorage (vindos do login ou edição).
+            const savedName = localStorage.getItem('profileName') || 'Nome de Exemplo';
+            const savedEmail = localStorage.getItem('profileEmail') || 'exemplo@rolês.com';
+            const savedPhone = localStorage.getItem('profilePhone') || '(62) 00000-0000';
+            // Usa o placeholder padrão se não houver foto salva
+            const savedPhoto = localStorage.getItem('profilePhotoUrl') || "https://i.imgur.com/default-placeholder.png"; 
+
+            // 1. Atualiza a exibição no cartão de perfil (DIV principal)
+            profilePicture.src = savedPhoto;
+            profileNameDisplay.textContent = savedName;
+            profileEmailDisplay.textContent = savedEmail;
+            profilePhoneDisplay.textContent = savedPhone;
+
+            // 2. Atualiza os inputs do formulário de edição para que a edição funcione sobre o dado correto
+            inputNome.value = savedName;
+            inputEmail.value = savedEmail;
+            inputTelefone.value = savedPhone;
+        }
+
+
+        // =========================================================
+        // 2. ⬆️ FUNÇÃO CRUCIAL: ATUALIZAÇÃO E SALVAMENTO NO LOCALSTORAGE (usado ao editar)
+        // =========================================================
+        function updateProfileData(photoUrl, name, email, phone) {
+            
+            // 🔑 SALVA NO LOCALSTORAGE PARA PERSISTÊNCIA 
+            localStorage.setItem('profilePhotoUrl', photoUrl);
+            localStorage.setItem('profileName', name);
+            localStorage.setItem('profileEmail', email);
+            localStorage.setItem('profilePhone', phone);
+
+            // Usa postMessage para comunicar a atualização ao Header Iframe
+            if (headerIframe && headerIframe.contentWindow) {
+                headerIframe.contentWindow.postMessage({
+                    action: 'UPDATE_PROFILE_INFO',
+                    newName: name,
+                    newEmail: email,
+                    newPicUrl: photoUrl 
+                }, '*');
+            }
+        }
+        
+        // =========================================================
+        // 3. 🏃 LÓGICA DO DOMContentLoaded
+        // =========================================================
+        document.addEventListener('DOMContentLoaded', function () {
+            
+            // 🚨 CARREGA OS DADOS SALVOS DO LOCALSTORAGE ASSIM QUE A PÁGINA ABRE
+            loadProfileData();
+
+            // ------------------------------------------
+            // LÓGICA DE MOSTRAR/OCULTAR FORMULÁRIO
+            // ------------------------------------------
+            editProfileBtn.addEventListener('click', function() {
+                const isEditing = editProfileSection.classList.toggle('hidden');
+                listsSection.classList.toggle('hidden', !isEditing); // Oculta a lista quando edita
+
+                if (!isEditing) {
+                    editProfileBtn.textContent = 'Cancelar Edição';
+                } else {
+                    editProfileBtn.textContent = 'Editar Perfil';
+                }
+            });
+
+            cancelEditBtn.addEventListener('click', function() {
+                editProfileSection.classList.add('hidden');
+                listsSection.classList.remove('hidden'); 
+                editProfileBtn.textContent = 'Editar Perfil';
+            });
+            // ------------------------------------------
+
+            // ------------------------------------------
+            // LÓGICA DO BOTÃO SAIR (LOGOUT)
+            // ------------------------------------------
+            const logoutBtn = document.querySelector('.logout-btn');
+            logoutBtn.addEventListener('click', function () {
+                
+                // Limpa as credenciais do usuário do localStorage
+                localStorage.removeItem('profilePhotoUrl');
+                localStorage.removeItem('profileName');
+                localStorage.removeItem('profileEmail');
+                localStorage.removeItem('profilePhone');
+                localStorage.removeItem('userIsLoggedIn');
+                localStorage.removeItem('userType');
+                
+                // ENVIA COMANDO DE LOGOUT PARA O HEADER
+                if (headerIframe && headerIframe.contentWindow) {
+                    headerIframe.contentWindow.postMessage({
+                        action: 'LOGOUT_REQUEST'
+                    }, '*');
+                }
+
+                // Redireciona o usuário para a página de logout
+                window.location.href = '../login/logout-usuario.html';
+            });
+            // ------------------------------------------
+            
+            
+            // Lógica de Edição de Imagem de Perfil (MANTIDA)
+            editPictureBtn.addEventListener('click', function () {
+                pictureUploadInput.click();
+            });
+
+            // Pré-visualiza e define a nova imagem de perfil
+            pictureUploadInput.addEventListener('change', function (event) {
+                const file = event.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function (e) {
+                        profilePicture.src = e.target.result;
+                        // Salva a nova imagem e os dados atuais
+                        updateProfileData(e.target.result, inputNome.value, inputEmail.value, inputTelefone.value); 
+                        // ❌ Não há alert aqui, pois a atualização é visual e imediata (apenas a foto)
+                    }
+                    reader.readAsDataURL(file);
+                }
+            });
+
+            // Lógica para Atualizar Dados do Perfil ao Salvar (SUBMIT DO FORM)
+            editProfileForm.addEventListener('submit', function (event) {
+                event.preventDefault();
+
+                const novoNome = inputNome.value;
+                const novoEmail = inputEmail.value;
+                const novoTelefone = inputTelefone.value;
+                const novoSenha = document.getElementById('senha').value;
+
+                // ** Validação: Verifica se o Nome e Email foram preenchidos **
+                if (!novoNome.trim() || !novoEmail.trim()) {
+                    alert('⚠️ Nome e Email são campos obrigatórios e devem ser preenchidos!');
+                    return; 
+                }
+                
+                // Validação de telefone (exemplo simples, mantendo a regra de formato de caracter)
+                // Se houver validação de caracteres (como no seu pedido original de conter X caracteres) você adicionaria aqui.
+                // Exemplo:
+                // if (novoNome.length < 3) {
+                //     alert('⚠️ O nome deve conter no mínimo 3 caracteres.');
+                //     return;
+                // }
+
+
+                // Salva no localStorage e envia a notificação ao Header
+                updateProfileData(profilePicture.src, novoNome, novoEmail, novoTelefone);
+
+                // Recarrega a exibição do perfil com os dados recém-salvos
+                loadProfileData(); 
+
+                // Oculta o formulário após salvar
+                editProfileSection.classList.add('hidden');
+                listsSection.classList.remove('hidden');
+                editProfileBtn.textContent = 'Editar Perfil';
+
+                // ❌ REMOVIDO: alert('Perfil atualizado com sucesso!');
+            });
+        });
+    </script>
 </body>
+
 </html>

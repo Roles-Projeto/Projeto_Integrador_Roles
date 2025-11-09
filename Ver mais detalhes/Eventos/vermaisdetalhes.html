@@ -10,20 +10,22 @@
 
 <body>
 
-    <header>
-        <iframe src="../../header/header.html" frameborder="0" scrolling="no" width="100%" height="60"></iframe>
-    </header>
+ <header>
+    <iframe id="site-header" src="../../header/header.html" frameborder="0" scrolling="no" width="100%"
+        height="190" style="position: fixed; top: 0; left: 0; z-index: 999999999;"></iframe>
+</header>
+
 
 
     <main class="conteudo-principal-evento">
         <section class="banner-evento">
             <a href="javascript:history.back()" class="botao-voltar" role="button">
-    <svg class="icone-voltar" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M15 18L9 12L15 6" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-            stroke-linejoin="round" />
-    </svg>
-    Voltar
-</a>
+                <svg class="icone-voltar" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M15 18L9 12L15 6" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round" />
+                </svg>
+                Voltar
+            </a>
 
             <div class="informacoes-cabecalho">
                 <span class="etiqueta-categoria">Música</span>
@@ -256,7 +258,53 @@
         </footer>
     </footer>
 
-    <script src="../../src/Js/script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+
+            /* ==================================================
+            // --- LÓGICA DE INGRESSOS (Ver mais detalhes/eventos) ---
+            ================================================== */
+
+            const botoesSelecionar = document.querySelectorAll('.botao-selecionar');
+
+            // Procura o .valor-detalhe DENTRO do quarto .linha-detalhe (que é o 'Ingresso')
+            const tipoIngressoResumo = document.querySelector('.card-garantia-ingresso .detalhes-data-local .linha-detalhe:nth-child(4) .valor-detalhe');
+
+            // Onde aparece o preço total no resumo
+            const valorIngressoResumo = document.querySelector('.card-garantia-ingresso .valor-ingresso');
+
+            if (botoesSelecionar.length > 0 && valorIngressoResumo && tipoIngressoResumo) {
+
+                botoesSelecionar.forEach(botao => {
+                    botao.addEventListener('click', (event) => {
+
+                        // 1. Remove o estado 'selecionado' de todos os botões
+                        botoesSelecionar.forEach(btn => {
+                            btn.classList.remove('selecionado');
+                            btn.textContent = 'Selecionar';
+                        });
+
+                        // 2. Adiciona o estado 'selecionado' ao botão clicado
+                        const botaoClicado = event.currentTarget;
+                        botaoClicado.classList.add('selecionado');
+                        botaoClicado.textContent = 'Selecionado';
+
+                        // 3. Atualiza o card de 'Garantir Ingresso' (resumo de compra)
+                        const tipoIngressoSelecionado = botaoClicado.getAttribute('data-tipo');
+                        const precoSelecionado = botaoClicado.previousElementSibling.textContent;
+
+                        const tipoFormatado = tipoIngressoSelecionado.charAt(0).toUpperCase() + tipoIngressoSelecionado.slice(1);
+                        tipoIngressoResumo.textContent = tipoFormatado;
+
+                        valorIngressoResumo.textContent = precoSelecionado;
+                    });
+                });
+
+            } else {
+                console.warn("Lógica de Seleção de Ingressos: Elementos de ingressos ou de resumo de compra não encontrados.");
+            }
+        });
+    </script>
 </body>
 
 </html>

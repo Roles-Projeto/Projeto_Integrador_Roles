@@ -1,31 +1,21 @@
 /* ====================================================================== */
-/* 1. CONFIGURAÇÃO BASE E VARIÁVEIS (CORREÇÃO FINAL DE TAMANHOS) */
+/* 1. CONFIGURAÇÃO BASE E VARIÁVEIS  */
 /* ====================================================================== */
 :root {
-    /* Define 1rem = 10px para facilitar o cálculo */
     font-size: 62.5%; 
-    
-    /* Cores */
     --color-primary: #FF3B5B; 
     --color-dark-bg: #03021A; /* CORRETO: Fundo Escuro */
     --color-dark: #1e1e24; 
     --color-text-light: #fff;
     --color-text-dark: #333;
     --color-card-shadow: rgba(0, 0, 0, 0.05);
-    
-    /* Cores Específicas das Seções */
     --color-light-background: #f5f5f5; 
     --color-success: #4CAF50; 
     --color-quote: #999; 
     --color-divider: #383747; 
-
-    /* Tipografia */
     --font-family: 'Poppins', sans-serif;
 }
 
-* {
-    box-sizing: border-box;
-}
 
 body {
     font-family: var(--font-family);
@@ -42,9 +32,7 @@ body {
     padding: 5rem 0; 
 }
 
-/* Tipografia Comum (APLICANDO NOVAS REGRAS) */
 h1 { 
-    /* AJUSTE FINAL: Título principal = 3.6rem (36px) */
     font-size: 3.6rem; 
     font-weight: 600; 
     line-height: 1.2;
@@ -72,7 +60,7 @@ h3 {
 }
 
 /* ====================================================================== */
-/* 2. ESTILOS DOS BOTÕES E TAGS (SEM MUDANÇAS) */
+/* 2. ESTILOS DOS BOTÕES E TAGS  */
 /* ====================================================================== */
 .btn-primary, .btn-secondary {
     display: inline-block;
@@ -591,3 +579,10 @@ footer iframe {
     min-height: 22rem;
     display: block;
 }
+
+header iframe {
+    min-height: 2rem;
+    display: block;
+}
+
+

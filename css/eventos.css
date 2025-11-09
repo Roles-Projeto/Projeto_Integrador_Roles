@@ -577,3 +577,17 @@ footer iframe {
     min-height: 22rem;
     display: block;
 }
+header iframe {
+    min-height: 2rem;
+    display: block;
+}
+
+body > .header-placeholder-fixo {
+    /* Altura exata do header fixo (80px) */
+    height: 80px; 
+    /* Garante que ocupe a largura total */
+    width: 100%;
+    /* Opcional: Garante que ela não tenha margin ou padding */
+    margin: 0;
+    padding: 0;
+}
