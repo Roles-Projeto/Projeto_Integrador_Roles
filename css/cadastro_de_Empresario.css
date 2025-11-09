@@ -17,6 +17,11 @@
     --facebook-color: #3b5998;
     --max-width: 900px;
     --padding-sides: 20px;
+
+    /* Definição de tamanhos de fonte com base na solicitação (16/14/12) */
+    --font-size-large: 1rem; /* 16px (para subtítulos/destaques) */
+    --font-size-base: 0.875rem; /* 14px (Médio - corpo principal) */
+    --font-size-small: 0.75rem; /* 12px (Pequeno - texto auxiliar/meta) */
 }
 
 * {
@@ -30,6 +35,7 @@ body {
     background-color: var(--light-bg);
     color: var(--text-color);
     line-height: 1.6;
+    font-size: var(--font-size-base); /* Fonte base em 14px */
 }
 
 a {
@@ -66,10 +72,11 @@ a:hover {
     margin-bottom: 20px;
     font-weight: 500;
     float: left; /* Alinhamento como na imagem */
+    font-size: var(--font-size-base); /* 14px */
 }
 
 .section-header h1 {
-    font-size: 2em;
+    font-size: 1.5em; /* Reduzido de 2em para 1.5em (aproximadamente 24px) */
     font-weight: 600;
     color: var(--secondary-color);
     margin-top: 20px;
@@ -77,6 +84,7 @@ a:hover {
 }
 
 .section-header .subtitle {
+    font-size: var(--font-size-large); /* 16px */
     font-weight: 400;
     color: #777;
     margin-top: 10px;
@@ -108,7 +116,7 @@ a:hover {
     border: 1px solid var(--border-color);
     border-radius: 8px;
     padding: 20px;
-    font-size: 0.9em;
+    font-size: var(--font-size-large); /* 16px - Mantido um pouco maior para destaque */
     color: #666;
 }
 
@@ -130,7 +138,7 @@ a:hover {
 }
 
 .plans-section h2 {
-    font-size: 1.5em;
+    font-size: 1.3em; /* Reduzido de 1.5em */
     font-weight: 600;
     color: var(--secondary-color);
 }
@@ -138,6 +146,7 @@ a:hover {
 .plans-section p {
     margin-bottom: 30px;
     color: #777;
+    font-size: var(--font-size-base); /* 14px */
 }
 
 .plans-grid {
@@ -181,12 +190,13 @@ a:hover {
 
 .plan-name {
     font-weight: 600;
-    font-size: 1.1em;
+    font-size: var(--font-size-large); /* 16px */
     margin-bottom: 5px;
 }
 
 .plan-price {
-    font-size: 2em;
+    /* AJUSTE AQUI: Aumentado para ~26px */
+    font-size: 1.857em; 
     font-weight: 700;
     color: var(--secondary-color);
     margin-bottom: 15px;
@@ -206,7 +216,7 @@ a:hover {
 
 .plan-features li {
     margin-bottom: 8px;
-    font-size: 0.9em;
+    font-size: var(--font-size-base); /* 14px */
     color: #555;
     display: flex;
     align-items: center;
@@ -231,7 +241,7 @@ a:hover {
 }
 
 .registration-section h2 {
-    font-size: 1.5em;
+    font-size: 1.3em; /* Reduzido de 1.5em */
     font-weight: 600;
     color: var(--secondary-color);
     margin-bottom: 5px;
@@ -240,6 +250,7 @@ a:hover {
 .registration-section > p {
     color: #777;
     margin-bottom: 20px;
+    font-size: var(--font-size-base); /* 14px */
 }
 
 /* Opções de Login Social */
@@ -249,7 +260,7 @@ a:hover {
 }
 
 .fast-register-text {
-    font-size: 0.9em;
+    font-size: var(--font-size-base); /* 14px */
     color: #777;
     margin-bottom: 10px;
 }
@@ -260,10 +271,10 @@ a:hover {
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 12px 20px;
+    padding: 10px 15px; /* Reduzido o padding */
     margin: 10px auto;
     border-radius: 4px;
-    font-size: 1em;
+    font-size: var(--font-size-large); /* 16px */
     font-weight: 500;
     cursor: pointer;
     border: 1px solid transparent;
@@ -283,6 +294,7 @@ a:hover {
 }
 
 .social-button.apple {
+    /* Este botão foi removido no HTML, mas o estilo é mantido para consistência */
     background-color: var(--secondary-color);
     color: var(--white);
     margin: 30px auto 10px auto;
@@ -293,12 +305,8 @@ a:hover {
 }
 
 .icon-placeholder {
-    /* Em um projeto real, aqui seria o ícone SVG ou Font Awesome */
-    display: inline-block;
-    width: 20px;
-    height: 20px;
-    margin-right: 10px;
-    /* Adicione um fundo para simular um ícone se necessário */
+    /* Ocultar, não é mais usado com Material Icons */
+    display: none;
 }
 
 /* Separadores "OU" */
@@ -308,7 +316,7 @@ a:hover {
     text-align: center;
     color: #aaa;
     margin: 20px auto;
-    font-size: 0.8em;
+    font-size: var(--font-size-small); /* 12px */
     text-transform: uppercase;
 }
 
@@ -341,7 +349,7 @@ a:hover {
 }
 
 .registration-form legend {
-    font-size: 1em;
+    font-size: var(--font-size-large); /* 16px */
     font-weight: 600;
     color: var(--secondary-color);
     padding: 10px 0;
@@ -368,7 +376,7 @@ a:hover {
 }
 
 .input-container label {
-    font-size: 0.85em;
+    font-size: var(--font-size-base); /* 14px */
     color: var(--secondary-color);
     font-weight: 500;
     margin-bottom: 5px;
@@ -380,10 +388,10 @@ a:hover {
 .input-container input[type="password"],
 .input-container select,
 .input-container textarea {
-    padding: 10px 12px;
+    padding: 8px 10px; /* Reduzido o padding */
     border: 1px solid var(--border-color);
     border-radius: 4px;
-    font-size: 0.95em;
+    font-size: var(--font-size-base); /* 14px */
     font-family: 'Poppins', sans-serif;
     color: var(--secondary-color);
     background-color: var(--light-bg); /* Fundo cinza claro para campos */
@@ -401,7 +409,7 @@ a:hover {
 }
 
 .input-container small {
-    font-size: 0.75em;
+    font-size: var(--font-size-small); /* 12px */
     color: #999;
     margin-top: 5px;
 }
@@ -409,12 +417,12 @@ a:hover {
 /* Botão de Submissão */
 .submit-button {
     width: 100%;
-    padding: 15px 20px;
+    padding: 12px 20px; /* Reduzido o padding */
     background-color: var(--dark-bg); /* Cor escura do botão final */
     color: var(--white);
     border: none;
     border-radius: 4px;
-    font-size: 1.1em;
+    font-size: var(--font-size-large); /* 16px */
     font-weight: 600;
     cursor: pointer;
     margin-top: 20px;
@@ -429,13 +437,13 @@ a:hover {
 .form-footer-links {
     text-align: center;
     margin-top: 30px;
-    font-size: 0.9em;
+    font-size: var(--font-size-base); /* 14px */
 }
 
 .form-footer-links .terms-text {
     margin-bottom: 15px;
+    font-size: var(--font-size-base); /* 14px */
 }
-
 
 /* * --------------------------------
  * RESPONSIVIDADE
@@ -477,7 +485,7 @@ a:hover {
     }
 
     .section-header h1 {
-        font-size: 1.8em;
+        font-size: 1.5em;
     }
 
     .social-button {
@@ -488,8 +496,6 @@ a:hover {
         max-width: 100%;
     }
 }
-
-/* (MANTENHA O CÓDIGO CSS ANTERIOR AQUI) */
 
 /* * --------------------------------
  * ESTILOS ESPECÍFICOS PARA ÍCONES
@@ -577,7 +583,6 @@ a:hover {
 
 /* Removendo o placeholder não utilizado */
 .icon-placeholder {
-    /* Ocultar ou remover se você usar os ícones corretamente */
     display: none; 
 }
 

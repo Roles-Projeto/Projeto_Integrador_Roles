@@ -3,35 +3,29 @@ body {
   font-family: 'Poppins', sans-serif;
   margin: 0;
   padding: 0;
-  background-color: #1D1F3A;
+  background-color: #ffffff;
   color: white;
-}
-
-footer{
-
-    margin: 0%;
-    padding: 0%;
-    background-color: #03021A;
 }
 
 
 /* ======= SEÇÃO TOPO ======= */
 .todos-locais {
   text-align: center;
-  padding: 80px 20px;
-  background-color: #1D1F3A;
+  padding: 60px 20px;
+  background: linear-gradient(to right, #03021A, #1D1F3A);
+
 }
 
 .todos-locais h1 {
-  font-size: 32px;
+  font-size: 24px;
   font-weight: 380;
-  margin-bottom: 10px;
+  margin-bottom: 8px;
 }
 
 .todos-locais p {
-  font-size: 18px;
+  font-size: 14px; /* Grande */
   opacity: 0.8;
-  margin-bottom: 40px;
+  margin-bottom: 30px;
 }
 
 /* ======= CAMPO DE BUSCA ======= */
@@ -46,19 +40,19 @@ footer{
   left: 18px;
   transform: translateY(-50%);
   color: rgba(255,255,255,0.6);
-  width: 22px;
-  height: 22px;
+  width: 20px;
+  height: 20px;
 }
 
 .search-box input {
-  width: 500px;
+  width: 450px;
   max-width: 90%;
-  padding: 14px 18px 14px 50px;
+  padding: 12px 18px 12px 45px;
   border-radius: 10px;
   border: 1px solid rgba(255,255,255,0.4);
   background-color: transparent;
   color: white;
-  font-size: 16px;
+  font-size: 14px; /* Grande */
   outline: none;
   transition: 0.3s;
 }
@@ -71,52 +65,30 @@ footer{
   color: rgba(255,255,255,0.5);
 }
 
-/* ======= PARTE BRANCA ABAIXO ======= */
+/* ======= PARTE BRANCA ABAIXO (MAIN) ======= */
 main {
   background-color: #fff;
-  color: #222;
-  border-radius: 0; /* deixa reto */
-  padding: 40px 20px 100px 20px;
+ 
+  border-radius: 0; 
+  padding: 30px 0 80px 0; /* Removido padding horizontal para o container assumir */
 }
 
-
-/* ======= EXEMPLO DE CATEGORIAS ======= */
-.categorias {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  max-width: 900px;
+/* NOVO: Container para largura máxima do conteúdo de filtro e cards */
+.content-container {
+  max-width: 980px; /* Largura para 3 cards de 300px + 20px de gap */
   margin: 0 auto;
 }
 
-.categorias button {
-  background-color: #f2f2f2;
-  border: none;
-  border-radius: 10px;
-  padding: 12px 24px;
-  font-size: 16px;
-  cursor: pointer;
-  font-family: inherit;
-  transition: 0.3s;
-}
 
-.categorias button:hover {
-  background-color: #ddd;
-}
-
-.categorias p {
-  font-size: 16px;
-  color: #555;
-}
-/* Barra de filtros */
+/* Barra de filtros - AGORA OCUPA A LARGURA DO content-container */
 .barra-filtros {
-  width: 91%;
-  max-width: 1500px;
-  margin: 30px auto;
+  width: 95%; /* Ajuste interno */
+  max-width: 980px; /* Limita a largura do filtro */
+  margin: 20px auto; 
   background-color: #ffffff;
   border: 1px solid #e5e5e5;
   border-radius: 12px;
-  padding: 16px 24px;
+  padding: 12px 20px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -127,121 +99,116 @@ main {
 .filtro-esquerda {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
 }
 
-.icone-filtro {
-  width: 20px;
-  height: 20px;
-  object-fit: contain;
+.icone-filtro { /* Ícone Font Awesome */
+  color: #333;
+  width: 18px;
+  height: 18px;
 }
 
 .filtro-esquerda span {
   font-family: 'Poppins', sans-serif;
   font-weight: 500;
-  font-size: 16px;
+  font-size: 14px; /* Grande */
   color: #333;
 }
 
-/* Lado direito (botões) */
+/* Lado direito (botões dropdown) */
 .filtro-direita {
   display: flex;
-  gap: 12px;
+  gap: 10px;
 }
 
-.botao-categoria,
-.botao-avaliacao {
+.botao-dropdown {
   background-color: #f9f9f9;
   border: 1px solid #ddd;
   border-radius: 8px;
-  padding: 8px 16px;
+  padding: 6px 14px;
   font-family: 'Poppins', sans-serif;
-  font-size: 14px;
+  font-size: 12px; /* Pequeno */
   color: #333;
   cursor: pointer;
   transition: all 0.2s ease;
+  display: flex; 
+  align-items: center;
+  gap: 4px; 
 }
 
-.botao-categoria:hover,
-.botao-avaliacao:hover {
+.botao-dropdown i {
+  font-size: 9px; 
+}
+
+.botao-dropdown:hover {
   background-color: #efefef;
 }
+/* Fim da barra de filtros */
 
-/* Responsividade */
-@media (max-width: 768px) {
-  .barra-filtros {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 12px;
-  }
 
-  .filtro-direita {
-    width: 100%;
-    justify-content: space-between;
-  }
-}
+/* Seção de Opções/Categorias de locais */
 .opçoes {
   display: flex;
-  align-items: center;          /* alinha tudo na mesma linha */
-  justify-content: space-between; /* deixa o texto numa ponta e os botões na outra */
-  margin: 20px 40px;
+  align-items: center; 
+  justify-content: space-between; 
+  /* Centralizado pelo content-container */
+  margin: 15px 0; 
+  padding: 0 10px;
 }
 
 .botoes {
   display: flex;
-  gap: 12px;
+  gap: 8px;
 }
 
 .opçoes-abaixo {
   background-color: white;
   color: black;
   border: 1px solid #ccc;
-  border-radius: 10px;
-  padding: 10px 20px; /* deixei um pouco menor, pode ajustar */
-  font-size: 12px;
+  border-radius: 8px; 
+  padding: 8px 16px;
+  font-size: 12px; /* Pequeno */
   font-family: "Poppins", sans-serif;
   cursor: pointer;
   transition: all 0.3s ease;
 }
 
+/* Estilo para botão ativo/selecionado e no hover */
+.opçoes-abaixo.ativo,
 .opçoes-abaixo:hover {
   background-color: black;
   color: white;
-}
-
-.opçoes-abaixo:active {
-  background-color: #000;
-  color: #fff;
   border-color: #000;
 }
 
+
 .mover {
-  font-size:14px;
+  font-size:14px; /* Grande */
   font-family: "Poppins", sans-serif;
   color: #333;
-  margin: 5px; /* remove deslocamento desnecessário */
+  margin: 5px; 
 }
 .mover strong {
   font-weight: 700;
-  color: #000; /* pode mudar a cor se quiser dar mais contraste */
+  color: #000; 
 }
 
 
+/* Cards de Locais - MENORES E MAIS COMPACTOS */
 .cards-container {
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
-  gap: 47px;
-  padding: 47px;
+  justify-content: space-around; /* Distribui cards igualmente */
+  gap: 20px;
+  padding: 20px 0;
 }
 
-/* CARD */
 .card {
-  width: 416px;
-  height: 750px;
+  width: 300px; /* Cartão menor */
+  height: auto; 
   background: #fff;
-  border-radius: 16px;
-  box-shadow: 0px 4px 20px rgba(0,0,0,0.1);
+  border-radius: 12px;
+  box-shadow: 0px 3px 15px rgba(0,0,0,0.1);
   overflow: hidden;
   display: flex;
   flex-direction: column;
@@ -249,15 +216,15 @@ main {
 }
 
 .card:hover {
-  transform: scale(1.02);
-  box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+  transform: scale(1.01);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.15);
 }
 
 /* IMAGEM */
 .card-img {
   position: relative;
   width: 100%;
-  height: 200px;
+  height: 150px; 
 }
 
 .card-img img {
@@ -270,67 +237,67 @@ main {
 .categoria,
 .nota {
   position: absolute;
-  top: 12px;
+  top: 10px;
   background: #fff;
-  padding: 6px 14px;
-  border-radius: 30px;
-  font-size: 14px;
+  padding: 4px 10px; 
+  border-radius: 20px;
+  font-size: 12px; /* Pequeno */
   font-weight: 500;
   color: #000;
 }
 
-.categoria { left: 12px; }
-.nota { right: 12px; }
+.categoria { left: 10px; }
+.nota { right: 10px; }
 
 /* CONTEÚDO */
 .card-content {
   flex-grow: 1;
-  padding: 18px 22px;
+  padding: 15px;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: flex-start; 
 }
 
 .card-content h3 {
-  font-size: 20px;
+  font-size: 14px; /* Grande */
   font-weight: 600;
   color: #000;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 8px;
+  margin-bottom: 6px;
 }
 
 
 .preco {
   color: #00A859;
   font-weight: 700;
-  font-size: 18px;
-  margin-left: 6px;
+  font-size: 14px; /* Grande */
+  margin-left: 4px;
 }
 
 
 .local {
-  font-size: 15px;
+  font-size: 12px; /* Pequeno */
   color: #6b6b6b;
-  margin-bottom: 8px;
+  margin-bottom: 6px;
 }
 
 .descricao {
-  font-size: 14px;
+  font-size: 12px; /* Pequeno */
   color: #555;
-  margin-bottom: 10px;
+  margin-bottom: 8px;
 }
 
 /* INFO */
 .info {
-  font-size: 14px;
+  font-size: 12px; /* Pequeno */
   color: #444;
-  margin-bottom: 10px;
+  margin-bottom: 8px;
 }
 
 .info i {
-  margin-right: 6px;
+  margin-right: 4px;
   color: #666;
 }
 
@@ -338,22 +305,29 @@ main {
 .tags {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
-  margin-bottom: 12px;
+  gap: 6px;
+  margin-bottom: 10px;
 }
 
 .tags span {
   border: 1px solid #ccc;
-  border-radius: 30px;
-  padding: 6px 12px;
-  font-size: 13px;
+  border-radius: 20px;
+  padding: 4px 10px;
+  font-size: 12px; /* Pequeno */
   color: #444;
 }
 
-
+.footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: auto; 
+  padding-top: 10px;
+  border-top: 1px solid #f0f0f0;
+}
 
 .avaliacoes {
-  font-size: 14px;
+  font-size: 12px; /* Pequeno */
   color: #6b6b6b;
 }
 
@@ -361,10 +335,10 @@ main {
   background: #0B0B0B;
   color: white;
   border: none;
-  border-radius: 8px;
-  padding: 8px 16px;
+  border-radius: 6px;
+  padding: 6px 12px;
   cursor: pointer;
-  font-size: 14px;
+  font-size: 12px; /* Pequeno */
   transition: 0.2s ease;
 }
 
@@ -372,13 +346,14 @@ main {
   background: #2b2b2b;
 } 
 
+/* Estatísticas */
 .stats-section {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  margin-top: 40px;
-  gap: 30px;
+  margin-top: 30px;
+  gap: 20px;
 }
 
 /* Botão “Ver Todos os Locais” */
@@ -386,9 +361,9 @@ main {
   background-color: white;
   color: black;
   border: 1px solid #ccc;
-  border-radius: 12px;
-  padding: 10px 25px;
-  font-size: 16px;
+  border-radius: 10px;
+  padding: 8px 20px;
+  font-size: 14px; /* Grande */
   font-family: "Poppins", sans-serif;
   font-weight: 500;
   cursor: pointer;
@@ -404,15 +379,15 @@ main {
 .cards-stats {
   display: flex;
   justify-content: center;
-  gap: 40px;
+  gap: 30px;
   flex-wrap: wrap;
 }
 
 .stat-card {
-  width: 402px;
-  height: 180px;
+  width: 250px;
+  height: 100px;
   border: 1px solid #e0e0e0;
-  border-radius: 12px;
+  border-radius: 10px;
   background-color: #fff;
   display: flex;
   flex-direction: column;
@@ -423,30 +398,50 @@ main {
 }
 
 .stat-card:hover {
-  transform: translateY(-5px);
+  transform: translateY(-3px);
 }
 
 .stat-card h2 {
-  font-size: 36px;
+  font-size: 30px;
   margin: 0;
   font-family: "Poppins", sans-serif;
-  font-weight: 600;
+  font-weight: 700;
 }
 
 .stat-card p {
-  font-size: 15px;
-  color: #555;
+  font-size: 12px; /* Pequeno */
+  color: #333; 
+  font-weight: 500; 
   font-family: "Poppins", sans-serif;
 }
-.footer {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+
+
+/* Responsividade */
+@media (max-width: 990px) {
+    /* Ajuste para caber 2 cards por linha */
+    .content-container {
+        max-width: 640px;
+    }
 }
 
-/* FOOTER */
+@media (max-width: 768px) {
+  .barra-filtros {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .filtro-direita {
+    width: 100%;
+    justify-content: space-between;
+  }
+}
 footer iframe {
     min-height: 22rem;
     display: block;
 }
 
+header iframe {
+    min-height: 2rem;
+    display: block;
+}
