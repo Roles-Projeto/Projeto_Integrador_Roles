@@ -1,0 +1,713 @@
+/* Reset e padrão base */
+* {
+  margin: 0;
+
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  background-color: #f9fafc;
+  color: #222;
+  overflow-x: hidden; /* impede rolagem lateral */
+}
+
+/* Container principal */
+.termos-container {
+  max-width: 1700px;
+  margin: 0 ;
+  padding: 0 0px 80px;
+}
+
+/* === HERO === */
+.hero-termos {
+  text-align: center;
+  background: linear-gradient(180deg, #1A1A2E 0%, #2E2E48 100%);
+  color: #fff;
+  padding: 60px 0;
+  width: 100%;
+}
+
+.hero-termos h1 {
+  font-size: 1.4rem;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.hero-termos p {
+  font-size: 1rem;
+  color: #ccc;
+  margin-bottom: 16px;
+}
+
+.hero-termos .atualizado {
+  background: #2f2f54;
+  padding: 6px 14px;
+  border-radius: 10px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #fff;
+}
+
+/* === ALERTA === */
+.alerta-termos {
+  margin-top: 40px;
+  display: flex;              /* coloca o container como flex */
+  justify-content: center;    /* centraliza o conteúdo horizontalmente */
+}
+
+.alerta-box {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  background: #f4f8ff;
+  border: 1px solid #0058ef;
+  border-radius: 10px;
+  padding: 18px 24px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  max-width: 1000px;          /* define uma largura máxima pro card */
+  width: 100%;                /* ocupa todo o espaço disponível até o limite */
+}
+
+
+.alerta-icone {
+  font-size: 1.2rem;
+  color: #316BFF;
+  margin-top: 2px;
+}
+
+.alerta-texto strong {
+  color: #0034f0;
+  font-weight: 600;
+  display: block;
+  margin-bottom: 4px;
+}
+
+.alerta-texto p {
+  margin: 0;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: #0f0397;
+}
+
+
+.termos-secoes {
+  margin-top: 50px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+}
+
+.card-termo {
+  background: #fff;
+  border: 1px solid #e4e7ec;
+  border-radius: 12px;
+  padding: 30px 28px;
+  width: 100%;
+  max-width: 1000px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+}
+
+.card-termo h2 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #111;
+  margin-bottom: 14px;
+}
+
+.card-termo p {
+  color: #333;
+  line-height: 1.6;
+  margin-bottom: 10px;
+}
+
+.card-termo .subtexto {
+  color: #777;
+  font-size: 0.9rem;
+}
+
+.cards-duplos {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-top: 16px;
+}
+
+.subcard {
+  flex: 1;
+  min-width: 280px;
+  padding: 16px 22px;
+  border-radius: 10px;
+}
+
+.subcard h3 {
+  font-size: 1rem;
+  margin-bottom: 10px;
+  font-weight: 600;
+}
+
+.subcard.azul {
+  background: #f2f6ff;
+  border: 1px solid #d7e3ff;
+}
+.blue{
+    color: #0058ef;
+}
+.green{
+    color: rgb(18, 150, 3);
+}
+.subcard.verde {
+  background: #f4fff6;
+  border: 1px solid #c9efd2;
+}
+
+.subcard ul {
+  list-style-type: disc;
+  padding-left: 20px;
+  margin: 0;
+  color: #333;
+}
+
+.subcard li {
+  font-size: 0.9rem;
+  margin-bottom: 6px;
+}
+/* garante reset / box sizing */
+* {
+  box-sizing: border-box;
+}
+
+/* container já existente (garante centralização dos cards) */
+.termos-secoes {
+  margin-top: 50px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;  /* centraliza horizontalmente os card-termo */
+  gap: 28px;            /* espaçamento entre cada card */
+}
+
+/* CARD PADRÃO */
+.card-termo {
+  background: #fff;
+  border: 1px solid #e8eaef;
+  border-radius: 12px;
+  padding: 28px 30px;
+  width: 100%;
+  max-width: 1000px; /* mantém largura idêntica aos outros cards */
+  color: #222;
+  /* sem transform/animation — versão estática conforme pediu */
+}
+
+/* título com ícone */
+.titulo-com-icone {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+/* ícone inline (SVG) */
+.icone-ingresso {
+  flex: 0 0 auto;
+  width: 22px;
+  height: 22px;
+}
+
+/* H2 do card (mantém visual dos outros) */
+.card-termo h2 {
+  font-size: 1.05rem;
+  font-weight: 700;
+  margin: 0;
+  color: #1b1b1f;
+}
+
+/* Subtítulos dentro do card */
+.card-termo h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #111;
+  margin-top: 16px;
+  margin-bottom: 8px;
+}
+
+/* parágrafos e listas */
+.card-termo p {
+  color: #333;
+  line-height: 1.6;
+  margin: 0 0 12px 0;
+}
+
+.card-termo .subtexto {
+  color: #777;
+  font-size: 0.9rem;
+  margin-top: 6px;
+}
+
+/* subcard cinza (taxa) */
+.subcard.cinza {
+  background: #f6f6f8;
+  border: 1px solid #e6e6ea;
+  border-radius: 10px;
+  padding: 14px 16px;
+  margin: 10px 0;
+}
+
+/* listas */
+.card-termo ul {
+  margin: 10px 0 0 20px;
+  padding: 0;
+  color: #333;
+}
+
+.card-termo li {
+  margin-bottom: 8px;
+  font-size: 0.95rem;
+}
+
+
+/* === Card 5 - Reembolso (comportamento idêntico aos outros .card-termo) === */
+
+/* separador interno usado entre seções do card (mantém aparência dos outros cards) */
+.card-sep {
+  border: 0;
+  border-top: 1px solid #eceeef;
+  margin: 18px 0;
+}
+
+/* alerta laranja dentro do card (cor e espaçamento parecidos com o figma) */
+.reembolso-alerta {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  background: #fff4eb;
+  border: 1px solid #ffd2b3;
+  padding: 12px 14px;
+  border-radius: 8px;
+  margin-bottom: 18px;
+  color: #7a3d00;
+  max-width: 100%;
+}
+
+/* triângulo/ícone do alerta */
+.tri-icone {
+  flex: 0 0 auto;
+  width: 16px;
+  height: 16px;
+  margin-top: 2px;
+}
+
+/* textos do alerta */
+.reembolso-textos strong {
+  color: #c05500;
+  display: block;
+  margin-bottom: 4px;
+}
+.reembolso-par {
+  margin: 0;
+  color: #7a3d00;
+  line-height: 1.4;
+  font-size: 0.95rem;
+}
+
+/* caixa azul clara dentro do card (ex: quando organizador cancela) */
+.reembolso-info-box {
+  background: #eaf4ff;
+  border: 1px solid #d6eaff;
+  padding: 14px 16px;
+  border-radius: 8px;
+  margin-top: 10px;
+}
+
+/* garantir que o novo card herde o padding/width dos outros .card-termo */
+.card-termo { /* regra já existe; esta linha é apenas segurança para manter coerência */
+  box-sizing: border-box;
+}
+
+/* manter sem animações — força remover qualquer hover indesejado */
+.card-termo:hover {
+  transform: none !important;
+  transition: none !important;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.03) !important;
+}
+
+/* === Card 6 - Responsabilidades do Comprador === */
+
+/* garante espaçamento e estilo igual aos outros cards */
+.card-termo ul {
+  margin-left: 18px;
+  margin-top: 8px;
+  line-height: 1.6;
+}
+
+.card-termo ul li {
+  margin-bottom: 4px;
+  color: #333;
+}
+
+/* Ícone azul */
+.titulo-com-icone .icone-ingresso path[fill="#2563eb"] {
+  fill: #2563eb;
+}
+
+/* Mantém estilo coerente, sem hover ou animação */
+.card-termo:hover {
+  transform: none !important;
+  transition: none !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03) !important;
+}
+.card-termo {
+  background-color: #fff;
+  border-radius: 16px;
+  padding: 32px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+  max-width: 1000px;
+  margin: 32px auto;
+}
+
+.card-termo h2 {
+  font-size: 22px;
+  font-weight: 600;
+  color: #2D3748;
+  margin-bottom: 20px;
+}
+
+.card-termo p {
+  font-size: 16px;
+  color: #4A5568;
+  line-height: 1.6;
+  margin-bottom: 12px;
+}
+
+.card-termo ul {
+  list-style-type: disc;
+  padding-left: 20px;
+  color: #4A5568;
+  margin-bottom: 20px;
+}
+
+.card-termo ul li {
+  margin-bottom: 8px;
+}
+
+.subcard.cinza {
+  background-color: #F7F7FA;
+  border-radius: 12px;
+  padding: 16px 20px;
+  font-size: 16px;
+  color: #4A5568;
+}
+
+.subcard.cinza strong {
+  color: #2D3748;
+}
+
+.subcard.cinza span {
+  float: right;
+  color: #2D3748;
+  font-weight: 500;
+}
+
+.card-termo h3 {
+  font-size: 18px;
+  font-weight: 600;
+  color: #2D3748;
+  margin-top: 24px;
+  margin-bottom: 10px;
+}
+
+.subcard.vermelho {
+  background-color: #FFF5F5;
+  border-radius: 12px;
+  padding: 16px 20px;
+  font-size: 16px;
+  color: #C53030;
+  margin-top: 12px;
+}
+
+.subcard.vermelho strong {
+  color: #C53030;
+}
+
+.subcard.vermelho ul {
+  list-style-type: disc;
+  padding-left: 20px;
+  color: #C53030;
+  margin: 8px 0;
+}
+
+.subcard.vermelho li {
+  margin-bottom: 6px;
+}
+
+.subcard.vermelho .alerta {
+  color: #C53030;
+  font-weight: 500;
+  margin-top: 12px;
+}
+
+/* tamanho / alinhamento do ícone (mantém consistência com .titulo-com-icone) */
+.icone-escudo {
+  width: 28px;
+  height: 28px;
+  flex: 0 0 auto;
+}
+
+/* subcard roxo (já enviado antes) */
+.subcard.roxo {
+  background-color: #F8F1FF;
+  border-radius: 12px;
+  padding: 16px 20px;
+  color: #7E22CE;
+  margin-top: 12px;
+}
+
+/* reforça cores e listas para o subcard roxo */
+.subcard.roxo strong {
+  color: #7E22CE;
+}
+
+.subcard.roxo ul {
+  list-style-type: disc;
+  padding-left: 20px;
+  margin: 8px 0;
+  color: #7E22CE;
+}
+
+.subcard.roxo li {
+  margin-bottom: 6px;
+}
+
+/* nota final */
+.nota-final {
+  font-size: 16px;
+  color: #2D3748;
+  margin-top: 16px;
+}
+/* === CARD 10: Dados e Privacidade === */
+.card-termo {
+  background: #fff;
+  border: 1px solid #e5e5e5;
+  border-radius: 12px;
+  padding: 28px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+  width: 100%;
+  max-width: 900px;
+  margin: 40px auto;
+  transition: none;
+}
+
+.titulo-termo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+
+.titulo-termo h3 {
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: #222;
+}
+
+.titulo-termo svg {
+  width: 26px;
+  height: 26px;
+  stroke: #007bff; /* cor do ícone de escudo */
+}
+
+.conteudo-termo h4 {
+  font-size: 1.05rem;
+  color: #333;
+  font-weight: 600;
+  margin-top: 18px;
+  margin-bottom: 8px;
+}
+
+.conteudo-termo p {
+  font-size: 0.95rem;
+  color: #444;
+  line-height: 1.6;
+  margin-bottom: 8px;
+}
+
+.conteudo-termo ul {
+  padding-left: 20px;
+  margin-top: 5px;
+  margin-bottom: 15px;
+}
+
+.conteudo-termo li {
+  list-style-type: disc;
+  color: #333;
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+.card-termo {
+  background: #fff;
+  border: 1px solid #e5e5e5;
+  border-radius: 12px;
+  padding: 20px 30px;
+  margin-bottom: 20px;
+  max-width: 900px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.titulo-termo h3 {
+  font-size: 18px;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 12px;
+}
+
+.conteudo-termo p {
+  font-size: 15px;
+  color: #444;
+  line-height: 1.6;
+  margin-bottom: 8px;
+}
+
+.conteudo-termo ul {
+  padding-left: 20px;
+  margin-bottom: 12px;
+}
+
+.conteudo-termo ul li {
+  margin-bottom: 6px;
+}
+
+.nota-final {
+  color: #777;
+  font-size: 14px;
+  margin-top: 10px;
+}
+.card-termo {
+  background: #fff;
+  border: 1px solid #e5e5e5;
+  border-radius: 12px;
+  padding: 20px 30px;
+  margin-bottom: 20px;
+  max-width: 900px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.titulo-termo h3 {
+  font-size: 18px;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 12px;
+}
+
+.conteudo-termo p {
+  font-size: 15px;
+  color: #444;
+  line-height: 1.6;
+  margin-bottom: 8px;
+}
+
+.conteudo-termo ul {
+  padding-left: 20px;
+  margin-bottom: 12px;
+}
+
+.conteudo-termo ul li {
+  margin-bottom: 6px;
+}
+
+.nota-final {
+  color: #acacac;
+  font-size: 14px;
+  margin-top: 10px;
+}
+.card-termo {
+  background: #fff;
+  border: 1px solid #e5e5e5;
+  border-radius: 12px;
+  padding: 20px 30px;
+  margin-bottom: 20px;
+  max-width: 900px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.titulo-termo h3 {
+  font-size: 18px;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 12px;
+}
+
+.conteudo-termo p {
+  font-size: 15px;
+  color: #444;
+  line-height: 1.6;
+  margin-bottom: 10px;
+}
+
+.grid-contato {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+
+.contato-item {
+  background: #f7f7f7;
+  border-radius: 8px;
+  padding: 12px 15px;
+}
+
+.contato-item h4 {
+  font-size: 15px;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 4px;
+}
+
+.contato-item p {
+  font-size: 14px;
+  color: #555;
+}
+
+.contato-item a {
+  color: #000;
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.contato-item a:hover {
+  text-decoration: underline;
+}
+
+.divisoria {
+  border: none;
+  border-top: 1px solid #ddd;
+  margin: 20px 0;
+}
+
+.rodape-termo {
+  text-align: center;
+  color: #666;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.rodape-termo strong {
+  font-weight: 600;
+  color: #333;
+}
+/* Força cor azul em qualquer elemento com a classe .blue */
+.blue {
+  color: #2563eb !important;
+}
+
+/* Se quiser também a .green, pra manter o padrão */
+.green {
+  color: #16a34a !important;
+}
+footer iframe {
+  min-height: 22rem;
+  display: block;
+}
