@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tela de Login - Rolês</title>
+    <link rel="stylesheet" href="../css/login.css">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+    <header>
+        <div id="header-wrap">
+            <iframe id="site-header" src="../header/header.html" frameborder="0" scrolling="no" width="100%"
+                height="80"></iframe>
+        </div>
+    </header>
+
+    <main>
+        <div class="login-container">
+            <div class="login-box">
+                <h1>Entrar no Rolês</h1>
+
+                <div class="toggle-buttons">
+                    <button id="cliente-btn" class="active">Cliente</button>
+                    <button id="empresario-btn">Empresário</button>
+                </div>
+
+                <p id="main-text" class="text-muted">
+                    Encontre os melhores lugares para sair e se divertir
+                </p>
+                <p id="sub-text" class="small">Entre rapidamente com</p>
+
+                <div class="social-login">
+                    <button><i class="fab fa-google"></i></button>
+                    <button><i class="fab fa-facebook-f"></i></button>
+                    <button><i class="fab fa-apple"></i></button>
+                </div>
+
+                <div class="divider">
+                    <span>ou</span>
+                </div>
+
+                <form id="login-form">
+                    <input type="email" id="email" placeholder="E-mail" required>
+                    <input type="password" id="password" placeholder="Senha" required>
+                    <button type="submit" class="login-btn">Entrar</button>
+                </form>
+
+                <p class="register-link">
+                    Não tem conta? <a href="../Cadastro/cadastro.html">Cadastre-se</a>
+                </p>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <iframe src="../footer/footer.html" frameborder="0" scrolling="no" width="100%" height="auto"></iframe>
+    </footer>
+
+    <script>
+        const clienteBtn = document.getElementById("cliente-btn");
+        const empresarioBtn = document.getElementById("empresario-btn");
+        const mainText = document.getElementById("main-text");
+        const subText = document.getElementById("sub-text");
+        const form = document.getElementById("login-form");
+
+        const inputEmail = document.getElementById("email");
+        const inputPassword = document.getElementById("password");
+        const headerIframe = document.getElementById('site-header');
+
+        // Função para enviar a mensagem de login para o Header Iframe
+        function enviarLoginParaHeader(name, email, userType, photoUrl) {
+            if (headerIframe && headerIframe.contentWindow) {
+                headerIframe.contentWindow.postMessage({
+                    action: userType === 'empresario' ? 'LOGIN_SUCCESS_EMPRESARIO' : 'LOGIN_SUCCESS',
+                    newName: name,
+                    newEmail: email,
+                    newPicUrl: photoUrl || (userType === 'empresario' ? '../Imagens/Logo Restaurante.avif' : 'https://i.imgur.com/default-placeholder.png'),
+                    userType: userType
+                }, '*');
+                console.log('Mensagem enviada para o iframe: LOGIN_SUCCESS');
+            }
+        }
+
+        // Alterna entre Cliente e Empresário
+        clienteBtn.addEventListener("click", () => {
+            clienteBtn.classList.add("active");
+            empresarioBtn.classList.remove("active");
+            mainText.textContent = "Encontre os melhores lugares para sair e se divertir";
+            subText.textContent = "Entre rapidamente com";
+        });
+
+        empresarioBtn.addEventListener("click", () => {
+            empresarioBtn.classList.add("active");
+            clienteBtn.classList.remove("active");
+            mainText.textContent = "Cadastre seu estabelecimento e aumente sua visibilidade";
+            subText.textContent = "Entre rapidamente com";
+        });
+
+        // Lógica de login conectando ao backend
+        form.addEventListener("submit", async (e) => {
+            e.preventDefault();
+
+            const email = inputEmail.value.trim();
+            const senha = inputPassword.value;
+            let userType = clienteBtn.classList.contains("active") ? 'usuario' : 'empresario';
+
+            if (!email || !senha) {
+                alert("⚠️ Preencha todos os campos (Email e Senha)!");
+                return;
+            }
+
+            const endpoint = userType === 'empresario'
+                ? "http://localhost:3000/empresarios/login"
+                : "http://localhost:3000/usuarios/login";
+
+            try {
+                const response = await fetch(endpoint, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ email, senha })
+                });
+
+                const data = await response.json();
+                console.log("📩 Resposta do backend:", data);
+
+                if (response.ok) {
+                    // Salva dados no localStorage
+                    localStorage.setItem('userIsLoggedIn', 'true');
+                    localStorage.setItem('userType', userType === 'usuario' ? 'cliente' : 'empresario');
+
+                    let name = userType === 'empresario'
+                        ? (data.nome_estabelecimento || 'Empresário Rolês')
+                        : (data.nome_completo || 'Cliente Rolês');
+
+                    let photoUrl = data.foto || (userType === 'empresario' ? '../Imagens/Logo Restaurante.avif' : 'https://i.imgur.com/default-placeholder.png');
+
+                    localStorage.setItem('profileName', name);
+                    localStorage.setItem('profileEmail', email);
+                    localStorage.setItem('profilePhotoUrl', photoUrl);
+
+                    // Atualiza o header
+                    enviarLoginParaHeader(name, email, localStorage.getItem('userType'), photoUrl);
+
+                    // Redireciona para o perfil
+                    const redirectUrl = userType === 'empresario'
+                        ? "../Perfil_empresario/Perfil_empresario.html"
+                        : "../Perfil_usuario/Perfil_usuario.html";
+                    window.location.href = redirectUrl;
+
+                } else {
+                    alert("⚠️ " + (data.erro || "Email ou senha incorretos."));
+                }
+            } catch (err) {
+                console.error("❌ Erro na requisição:", err);
+                alert("❌ Não foi possível conectar ao servidor. Verifique se o backend está rodando (porta 3000).");
+            }
+        });
+    </script>
+
+</body>
+
+</html>

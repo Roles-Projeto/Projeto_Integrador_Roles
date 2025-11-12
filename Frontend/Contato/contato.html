@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contato - Rolês</title>
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="../css/contato.css">
+</head>
+
+<body>
+    <header>
+    <iframe id="site-header" src="../header/header.html" frameborder="0" scrolling="no" width="100%"
+        height="200" style="position: fixed; top: 0; left: 0; z-index: 999999999;"></iframe>
+</header>
+
+    <div id="mensagem-feedback" class="mensagem-feedback"></div>
+
+    <main class="contato-container">
+        <h1 class="titulo">Entre em Contato</h1>
+        <p class="subtitulo">
+            Tem alguma dúvida, sugestão ou quer fazer parte do Rolês? Estamos aqui para ajudar e adoraríamos ouvir você!
+        </p>
+
+        <section class="contato-grid">
+            <div class="card formulario">
+                <h2>Envie uma Mensagem</h2>
+                <p class="descricao-form">Preencha o formulário abaixo e retornaremos o mais breve possível</p>
+
+                <form id="form-contato">
+                    <div class="linha">
+                        <input type="text" name="nome" placeholder="Seu nome completo" required>
+                        <input type="email" name="email" placeholder="seu@email.com" required>
+                    </div>
+
+                    <select name="tipo" required>
+                        <option value="" disabled selected>Selecione o motivo do contato</option>
+                        <option>Suporte Técnico</option>
+                        <option>Parcerias Comerciais</option>
+                        <option>Feedback/Sugestão</option>
+                        <option>Reportar Problema</option>
+                        <option>Imprensa</option>
+                        <option>Outros</option>
+                    </select>
+
+                    <input type="text" name="assunto" placeholder="Resumo do seu contato" required>
+
+                    <textarea name="mensagem" placeholder="Descreva sua mensagem, dúvida ou sugestão..."
+                        required></textarea>
+
+                    <button type="submit">Enviar Mensagem</button>
+                </form>
+            </div>
+
+            <div class="info-contato">
+                <div class="card info-item">
+                    <div class="item-content">
+                        <i class='bx bx-envelope icone-card'></i>
+                        <div class="conteudo-info">
+                            <h3>E-mail</h3>
+                            <p>Envie sua mensagem para:<br><b>contato@roles.com.br</b></p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card info-item">
+                    <div class="item-content">
+                        <i class='bx bx-phone icone-card'></i>
+                        <div class="conteudo-info">
+                            <h3>Telefone</h3>
+                            <p>Ligue para nosso atendimento:<br><b>(62) 3000-1234</b></p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card info-item">
+                    <div class="item-content">
+                        <i class='bx bx-map-pin icone-card'></i>
+                        <div class="conteudo-info">
+                            <h3>Endereço</h3>
+                            <p>Visite nosso escritório:<br>
+                                Av. T-4, 1000<br>
+                                Setor Bueno - Goiânia - GO, 74230-035
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card info-item">
+                    <div class="item-content">
+                        <i class='bx bx-time icone-card'></i>
+                        <div class="conteudo-info">
+                            <h3>Horário</h3>
+                            <p>Atendimento:<br>Segunda a Sexta<br>9h às 18h</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card faq">
+                    <h3>Perguntas Frequentes</h3>
+                    <p class="subtitulo-faq">Talvez sua dúvida já tenha resposta aqui</p>
+                    <ul class="lista-faq">
+                        <li>
+                            <i class='bx bx-file icone-faq'></i>
+                            <div class="texto-faq">
+                                <b>Como cadastro meu estabelecimento?</b>
+                                <p>Faça login como empresário e acesse o dashboard para cadastrar seu estabelecimento.
+                                </p>
+                            </div>
+                        </li>
+                        <li>
+                            <i class='bx bx-star icone-faq'></i>
+                            <div class="texto-faq">
+                                <b>As avaliações são verificadas?</b>
+                                <p>Sim, temos um sistema de verificação para garantir que apenas clientes reais possam
+                                    avaliar.</p>
+                            </div>
+                        </li>
+                        <li>
+                            <i class='bx bx-question-mark icone-faq'></i>
+                            <div class="texto-faq">
+                                <b>Como reportar informações incorretas?</b>
+                                <p>Entre em contato através do formulário ou e-mail com os detalhes da correção
+                                    necessária.</p>
+                            </div>
+                        </li>
+                        <li>
+                            <i class='bx bx-check-shield icone-faq'></i>
+                            <div class="texto-faq">
+                                <b>O Rolês é gratuito?</b>
+                                <p>Sim, o Rolês é completamente gratuito para usuários .</p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="card informacoes-importantes">
+                    <h3>Informações Importantes</h3>
+                    <p><b>Tempo de Resposta:</b> Respondemos em até 24 horas em dias úteis.</p>
+                    <p><b>Suporte Urgente:</b> Para problemas críticos, use o telefone durante o horário comercial.</p>
+                    <p><b>Parcerias:</b> Interessado em parcerias? Entre em contato através do formulário selecionando
+                        "Parcerias Comerciais".</p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+
+    <footer>
+        <iframe src="../footer/footer.html" frameborder="0" scrolling="no" width="100%" height="auto"></iframe>
+    </footer>
+
+    <script src="../Js/script.js"></script>
+</body>
+
+</html>

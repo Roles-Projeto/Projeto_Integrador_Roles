@@ -1,0 +1,361 @@
+/* Variáveis de Cores */
+:root {
+    --primary-color: #6C1DCE;
+    --secondary-color: #ffffff;
+    --text-color-dark: #333333;
+    --text-color-medium: #666666;
+    --text-color-light: #AAAAAA;
+    --border-color: #E0E0E0;
+    --star-filled: #FFC107;
+    --star-empty: #E0E0E0;
+}
+
+/* 1. Estilos Globais e Body */
+body {
+    font-family: 'Poppins', sans-serif;
+    margin: 0; 
+    padding: 0;
+    background-color: #2b0b77;
+    color: var(--text-color-dark);
+    display: block; 
+    min-height: 100vh;
+    padding-top: 120px; 
+}
+
+h3 {
+    font-size: 18px; 
+    font-weight: 600;
+    margin-bottom: 20px;
+    color: var(--primary-color);
+}
+
+/* 3. Container Principal (Centralização) */
+.profile-container {
+    display: flex;
+    gap: 30px;
+    width: 100%;
+    max-width: 1280px; 
+    justify-content: center;
+    margin: 20px auto 50px auto; 
+    padding: 0 20px; 
+}
+
+/* Estilo para o CARD GIGANTE que envolve todo o conteúdo */
+.main-profile-card {
+    display: flex; 
+    gap: 30px;
+    background-color: var(--secondary-color); 
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 30px; 
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 900px; 
+}
+
+
+/* 4. Footer (Mantido) */
+footer {
+    width: 100%;
+    margin-top: 40px; 
+    background-color: #f8f8f8;
+    clear: both; 
+}
+
+footer iframe {
+    display: block;
+    width: 100%;
+    min-height: 22rem; 
+    border: none;
+}
+
+/* 5. Sidebar (Coluna Lateral) */
+.profile-sidebar {
+    width: 300px;
+    flex-shrink: 0;
+    background-color: var(--secondary-color);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 20px; 
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.profile-info-content {
+    padding: 0; 
+    text-align: center;
+}
+
+
+/* 6. Foto de Perfil (Mantido) */
+.profile-picture-container {
+    position: relative;
+    width: 100px;
+    height: 100px;
+    margin: 0 auto 15px;
+}
+
+.profile-picture {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid var(--primary-color);
+}
+
+.edit-picture-btn {
+    position: absolute;
+    bottom: -5px; 
+    right: -5px;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background-color: var(--primary-color);
+    color: white;
+    border: 2px solid white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s;
+    padding: 0;
+    line-height: 1;
+}
+
+.edit-picture-btn:hover {
+    background-color: #5a14a3; 
+}
+
+.profile-name {
+    font-size: 22px; 
+    font-weight: 700;
+    margin-bottom: 5px;
+}
+
+.profile-badge {
+    display: inline-block;
+    background-color: var(--primary-color); 
+    color: white; 
+    font-size: 12px;
+    padding: 2px 8px;
+    border-radius: 4px;
+    margin-bottom: 20px;
+    font-weight: 500;
+}
+
+.profile-detail {
+    font-size: 14px;
+    color: var(--text-color-medium);
+    margin: 5px 0;
+    line-height: 1.4;
+}
+
+.member-since {
+    font-size: 12px;
+    color: var(--text-color-light);
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 1px solid var(--border-color);
+}
+
+/* 7. Botões de Ação (Mantido) */
+.action-btn {
+    width: 100%;
+    padding: 10px;
+    margin-top: 15px;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    border: none; 
+}
+
+.edit-btn {
+    background-color: var(--primary-color); 
+    color: white;
+    border: 1px solid var(--primary-color);
+}
+
+.edit-btn:hover {
+    background-color: #5a14a3;
+}
+
+.logout-btn {
+    background-color: #F8F8F8; 
+    color: var(--text-color-dark);
+    border: 1px solid var(--border-color);
+}
+
+.logout-btn:hover {
+    background-color: #E0E0E0;
+}
+
+
+/* 8. Conteúdo Principal */
+.profile-content {
+    flex-grow: 1;
+    max-width: 600px;
+    display: flex; 
+    flex-direction: column;
+    /* 🔴 CORREÇÃO: Garante que o gap funcione entre os itens flex diretos */
+    gap: 20px; 
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* Estilo para as SUB-SEÇÕES (Formulário, Favoritos, Visitas) */
+.content-section {
+    background-color: var(--secondary-color);
+    border: 1px solid var(--border-color); 
+    border-radius: 8px; 
+    padding: 20px; 
+    margin-bottom: 0; /* Garante que o gap em profile-content faz a separação */
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05); 
+}
+
+/* 🔴 NOVO ESTILO: Garante o espaçamento entre as listas se elas estiverem aninhadas de forma diferente */
+/* Se #lists-section é o pai direto de .favorites-list e .recent-visits-list, então este estilo aplica o gap */
+#lists-section {
+    display: flex;
+    flex-direction: column;
+    gap: 20px; /* Adiciona o gap entre "Lugares Favoritos" e "Visitas Recentes" */
+}
+
+
+/* 9. Formulário de Edição (Mantido) */
+.edit-profile-form-container {
+    /* Mantido o padding de 20px do .content-section */
+}
+
+/* 10. Listas (Favoritos e Visitas) (Mantido) */
+.favorites-list h3, .recent-visits-list h3 {
+    display: flex;
+    align-items: center;
+    color: var(--text-color-dark);
+    font-size: 16px;
+}
+
+.favorites-list h3 i {
+    color: #FF69B4; 
+    margin-right: 10px;
+}
+.recent-visits-list h3 {
+    margin-top: 0;
+}
+
+/* ... Estilos de Formulário e Lista (Mantidos) ... */
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    font-size: 14px;
+    font-weight: 500;
+    margin-bottom: 5px;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    background-color: var(--secondary-color);
+    font-family: 'Poppins', sans-serif;
+    font-size: 14px;
+    box-sizing: border-box;
+}
+
+.form-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 25px;
+}
+
+.save-btn, .cancel-btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: opacity 0.3s;
+}
+
+.save-btn {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.save-btn:hover {
+    opacity: 0.9;
+}
+
+.cancel-btn {
+    background-color: #E0E0E0; 
+    color: var(--text-color-dark);
+}
+
+.cancel-btn:hover {
+    opacity: 0.9;
+}
+
+.place-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.place-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid #F0F0F0;
+}
+
+.place-item:last-child {
+    border-bottom: none;
+}
+
+.place-name {
+    font-size: 14px;
+    font-weight: 600;
+    flex-grow: 1;
+}
+
+.place-category {
+    font-size: 12px;
+    color: var(--text-color-medium);
+    margin-left: 10px;
+}
+
+.place-rating {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-color-medium);
+    margin-left: 15px;
+    display: flex;
+    align-items: center;
+}
+
+.place-rating i {
+    color: var(--star-filled);
+    margin-right: 5px;
+    font-size: 10px;
+}
+
+.place-rating-stars {
+    font-size: 14px;
+}
+
+.place-rating-stars .fa-star {
+    color: var(--star-empty);
+}
+
+.place-rating-stars .fa-star.filled {
+    color: var(--star-filled);
+}

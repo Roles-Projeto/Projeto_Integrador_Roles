@@ -1,0 +1,328 @@
+/* ==================================================
+==================== Header Styles ===================
+================================================== */
+
+
+/* Configurações básicas */
+body {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+/* Garante que o header seja o container principal sem margens internas */
+header {
+    margin: 0;
+    padding: 0;
+}
+
+/* Container principal do Header/Navbar */
+/* Container principal do Header/Navbar */
+.navbar {
+    width: 100%;
+    height: 60px; 
+    background-color: #fff;
+    display: flex;
+    justify-content: space-between; 
+    align-items: center; 
+    padding: 0 10px;
+    box-sizing: border-box;
+    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.05);
+
+    /* CORREÇÃO AQUI */
+    position: relative; /* Garante que z-index funcione */
+    z-index: 9999;    /* Tente um valor extremamente alto para o Navbar inteiro */
+}
+/* Estilização da Logo (Texto "Rolês" com Degradê) */
+.logo a {
+    font-family: 'Poppins', sans-serif;
+    font-size: 20px;
+    font-weight: 700;
+    text-decoration: none;
+    
+    /* 1. Degradê de #131314 para #6C1DCE */
+    background: linear-gradient(to right, #131314, #6C1DCE); 
+    
+    /* 2. Recorta o background para que ele apareça apenas no texto */
+    -webkit-background-clip: text; 
+    background-clip: text;
+    
+    /* 3. Torna o texto transparente */
+    -webkit-text-fill-color: transparent; 
+    text-fill-color: transparent;
+}
+
+/* Menu de Navegação */
+.menu {
+    list-style: none;
+    display: flex;
+    gap: 30px;
+    margin: 0;
+    padding: 0;
+}
+
+/* Links do Menu */
+.menu li a {
+    text-decoration: none;
+    color: #000;
+    font-size: 12px; /* Tamanho da fonte solicitado */
+    transition: color 0.3s;
+}
+
+/* Efeito Hover do Menu (Cor roxa) */
+.menu li a:hover {
+    color: #6C1DCE; /* Usando a cor final do seu degradê para consistência */
+}
+
+/* Seção da Direita */
+.right-section {
+    display: flex;
+    gap: 15px;
+}
+
+/* Container de Busca */
+.search-container {
+    display: flex;
+    align-items: center;
+    background: #f7f7f7; 
+    border-radius: 6px;
+    padding: 6px 10px;
+    width: 180px; 
+}
+
+/* Ícone de Busca */
+.search-container i {
+    color: #999;
+    margin-right: 8px;
+    font-size: 14px;
+}
+
+/* Campo de Input de Busca */
+.search-container input {
+    border: none;
+    background: transparent;
+    outline: none;
+    font-size: 12px; /* Tamanho da fonte solicitado */
+    color: #333;
+    width: 100%;
+}
+
+/* Estilo do placeholder */
+.search-container input::placeholder {
+    color: #aaa;
+}
+
+/* Botão de Localização (Goiânia) */
+.city-btn {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    background: #f5f5f5; 
+    border: 1px solid #e0e0e0;
+    padding: 6px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 12px; /* Tamanho da fonte solicitado */
+    color: #000;
+    transition: background-color 0.3s;
+}
+
+/* Ícone do Botão de Localização */
+.city-btn i {
+    color: #6C1DCE; /* Usando o roxo do seu degradê */
+    font-size: 14px;
+}
+
+/* Link "Entrar" */
+.login {
+    text-decoration: none;
+    color: #000;
+    font-size: 12px; /* Tamanho da fonte solicitado */
+    padding: 6px 0;
+    transition: opacity 0.3s;
+}
+
+.login:hover {
+    opacity: 0.7;
+}
+
+/* Botão "Cadastrar" */
+.btn-header-cadastro {
+    background: #000; 
+    color: #fff;
+    padding: 8px 15px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-size: 12px; /* Tamanho da fonte solicitado */
+    transition: background-color 0.3s;
+}
+
+.btn-header-cadastro:hover {
+    background: #333;
+}
+
+/* ==================================================
+================ Barra Degrade Inferior =============
+================================================== */
+
+.bottom-gradient-bar {
+    height: 5px; /* Altura solicitada */
+    width: 100%;
+    /* Degradê: Preto (#131314) -> Claro (Central) -> Roxo (#6C1DCE) */
+    background: linear-gradient(to right, #131314 0%, #e9e5f5 50%, #6C1DCE 100%);
+    margin: 0;
+    padding: 0;
+}
+
+
+/* ... Seu CSS anterior permanece o mesmo até a seção da direita ... */
+
+/* ==================================================
+================ Seção da Direita (LOGADO/DESLOGADO) =
+================================================== */
+
+.right-section {
+    display: flex;
+    gap: 15px; /* Mantém o espaçamento */
+    align-items: center; /* Garante alinhamento vertical */
+}
+
+/* Container que envolve Entrar e Cadastrar, para controle JS */
+.user-action-btns {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
+/* --------------------------------------------------
+--------------- Versão LOGADO (Perfil) --------------
+-------------------------------------------------- */
+
+/* Seu CSS atualizado para o Header */
+
+/* ... (outras regras do header.css) ... */
+
+/* Container que envolve a foto e o dropdown */
+.user-profile-container {
+    position: relative; 
+    cursor: pointer;
+    z-index: 99999; /* Ainda mais alto que a navbar se for o caso */
+}
+
+.dropdown-menu {
+    position: absolute;
+    /* ... outras propriedades ... */
+    z-index: 100000; /* Tem que ser o maior de todos! */
+}
+
+/* Menu Dropdown */
+.dropdown-menu {
+    position: absolute;
+    top: 45px; 
+    right: 0;
+    width: 200px; 
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    
+    /* Z-INDEX JÁ ESTÁ AQUI, MAS VAMOS GARANTIR QUE É ALTO O SUFICIENTE */
+    z-index: 1000; /* Use um valor alto para garantir que esteja no topo de tudo */
+    
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+/* Garanta que o HEADER principal não esteja acidentalmente escondendo */
+header {
+    margin: 0;
+    padding: 0;
+    /* É uma boa prática dar um z-index ao header, mas não tão alto quanto o dropdown */
+    z-index: 100;
+}
+
+/* Estilo da Foto de Perfil (Avatar) */
+.profile-avatar {
+    width: 35px; /* Tamanho da foto */
+    height: 35px;
+    border-radius: 50%;
+    overflow: hidden;
+    /* Adiciona a borda branca, se quiser */
+    border: 2px solid #fff; 
+    box-shadow: 0 0 0 2px #6C1DCE; /* Borda roxa para destacar */
+}
+
+.avatar-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Menu Dropdown */
+.dropdown-menu {
+    position: absolute;
+    top: 45px; /* Posição abaixo da foto (ajuste se precisar) */
+    right: 0;
+    width: 200px; /* Largura do menu */
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    z-index: 100; /* Garante que fique acima de outros elementos */
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+/* Mostra o menu quando ativo */
+.user-profile-container.active .dropdown-menu {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+/* Informações do usuário no topo */
+.user-info {
+    padding: 10px 15px;
+    border-bottom: 1px solid #eee;
+}
+
+.user-info strong {
+    display: block;
+    font-size: 14px;
+    color: #333;
+}
+
+.user-info span {
+    display: block;
+    font-size: 10px;
+    color: #888;
+}
+
+/* Itens do menu (Perfil, Sair) */
+.dropdown-item {
+    display: flex;
+    align-items: center;
+    padding: 10px 15px;
+    text-decoration: none;
+    color: #333;
+    font-size: 12px;
+    transition: background-color 0.2s;
+}
+
+.dropdown-item i {
+    margin-right: 8px;
+    color: #6C1DCE;
+}
+
+.dropdown-item:hover {
+    background-color: #f5f5f5;
+    color: #000;
+}
+
+
+.dropdown-menu a:last-child {
+    border-bottom: none;
+}
+

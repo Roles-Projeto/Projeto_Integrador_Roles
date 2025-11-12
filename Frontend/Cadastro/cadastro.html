@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="../css/cadastro.css">
+</head>
+
+<body>
+    <header>
+        <div id="header-wrap">
+            <iframe id="site-header" src="../header/header.html" frameborder="0" scrolling="no" width="100%"
+                height="80"></iframe>
+        </div>
+    </header>
+    <main class="creation-container">
+        <div class="account-creation">
+            <h1>Criar Conta no Rolês</h1>
+            <p>Escolha o tipo de conta que deseja criar</p>
+
+            <div class="account-options">
+                <div class="option-card" id="client-card">
+                    <div class="icon-circle">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <h2>Sou Cliente</h2>
+                    <p class="description">Quero encontrar os melhores lugares para sair e me divertir.</p>
+                    <ul class="features-list">
+                        <li><i class="fas fa-arrow-right"></i> Descubra eventos e locais em Goiânia</li>
+                        <li><i class="fas fa-arrow-right"></i> Salve seus lugares favoritos</li>
+                        <li><i class="fas fa-arrow-right"></i> Avalie e compartilhe experiências</li>
+                        <li><i class="fas fa-arrow-right"></i> Receba recomendações personalizadas</li>
+                    </ul>
+                    <button class="btn btn-primary"
+                        onclick="location.href='cadastro_de_usuario.html'">CRIAR CONTA DO
+                        CLIENTE</button>
+                </div>
+
+                <div class="option-card" id="business-card">
+                    <div class="icon-circle">
+                        <i class="fas fa-file-alt"></i>
+                    </div>
+                    <h2>Sou Empresário</h2>
+                    <p class="description">Quero cadastrar meu estabelecimento e atrair mais clientes.</p>
+                    <ul class="features-list">
+                        <li><i class="fas fa-arrow-right"></i> Divulgue seu estabelecimento em Goiânia</li>
+                        <li><i class="fas fa-arrow-right"></i> Crie e gerencie eventos</li>
+                        <li><i class="fas fa-arrow-right"></i> Acompanhe visualizações e estatísticas</li>
+                        <li><i class="fas fa-arrow-right"></i> Planos a partir de R$ 49/mês</li>
+                    </ul>
+                    <button class="btn btn-secondary"
+                        onclick="location.href='cadastro_empresario.html'">
+                        CADASTRAR ESTABELECIMENTO
+                    </button>
+
+                </div>
+            </div>
+
+            <p class="login-link">
+                Já tem uma conta? <a href="../login/login.html">Fazer login</a>
+            </p>
+        </div>
+    </main>
+
+    <footer>
+        <iframe src="../footer/footer.html" frameborder="0" scrolling="no" width="100%" height="auto"></iframe>
+    </footer>
+
+
+</body>
+
+</html>
