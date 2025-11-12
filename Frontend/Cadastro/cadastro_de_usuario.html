@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro - Rolês</title>
+    <link rel="stylesheet" href="../css/cadastro_de_usuario.css"> 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+
+<body>
+    <header>
+        <div id="header-wrap">
+            <iframe id="site-header" src="../header/header.html" frameborder="0" scrolling="no" width="100%"
+                height="80"></iframe>
+        </div>
+    </header>
+
+    <main class="container">
+        <div class="card">
+            <div class="user-icon">
+                <i class="fa-solid fa-user"></i>
+            </div>
+            <h2>Criar Conta de Usuário</h2>
+            <p>Encontre os melhores lugares para sair e se divertir em <strong>Goiânia</strong></p>
+
+            <div class="social-buttons">
+                <button class="google"><i class="fab fa-google"></i> Cadastrar-se com Google</button>
+                <button class="facebook"><i class="fab fa-facebook-f"></i> Cadastrar-se com Facebook</button>
+            </div>
+
+            <div class="divider">OU CADASTRE-SE COM EMAIL</div>
+
+            <form id="cadastroForm">
+                <label>Nome Completo</label>
+                <input type="text" id="nome" placeholder="Seu nome completo" required>
+
+                <label>Email</label>
+                <input type="email" id="email" placeholder="seu@email.com" required>
+
+                <label>Telefone (opcional)</label>
+                <input type="tel" id="telefone" placeholder="(62) 99999-9999">
+
+                <label>Senha</label>
+                <input type="password" id="senha" placeholder="Mínimo 6 caracteres" required minlength="6">
+
+                <label>Confirmar Senha</label>
+                <input type="password" id="confirmarSenha" placeholder="Digite novamente sua senha" required>
+
+                <button type="submit" class="btn-criar">Criar Conta</button>
+            </form>
+
+            <p class="termos">
+                Ao criar uma conta, você concorda com nossos <a href="../Termo_de_uso/termodeuso.html">Termos de Uso</a> </a>.
+            </p>
+
+            <p class="login">
+                Já tem uma conta? <a href="../login/login.html">Fazer login</a><br>
+                É empresário? <a href="../Cadastro/cadastro_empresario.html">Cadastre seu estabelecimento</a>
+            </p>
+        </div>
+    </main>
+
+    <footer>
+        <iframe src="../footer/footer.html" frameborder="0" scrolling="no" width="100%" height="auto"></iframe>
+    </footer>
+
+</body>
+
+<script>
+const form = document.getElementById('cadastroForm');
+
+form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const nome_completo = document.getElementById('nome').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const telefone = document.getElementById('telefone').value.trim();
+    const senha = document.getElementById('senha').value.trim();
+    const confirmar = document.getElementById('confirmarSenha').value.trim();
+
+    // ✅ Validação
+    if (senha !== confirmar) {
+        alert('As senhas não coincidem!');
+        return;
+    }
+    if (senha.length < 6) {
+        alert('A senha deve ter no mínimo 6 caracteres.');
+        return;
+    }
+
+    try {
+        // 🚀 Envio dos dados para o back-end
+        const response = await fetch("http://localhost:3000/usuarios/cadastro", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                nome_completo,
+                email,
+                telefone,
+                senha
+            })
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+            alert("✅ " + data.mensagem);
+
+            // 🔐 Login automático e salvamento local
+            localStorage.setItem('userIsLoggedIn', 'true');
+            localStorage.setItem('userType', 'cliente'); 
+            localStorage.setItem('profileName', nome_completo);
+            localStorage.setItem('profileEmail', email);
+            localStorage.setItem('profilePhone', telefone || '(Não informado)');
+            localStorage.setItem('profilePhotoUrl', 'https://via.placeholder.com/150'); 
+
+            // Redireciona
+            window.location.href = '../Perfil_usuario/Perfil_usuario.html';
+        } else {
+            alert("❌ Erro: " + (data.erro || "Falha desconhecida."));
+        }
+    } catch (err) {
+        console.error("Erro:", err);
+        alert("❌ Erro ao conectar com o servidor.");
+    }
+});
+</script>
+
+
+</html>
