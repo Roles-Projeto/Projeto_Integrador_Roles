@@ -1,0 +1,8 @@
+# Ignora pastas que não devem ser processadas pelo Jekyll
+exclude:
+  - "backend/node_modules"
+  - "node_modules"
+  - "vendor"
+  - "Gemfile"
+  - "Gemfile.lock"
+  - "README.md"
