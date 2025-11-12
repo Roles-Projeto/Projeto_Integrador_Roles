@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro de Estabelecimento - Roale</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="../css/cadastro_de_Empresario.css">
+</head>
+<header>
+    <iframe id="site-header" src="../header/header.html" frameborder="0" scrolling="no" width="100%" height="80"
+        style="position: fixed; top: 0; left: 0; z-index: 999999999;"></iframe>
+</header>
+
+<body>
+
+    <main class="main-content">
+
+        <section class="section-header">
+            <a href="../Tele cadastro /cadastro.html" class="back-link">← Voltar</a>
+            <div class="logo-placeholder">
+                <div class="icon-circle"><i class="material-icons">store_mall_directory</i></div>
+            </div>
+            <h1>Cadastre Seu Estabelecimento</h1>
+            <p class="subtitle">Aumente a visibilidade do seu negócio em Goiânia e atraia mais clientes</p>
+        </section>
+
+        <section class="info-box-container">
+            <div class="info-box">
+                <p><strong><i class="material-icons">info</i> Importante:</strong></p>
+                <p>O Rolê é uma plataforma completa para estabelecimentos em Goiânia. Divulgue seu espaço, crie eventos
+                    e venda ingressos online, tudo em um só lugar!</p>
+            </div>
+        </section>
+
+        <section class="plans-section">
+            <h2>Nossos Planos</h2>
+            <p>Após o cadastro, você poderá escolher o plano ideal para seu negócio</p>
+
+            <div class="plans-grid">
+                <div class="plan-card basic">
+                    <p class="plan-name">Básico</p>
+                    <p class="plan-price">R$ 49<span>/mês</span></p>
+                    <ul class="plan-features">
+                        <li><span class="check-icon"><i class="material-icons">check</i></span> 1 estabelecimento</li>
+                        <li><span class="check-icon"><i class="material-icons">check</i></span> 3 eventos/mês</li>
+                        <li><span class="check-icon"><i class="material-icons">check</i></span> Venda ingressos (5%
+                            taxa)</li>
+                    </ul>
+                </div>
+
+                <div class="plan-card professional selected">
+                    <span class="most-popular-badge">Mais Popular</span>
+                    <p class="plan-name">Profissional</p>
+                    <p class="plan-price">R$ 99<span>/mês</span></p>
+                    <ul class="plan-features">
+                        <li><span class="check-icon"><i class="material-icons">check</i></span> 3 estabelecimentos</li>
+                        <li><span class="check-icon"><i class="material-icons">check</i></span> Eventos ilimitados</li>
+                        <li><span class="check-icon"><i class="material-icons">check</i></span> Venda ingressos (5%
+                            taxa)</li>
+                    </ul>
+                </div>
+
+                <div class="plan-card premium">
+                    <p class="plan-name">Premium</p>
+                    <p class="plan-price">R$ 199<span>/mês</span></p>
+                    <ul class="plan-features">
+                        <li><span class="check-icon"><i class="material-icons">check</i></span> Ilimitado</li>
+                        <li><span class="check-icon"><i class="material-icons">check</i></span> Venda ingressos (3%
+                            taxa)</li>
+                        <li><span class="check-icon"><i class="material-icons">check</i></span> Suporte VIP</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section class="registration-section">
+            <h2>Informações do Cadastro</h2>
+            <p>Preencha os dados abaixo para criar sua conta empresarial</p>
+
+            <div class="social-login-options">
+                <p class="fast-register-text">Cadastre-se rapidamente com</p>
+                <button class="social-button google">
+                    <i class="material-icons google-icon">g_mobiledata</i> Cadastre-se com Google
+                </button>
+                <button class="social-button facebook">
+                    <i class="material-icons facebook-icon">facebook</i> Cadastre-se com Facebook
+                </button>
+            </div>
+
+            <div class="separator-or">
+                <span>OU</span>
+            </div>
+
+            <div class="separator-or small">
+                <span>OU PREENCHA O FORMULÁRIO</span>
+            </div>
+
+            <form class="registration-form">
+                <input type="hidden" id="plano_escolhido" name="plano_escolhido" value="Profissional">
+                <fieldset>
+                    <legend>Dados do Responsável</legend>
+                    <div class="form-group-row">
+                        <div class="input-container">
+                            <label for="responsavel_nome">Nome do Responsável</label>
+                            <input type="text" id="responsavel_nome" value="João Silva">
+                        </div>
+                        <div class="input-container">
+                            <label for="responsavel_email">Email</label>
+                            <input type="email" id="responsavel_email" value="contato@estabelecimento.com">
+                        </div>
+                    </div>
+                </fieldset>
+
+                <fieldset>
+                    <legend>Dados do Estabelecimento</legend>
+                    <div class="form-group-row">
+                        <div class="input-container">
+                            <label for="estabelecimento_nome">Nome do Estabelecimento</label>
+                            <input type="text" id="estabelecimento_nome" value="Bar do João">
+                        </div>
+                        <div class="input-container">
+                            <label for="cnpj">CNPJ</label>
+                            <input type="text" id="cnpj" placeholder="00.000.000/0000-00">
+                        </div>
+                    </div>
+                    <div class="form-group-row">
+                        <div class="input-container">
+                            <label for="tipo_estabelecimento">Tipo de Estabelecimento</label>
+                            <select id="tipo_estabelecimento">
+                                <option>Selecione o tipo</option>
+                                <option>Bar</option>
+                                <option>Restaurante</option>
+                                <option>Casa de Shows</option>
+                            </select>
+                        </div>
+                        <div class="input-container">
+                            <label for="telefone">Telefone Comercial</label>
+                            <input type="tel" id="telefone" value="(62) 3000-0000">
+                        </div>
+                    </div>
+                    <div class="input-container full-width">
+                        <label for="descricao_estabelecimento">Descrição do Estabelecimento</label>
+                        <textarea id="descricao_estabelecimento"
+                            placeholder="Descreva seu estabelecimento: ambiente, música, gastronomia, diferenciais..."></textarea>
+                    </div>
+                </fieldset>
+
+                <fieldset>
+                    <legend>Localização</legend>
+                    <div class="input-container full-width">
+                        <label for="endereco">Endereço Completo</label>
+                        <input type="text" id="endereco" placeholder="Rua, número, bairro">
+                    </div>
+                    <div class="form-group-row">
+                        <div class="input-container">
+                            <label for="cidade">Cidade</label>
+                            <input type="text" id="cidade" value="Goiânia" readonly>
+                            <small>Atualmente operamos apenas em Goiânia</small>
+                        </div>
+                        <div class="input-container">
+                            <label for="estado">Estado</label>
+                            <input type="text" id="estado" value="GO" readonly>
+                        </div>
+                    </div>
+                </fieldset>
+
+                <fieldset>
+                    <legend>Segurança</legend>
+                    <div class="form-group-row">
+                        <div class="input-container">
+                            <label for="senha">Senha</label>
+                            <input type="password" id="senha" placeholder="Mínimo 8 caracteres">
+                        </div>
+                        <div class="input-container">
+                            <label for="confirmar_senha">Confirmar Senha</label>
+                            <input type="password" id="confirmar_senha" placeholder="Digite novamente sua senha">
+                        </div>
+                    </div>
+                </fieldset>
+
+                <button type="submit" class="submit-button">
+                    Criar Conta e Escolher Plano
+                </button>
+
+                <div class="form-footer-links">
+                    <p class="terms-text">Ao criar uma conta, você concorda com nossos <a href="../Termo_de_uso/termodeuso.html">Termos de Uso</a> </p>
+                    <p>
+                        Já tem uma conta empresarial? <a href="../login/login.html">Fazer login</a><br>
+                        É usuário? <a href="../Cadastro/cadastro_de_usuario.html">Cadastre-se como
+                            cliente</a>
+                    </p>
+                </div>
+            </form>
+        </section>
+
+    </main>
+    <footer>
+        <iframe src="../footer/footer.html" frameborder="0" scrolling="no" width="100%" height="auto"></iframe>
+    </footer>
+
+<script>
+    // -----------------------------
+    // 🔹 Lógica dos Planos
+    // -----------------------------
+    const planCards = document.querySelectorAll('.plan-card');
+    const planoEscolhidoInput = document.getElementById('plano_escolhido');
+
+    if (planCards.length > 0) {
+        const initialSelectedCard = document.querySelector('.plan-card.selected');
+        if (initialSelectedCard && planoEscolhidoInput) {
+            planoEscolhidoInput.value = initialSelectedCard.querySelector('.plan-name').textContent.trim();
+        }
+
+        planCards.forEach(card => {
+            card.addEventListener('click', (event) => {
+                event.preventDefault();
+                planCards.forEach(c => c.classList.remove('selected'));
+                card.classList.add('selected');
+                const selectedPlan = card.querySelector('.plan-name').textContent.trim();
+                if (planoEscolhidoInput) planoEscolhidoInput.value = selectedPlan;
+                console.log("🟣 Plano selecionado:", selectedPlan);
+            });
+        });
+    }
+
+    // -----------------------------
+    // 🔹 Lógica de Cadastro do Empresário
+    // -----------------------------
+    const formCadastro = document.querySelector('.registration-form');
+
+    if (formCadastro) {
+        formCadastro.addEventListener('submit', async function(event) {
+            event.preventDefault();
+
+            // Captura os valores dos campos
+            const responsavelNome = document.getElementById('responsavel_nome').value.trim();
+            const responsavelEmail = document.getElementById('responsavel_email').value.trim();
+            const estabelecimentoNome = document.getElementById('estabelecimento_nome').value.trim();
+            const cnpj = document.getElementById('cnpj').value.trim();
+            const tipoEstabelecimento = document.getElementById('tipo_estabelecimento').value.trim();
+            const telefone = document.getElementById('telefone').value.trim();
+            const descricao = document.getElementById('descricao_estabelecimento').value.trim();
+            const endereco = document.getElementById('endereco').value.trim();
+            const cidade = document.getElementById('cidade').value.trim();
+            const estado = document.getElementById('estado').value.trim();
+            const senha = document.getElementById('senha').value;
+            const confirmarSenha = document.getElementById('confirmar_senha').value;
+            const planoSelecionado = planoEscolhidoInput ? planoEscolhidoInput.value : null;
+
+            // Captura a imagem de perfil (caso exista um input file)
+            const imagemInput = document.getElementById('foto_perfil');
+            let imagemBase64 = '../Imagens/Logo Restaurante.avif'; // padrão
+
+            if (imagemInput && imagemInput.files.length > 0) {
+                const arquivo = imagemInput.files[0];
+                const reader = new FileReader();
+                imagemBase64 = await new Promise((resolve) => {
+                    reader.onload = () => resolve(reader.result);
+                    reader.readAsDataURL(arquivo);
+                });
+            }
+
+            // -----------------------------
+            // 🧩 Validações básicas
+            // -----------------------------
+            if (!responsavelNome || !responsavelEmail || !estabelecimentoNome || !cnpj || !senha) {
+                alert("⚠️ Por favor, preencha todos os campos obrigatórios (Nome, Email, Estabelecimento, CNPJ e Senha).");
+                return;
+            }
+
+            if (!planoSelecionado) {
+                alert("⚠️ Selecione um plano antes de continuar!");
+                return;
+            }
+
+            if (senha.length < 8) {
+                alert("⚠️ A senha deve ter no mínimo 8 caracteres.");
+                return;
+            }
+
+            if (senha !== confirmarSenha) {
+                alert("⚠️ As senhas não coincidem! Verifique e tente novamente.");
+                return;
+            }
+
+            // -----------------------------
+            // 🚀 Envio dos dados ao backend
+            // -----------------------------
+            try {
+                const response = await fetch("http://localhost:3000/empresarios/cadastro", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        plano: planoSelecionado,
+                        nome_responsavel: responsavelNome,
+                        email: responsavelEmail,
+                        nome_estabelecimento: estabelecimentoNome,
+                        cnpj: cnpj,
+                        tipo_estabelecimento: tipoEstabelecimento,
+                        telefone_comercial: telefone,
+                        descricao: descricao,
+                        endereco: endereco,
+                        cidade: cidade,
+                        estado: estado,
+                        senha: senha
+                    })
+                });
+
+                const data = await response.json();
+                console.log("📩 Resposta do backend:", data);
+
+                if (data.mensagem === "Empresário cadastrado com sucesso!") {
+                    alert("✅ Cadastro realizado com sucesso!");
+
+                    // 🔹 Salva dados no LocalStorage
+                    localStorage.setItem('userIsLoggedIn', 'true');
+                    localStorage.setItem('userType', 'empresario');
+                    localStorage.setItem('profileName', estabelecimentoNome);
+                    localStorage.setItem('profileEmail', responsavelEmail);
+                    localStorage.setItem('profilePhotoUrl', imagemBase64);
+
+                    // 🔹 Atualiza o header em tempo real
+                    const headerIframe = document.getElementById("site-header");
+                    if (headerIframe && headerIframe.contentWindow) {
+                        headerIframe.contentWindow.postMessage({
+                            action: 'UPDATE_AVATAR',
+                            profilePhotoUrl: imagemBase64,
+                            profileName: estabelecimentoNome
+                        }, '*');
+                    }
+
+                    // 🔹 Redireciona para o perfil
+                    window.location.href = "../Perfil_empresario/Perfil_empresario.html";
+                } else {
+                    alert("⚠️ Erro ao cadastrar: " + (data.erro || "Verifique os dados e tente novamente."));
+                }
+            } catch (erro) {
+                console.error("❌ Erro na requisição:", erro);
+                alert("❌ Não foi possível conectar ao servidor. Verifique se o backend está rodando (porta 3000).");
+            }
+        });
+    }
+</script>
+
+
+</body>
+
+</html>

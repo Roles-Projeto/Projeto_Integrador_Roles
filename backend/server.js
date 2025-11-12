@@ -1,17 +1,29 @@
-const express = require('express');
-const cors = require('cors');
-const contatoRoutes = require('./routes/contato.js');
+require("dotenv").config();
+const express = require("express");
+const cors = require("cors");
 
 const app = express();
 
-app.use(cors());
+// Middleware
 app.use(express.json());
+app.use(cors());
 
-// rota principal de contato
-app.use('/api/contato', contatoRoutes);
+// Rotas
+const usuariosRoutes = require("./routes/usuarios");
+const empresariosRoutes = require("./routes/empresarios");
+const authRoutes = require("./routes/auth");
 
-const PORT = 3000;
-app.listen(PORT, () => {
-  console.log(`Servidor rodando em http://localhost:${PORT}`);
+app.use("/usuarios", usuariosRoutes);
+app.use("/empresarios", empresariosRoutes);
+app.use("/", authRoutes);
+
+// Rota inicial
+app.get("/", (req, res) => {
+  res.send("Servidor rodando! 🚀");
 });
 
+// Iniciar servidor
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`🌐 Servidor rodando na porta ${PORT}`);
+});
