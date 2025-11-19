@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta-name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/dashboard-empre.css">
+</head>
+<body>
+
+<!-- HEADER FIXO -->
+<header>
+    <iframe id="site-header" src="../Frontend/header/header.html" frameborder="0" scrolling="no"
+        width="100%" height="100" style="position: fixed; top: 0; left: 0; z-index: 999;"></iframe>
+</header>
+
+<!-- CONTEÚDO REAL -->
+<main class="main-content">
+
+    <div class="dashboard-container">
+
+        <div class="dashboard-header">
+            <div>
+                <h1>Dashboard Empresarial</h1>
+                <p>Bem-vindo, Restaurante Google</p>
+            </div>
+
+            <button class="btn-export">
+                <img src="Imagens/download (1).svg" class="icon">
+                Exportar Relatório
+            </button>
+        </div>
+
+        <div class="alert-box">
+            <img src="Imagens/sino.svg" class="alert-icon">
+
+            <div class="alert-text">
+                <strong>Você tem 3 notificações não lidas</strong>
+                <p>- Verifique suas novas vendas e atualizações!</p>
+            </div>
+        </div>
+
+        <div class="tabs">
+            <button class="tab active">
+                <img src="Imagens/estatisticas.svg" class="icon"> Dashboard
+            </button>
+
+            <button class="tab">
+                <img src="Imagens/comprar.svg" class="icon"> Estabelecimentos
+            </button>
+
+            <button class="tab">
+                <img src="Imagens/calendario.svg" class="icon"> Eventos
+            </button>
+
+            <button class="tab">
+                <img src="Imagens/onda-de-conta-de-dinheiro (1).svg" class="icon"> Vendas
+            </button>
+
+            <button class="tab">
+                <img src="Imagens/sino.svg" class="icon">
+                Notificações
+                <span class="badge">3</span>
+            </button>
+        </div>
+
+
+        <!-- CARDS -->
+        <div class="stats-container">
+
+            <div class="stat-card">
+                <div class="stat-header">
+                    <h3>Receita Total</h3>
+                    <img src="Imagens/cifrao.svg" class="icon">
+                </div>
+                <p class="stat-value">R$ 45.780,50</p>
+                <p class="stat-increase">
+                    <img src="Imagens/trending-up.svg" class="trend-icon"> +12.5% <span>vs mês passado</span>
+                </p>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-header">
+                    Ingressos Vendidos
+                    <img src="Imagens/ticket.svg" class="icon">
+                </div>
+                <p class="stat-value">342</p>
+                <p class="stat-increase">
+                    <img src="Imagens/trending-up.svg" class="trend-icon"> +8.2% <span>vs mês passado</span>
+                </p>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-header">
+                    Visualizações
+                    <img src="Imagens/eye.svg" class="icon">
+                </div>
+                <p class="stat-value">8.945</p>
+                <p class="stat-increase">
+                    <img src="Imagens/trending-up.svg" class="trend-icon"> +23.1% <span>vs mês passado</span>
+                </p>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-header">
+                    Avaliação Média
+                    <img src="Imagens/star.svg" class="icon">
+                </div>
+                <p class="stat-value">4.7 ⭐</p>
+                <p class="stat-description">Baseado em 216 avaliações</p>
+            </div>
+
+        </div>
+
+
+        <!-- ========================= -->
+        <!--  GRÁFICOS AQUI DENTRO !!! -->
+        <!-- ========================= -->
+        <div class="charts-row">
+
+            <div class="chart-card">
+                <h3>Gráfico de Vendas</h3>
+                <p>Últimos 6 meses</p>
+                <canvas id="salesChart"></canvas>
+            </div>
+
+            <div class="chart-card">
+                <h3>Gráfico de Avaliações</h3>
+                <p>Classificação média</p>
+                <canvas id="ratingChart"></canvas>
+            </div>
+
+        </div>
+
+    </div> <!-- fecha dashboard-container -->
+
+</main>
+<!-- CHART.JS -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+// ====== GRÁFICO DE VENDAS ======
+const salesCtx = document.getElementById('salesChart');
+
+new Chart(salesCtx, {
+    type: 'line',
+    data: {
+        labels: ['Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out'],
+        datasets: [{
+            label: '',
+            data: [8000, 12000, 16000, 21000, 30000, 45000],
+            borderColor: '#A78BFA',
+            backgroundColor: 'rgba(167,139,250,0.35)',
+            borderWidth: 3,
+            fill: true,
+            tension: 0.4,
+            pointRadius: 0,
+        }]
+    },
+    options: {
+        responsive: true,
+        plugins: { 
+            legend: { display: false } 
+        },
+        scales: {
+            x: {
+                grid: { display: false },
+                ticks: { color: '#777' }
+            },
+            y: {
+                grid: {
+                    borderDash: [6, 6],
+                    color: '#DDD'
+                },
+                ticks: { color: '#777' }
+            }
+        }
+    }
+});
+
+// ====== GRÁFICO DE EVENTOS ======
+const ratingCtx = document.getElementById('ratingChart');
+
+new Chart(ratingCtx, {
+    type: 'bar',
+    data: {
+        labels: ['Festival Eletrônico', 'Live Jazz Night', 'Happy Hour'],
+        datasets: [
+            {
+                label: 'Disponíveis',
+                data: [110, 45, 100],
+                backgroundColor: '#D1D1D6',
+                borderRadius: 8,
+            },
+            {
+                label: 'Vendidos',
+                data: [190, 155, 0],
+                backgroundColor: '#A78BFA',
+                borderRadius: 8,
+            }
+        ]
+    },
+    options: {
+        responsive: true,
+        plugins: {
+            legend: {
+                labels: {
+                    usePointStyle: true,
+                    pointStyle: 'circle',
+                    padding: 20
+                }
+            }
+        },
+        scales: {
+            x: {
+                grid: { display: false },
+                ticks: { color: '#777' }
+            },
+            y: {
+                min: 0,
+                max: 220,
+                grid: {
+                    borderDash: [6, 6],
+                    color: '#DDD'
+                },
+                ticks: { color: '#777' }
+            }
+        }
+    }
+});
+</script>
+
+
+
+</body>
+</html>
