@@ -802,4 +802,7 @@ footer iframe {
     display: block;
 }
 
+.card-50 .icon i {
+    color: #ffffff; /* branco */
+}
 
