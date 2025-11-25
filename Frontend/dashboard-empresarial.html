@@ -1,238 +1,833 @@
 <!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta-name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard</title>
+<html lang="pt-BR">
 
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/dashboard-empre.css">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard</title>
+
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap">
+  <link rel="stylesheet" href="css/dashboard-empre.css">
 </head>
+
 <body>
 
-<!-- HEADER FIXO -->
-<header>
-    <iframe id="site-header" src="../Frontend/header/header.html" frameborder="0" scrolling="no"
-        width="100%" height="100" style="position: fixed; top: 0; left: 0; z-index: 999;"></iframe>
-</header>
+  <!-- HEADER FIXO -->
+  <header>
+    <iframe id="site-header" src="../Frontend/header/header.html" frameborder="0" scrolling="no" width="100%"
+      height="100" style="position: fixed; top: 0; left: 0; z-index: 999;"></iframe>
+  </header>
 
-<!-- CONTEÚDO REAL -->
-<main class="main-content">
-
+  <!-- CONTEÚDO REAL -->
+  <main class="main-content">
     <div class="dashboard-container">
 
-        <div class="dashboard-header">
-            <div>
-                <h1>Dashboard Empresarial</h1>
-                <p>Bem-vindo, Restaurante Google</p>
-            </div>
-
-            <button class="btn-export">
-                <img src="Imagens/download (1).svg" class="icon">
-                Exportar Relatório
-            </button>
+      <div class="dashboard-header">
+        <div>
+          <h1>Dashboard Empresarial</h1>
+          <p>Bem-vindo, Restaurante Google</p>
         </div>
 
-        <div class="alert-box">
-            <img src="Imagens/sino.svg" class="alert-icon">
+        <button class="btn-export">
+          <img src="Imagens/download (1).svg" class="icon">
+          Exportar Relatório
+        </button>
+      </div>
 
-            <div class="alert-text">
-                <strong>Você tem 3 notificações não lidas</strong>
-                <p>- Verifique suas novas vendas e atualizações!</p>
-            </div>
+      <div class="alert-box">
+        <img src="Imagens/sino.svg" class="alert-icon">
+
+        <div class="alert-text">
+          <strong>Você tem 3 notificações não lidas</strong>
+          <p>- Verifique suas novas vendas e atualizações!</p>
         </div>
+      </div>
 
-        <div class="tabs">
-            <button class="tab active">
-                <img src="Imagens/estatisticas.svg" class="icon"> Dashboard
-            </button>
+      <div class="tabs">
+        <button class="tab " onclick="showSection('dashboard')">
+          <img src="Imagens/estatisticas.svg" class="icon"> Dashboard
+        </button>
 
-            <button class="tab">
-                <img src="Imagens/comprar.svg" class="icon"> Estabelecimentos
-            </button>
+        <button class="tab" onclick="showSection('estabelecimentos')">
+          <img src="Imagens/comprar.svg" class="icon"> Estabelecimentos
+        </button>
 
-            <button class="tab">
-                <img src="Imagens/calendario.svg" class="icon"> Eventos
-            </button>
+        <button class="tab" onclick="showSection('eventos')">
+          <img src="Imagens/calendario.svg" class="icon"> Eventos
+        </button>
 
-            <button class="tab">
-                <img src="Imagens/onda-de-conta-de-dinheiro (1).svg" class="icon"> Vendas
-            </button>
+        <button class="tab" onclick="showSection('vendas')">
+          <img src="Imagens/onda-de-conta-de-dinheiro (1).svg" class="icon"> Vendas
+        </button>
 
-            <button class="tab">
-                <img src="Imagens/sino.svg" class="icon">
-                Notificações
-                <span class="badge">3</span>
-            </button>
-        </div>
+        <button class="tab" onclick="showSection('notificacoes')">
+          <img src="Imagens/sino.svg" class="icon">
+          Notificações
+          <span class="badge">3</span>
+        </button>
+      </div>
 
-
-        <!-- CARDS -->
+      <!-- DASHBOARD -->
+      <section id="dashboard" class="dashboard-section active-section">
         <div class="stats-container">
-
-            <div class="stat-card">
-                <div class="stat-header">
-                    <h3>Receita Total</h3>
-                    <img src="Imagens/cifrao.svg" class="icon">
-                </div>
-                <p class="stat-value">R$ 45.780,50</p>
-                <p class="stat-increase">
-                    <img src="Imagens/trending-up.svg" class="trend-icon"> +12.5% <span>vs mês passado</span>
-                </p>
+          <div class="stat-card">
+            <div class="stat-header">
+              <h3>Receita Total</h3>
+              <img src="Imagens/dolar.svg" class="icon">
             </div>
+            <p class="stat-value">R$ 45.780,50</p>
+            <p class="stat-increase">
+              <img src="Imagens/tendencia-de-seta-para-cima.svg" class="trend-icon"> +12.5% <span>vs mês passado</span>
+            </p>
+          </div>
 
-            <div class="stat-card">
-                <div class="stat-header">
-                    Ingressos Vendidos
-                    <img src="Imagens/ticket.svg" class="icon">
-                </div>
-                <p class="stat-value">342</p>
-                <p class="stat-increase">
-                    <img src="Imagens/trending-up.svg" class="trend-icon"> +8.2% <span>vs mês passado</span>
-                </p>
+          <div class="stat-card">
+            <div class="stat-header">
+              Ingressos Vendidos
+              <img src="Imagens/ingresso-de-basquete.svg" class="icon">
             </div>
+            <p class="stat-value">342</p>
+            <p class="stat-increase">
+              <img  src="Imagens/tendencia-de-seta-para-cima.svg" class="trend-icon"> +8.2% <span>vs mês passado</span>
+            </p>
+          </div>
 
-            <div class="stat-card">
-                <div class="stat-header">
-                    Visualizações
-                    <img src="Imagens/eye.svg" class="icon">
-                </div>
-                <p class="stat-value">8.945</p>
-                <p class="stat-increase">
-                    <img src="Imagens/trending-up.svg" class="trend-icon"> +23.1% <span>vs mês passado</span>
-                </p>
+          <div class="stat-card">
+            <div class="stat-header">
+              Visualizações
+              <img src="Imagens/olho.svg" class="icon">
             </div>
+            <p class="stat-value">8.945</p>
+            <p class="stat-increase">
+              <img  src="Imagens/tendencia-de-seta-para-cima.svg" class="trend-icon"> +23.1% <span>vs mês passado</span>
+            </p>
+          </div>
 
-            <div class="stat-card">
-                <div class="stat-header">
-                    Avaliação Média
-                    <img src="Imagens/star.svg" class="icon">
-                </div>
-                <p class="stat-value">4.7 ⭐</p>
-                <p class="stat-description">Baseado em 216 avaliações</p>
+          <div class="stat-card">
+            <div class="stat-header">
+              Avaliação Média
+              <img src="Imagens/estrela (2).svg" class="icon">
             </div>
-
+            <p class="stat-value">4.7 ⭐</p>
+            <p class="stat-description">Baseado em 216 avaliações</p>
+          </div>
         </div>
 
-
-        <!-- ========================= -->
-        <!--  GRÁFICOS AQUI DENTRO !!! -->
-        <!-- ========================= -->
         <div class="charts-row">
+          <div class="chart-card">
+            <h3>Gráfico de Vendas</h3>
+            <p>Últimos 6 meses</p>
+            <canvas id="salesChart"></canvas>
+          </div>
 
-            <div class="chart-card">
-                <h3>Gráfico de Vendas</h3>
-                <p>Últimos 6 meses</p>
-                <canvas id="salesChart"></canvas>
-            </div>
+          <div class="chart-card">
+            <h3>Gráfico de Avaliações</h3>
+            <p>Classificação média</p>
+            <canvas id="ratingChart"></canvas>
+          </div>
+        </div>
+        <!-- VENDAS RECENTES -->
+<div class="recent-sales-card">
+  <div class="sales-header">
+    <h3>Vendas Recentes</h3>
+    <p>Últimas transações de ingressos</p>
+  </div>
 
-            <div class="chart-card">
-                <h3>Gráfico de Avaliações</h3>
-                <p>Classificação média</p>
-                <canvas id="ratingChart"></canvas>
-            </div>
+  <div class="sales-list">
+    <!-- Venda 1 -->
+    <div class="sale-item">
+      <div class="sale-info">
+        <div class="sale-header">
+          <span class="customer-name">Ana Silva</span>
+          <span class="sale-status completed">Pago</span>
+        </div>
+        <p class="sale-details">2x Live Jazz Night</p>
+        <p class="sale-date">2025-10-07 14:32</p>
+      </div>
+      <div class="sale-amount">
+        <span class="amount">R$ 240,00</span>
+      </div>
+    </div>
 
+    <!-- Venda 2 -->
+    <div class="sale-item">
+      <div class="sale-info">
+        <div class="sale-header">
+          <span class="customer-name">Carlos Santos</span>
+          <span class="sale-status completed">Pago</span>
+        </div>
+        <p class="sale-details">4x Festival Eletrônico</p>
+        <p class="sale-date">2025-10-07 13:15</p>
+      </div>
+      <div class="sale-amount">
+        <span class="amount">R$ 582,00</span>
+      </div>
+    </div>
+
+    <!-- Venda 3 -->
+    <div class="sale-item">
+      <div class="sale-info">
+        <div class="sale-header">
+          <span class="customer-name">Maria Oliveira</span>
+          <span class="sale-status completed">Pago</span>
+        </div>
+        <p class="sale-details">1x Live Jazz Night</p>
+        <p class="sale-date">2025-10-07 11:45</p>
+      </div>
+      <div class="sale-amount">
+        <span class="amount">R$ 120,00</span>
+      </div>
+    </div>
+
+    <!-- Venda 4 -->
+    <div class="sale-item">
+      <div class="sale-info">
+        <div class="sale-header">
+          <span class="customer-name">João Pedro</span>
+          <span class="sale-status completed">Pago</span>
+        </div>
+        <p class="sale-details">3x Festival Eletrônico</p>
+        <p class="sale-date">2025-10-08 19:20</p>
+      </div>
+      <div class="sale-amount">
+        <span class="amount">R$ 436,50</span>
+      </div>
+    </div>
+
+    <!-- Venda 5 -->
+    <div class="sale-item">
+      <div class="sale-info">
+        <div class="sale-header">
+          <span class="customer-name">Beatriz Costa</span>
+          <span class="sale-status pending">Pendente</span>
+        </div>
+        <p class="sale-details">2x Live Jazz Night</p>
+        <div class="sale-date-container">
+          <p class="sale-date">2025-10-08 16:10</p>
+        </div>
+      </div>
+      <div class="sale-amount">
+        <span class="amount">R$ 240,00</span>
+      </div>
+    </div>
+  </div>
+</div>
+        
+      </section>
+
+      
+      <!-- ESTABELECIMENTOS -->
+<section id="estabelecimentos" class="dashboard-section">
+  <div class="section-content">
+    <div class="establishments-header">
+      <h2>Seus Estabelecimentos</h2>
+      <p>Gerencie seus locais cadastrados</p>
+    </div>
+
+    <div class="establishments-container">
+      <!-- Card 1 - Sunset Lounge -->
+      <div class="establishment-card">
+        <div class="establishment-image">
+          <img src="Imagens/ferias.webp" alt="Sunset Lounge" class="establishment-img">
+        </div>
+        
+        <div class="establishment-header">
+          <h3 class="establishment-name">Sunset Lounge</h3>
+          <p class="establishment-address">Av. T: 10, 1234 - Setor Bueno, Goiânia</p>
         </div>
 
+        <div class="establishment-stats">
+          <div class="stat-item">
+            <span class="stat-value"> ⭐ 4.8</span>
+            <span class="stat-label">127 avaliações</span>
+          </div>
+          <div class="stat-item">
+            
+            <span class="stat-value"><img  class="estrelinha" src="Imagens/olho.svg" alt=""> 4523</span>
+            <span class="stat-label">Visualizações</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-value">R$ 28.450</span>
+            <span class="stat-label">receita</span>
+          </div>
+        </div>
+
+        <div class="establishment-actions">
+          <button class="btn-edit">
+            <img src="Imagens/editar.svg" class="icon">
+            Editar
+          </button>
+          <button class="btn-view">
+            <img  class="estrelinha" src="Imagens/olho.svg" alt="">
+            Visualizar
+          </button>
+        </div>
+      </div>
+
+      <!-- Card 2 - Espaço Cultural Mix -->
+      <div class="establishment-card">
+        <div class="establishment-image">
+          <img src="Imagens/estabelice" alt="Espaço Cultural Mix" class="establishment-img">
+        </div>
+        
+        <div class="establishment-header">
+          <h3 class="establishment-name">Espaço Cultural Mix</h3>
+          <p class="establishment-address">Rua 84, 567 - Setor Sul, Goiânia</p>
+        </div>
+
+        <div class="establishment-stats">
+          <div class="stat-item">
+            <span class="stat-value">⭐ 4.6</span>
+            <span class="stat-label">89 avaliações</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-value"> <img  class="estrelinha" src="Imagens/olho.svg" alt=""> 3234</span>
+            <span class="stat-label">Visualizações</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-value">R$ 17.330,5</span>
+            <span class="stat-label">receita</span>
+          </div>
+        </div>
+
+        <div class="establishment-actions">
+          <button class="btn-edit">
+            <img src="Imagens/editar.svg" class="icon">
+            Editar
+          </button>
+          <button class="btn-view">
+            <img  class="estrelinha" src="Imagens/olho.svg" alt="">
+            Visualizar
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+      <!-- EVENTOS -->
+      <section id="eventos" class="dashboard-section">
+        <div class="section-content">
+          <!-- Card de Evento + Header da Section (cole dentro de <section id="eventos" class="dashboard-section"> <div class="section-content"> ... ) -->
+<!-- Importante: adicionar no <head> do seu projeto:
+<link rel="stylesheet" href="/styles/evento_card.css">
+-->
+
+<div class="section-header">
+  <div class="titles">
+    <h2>Seus Eventos</h2>
+    <p>Gerencie seus eventos e vendas de ingressos</p>
+  </div>
+  <button class="create-event-button"><i class="icon-plus">+</i> Criar Evento</button>
+</div>
+
+<!-- Card (mantém o mesmo padrão de antes) -->
+<div class="event-card">
+  <div class="event-card-header">
+    <div class="event-info">
+      <h3 class="event-title">Live Jazz Night</h3>
+      <span class="status active">ativo</span>
+    </div>
+    <div class="event-revenue">R$ 18.720<br><small>receita</small></div>
+  </div>
+
+  <div class="event-meta">
+    <span class="meta-item"><i class="icon-location"></i> Sunset Lounge</span>
+    <span class="meta-item"><i class="icon-calendar"></i> 14/10/2025</span>
+    <span class="meta-item"><i class="icon-clock"></i> 20:00</span>
+  </div>
+
+  <div class="flat-stats">
+    <div class="flat-stat">
+      <h4>156</h4>
+      <p>vendidos</p>
+    </div>
+
+    <div class="flat-stat">
+      <h4>44</h4>
+      <p>disponíveis</p>
+    </div>
+
+    <div class="flat-stat">
+      <h4>78%</h4>
+      <p>ocupação</p>
+    </div>
+  </div>
+
+
+  <div class="progress-wrapper">
+    <div class="progress-bar"><span style="width:78%"></span></div>
+    <p class="progress-text">156 / 200</p>
+  </div>
+
+  <div class="event-actions">
+    <button class="btn btn-edit"><i class="icon-edit"></i> Editar</button>
+    <button class="btn btn-report"><i class="icon-report"></i> Relatório</button>
+    <button class="btn btn-tickets"><i class="icon-ticket"></i> Ingressos</button>
+  </div>
+
+  <!-- Imagem de referência (arquivo enviado). Caminho local do arquivo: -->
+  <img src="/mnt/data/Captura de tela 2025-11-24 190142.png" alt="referencia" style="display:none;" />
+</div>
+
+<!-- CARD 2 – Festival Eletrônico -->
+<div class="event-card">
+  <div class="event-card-header">
+    <div class="event-info">
+      <h3 class="event-title">Festival Eletrônico</h3>
+      <span class="status active">ativo</span>
+    </div>
+    <div class="event-revenue">R$ 27.060,5<br><small>receita</small></div>
+  </div>
+
+  <div class="event-meta">
+    <span class="meta-item"><i class="icon-location"></i> Espaço Cultural Mix</span>
+    <span class="meta-item"><i class="icon-calendar"></i> 19/10/2025</span>
+    <span class="meta-item"><i class="icon-clock"></i> 22:00</span>
+  </div>
+
+  <div class="flat-stats">
+    <div class="flat-stat">
+      <h4>186</h4>
+      <p>vendidos</p>
+    </div>
+
+    <div class="flat-stat">
+      <h4>114</h4>
+      <p>disponíveis</p>
+    </div>
+
+    <div class="flat-stat">
+      <h4>62%</h4>
+      <p>ocupação</p>
+    </div>
+  </div>
+
+
+  <div class="progress-wrapper">
+    <div class="progress-bar"><span style="width:62%; background:#17c947;"></span></div>
+    <p class="progress-text">186 / 300</p>
+  </div>
+
+  <div class="event-actions">
+    <button class="btn btn-edit"><i class="icon-edit"></i> Editar</button>
+    <button class="btn btn-report"><i class="icon-report"></i> Relatório</button>
+    <button class="btn btn-tickets"><i class="icon-ticket"></i> Ingressos</button>
+  </div>
+
+  <!-- Imagem de referência -->
+  <img src="/mnt/data/Captura de tela 2025-11-24 193924.png" alt="referencia" style="display:none;" />
+</div>
+<div class="event-card-flat">
+  <div class="flat-header">
+    <div class="flat-title-wrap">
+      <h3>Happy Hour Especial</h3>
+      <span class="flat-status">agendado</span>
+    </div>
+
+    <div class="flat-revenue">
+      R$ 0<br><small>receita</small>
+    </div>
+  </div>
+
+  <div class="flat-meta">
+    <span><i class="icon-location"></i> Sunset Lounge</span>
+    <span><i class="icon-calendar"></i> 24/10/2025</span>
+    <span><i class="icon-clock"></i> 18:00</span>
+  </div>
+
+  <div class="flat-stats">
+    <div class="flat-stat">
+      <h4>0</h4>
+      <p>vendidos</p>
+    </div>
+
+    <div class="flat-stat">
+      <h4>100</h4>
+      <p>disponíveis</p>
+    </div>
+
+    <div class="flat-stat">
+      <h4>0%</h4>
+      <p>ocupação</p>
+    </div>
+  </div>
+
+  <div class="flat-progress-wrapper">
+    <div class="flat-progress-bar">
+      <span style="width:0%"></span>
+    </div>
+    <p class="flat-progress-text">0 / 100</p>
+  </div>
+
+  <div class="flat-actions">
+    <button class="flat-btn"><i class="icon-edit"></i> Editar</button>
+    <button class="flat-btn"><i class="icon-report"></i> Relatório</button>
+    <button class="flat-btn"><i class="icon-ticket"></i> Ingressos</button>
+  </div>
+</div>
+
+
+
+      </section>
+
+    <!-- VENDAS -->
+<section id="vendas" class="dashboard-section">
+  <div class="section-content">
+
+    <!-- Header da Section -->
+    <div class="section-header">
+      <div class="titles">
+        <h2>Histórico de Vendas</h2>
+        <p>Todas as transações de ingressos</p>
+      </div>
+    </div>
+
+    <!-- Tabela de Vendas -->
+    <div class="sales-table-wrapper">
+      <table class="sales-table">
+        <thead>
+          <tr>
+            <th>Cliente</th>
+            <th>Evento</th>
+            <th>Qtd</th>
+            <th>Total</th>
+            <th>Data</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr>
+            <td>Ana Silva</td>
+            <td>Live Jazz Night</td>
+            <td>2</td>
+            <td>R$ 240.00</td>
+            <td>2025-10-07 14:32</td>
+            <td><span class="status-badge confirmed">● confirmado</span></td>
+          </tr>
+
+          <tr>
+            <td>Carlos Santos</td>
+            <td>Festival Eletrônico</td>
+            <td>4</td>
+            <td>R$ 582.00</td>
+            <td>2025-10-07 13:15</td>
+            <td><span class="status-badge confirmed">● confirmado</span></td>
+          </tr>
+
+          <tr>
+            <td>Maria Oliveira</td>
+            <td>Live Jazz Night</td>
+            <td>1</td>
+            <td>R$ 120.00</td>
+            <td>2025-10-07 11:45</td>
+            <td><span class="status-badge confirmed">● confirmado</span></td>
+          </tr>
+
+          <tr>
+            <td>João Pedro</td>
+            <td>Festival Eletrônico</td>
+            <td>3</td>
+            <td>R$ 436.50</td>
+            <td>2025-10-06 19:20</td>
+            <td><span class="status-badge confirmed">● confirmado</span></td>
+          </tr>
+
+          <tr>
+            <td>Beatriz Costa</td>
+            <td>Live Jazz Night</td>
+            <td>2</td>
+            <td>R$ 240.00</td>
+            <td>2025-10-06 16:10</td>
+            <td><span class="status-badge pending">○ pendente</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+</section>
+
+
+      <!-- NOTIFICAÇÕES -->
+      <section id="notificacoes" class="dashboard-section">
+        <div class="section-content">
+          <div class="notifications-header">
+    <h2>Notificações</h2>
+    <p>Acompanhe vendas e atualizações em tempo real</p>
+</div>
+
+<div class="notification rating new">
+    <div class="content">
+        <p class="title">Nova venda: 2 ingressos para Live Jazz Night</p>
+        <span class="time">5 min atrás</span>
+    </div>
+    <span class="tag">Nova</span>
+</div>
+
+<div class="notification rating new">
+    <div class="content">
+        <p class="title">Nova venda: 4 ingressos para Festival Eletrônico</p>
+        <span class="time">1 hora atrás</span>
+    </div>
+    <span class="tag">Nova</span>
+</div>
+
+<div class="notification rating new">
+    <div class="content">
+        <p class="title">Nova avaliação 5★ no Sunset Lounge</p>
+        <span class="time">2 horas atrás</span>
+    </div>
+    <span class="tag">Nova</span>
+</div>
+
+<div class="notification success">
+    <div class="content">
+        <p class="title">Nova venda: 1 ingresso para Live Jazz Night</p>
+        <span class="time">3 horas atrás</span>
+    </div>
+</div>
+
+<div class="notification success">
+    <div class="content">
+        <p class="title">Festival Eletrônico com 90% dos ingressos vendidos</p>
+        <span class="time">5 horas atrás</span>
+    </div>
+</div>
+
+       
+          </div>
+        </div>
+      </section>
     </div> <!-- fecha dashboard-container -->
+  </main>
 
-</main>
-<!-- CHART.JS -->
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <footer>
+      <iframe src="footer/footer.html" frameborder="0" scrolling="no" width="100%" height="auto"></iframe>
+    </footer>
 
-<script>
-// ====== GRÁFICO DE VENDAS ======
-const salesCtx = document.getElementById('salesChart');
+  <!-- CHART.JS -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-new Chart(salesCtx, {
-    type: 'line',
-    data: {
+  <script>
+    // ====== GRÁFICO DE VENDAS ======
+    const salesCtx = document.getElementById('salesChart');
+
+    new Chart(salesCtx, {
+      type: 'line',
+      data: {
         labels: ['Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out'],
         datasets: [{
-            label: '',
-            data: [8000, 12000, 16000, 21000, 30000, 45000],
-            borderColor: '#A78BFA',
-            backgroundColor: 'rgba(167,139,250,0.35)',
-            borderWidth: 3,
-            fill: true,
-            tension: 0.4,
-            pointRadius: 0,
+          label: 'Vendas',
+          data: [8000, 12000, 16000, 21000, 30000, 45000],
+          borderColor: '#A78BFA',
+          backgroundColor: 'rgba(167,139,250,0.35)',
+          borderWidth: 3,
+          fill: true,
+          tension: 0.4,
+          pointRadius: 3,
+          pointBackgroundColor: '#FFFFFF',
+          pointBorderColor: '#A78BFA',
+          pointBorderWidth: 2,
+          pointHoverRadius: 6,
+          pointHoverBackgroundColor: '#A78BFA',
+          pointHoverBorderColor: '#FFFFFF',
+          pointHoverBorderWidth: 2
         }]
-    },
-    options: {
+      },
+      options: {
         responsive: true,
-        plugins: { 
-            legend: { display: false } 
+        interaction: {
+          intersect: false,
+          mode: 'index'
+        },
+        plugins: {
+          legend: {
+            display: false
+          },
+          tooltip: {
+            enabled: true,
+            backgroundColor: 'rgba(0, 0, 0, 0.8)',
+            titleColor: '#FFFFFF',
+            bodyColor: '#FFFFFF',
+            borderColor: '#A78BFA',
+            borderWidth: 1,
+            cornerRadius: 8,
+            displayColors: false,
+            padding: 12,
+            callbacks: {
+              label: function (context) {
+                return `R$ ${context.parsed.y.toLocaleString('pt-BR')}`;
+              },
+              title: function (tooltipItems) {
+                return `Mês: ${tooltipItems[0].label}`;
+              }
+            }
+          }
         },
         scales: {
-            x: {
-                grid: { display: false },
-                ticks: { color: '#777' }
+          x: {
+            grid: {
+              display: false
             },
-            y: {
-                grid: {
-                    borderDash: [6, 6],
-                    color: '#DDD'
-                },
-                ticks: { color: '#777' }
+            ticks: {
+              color: '#777'
             }
+          },
+          y: {
+            grid: {
+              borderDash: [6, 6],
+              color: '#DDD'
+            },
+            ticks: {
+              color: '#777',
+              callback: function (value) {
+                return 'R$ ' + value.toLocaleString('pt-BR');
+              }
+            }
+          }
+        },
+        // Configurações de hover
+        hover: {
+          mode: 'nearest',
+          intersect: true
+        },
+        elements: {
+          line: {
+            tension: 0.4
+          }
         }
-    }
-});
+      }
+    });
 
-// ====== GRÁFICO DE EVENTOS ======
-const ratingCtx = document.getElementById('ratingChart');
+    // ====== GRÁFICO DE EVENTOS ======
+    const ratingCtx = document.getElementById('ratingChart');
 
-new Chart(ratingCtx, {
-    type: 'bar',
-    data: {
+    new Chart(ratingCtx, {
+      type: 'bar',
+      data: {
         labels: ['Festival Eletrônico', 'Live Jazz Night', 'Happy Hour'],
         datasets: [
-            {
-                label: 'Disponíveis',
-                data: [110, 45, 100],
-                backgroundColor: '#D1D1D6',
-                borderRadius: 8,
-            },
-            {
-                label: 'Vendidos',
-                data: [190, 155, 0],
-                backgroundColor: '#A78BFA',
-                borderRadius: 8,
-            }
+          {
+            label: 'Disponíveis',
+            data: [110, 45, 100],
+            backgroundColor: '#D1D1D6',
+            borderRadius: 8,
+          },
+          {
+            label: 'Vendidos',
+            data: [190, 155, 0],
+            backgroundColor: '#A78BFA',
+            borderRadius: 8,
+          }
         ]
-    },
-    options: {
+      },
+      options: {
         responsive: true,
         plugins: {
-            legend: {
-                labels: {
-                    usePointStyle: true,
-                    pointStyle: 'circle',
-                    padding: 20
-                }
+          legend: {
+            labels: {
+              usePointStyle: true,
+              pointStyle: 'circle',
+              padding: 20
             }
+          }
         },
         scales: {
-            x: {
-                grid: { display: false },
-                ticks: { color: '#777' }
+          x: {
+            grid: { display: false },
+            ticks: { color: '#777' }
+          },
+          y: {
+            min: 0,
+            max: 220,
+            grid: {
+              borderDash: [6, 6],
+              color: '#DDD'
             },
-            y: {
-                min: 0,
-                max: 220,
-                grid: {
-                    borderDash: [6, 6],
-                    color: '#DDD'
-                },
-                ticks: { color: '#777' }
-            }
+            ticks: { color: '#777' }
+          }
         }
+      }
+    });
+  </script>
+
+  <script>
+    function showSection(sectionId) {
+      // Esconde todas as seções
+      const sections = document.querySelectorAll('.dashboard-section');
+      sections.forEach(section => {
+        section.classList.remove('active-section');
+      });
+
+      // Remove a classe active de todas as tabs
+      const tabs = document.querySelectorAll('.tab');
+      tabs.forEach(tab => {
+        tab.classList.remove('active');
+      });
+
+      // Mostra a seção selecionada
+      const activeSection = document.getElementById(sectionId);
+      if (activeSection) {
+        activeSection.classList.add('active-section');
+      }
+
+      // Adiciona a classe active na tab clicada
+      event.currentTarget.classList.add('active');
     }
-});
+
+    // Inicialização corrigida
+    document.addEventListener('DOMContentLoaded', function () {
+      // Não precisa chamar showSection() aqui
+      // A classe 'active-section' já está no HTML para o dashboard
+    });
+  </script>
+  <script>
+  // Função geral para mudar de tela
+  function showSection(sectionId) {
+    document.querySelectorAll('.dashboard-section').forEach(sec => {
+      sec.classList.remove('active-section');
+    });
+
+    document.getElementById(sectionId).classList.add('active-section');
+  }
+
+  // Botão RELATÓRIO → abre a aba de VENDAS (ou cria nova, se quiser)
+  document.querySelectorAll('.btn-report').forEach(btn => {
+    btn.addEventListener('click', () => {
+      showSection('vendas'); 
+    });
+  });
+
+  // Botão INGRESSOS → abre uma tela específica de ingressos (crie se não existir)
+  document.querySelectorAll('.btn-tickets').forEach(btn => {
+    btn.addEventListener('click', () => {
+      alert("Tela de ingressos ainda não foi criada!");
+      // exemplo: showSection('ingressos')
+    });
+  });
+</script>
+<script>
+  function showSection(sectionId) {
+    // esconder todas as sections
+    document.querySelectorAll('.dashboard-section').forEach(sec =>
+      sec.classList.remove('active-section')
+    );
+
+    // mostrar somente a section clicada
+    document.getElementById(sectionId).classList.add('active-section');
+
+    // remover active de todos os botões
+    document.querySelectorAll('.tabs .tab').forEach(btn =>
+      btn.classList.remove('active')
+    );
+
+    // adicionar active somente ao botão clicado
+    event.currentTarget.classList.add('active');
+  }
 </script>
 
 
-
 </body>
+
 </html>
