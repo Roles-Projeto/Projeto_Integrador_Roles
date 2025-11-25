@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id="page-title">Detalhes do Local</title>
+    <link rel="stylesheet" href="../css/verdetalheslocais.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+</head>
+
+<body>
+
+    <header>
+        <iframe id="site-header" src="../header/header.html" frameborder="0" scrolling="no" width="100%" height="190"
+            style="position: fixed; top: 0; left: 0; z-index: 999999999;"></iframe>
+    </header>
+
+    <div class="hero-section" id="hero-section">
+        <div class="overlay">
+            <div class="location-info">
+                <p class="type" id="local-type">Tipo de Local</p>
+                <h1 class="name" id="local-name">Nome do Local</h1>
+                <p class="rating" id="local-rating">
+                    <i class="fas fa-star"></i> 4.9 (512 avaliações) | <i class="fas fa-map-marker-alt"></i> Endereço
+                </p>
+            </div>
+            <div class="price-range">
+                <i class="fas fa-dollar-sign" id="local-price-icon">$$</i>
+                <p class="price-label">Faixa de preço</p>
+            </div>
+        </div>
+    </div>
+
+    <main class="main-content">
+        <div class="tab-navigation">
+            <button class="tab-button active" data-tab="visao-geral"><i class="fas fa-eye"></i> Visão Geral</button>
+            <button class="tab-button" data-tab="menu"><i class="fas fa-tags"></i> Pratos Promocionais</button>
+            <button class="tab-button" data-tab="fotos"><i class="fas fa-camera"></i> Fotos</button>
+            <button class="tab-button" data-tab="avaliacoes"><i class="fas fa-comments"></i> Avaliações</button>
+        </div>
+
+        <div class="content-container">
+            <div class="tab-content active" id="visao-geral">
+                <section class="general-info-section">
+                    <h3>Sobre o Local</h3>
+                    <p id="local-description">Descrição completa do local será inserida aqui dinamicamente.</p>
+                    <div class="attributes" id="local-attributes">
+                    </div>
+
+                    <div class="details-row">
+                        <div class="detail-item">
+                            <h4><i class="far fa-clock"></i> Horário de Funcionamento</h4>
+                            <p id="local-hours">19:00 - 22:00</p>
+                        </div>
+                        <div class="detail-item">
+                            <h4><i class="fas fa-phone"></i> Contato</h4>
+                            <p id="local-contact-phone">(62) 4444-4444</p>
+                        </div>
+                    </div>
+                </section>
+
+                <hr>
+
+                <section class="amenities-section">
+                    <h3>Comodidades</h3>
+                    <div class="amenities-list">
+                        <div class="amenity-item"><i class="fas fa-wifi"></i> Wi-Fi Grátis</div>
+                        <div class="amenity-item"><i class="fas fa-car"></i> Estacionamento</div>
+                        <div class="amenity-item"><i class="far fa-credit-card"></i> Aceita Cartão</div>
+                        <div class="amenity-item"><i class="fas fa-paw"></i> Pet Friendly</div>
+                    </div>
+                </section>
+            </div>
+
+            <div class="tab-content" id="menu">
+                <section class="promocionais-section">
+                    <h3>🔥 Pratos Promocionais da Semana</h3>
+                    <p>Confira nossas ofertas e pratos com preços especiais por tempo limitado!</p>
+
+                    <div class="menu-category">
+                        <h4>Promoções de Pratos Principais</h4>
+
+                        <div class="menu-item-row destaque-promocional">
+                            <div class="item-details">
+                                <h5 style="margin-bottom: 5px;">Massa Carbonara (Promoção!)</h5>
+                                <p style="font-size: 0.9em; color: #555;">Deliciosa massa italiana, hoje com 30% de
+                                    desconto!</p>
+                            </div>
+                            <div class="item-price-container">
+                                <span class="item-price-sale">R$ 35</span>
+                                <s class="item-price-original">R$ 50</s>
+                            </div>
+                        </div>
+
+                        <div class="menu-item-row">
+                            <div class="item-details">
+                                <h5 style="margin-bottom: 5px;">Prato Vegano do Dia</h5>
+                                <p style="font-size: 0.9em; color: #555;">Opção saudável com preço fixo e ingredientes
+                                    frescos.</p>
+                            </div>
+                            <span class="item-price">R$ 45</span>
+                        </div>
+                    </div>
+
+                    <div class="menu-category">
+                        <h4>Combos Especiais</h4>
+                        <div class="menu-item-row">
+                            <div class="item-details">
+                                <h5 style="margin-bottom: 5px;">Combo Casal</h5>
+                                <p style="font-size: 0.9em; color: #555;">Duas taças de vinho + Filé Mignon com preço
+                                    fechado.</p>
+                            </div>
+                            <span class="item-price">R$ 130</span>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <div class="tab-content" id="fotos">
+                <section class="photos-section">
+                    <h3>Galeria de Fotos</h3>
+                    <div class="photo-grid">
+                        <img src="../Imagens/photo-1 (4).jfif" alt="Mesa Posta" style="height: 200px;">
+                        <img src="../Imagens/photo-1 (1).jfif" alt="Vista da Cidade" style="height: 200px;">
+                        <img src="../Imagens/photo-1 (3).jfif" alt="Copo de Café" style="height: 200px;">
+                        <img src="../Imagens/photo-1 (2).jfif" alt="Globo Espelhado" style="height: 200px;">
+                    </div>
+                </section>
+            </div>
+
+            <div class="tab-content" id="avaliacoes">
+                <section class="reviews-section">
+                    <h3 style="display: inline-block;">Avaliações</h3>
+                    <span style="float: right; color: #ffc107; font-weight: 600;">
+                        <i class="fas fa-star"></i> 4.4 (298 avaliações)
+                    </span>
+                    <div class="review-list">
+                        <div class="review-item">
+                            <div class="reviewer-header">
+                                <div class="avatar" style="background-color: #007bff;">M</div>
+                                <span class="reviewer-name">Maria João</span>
+                                <span style="color: #ffc107;">★★★★★</span>
+                                <span class="date">2025-01-28</span>
+                            </div>
+                            <p class="review-text">Lugar incrível! Atendimento excepcional e comida deliciosa. Super
+                                recomendo!</p>
+                            <span class="likes"><i class="fas fa-thumbs-up"></i> 12 pessoas acharam útil</span>
+                        </div>
+
+                        <div class="review-item">
+                            <div class="reviewer-header">
+                                <img src="../Imagens/placeholder_pedro.png" alt="Avatar Pedro" class="avatar"
+                                    style="background-color: #ddd;">
+                                <span class="reviewer-name">Pedro Oliveira</span>
+                                <span style="color: #ffc107;">★★★★☆</span>
+                                <span class="date">2025-01-25</span>
+                            </div>
+                            <p class="review-text">Ambiente muito agradável, preços justos. Vale a pena a visita!</p>
+                            <span class="likes"><i class="fas fa-thumbs-up"></i> 8 pessoas acharam útil</span>
+                        </div>
+
+                        <div class="review-item" style="border-bottom: none;">
+                            <div class="reviewer-header">
+                                <img src="../Imagens/placeholder_ana.png" alt="Avatar Ana" class="avatar"
+                                    style="background-color: #ddd;">
+                                <span class="reviewer-name">Ana Costa</span>
+                                <span style="color: #ffc107;">★★★★★</span>
+                                <span class="date">2025-01-22</span>
+                            </div>
+                            <p class="review-text">Perfeito para um encontro romântico. A vista é espetacular!</p>
+                            <span class="likes"><i class="fas fa-thumbs-up"></i> 15 pessoas acharam útil</span>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <aside class="sidebar">
+                <div class="sidebar-cards">
+                    <div class="info-card">
+                        <p class="sidebar-rating" id="sidebar-rating"><i class="fas fa-star"></i> 4.9 (512)</p>
+                        <p class="sidebar-type" id="sidebar-type">Teatro</p>
+                        <p class="sidebar-price" id="sidebar-price-symbol"><i class="fas fa-dollar-sign"></i></p>
+                        <hr>
+                        <div class="contact-details">
+                            <p><strong><i class="far fa-clock"></i> Horário:</strong> <span id="sidebar-hours">19:00 -
+                                    22:00</span></p>
+                            <p><strong><i class="fas fa-phone"></i> Telefone:</strong> <span id="sidebar-phone">(62)
+                                    4444-4444</span></p>
+                            <p><strong><i class="fas fa-map-marker-alt"></i> Endereço:</strong> <span
+                                    id="sidebar-address">Centro, Goiânia</span></p>
+                        </div>
+
+                        <button class="btn-primary"><i class="fas fa-book-open"></i> Fazer Reserva</button>
+                        <button class="btn-secondary"><i class="fas fa-directions"></i> Como Chegar</button>
+                        <button class="btn-secondary"><i class="fas fa-phone-alt"></i> Ligar Agora</button>
+                    </div>
+
+                    <div class="info-card info-card-compact">
+                        <h3>Informações</h3>
+                        <p><i class="fas fa-map-marker-alt"></i> <span id="info-address">Centro, Goiânia</span></p>
+                        <p><i class="fas fa-phone"></i> <span id="info-phone">(62) 4444-4444</span></p>
+                        <p><i class="far fa-clock"></i> <span id="info-hours">19:00 - 22:00</span></p>
+                    </div>
+                </div>
+            </aside>
+        </div>
+    </main>
+
+    <footer>
+        <iframe src="../footer/footer.html" frameborder="0" scrolling="no" width="100%" height="450"></iframe>
+    </footer>
+
+    <script>
+        // Função para carregar dados do local do localStorage
+        function loadLocalDataFromStorage() {
+            const dataJson = localStorage.getItem('localDetalhes');
+            if (dataJson) {
+                try {
+                    return JSON.parse(dataJson);
+                } catch (e) {
+                    console.error("Erro ao fazer parse dos dados do local:", e);
+                    return null;
+                }
+            }
+            return null;
+        }
+
+        // Função para preencher a página usando os IDs do seu HTML
+        function updatePage(localData) {
+            if (!localData) {
+                console.warn('Não foi possível carregar os dados do local.');
+                return;
+            }
+
+            // --- 1. Preparar e Limpar os Dados ---
+            const ratingText = localData.nota.replace('⭐', '').trim();
+            const reviewsText = localData.avaliacoes.replace('avaliacoes', '').trim();
+            const phoneClean = localData.telefone.replace(/[^\d\s\-\(\)]/g, '').trim();
+            const localClean = localData.local.replace(/i\s*fa-solid\s*fa-location-dot/g, '').replace('location-dot', '').trim();
+            const hoursClean = localData.horario.replace(/[^\d\s\–\:]/g, '').trim();
+
+            // --- 2. Hero Section ---
+            document.getElementById('page-title').textContent = localData.nome;
+            document.getElementById('local-name').textContent = localData.nome;
+            document.getElementById('local-type').textContent = localData.categoria;
+            document.getElementById('local-rating').innerHTML =
+                `<i class="fas fa-star"></i> ${ratingText} (${reviewsText} avaliações) | <i class="fas fa-map-marker-alt"></i> ${localClean}`;
+            document.getElementById('local-price-icon').textContent = localData.preco;
+
+            const heroSection = document.getElementById('hero-section');
+            if (heroSection && localData.imagem) {
+                heroSection.style.backgroundImage = `url('${localData.imagem}')`;
+            }
+
+            // --- 3. Visão Geral ---
+            document.getElementById('local-description').textContent = localData.descricao;
+            document.getElementById('local-hours').textContent = hoursClean;
+            document.getElementById('local-contact-phone').textContent = phoneClean;
+
+            // Inserir Tags/Atributos
+            const attributesContainer = document.getElementById('local-attributes');
+            attributesContainer.innerHTML = '';
+            const tagsArray = localData.tags.split(',').map(tag => tag.trim()).filter(tag => tag.length > 0);
+
+            tagsArray.forEach(tag => {
+                const span = document.createElement('span');
+                span.textContent = tag;
+                attributesContainer.appendChild(span);
+            });
+
+            // --- 4. Sidebar ---
+            document.getElementById('sidebar-rating').innerHTML =
+                `<i class="fas fa-star"></i> ${ratingText} (${reviewsText})`;
+            document.getElementById('sidebar-type').textContent = localData.categoria;
+            document.getElementById('sidebar-price-symbol').textContent = localData.preco;
+            document.getElementById('sidebar-hours').textContent = hoursClean;
+            document.getElementById('sidebar-phone').textContent = phoneClean;
+            document.getElementById('sidebar-address').textContent = localClean;
+
+            // --- 5. Compact Info ---
+            document.getElementById('info-address').textContent = localClean;
+            document.getElementById('info-phone').textContent = phoneClean;
+            document.getElementById('info-hours').textContent = hoursClean;
+        }
+
+        // FUNÇÃO DE NAVEGAÇÃO ENTRE ABAS
+        function setupTabNavigation() {
+            const tabButtons = document.querySelectorAll('.tab-button');
+            const tabContents = document.querySelectorAll('.tab-content');
+
+            tabButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const targetTabId = button.getAttribute('data-tab');
+
+                    // 1. Remove a classe 'active' de todos os botões e conteúdos
+                    tabButtons.forEach(btn => btn.classList.remove('active'));
+                    tabContents.forEach(content => content.classList.remove('active'));
+
+                    // 2. Adiciona a classe 'active' ao botão clicado
+                    button.classList.add('active');
+
+                    // 3. Adiciona a classe 'active' ao conteúdo correspondente
+                    const targetContent = document.getElementById(targetTabId);
+                    if (targetContent) {
+                        targetContent.classList.add('active');
+                    }
+                });
+            });
+        }
+
+        // Execução: Carrega os dados e configura a navegação de abas
+        document.addEventListener('DOMContentLoaded', () => {
+            // 1. Carrega e exibe os dados
+            const localData = loadLocalDataFromStorage();
+            updatePage(localData);
+
+            // 2. Configura a troca de abas
+            setupTabNavigation();
+        });
+    </script>
+
+</body>
+
+</html>
