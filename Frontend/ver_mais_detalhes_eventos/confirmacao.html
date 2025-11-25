@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Compra Confirmada | Rolês</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    
+    <style>
+        /* Estilos Gerais */
+        body {
+            font-family: 'Poppins', Arial, sans-serif; 
+            margin: 0;
+            background-color: #f4f5f7;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            font-size: 12px; 
+            color: #333; /* Cor base do texto */
+        }
+
+        
+
+        main {
+            flex-grow: 1;
+            padding: 100px 20px;
+        }
+
+        .page-content {
+            max-width: 800px; /* Largura centralizada para páginas de confirmação */
+            width: 100%;
+            margin: 0 auto;
+        }
+        
+        /* Estilos de Card */
+        .card {
+            background-color: white;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            margin-bottom: 20px;
+        }
+
+        /* Título e Subtítulos */
+        .section-title {
+            font-size: 15px; /* Ajustado */
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        /* --- Bloco de Sucesso (Topo) --- */
+        .success-box {
+            background-color: #e8f5e9; /* Verde claro */
+            color: #388e3c; /* Texto verde escuro */
+            border: 1px solid #c8e6c9;
+            text-align: center;
+            padding: 20px; /* Reduzido */
+        }
+        .success-box i {
+            font-size: 28px; /* Reduzido */
+            margin-bottom: 5px;
+        }
+        .success-box h1 {
+            font-size: 20px; /* Reduzido */
+            font-weight: 600; /* Reduzido de 700 */
+            margin: 0 0 5px 0;
+            color: #333;
+        }
+        .success-box p {
+            font-size: 12px; 
+            margin: 0 0 10px 0;
+        }
+        .order-id {
+            font-weight: 500; /* Reduzido de 600 */
+            background-color: #dcedc8;
+            padding: 5px 10px;
+            border-radius: 4px;
+            display: inline-block;
+            color: #333;
+            font-size: 11px; /* Reduzido */
+        }
+        
+        /* --- Detalhes do Evento --- */
+        .event-details-card {
+            display: flex;
+            gap: 20px;
+        }
+        .event-image {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 4px;
+        }
+        .event-info {
+            flex-grow: 1;
+        }
+        .event-info h4 {
+            font-size: 16px; /* Reduzido */
+            font-weight: 600;
+            color: #333;
+            margin: 0 0 8px 0;
+        }
+        .event-meta p {
+            font-size: 12px;
+            color: #666;
+            margin: 5px 0;
+        }
+        .event-meta i {
+            width: 20px;
+            color: #999;
+        }
+
+        /* --- Seus Ingressos --- */
+        .ticket-summary {
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+        }
+        .ticket-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0; /* Reduzido */
+        }
+        .ticket-type {
+            font-size: 14px; /* Reduzido */
+            font-weight: 500; /* Reduzido de 600 */
+            color: #333;
+            display: flex;
+            align-items: center;
+        }
+        .ticket-type i {
+            margin-right: 10px;
+            font-size: 18px; /* Ajustado */
+            color: #999;
+        }
+        .ticket-price {
+            font-weight: 500; /* Reduzido de 600 */
+            color: #333;
+        }
+
+        .benefits-list {
+            list-style: none;
+            padding: 0;
+            margin: 10px 0 20px 0;
+            font-size: 12px; /* Reduzido */
+            color: #555;
+            border-left: 3px solid #dcedc8;
+            padding-left: 15px;
+        }
+        .benefits-list li {
+            margin-bottom: 5px;
+        }
+        .benefits-list i {
+            color: #4CAF50;
+            margin-right: 5px;
+        }
+
+        /* Breakdown de Preço */
+        .price-row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px; /* Reduzido */
+            padding: 4px 0;
+        }
+        .price-row.total-row {
+            font-size: 16px; /* Reduzido */
+            font-weight: 600; /* Reduzido de 700 */
+            border-top: 1px dashed #ddd; 
+            padding-top: 10px;
+            margin-top: 10px;
+        }
+        
+        /* QR Code */
+        .qr-code-area {
+            text-align: center;
+            border: 2px dashed #ddd;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+        }
+        .qr-placeholder {
+            width: 150px;
+            height: 150px;
+            background-color: #f0f0f0;
+            margin: 10px auto;
+            border-radius: 4px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 40px;
+            color: #aaa;
+        }
+        .qr-code-text {
+            font-size: 11px; /* Reduzido */
+            color: #666;
+            margin-top: 5px;
+        }
+
+        /* Ações e Informações */
+        .actions-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .btn-action, .btn-primary {
+            padding: 8px 15px; /* Reduzido */
+            border-radius: 6px;
+            font-size: 13px; /* Reduzido */
+            font-weight: 500; /* Reduzido de 600 */
+            cursor: pointer;
+            transition: background-color 0.3s;
+            text-decoration: none;
+            text-align: center;
+            border: 1px solid transparent;
+        }
+
+        .btn-action { /* Baixar/Reenviar */
+            background-color: white;
+            color: #333;
+            border-color: #ddd;
+        }
+        .btn-action:hover {
+            background-color: #f0f0f0;
+        }
+
+        .btn-primary { /* Ver Meus Ingressos */
+            background-color: #1a1a1a;
+            color: white;
+        }
+        .btn-primary:hover {
+            background-color: #333;
+        }
+
+        /* Informações Importantes */
+        .important-info-list {
+            list-style: none;
+            padding: 0;
+            font-size: 12px; /* Reduzido */
+            color: #555;
+        }
+        .important-info-list li {
+            margin-bottom: 8px;
+        }
+        .important-info-list li::before {
+            content: "\2022"; /* Bullet point */
+            color: #999;
+            font-weight: bold;
+            display: inline-block;
+            width: 1em;
+            margin-left: -1em;
+        }
+
+       
+        
+    </style>
+</head>
+
+<body>
+    
+    <header>
+        <iframe id="site-header" src="../header/header.html" frameborder="0" scrolling="no" width="100%" height="200"
+            style="position: fixed; top: 0; left: 0; z-index: 999999999;" class="header-overlay"></iframe>
+    </header>
+
+    <main>
+        <div class="page-content">
+            
+            <div class="card success-box">
+                <i class="fas fa-check-circle"></i>
+                <h1>Compra Realizada com Sucesso!</h1>
+                <p>Seus ingressos foram enviados para seu email</p>
+                <span class="order-id">Pedido #ROLE-1763763271212</span>
+            </div>
+
+            <div class="card">
+                <h2 class="section-title">Detalhes do Evento</h2>
+                <div class="event-details-card">
+                    <img class="event-image" src="caminho/para/imagem_evento.jpg" alt="Noite da Salsa">
+                    <div class="event-info">
+                        <h4>Noite da Salsa</h4>
+                        <div class="event-meta">
+                            <p><i class="fas fa-calendar-alt"></i> 02/02/2025</p>
+                            <p><i class="fas fa-clock"></i> 21:00</p>
+                            <p><i class="fas fa-map-marker-alt"></i> Club Latino - Setor Oeste</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2 class="section-title">Seus Ingressos</h2>
+                <p style="font-size: 12px; color: #666; margin-top: -10px; margin-bottom: 20px;">Apresente o QR Code na entrada do evento</p>
+
+                <div class="ticket-summary">
+                    <div class="ticket-row">
+                        <span class="ticket-type"><i class="fas fa-ticket-alt"></i> Individual</span>
+                        <span class="ticket-price">R$ 30.00 cada</span>
+                    </div>
+                    <p style="font-size: 12px; color: #888; margin: 0; padding-left: 30px;">Quantidade: 2</p>
+                    
+                    <ul class="benefits-list">
+                        <li><i class="fas fa-check-circle"></i> Aula gratuita</li>
+                        <li><i class="fas fa-check-circle"></i> 1 drink cortesia</li>
+                    </ul>
+                </div>
+
+                <div style="margin-bottom: 20px;">
+                    <div class="price-row">
+                        <span>Subtotal</span>
+                        <span class="price">R$ 60.00</span>
+                    </div>
+                    <div class="price-row">
+                        <span>Taxa de serviço</span>
+                        <span class="price">R$ 6.00</span>
+                    </div>
+                    <div class="price-row total-row">
+                        <span>Total Pago</span>
+                        <span class="price">R$ 66.00</span>
+                    </div>
+                </div>
+
+                <div class="qr-code-area">
+                    <div class="qr-placeholder">
+                        <i class="fas fa-qrcode"></i>
+                    </div>
+                    <p class="qr-code-text">QR Code do Ingresso</p>
+                    <p class="order-id">#ROLE-1763763271212</p>
+                </div>
+                
+                <div class="actions-buttons">
+                    <a href="#" class="btn-action"><i class="fas fa-download"></i> Baixar Ingressos (PDF)</a>
+                    <a href="#" class="btn-action"><i class="fas fa-envelope"></i> Reenviar por Email</a>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2 class="section-title">Informações Importantes</h2>
+                <ul class="important-info-list">
+                    <li>Seus ingressos foram enviados para o email cadastrado</li>
+                    <li>Você também pode acessar seus ingressos a qualquer momento em seu perfil</li>
+                    <li>Chegue com antecedência para evitar filas</li>
+                    <li>Em caso de dúvidas, entre em contato com o organizador do evento</li>
+                    <li>Apresente um documento com foto junto ao ingresso</li>
+                </ul>
+            </div>
+
+            <div class="actions-buttons" style="margin-bottom: 50px;">
+                <a href="../index.html" class="btn-action"><i class="fas fa-home"></i> Página Inicial</a>
+                <a href="../eventos/eventos.html" class="btn-action">Ver Mais Eventos</a>
+                <a href="../Perfil_usuario/Perfil_usuario.html" class="btn-primary"><i class="fas fa-ticket-alt"></i> Ver Meus Ingressos</a>
+            </div>
+
+        </div>
+    </main>
+
+   <footer>
+        <footer>
+            <iframe src="../footer/footer.html" frameborder="0" scrolling="no" width="100%" height="auto"></iframe>
+        </footer>
+    </footer>
+    <script>
+        function formatarMoeda(valor) {
+            return valor.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+        }
+
+        function carregarDadosConfirmacao() {
+            const dadosCompraJSON = localStorage.getItem('compraConfirmada');
+
+            if (!dadosCompraJSON) {
+                console.error("Nenhum dado de compra encontrado no localStorage.");
+                // Se não houver dados, redireciona ou mostra mensagem de erro
+                document.querySelector('.page-content').innerHTML = '<h1>Erro na Compra</h1><p>Não foi possível carregar os detalhes do pedido.</p>';
+                return;
+            }
+
+            const dados = JSON.parse(dadosCompraJSON);
+
+            // ----------------------------------------------------
+            // 1. Bloco de Sucesso (Topo)
+            // ----------------------------------------------------
+            document.querySelector('.order-id').textContent = `Pedido #${dados.pedidoID || 'N/A'}`;
+
+            // ----------------------------------------------------
+            // 2. Detalhes do Evento
+            // ----------------------------------------------------
+            document.querySelector('.event-image').src = dados.imagem || 'caminho/para/placeholder.jpg';
+            document.querySelector('.event-info h4').textContent = dados.nome || 'Evento Desconhecido';
+            
+            // Busca e atualiza os parágrafos de metadados
+            const eventMeta = document.querySelector('.event-meta').querySelectorAll('p');
+            if (eventMeta.length >= 3) {
+                eventMeta[0].innerHTML = `<i class="fas fa-calendar-alt"></i> ${dados.data || 'N/A'}`;
+                eventMeta[1].innerHTML = `<i class="fas fa-clock"></i> ${dados.hora || 'N/A'}`;
+                eventMeta[2].innerHTML = `<i class="fas fa-map-marker-alt"></i> ${dados.local || 'N/A'}`;
+            }
+
+            // ----------------------------------------------------
+            // 3. Seus Ingressos
+            // ----------------------------------------------------
+            // Ingresso principal
+            const precoPorIngresso = formatarMoeda(dados.ingressoPreco);
+            document.querySelector('.ticket-type').innerHTML = `<i class="fas fa-ticket-alt"></i> ${dados.ingressoNome || 'N/A'}`;
+            document.querySelector('.ticket-price').textContent = `${precoPorIngresso} cada`;
+            document.querySelector('.ticket-summary p').textContent = `Quantidade: ${dados.quantidade || 1}`;
+
+            // (Nota: A lista de benefícios (ul.benefits-list) é estática neste HTML e precisaria ser carregada dinamicamente se a fonte de dados do ingresso for mais complexa.)
+
+
+            // ----------------------------------------------------
+            // 4. Breakdown de Preço
+            // ----------------------------------------------------
+            document.querySelector('.price-row:nth-child(1) .price').textContent = formatarMoeda(dados.subtotal || 0);
+            document.querySelector('.price-row:nth-child(2) .price').textContent = formatarMoeda(dados.taxaServico || 0);
+            document.querySelector('.total-row .price').textContent = formatarMoeda(dados.totalPago || 0);
+            
+            // QR Code ID
+            document.querySelector('.qr-code-area .order-id').textContent = `#${dados.pedidoID || 'N/A'}`;
+
+
+            // Opcional: Limpar o localStorage após a exibição (para evitar confusão em futuras compras)
+            // localStorage.removeItem('compraConfirmada');
+        }
+
+        // Garante que a função seja chamada após o carregamento completo do HTML
+        document.addEventListener('DOMContentLoaded', carregarDadosConfirmacao);
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,197 @@
+body{
+    font-family: poppins, sans-serif;
+    padding: 0%;
+    margin: 0%;
+}
+
+.categoria-hero {
+    /* Define uma altura mínima para o header da categoria (ajuste conforme o header fixo) */
+    min-height: 250px; 
+    padding-top: 200px; /* Para descer o conteúdo abaixo do header fixo */
+    color: #fff;
+    /* Linhas Removidas/Ajustadas: Não usaremos flexbox aqui para não centralizar o conteúdo lateralmente */
+    transition: background-color 0.3s ease; /* Transição suave para a cor de fundo */
+}
+
+.categoria-header {
+    max-width: 1200px; /* Largura máxima do seu conteúdo, use a mesma que 'container' */
+    margin: 0 auto;
+    padding: 0 20px;
+    width: 100%;
+    /* CORREÇÃO DE LAYOUT: Empilha o conteúdo e alinha à esquerda */
+    display: flex;
+    flex-direction: column; /* Empilha os itens (btn-voltar, categoria-info, count) */
+    align-items: flex-start; /* Alinha tudo à esquerda */
+    height: 100%; /* Ocupa a altura do container pai (hero) */
+}
+
+.btn-voltar {
+    color: #fff;
+    text-decoration: none;
+    font-size: 0.9rem; /* REDUZIDO de 1rem para 0.9rem (aprox. 14.4px) */
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px; /* Ajuste no espaçamento */
+}
+
+.btn-voltar i {
+    margin-right: 6px; /* Ajuste no espaçamento */
+    font-size: 0.9rem;
+}
+
+.categoria-info {
+    display: flex;
+    align-items: center;
+    margin-bottom: 8px; /* Ajuste no espaçamento */
+    /* Garante que o bloco não se estique */
+    width: auto; 
+}
+
+.categoria-info h1 {
+    font-size: 1.8rem; /* REDUZIDO de 2.5rem para 1.8rem (Título principal) */
+    margin: 0;
+}
+
+.categoria-info .icon {
+    width: 40px; /* REDUZIDO de 50px para 40px */
+    height: 40px; /* REDUZIDO de 50px para 40px */
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem; /* REDUZIDO de 1.5rem para 1.2rem */
+    margin-right: 10px; /* Ajuste no espaçamento */
+    background-color: rgba(255, 255, 255, 0.2); /* Cor de fundo levemente transparente */
+}
+
+.categoria-info .icon i {
+    color: #fff;
+}
+
+.locais-eventos-count {
+    font-size: 12px; /* NOVO: REDUZIDO para 12px */
+    opacity: 0.8;
+}
+
+/* --- Seção de Conteúdo (Tabs e Listagem) --- */
+
+.categoria-content {
+    padding: 30px 20px; /* Ajuste no padding */
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.tabs-container {
+    display: flex;
+    gap: 8px; /* Ajuste no espaçamento */
+    border-bottom: 1px solid #eee; /* Borda mais fina */
+    margin-bottom: 20px; /* Ajuste no espaçamento */
+    position: relative;
+}
+
+.tab-button {
+    background: none;
+    border: none;
+    padding: 8px 15px; /* Ajuste no padding */
+    font-size: 14px; /* REDUZIDO de 1.1rem para 14px (aprox. 0.875rem) */
+    font-weight: 500; /* Levemente reduzido o peso */
+    color: #777;
+    cursor: pointer;
+    border-bottom: 2px solid transparent; /* Borda mais fina */
+    transition: color 0.3s, border-bottom 0.3s;
+}
+
+.tab-button.active {
+    color: #5d3fd3; 
+    border-bottom: 2px solid #5d3fd3; /* Borda mais fina */
+}
+
+.btn-filtros {
+    margin-left: auto;
+    background: none;
+    border: 1px solid #ccc;
+    padding: 6px 12px; /* REDUZIDO o padding */
+    font-size: 12px; /* NOVO: REDUZIDO para 12px */
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.2s;
+}
+
+.btn-filtros:hover {
+    background-color: #f5f5f5;
+}
+
+.tab-content {
+    display: none;
+    padding: 15px 0; /* Ajuste no padding */
+}
+
+.tab-content.active {
+    display: block;
+}
+
+/* Estilo para "Nenhum Local Encontrado" */
+.sem-encontrado {
+    text-align: center;
+    padding: 40px 20px; /* Ajuste no padding */
+    border: 1px dashed #ddd;
+    border-radius: 8px;
+}
+
+.sem-encontrado i {
+    font-size: 2rem; /* REDUZIDO de 3rem para 2rem */
+    color: #bbb;
+    margin-bottom: 10px; /* Ajuste no espaçamento */
+}
+
+.sem-encontrado h2 {
+    font-size: 1rem; /* REDUZIDO de 1.5rem para 1rem (aprox. 16px) */
+    color: #333;
+    margin-bottom: 8px;
+}
+
+.sem-encontrado p {
+    color: #777;
+    font-size: 12px; /* NOVO: REDUZIDO para 12px */
+    margin-bottom: 20px;
+}
+
+.btn-ver-todos {
+    background-color: #5d3fd3; 
+    color: #fff;
+    padding: 8px 15px; /* REDUZIDO o padding */
+    text-decoration: none;
+    border-radius: 4px;
+    font-weight: 600;
+    font-size: 12px; /* NOVO: REDUZIDO para 12px */
+    display: inline-block;
+}
+
+.btn-ver-todos:hover {
+    background-color: #4a32a6;
+}
+
+/* Cores de Fundo (Assumindo que você tem classes de cor como na index.html) */
+/* Roxo para Baladas */
+.roxo { background-color: #5d3fd3; }
+
+/* Amarelo para Bar (Ajustado para o fundo do header) */
+.amarelo { background-color: #fbc02d; }
+
+/* Laranja para Restaurante */
+.laranja { background-color: #ff8a65; }
+
+/* Cinza para Karaoke */
+.cinza { background-color: #9e9e9e; }
+
+/* Azul para Show */
+.azul { background-color: #29b6f6; }
+
+/* Rosa para Eventos */
+.rosa { background-color: #ec407a; }
+
+/* Azul Marinho para Parques */
+.azul-marinho { background-color: #0d47a1; }
+
+/* Vermelho para +50 anos */
+.vermelho { background-color: #e53935; }

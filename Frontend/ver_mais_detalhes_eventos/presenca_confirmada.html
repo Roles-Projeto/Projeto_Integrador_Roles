@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Presença Confirmada | Rolês</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* 🎯 2. DEFINIÇÃO DA FONTE PRINCIPAL NO BODY */
+        body {
+            font-family: 'Poppins', Arial, sans-serif;
+            margin: 0;
+            background-color: #f4f5f7;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* Estilo para simular o header */
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background-color: white;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        main {
+            flex-grow: 1;
+            padding: 50px 20px;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+        }
+
+        .container-confirmacao {
+            padding: 40px 60px;
+            text-align: center;
+            max-width: 600px;
+            width: 100%;
+        }
+
+        .icone-check-container {
+            margin-bottom: 20px;
+        }
+
+        .icone-check {
+            width: 80px;
+            height: 80px;
+            color: #4CAF50;
+        }
+
+        .titulo-confirmacao {
+            font-size: 26px;
+            /* Tamanho mantido para destaque */
+            color: #333;
+            font-weight: 700;
+            /* Poppins usa 700 para bold */
+            margin-bottom: 5px;
+        }
+
+        .mensagem-confirmacao {
+            font-size: 14px;
+            /* 🎯 Ajustado para 14px */
+            color: #666;
+            margin-bottom: 30px;
+        }
+
+        .card-lembrete {
+            background-color: #e6f7ff;
+            border: 1px solid #bae7ff;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: left;
+            margin-bottom: 30px;
+        }
+
+        .card-lembrete h3 {
+            margin-top: 0;
+            font-size: 14px;
+            /* 🎯 Ajustado para 14px */
+            color: #333;
+            font-weight: 600;
+            /* Poppins usa 600 para semi-bold */
+        }
+
+        .card-lembrete ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            font-size: 12px;
+            /* 🎯 Ajustado para 12px */
+            color: #444;
+        }
+
+        .card-lembrete li {
+            margin-bottom: 8px;
+            line-height: 1.4;
+        }
+
+        .acoes-finais {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .botao-acao {
+            /* padding: 12px 25px; Removido/Comentado */
+            padding: 8px 20px;
+            /* 🎯 Ajustado para ser mais curto (8px vertical) e mais largo (30px horizontal) */
+            border: none;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 300px;
+        }
+
+        .botao-explorar {
+            background-color: white;
+            color: #000;
+            border: 2px solid #bbb9b9;
+        }
+
+        .botao-explorar:hover {
+            background-color: #f0f0f0;
+        }
+
+        .botao-compartilhar {
+            background-color: #1a1a1a;
+            color: white;
+        }
+
+        .botao-compartilhar:hover {
+            background-color: #333;
+        }
+
+        .icone-compartilhar {
+            margin-right: 8px;
+            width: 18px;
+            height: 18px;
+        }
+
+        /* Estilo para simular o footer */
+        footer {
+            width: 100%;
+            background-color: #1a1a1a;
+            color: white;
+            text-align: center;
+            padding: 10px 0;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 600px) {
+            .container-confirmacao {
+                padding: 30px 20px;
+            }
+
+            .acoes-finais {
+                flex-direction: column;
+            }
+
+            .botao-acao {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <iframe id="site-header" src="../header/header.html" frameborder="0" scrolling="no" width="100%" height="60"
+            style="position: sticky; top: 0; left: 0; z-index: 999999999;"></iframe>
+    </header>
+
+    <main>
+        <div class="container-confirmacao">
+
+            <div class="icone-check-container">
+                <svg class="icone-check" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path fill="currentColor"
+                        d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z" />
+                </svg>
+            </div>
+
+            <h1 class="titulo-confirmacao">Presença Confirmada!</h1>
+            <p class="mensagem-confirmacao">Você confirmou presença no evento. Nos vemos lá! 👋</p>
+
+            <div class="card-lembrete">
+                <h3 style="color: #444; font-size: 16px; margin-bottom: 10px;">Lembre-se</h3>
+                <ul>
+                    <li>• Chegue 15 minutos antes do evento começar</li>
+                    <li>• Enviamos um email com todos os detalhes</li>
+                    <li>• Este não é um ingresso, apenas confirmação de interesse!</li>
+                </ul>
+            </div>
+
+            <div class="acoes-finais">
+                <a href="../index.html" class="botao-acao botao-explorar" role="button">
+                    Explorar Mais Eventos
+                </a>
+                <button class="botao-acao botao-compartilhar" type="button">
+                    <svg class="icone-compartilhar" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                            d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.47 1.22.77 1.96.77 2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4c0 .24.04.47.09.7L7.05 11.08C6.51 10.61 5.83 10.32 5.08 10.32c-2.21 0-4 1.79-4 4s1.79 4 4 4c.75 0 1.43-.29 1.96-.77l7.05 4.11c-.05.23-.09.46-.09.7 0 2.21 1.79 4 4 4s4-1.79 4-4-1.79-4-4-4z" />
+                    </svg>
+                    Compartilhar
+                </button>
+            </div>
+
+        </div>
+    </main>
+
+    <footer>
+        <iframe src="../footer/footer.html" frameborder="0" scrolling="no" width="100%" height="auto"></iframe>
+    </footer>
+
+    <script>
+        // Lógica de Compartilhamento (Opcional)
+        document.querySelector('.botao-compartilhar').addEventListener('click', () => {
+            if (navigator.share) {
+                navigator.share({
+                    title: 'Confirmei presença neste Rolê Grátis!',
+                    text: 'Achei este evento incrível e confirmei presença. Vem também!',
+                    url: window.location.origin + '/eventos/detalhes.html?id=SEU_EVENTO_ID' // Mude para a URL do evento real
+                }).catch((error) => console.log('Erro ao compartilhar', error));
+            } else {
+                alert('Função de compartilhamento não suportada neste navegador.');
+            }
+        });
+    </script>
+</body>
+
+</html>

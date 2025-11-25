@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Finalizar Compra - Evento</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Estilos Gerais e Poppins */
+        body {
+            font-family: 'Poppins', Arial, sans-serif; 
+            margin: 0;
+            background-color: #f4f5f7;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background-color: white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        main {
+            flex-grow: 1;
+            padding: 90px 20px; 
+        }
+
+        .page-content {
+            max-width: 1100px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 20px 0;
+        }
+
+        /* Link "Voltar ao Evento" */
+        .back-link {
+            display: inline-block;
+            color: #666;
+            margin-bottom: 20px;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        .back-link:hover {
+            color: #000;
+        }
+
+        /* Layout de Duas Colunas */
+        .checkout-container {
+            display: flex;
+            gap: 20px;
+            align-items: flex-start;
+        }
+
+        .form-section {
+            flex: 2;
+            background-color: white;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        .summary-section {
+            flex: 1;
+            background-color: white;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            position: sticky; 
+            top: 70px;
+        }
+
+        /* Estilos do Formulário */
+        .section-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-subtitle {
+            font-size: 14px;
+            font-weight: 600;
+            color: #555;
+            margin-bottom: 10px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 8px;
+            margin-top: 20px;
+        }
+
+        .dados-pessoais {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        /* Validade e CVV LADO A LADO */
+        .validade-cvv-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr; 
+            gap: 10px;
+        }
+        
+        .input-group label {
+            display: block;
+            font-size: 12px;
+            color: #888;
+            margin-bottom: 4px;
+            font-weight: 500;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 8px 10px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            background-color: #f8f8f8;
+            font-size: 14px;
+            box-sizing: border-box;
+            color: #333;
+        }
+
+        .input-group input:focus {
+            outline: none;
+            border-color: #bbb;
+            background-color: white;
+        }
+
+        /* Pagamento - Segurança */
+        .security-info {
+            display: flex;
+            align-items: center;
+            font-size: 12px;
+            color: #888;
+            margin-top: -5px;
+            margin-bottom: 15px;
+        }
+        .security-info i {
+            margin-right: 6px;
+            color: #4CAF50;
+        }
+
+        /* Botão Final */
+        .btn-pagar {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 6px;
+            background-color: #1a1a1a;
+            color: white;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .btn-pagar:hover {
+            background-color: #333;
+        }
+
+        /* --- Resumo do Pedido (Right Column) --- */
+        .summary-section .section-title {
+            margin-bottom: 15px;
+        }
+
+        /* Detalhes do Evento */
+        .event-details {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+        }
+        .event-image {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 4px;
+        }
+        .event-info {
+            text-align: left;
+        }
+        .event-info h4 {
+            font-size: 14px;
+            font-weight: 600;
+            color: #333;
+            margin: 0 0 5px 0;
+        }
+        .event-meta {
+            font-size: 11px;
+            color: #888;
+            line-height: 1.5;
+        }
+
+        /* Ingresso Selecionado */
+        .ticket-selected {
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+        }
+        .ticket-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 14px;
+            color: #333;
+            padding: 5px 0;
+        }
+        .ticket-type {
+            font-weight: 500;
+        }
+        .ticket-price {
+            font-weight: 600;
+        }
+        .ticket-benefits {
+            font-size: 11px;
+            color: #4CAF50;
+            margin-left: 10px;
+        }
+        .ticket-benefits i {
+            margin-right: 4px;
+        }
+
+        /* Quantidade e Preço Final */
+        .quantity-control {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin: 5px 0 10px 0;
+        }
+        .quantity-control label {
+            font-size: 14px;
+            font-weight: 500;
+            color: #555;
+        }
+        .quantity-input {
+            display: flex;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            overflow: hidden;
+        }
+        .quantity-input button {
+            background: none;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+            font-size: 16px;
+            color: #333;
+        }
+        .quantity-input input {
+            width: 25px;
+            text-align: center;
+            border: none;
+            border-left: 1px solid #ddd;
+            border-right: 1px solid #ddd;
+            padding: 5px 0;
+            background-color: white;
+            font-size: 14px;
+        }
+
+        .price-breakdown {
+            margin-top: 15px;
+        }
+        .price-row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 14px;
+            padding: 3px 0;
+        }
+        .price-row.total-row {
+            font-size: 16px;
+            font-weight: 700;
+            border-top: 1px solid #eee;
+            padding-top: 8px;
+            margin-top: 8px;
+        }
+        .total-row .price {
+            color: #1a1a1a;
+        }
+
+        .tax-info {
+            background-color: #e6f7ff;
+            border: 1px solid #bae7ff;
+            padding: 6px;
+            font-size: 10px;
+            color: #0056b3;
+            margin-top: 8px;
+            text-align: center;
+        }
+        .final-message {
+            font-size: 10px;
+            color: #888;
+            margin-top: 15px;
+            line-height: 1.4;
+        }
+
+        /* Media Queries para responsividade */
+        @media (max-width: 900px) {
+            .checkout-container {
+                flex-direction: column;
+            }
+            .summary-section {
+                position: static;
+            }
+        }
+        @media (max-width: 600px) {
+            .dados-pessoais {
+                grid-template-columns: 1fr;
+            }
+            .validade-cvv-grid { 
+                grid-template-columns: 1fr 1fr; 
+                gap: 10px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    
+    <header>
+        <iframe id="site-header" src="../header/header.html" frameborder="0" scrolling="no" width="100%" height="200"
+            style="position: fixed; top: 0; left: 0; z-index: 999999999;" class="header-overlay"></iframe>
+    </header>
+
+    <main>
+        <div class="page-content">
+            
+            <a href="detalhesevento.html" class="back-link">← Voltar ao Evento</a>
+            
+            <div class="checkout-container">
+                
+                <div class="form-section">
+                    
+                    <form id="payment-form">
+                        <h2 class="section-title">Finalizar Compra</h2>
+                        <p style="font-size: 14px; color: #666; margin-top: -10px;">Preencha seus dados para concluir a compra dos ingressos</p>
+
+                        <div class="form-group">
+                            <h3 class="form-subtitle">Dados Pessoais</h3>
+                            <div class="dados-pessoais">
+                                <div class="input-group">
+                                    <label for="nome">Nome Completo</label>
+                                    <input type="text" id="nome" value="" required>
+                                </div>
+                                <div class="input-group">
+                                    <label for="cpf">CPF</label>
+                                    <input type="text" id="cpf" value="" required>
+                                </div>
+                                <div class="input-group">
+                                    <label for="email">Email</label>
+                                    <input type="email" id="email" value="" required>
+                                </div>
+                                <div class="input-group">
+                                    <label for="telefone">Telefone</label>
+                                    <input type="tel" id="telefone" value="" required>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <h3 class="form-subtitle">Pagamento</h3>
+                            
+                            <div class="security-info">
+                                <i class="fas fa-lock"></i>
+                                Seus dados estão protegidos com criptografia SSL
+                            </div>
+
+                            <div class="input-group" style="margin-bottom: 10px;">
+                                <label for="numero-cartao">Número do Cartão</label>
+                                <input type="text" id="numero-cartao" placeholder="0000 0000 0000 0000" required>
+                            </div>
+                            
+                            <div class="input-group" style="margin-bottom: 10px;">
+                                <label for="nome-cartao">Nome no Cartão</label>
+                                <input type="text" id="nome-cartao" placeholder="Como está nos cartões" required>
+                            </div>
+                            
+                            <div class="validade-cvv-grid">
+                                <div class="input-group">
+                                    <label for="validade">Validade</label>
+                                    <input type="text" id="validade" placeholder="MM/AA" required>
+                                </div>
+                                <div class="input-group">
+                                    <label for="cvv">CVV</label>
+                                    <input type="text" id="cvv" placeholder="123" required>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <button type="submit" class="btn-pagar">Pagar R$ 0,00</button> 
+                    </form>
+                </div>
+
+                <div class="summary-section">
+                    <h2 class="section-title">Resumo do Pedido</h2>
+                    
+                    <div class="event-details">
+                        <img class="event-image" id="event-image" src="caminho/para/imagem_evento.jpg" alt="Noite da Sanfona">
+                        <div class="event-info">
+                            <h4 id="event-name">Noite da Sanfona</h4>
+                            <div class="event-meta">
+                                <p><i class="fas fa-calendar-alt"></i> <span id="event-date">02/02/2025</span></p>
+                                <p><i class="fas fa-clock"></i> <span id="event-time">21:00</span></p>
+                                <p><i class="fas fa-map-marker-alt"></i> <span id="event-location">Club Latino</span></p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="ticket-selected">
+                        <h4 class="form-subtitle" style="margin-top: 0;">Ingresso Selecionado</h4>
+                        
+                        <div class="ticket-row" style="background-color: #f8f8f8; padding: 10px; border-radius: 4px;">
+                            <span class="ticket-type" id="ticket-type">Ingresso Individual</span>
+                            <span class="ticket-price" id="ticket-price-display">R$ 30.00</span>
+                        </div>
+                        <div class="ticket-benefits">
+                            <p><i class="fas fa-check-circle"></i> Aula gratuita</p>
+                            <p><i class="fas fa-check-circle"></i> 1 drink cortesia</p>
+                        </div>
+
+                        <div class="quantity-control">
+                            <label>Quantidade</label>
+                            <div class="quantity-input">
+                                <button type="button" onclick="changeQuantity(-1)">-</button>
+                                <input type="text" id="quantidade" value="1" readonly>
+                                <button type="button" onclick="changeQuantity(1)">+</button>
+                            </div>
+                            <span style="font-size: 11px; color: #888;">85 ingressos disponíveis</span>
+                        </div>
+                    </div>
+
+                    <div class="price-breakdown">
+                        <div class="price-row">
+                            <span id="subtotal-label">Subtotal (1x)</span>
+                            <span class="price" id="subtotal">R$ 30.00</span>
+                        </div>
+                        <div class="price-row">
+                            <span>Taxa de serviço (10%)</span>
+                            <span class="price" id="taxa">R$ 3.00</span>
+                        </div>
+                        
+                        <div class="tax-info">
+                            <i class="fas fa-info-circle"></i> A taxa cobre processamento de pagamento, emissão digital e suporte
+                        </div>
+
+                        <div class="price-row total-row">
+                            <span>Total</span>
+                            <span class="price" id="total">R$ 33.00</span>
+                        </div>
+
+                        <p class="final-message">
+                            Ao finalizar a compra, você receberá os ingressos por email e poderá acessá-los em seu perfil.
+                        </p>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <footer>
+            <iframe src="../footer/footer.html" frameborder="0" scrolling="no" width="100%" height="auto"></iframe>
+        </footer>
+    </footer>
+
+    <script>
+        // Variáveis Globais de Configuração
+        let PRICE_PER_TICKET = 0.00; 
+        const SERVICE_TAX_RATE = 0.10; // 10%
+        const MAX_AVAILABLE_TICKETS = 85;
+
+        /* ==================================================
+        // --- FUNÇÕES DE CARREGAMENTO E FORMATAÇÃO ---
+        ================================================== */
+
+        // Função para formatar o valor para BRL
+        function formatBRL(value) {
+            return new Intl.NumberFormat('pt-BR', {
+                style: 'currency',
+                currency: 'BRL',
+                minimumFractionDigits: 2
+            }).format(value);
+        }
+
+        // Função para carregar os dados do evento e ingresso do localStorage
+        function loadEventData() {
+            const eventDataString = localStorage.getItem('eventoSelecionado');
+            
+            if (eventDataString) {
+                const eventData = JSON.parse(eventDataString);
+                
+                // 1. Atualiza as informações do evento no Resumo
+                document.getElementById('event-image').src = eventData.imagem || 'caminho/para/placeholder.jpg';
+                document.getElementById('event-name').textContent = eventData.nome || 'Evento Desconhecido';
+                document.getElementById('event-date').textContent = eventData.data || '--/--/----';
+                document.getElementById('event-time').textContent = eventData.hora || '--:--';
+                document.getElementById('event-location').textContent = eventData.local || 'Local Desconhecido';
+
+                // 2. Atualiza as informações do ingresso no Resumo
+                document.getElementById('ticket-type').textContent = eventData.ingressoNome || 'Ingresso Padrão';
+                
+                // 3. Define o preço do ingresso (CRUCIAL!)
+                PRICE_PER_TICKET = parseFloat(eventData.ingressoPreco) || 0.00;
+                
+            } else {
+                console.error('Nenhum dado de evento encontrado no localStorage. Usando valores padrões.');
+                PRICE_PER_TICKET = 30.00; 
+            }
+        }
+        
+        /* ==================================================
+        // --- FUNÇÕES DE CÁLCULO E QUANTIDADE ---
+        ================================================== */
+
+        // Função para recalcular e atualizar todos os valores na tela
+        function updatePrice(quantity) {
+            // 1. Cálculo
+            const subtotalValue = quantity * PRICE_PER_TICKET;
+            const taxValue = subtotalValue * SERVICE_TAX_RATE;
+            const totalValue = subtotalValue + taxValue;
+            
+            // 2. Atualização do DOM
+            document.getElementById('quantidade').value = quantity;
+            document.getElementById('subtotal').textContent = formatBRL(subtotalValue);
+            document.getElementById('taxa').textContent = formatBRL(taxValue);
+            document.getElementById('total').textContent = formatBRL(totalValue);
+            document.getElementById('ticket-price-display').textContent = formatBRL(PRICE_PER_TICKET); 
+
+            // 3. Atualiza o texto do botão de pagamento principal
+            document.querySelector('.btn-pagar').textContent = `Pagar ${formatBRL(totalValue)}`;
+
+            // 4. Atualiza o texto do subtotal com a quantidade
+            document.getElementById('subtotal-label').textContent = `Subtotal (${quantity}x)`;
+        }
+
+        // Função que é chamada pelos botões de +/-
+        function changeQuantity(change) {
+            const input = document.getElementById('quantidade');
+            let current = parseInt(input.value);
+            let newValue = current + change;
+            
+            // Validações
+            if (newValue >= 1 && newValue <= MAX_AVAILABLE_TICKETS) {
+                updatePrice(newValue);
+            } else if (newValue < 1) {
+                updatePrice(1); 
+            } else if (newValue > MAX_AVAILABLE_TICKETS) {
+                updatePrice(MAX_AVAILABLE_TICKETS);
+            }
+        }
+
+        /* ==================================================
+        // --- FUNÇÃO DE FINALIZAÇÃO DA COMPRA (Sem validação) ---
+        ================================================== */
+        function finalizePurchase() {
+            // 1. Coletar a quantidade
+            const quantidade = parseInt(document.getElementById('quantidade').value);
+            
+            // 2. Coletar e converter os valores calculados (removendo formatação BRL)
+            const subtotalText = document.getElementById('subtotal').textContent.replace('R$', '').replace('.', '').replace(',', '.').trim();
+            const taxaText = document.getElementById('taxa').textContent.replace('R$', '').replace('.', '').replace(',', '.').trim();
+            const totalText = document.getElementById('total').textContent.replace('R$', '').replace('.', '').replace(',', '.').trim();
+
+            const subtotalValue = parseFloat(subtotalText) || 0;
+            const taxaValue = parseFloat(taxaText) || 0;
+            const totalValue = parseFloat(totalText) || 0;
+
+            // 3. Coletar os dados originais do evento
+            const eventDataString = localStorage.getItem('eventoSelecionado');
+            const eventData = JSON.parse(eventDataString);
+
+            if (!eventData) {
+                alert("Erro ao finalizar: Dados do evento não encontrados.");
+                return;
+            }
+
+            // 4. Montar o objeto final de confirmação
+            const dadosParaConfirmacao = {
+                ...eventData, 
+                
+                // Adiciona os dados da compra
+                quantidade: quantidade,
+                subtotal: subtotalValue,
+                taxaServico: taxaValue,
+                totalPago: totalValue,
+                
+                // Gera um ID de pedido simulado
+                pedidoID: 'ROLE-' + Date.now() + Math.floor(Math.random() * 1000)
+            };
+
+            // 5. Salvar no localStorage na chave que a página de confirmação espera
+            localStorage.setItem('compraConfirmada', JSON.stringify(dadosParaConfirmacao));
+
+            // 6. Redirecionar
+            console.log("Compra finalizada. Redirecionando para Confirmação...");
+            window.location.href = 'confirmacao.html'; 
+        }
+
+        /* ==================================================
+        // --- FUNÇÃO PARA ANEXAR O EVENTO DE SUBMISSÃO (Com correção de redirecionamento) ---
+        ================================================== */
+        function attachFinalizeAction() {
+            const form = document.getElementById('payment-form');
+            
+            if (form) {
+                // Manipulador de submissão do formulário
+                form.addEventListener('submit', function(e) {
+                    // IMPEDE O RECARREGAMENTO DA PÁGINA (CORREÇÃO DE REDIRECIONAMENTO)
+                    e.preventDefault(); 
+                    
+                    // Se o navegador chegou aqui, a validação HTML5 (required) já foi verificada.
+                    finalizePurchase();
+                });
+            } else {
+                console.error("Formulário de pagamento (#payment-form) não encontrado.");
+            }
+        }
+
+        /* ==================================================
+        // --- INICIALIZAÇÃO DA PÁGINA ---
+        ================================================== */
+        document.addEventListener('DOMContentLoaded', function() {
+            // Passo 1: Carrega os dados do evento e define o preço base
+            loadEventData(); 
+            // Passo 2: Calcula o preço com o preço carregado (assumindo 1 ingresso inicialmente)
+            updatePrice(1); 
+            // Passo 3: Atacha o evento de submissão do formulário
+            attachFinalizeAction();
+        });
+    </script>
+</body>
+</html>
