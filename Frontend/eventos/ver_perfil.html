@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perfil de Eventos</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+
+    <link rel="stylesheet" href="../css/ver_perfil.css">
+</head>
+
+<body>
+    <header>
+        <iframe id="cabecalho-site" src="../header/header.html" frameborder="0" scrolling="no" width="100%" height="200"
+            style="position: fixed; top: 0; left: 0; z-index: 999999999;"></iframe>
+    </header>
+
+    <main>
+        <div class="container">
+            <div class="cabecalho-perfil">
+                <a href="javascript:history.back()" class="link-voltar">
+                    <span class="material-symbols-outlined icone">arrow_back</span> Voltar
+                </a>
+                <div class="info-perfil">
+                    <div class="detalhes-perfil">
+                        <img src="../Imagens/logo3.png" alt="Avatar Organizador" class="avatar" id="avatar-organizador">
+                        <div>
+                            <h1 class="nome-empresa" id="nome-organizador">Carregando... <span class="verificado">◉ Verificado</span>
+                            </h1>
+                            <p class="descricao" id="descricao-organizador">Carregando descrição...</p>
+                            <div class="resumo-estatisticas">
+                                <span class="avaliacao"><span class="material-symbols-outlined icone-estrela-pequena">star</span> <span id="avaliacao-perfil">4.9</span> de avaliação</span>
+                                <span class="separador">|</span>
+                                <span id="eventos-realizados">127 eventos realizados</span>
+                                <span class="separador">|</span>
+                                <span id="participantes-totais">15.420 participantes</span>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="botao-seguir">Seguir</button>
+                </div>
+            </div>
+
+            <div class="conteudo-principal">
+                <div class="abas-e-lista">
+                    <div class="navegacao-abas">
+                        <button class="botao-aba js-tab-button" data-tab="proximos-eventos">Próximos Eventos (8)</button>
+                        <button class="botao-aba js-tab-button ativo" data-tab="eventos-passados">Eventos Passados (119)</button>
+                        <button class="botao-aba js-tab-button" data-tab="avaliacoes">Avaliações</button>
+                    </div>
+
+                    <div class="conteudo-abas">
+                        <div id="eventos-passados" class="painel-aba ativo">
+                            <div class="cartao-evento">
+                                <div>
+                                    <h3 class="titulo-evento">Rock na Praça 2024</h3>
+                                    <p class="detalhes-evento">15/09/2024 • 933 participantes</p>
+                                </div>
+                                <span class="avaliacao-evento"><span class="material-symbols-outlined">star</span> 4.8</span>
+                            </div>
+                            <div class="cartao-evento">
+                                <div>
+                                    <h3 class="titulo-evento">Festival Gastronômico</h3>
+                                    <p class="detalhes-evento">20/08/2024 • 495 participantes</p>
+                                </div>
+                                <span class="avaliacao-evento"><span class="material-symbols-outlined">star</span> 4.9</span>
+                            </div>
+                            <div class="cartao-evento">
+                                <div>
+                                    <h3 class="titulo-evento">Sunset Session</h3>
+                                    <p class="detalhes-evento">10/07/2024 • 168 participantes</p>
+                                </div>
+                                <span class="avaliacao-evento"><span class="material-symbols-outlined">star</span> 5</span>
+                            </div>
+                        </div>
+
+                        <div id="proximos-eventos" class="painel-aba">
+                            <div class="cartao-proximo-evento">
+                                <img src="../Imagens/7º imagem card.png" alt="Festival de Jazz ao Ar Livre">
+                                <div class="info-evento">
+                                    <h3 class="titulo-evento">Festival de Jazz ao Ar Livre</h3>
+                                    <p class="detalhes-evento">25/10/2025 • 19:00</p>
+                                    <p class="local-evento">Parque Vaca Brava</p>
+                                    <p class="confirmados-evento">145 confirmados</p>
+                                    <p class="preco-evento">R$ 50</p>
+                                </div>
+                                <button class="botao-ver-detalhes">Ver detalhes</button>
+                            </div>
+                            <div class="cartao-proximo-evento">
+                                <img src="../Imagens/4º imagem cad.png" alt="Noite de Stand-up Comedy">
+                                <div class="info-evento">
+                                    <h3 class="titulo-evento">Noite de Stand-up Comedy</h3>
+                                    <p class="detalhes-evento">28/10/2025 • 20:30</p>
+                                    <p class="local-evento">Teatro Goiânia</p>
+                                    <p class="confirmados-evento">88 confirmados</p>
+                                    <p class="preco-evento">R$ 45</p>
+                                </div>
+                                <button class="botao-ver-detalhes">Ver detalhes</button>
+                            </div>
+                        </div>
+
+                        <div id="avaliacoes" class="painel-aba">
+
+                            <div class="cartao-avaliacao">
+                                <div class="cabecalho-avaliacao">
+                                    <div class="inicial-avaliador">M</div>
+                                    <div class="meta-avaliacao">
+                                        <span class="nome-avaliador">Maiara Santos</span>
+                                        <span class="data-avaliacao">03/10/2025</span>
+                                        <div class="estrelas-avaliacao">★★★☆☆</div>
+                                    </div>
+                                </div>
+                                <p class="texto-avaliacao">Eventos sempre bem organizados! Super recomendo.</p>
+                            </div>
+                            <div class="cartao-avaliacao">
+                                <div class="cabecalho-avaliacao">
+                                    <div class="inicial-avaliador">C</div>
+                                    <div class="meta-avaliacao">
+                                        <span class="nome-avaliador">Carlos Oliveira</span>
+                                        <span class="data-avaliacao">05/10/2025</span>
+                                        <div class="estrelas-avaliacao">★★★★★</div>
+                                    </div>
+                                </div>
+                                <p class="texto-avaliacao">Experiência incrível em todos os eventos que participei.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="barra-lateral">
+                    <div class="caixa-estatisticas">
+                        <h3 class="titulo-caixa">Estatísticas</h3>
+                        <div class="item-estatistica">
+                            <span>Seguidores</span>
+                            <span class="valor-estatistica" id="seguidores">2.340</span>
+                        </div>
+                        <div class="item-estatistica">
+                            <span>Eventos Ativos</span>
+                            <span class="valor-estatistica" id="eventos-ativos">8</span>
+                        </div>
+                        <div class="item-estatistica">
+                            <span>Total de Eventos</span>
+                            <span class="valor-estatistica" id="total-eventos-estatistica">127</span>
+                        </div>
+                        <div class="item-estatistica">
+                            <span>Membro desde</span>
+                            <span class="valor-estatistica" id="membro-desde">Janeiro de 2020</span>
+                        </div>
+                    </div>
+
+                    <div class="caixa-contato">
+                        <h3 class="titulo-caixa">Contato</h3>
+                        <p class="detalhe-contato"><span class="material-symbols-outlined icone-contato">mail</span> <span id="email-contato">contato@eventosgp.com.br</span></p>
+                        <p class="detalhe-contato"><span class="material-symbols-outlined icone-contato">call</span> <span id="telefone-contato">(62) 98765-4321</span></p>
+                        <button class="botao-enviar-mensagem"><span class="material-symbols-outlined icone-botao">send</span> Enviar Mensagem</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+    <footer>
+        <iframe src="../footer/footer.html" frameborder="0" scrolling="no" width="100%" height="auto"></iframe>
+    </footer>
+    <script>
+        // Dados de perfil simulados (pode ser expandido para todos os perfis)
+        const DADOS_PERFIS = {
+            'Produtora Ji & Cia': {
+                descricao: 'Especializada em jazz, blues e eventos culturais ao ar livre. Qualidade e boa música em Goiânia.',
+                avaliacao: '4.9',
+                eventosRealizados: '42',
+                participantes: '7.850',
+                seguidores: '1.500',
+                eventosAtivos: '5',
+                membroDesde: 'Março de 2021',
+                email: 'contato@produtorajiecia.com',
+                telefone: '(62) 99123-4567',
+                avatar: '../Imagens/logo3.png' // Imagem específica (se houver)
+            },
+            'Drinks & Beer': {
+                descricao: 'O melhor do happy hour na T-63! Oferecemos os melhores chopps e drinks com música ambiente e petiscos.',
+                avaliacao: '4.7',
+                eventosRealizados: '15',
+                participantes: '2.500',
+                seguidores: '950',
+                eventosAtivos: '3',
+                membroDesde: 'Outubro de 2022',
+                email: 'contato@drinksandbeer.com.br',
+                telefone: '(62) 98888-7777',
+                avatar: '../Imagens/avatar-generico.jpg'
+            },
+            // Perfil Padrão/Fallback para quando o parâmetro não for encontrado
+            'Eventos Goiânia Premium': {
+                descricao: 'Somos uma empresa especializada em criar experiências únicas em Goiânia. Com mais de 5 anos de mercado, já realizamos centenas de eventos inesquecíveis para nossos clientes.',
+                avaliacao: '4.9',
+                eventosRealizados: '127',
+                participantes: '15.420',
+                seguidores: '2.340',
+                eventosAtivos: '8',
+                membroDesde: 'Janeiro de 2020',
+                email: 'contato@eventosgp.com.br',
+                telefone: '(62) 98765-4321',
+                avatar: '../Imagens/Logo Restaurante.avif'
+            }
+            // Adicione outros perfis aqui conforme necessário
+        };
+
+        /* ==================================================
+        // --- FUNÇÃO DE CARREGAMENTO DO PERFIL ---
+        ================================================== */
+        function carregarPerfilOrganizador() {
+            const params = new URLSearchParams(window.location.search);
+            // Pega o nome do parâmetro 'nome' e o decodifica (reverte espaços e caracteres especiais)
+            const nomeOrganizadorURL = decodeURIComponent(params.get('nome') || 'Eventos Goiânia Premium');
+            
+            // Tenta encontrar os dados, se não encontrar, usa o padrão 'Eventos Goiânia Premium'
+            const dados = DADOS_PERFIS[nomeOrganizadorURL] || DADOS_PERFIS['Eventos Goiânia Premium'];
+            
+            // 1. Atualiza o cabeçalho do perfil
+            document.getElementById('nome-organizador').innerHTML = `${nomeOrganizadorURL} <span class="verificado">◉ Verificado</span>`;
+            document.getElementById('descricao-organizador').textContent = dados.descricao;
+            document.getElementById('avatar-organizador').src = dados.avatar;
+
+            // 2. Atualiza as estatísticas no resumo do cabeçalho
+            document.getElementById('avaliacao-perfil').textContent = dados.avaliacao;
+            document.getElementById('eventos-realizados').textContent = `${dados.eventosRealizados} eventos realizados`;
+            document.getElementById('participantes-totais').textContent = `${dados.participantes} participantes`;
+            
+            // 3. Atualiza a barra lateral (Estatísticas)
+            document.getElementById('seguidores').textContent = dados.seguidores;
+            document.getElementById('eventos-ativos').textContent = dados.eventosAtivos;
+            document.getElementById('total-eventos-estatistica').textContent = dados.eventosRealizados; // Reusa o total de eventos
+            document.getElementById('membro-desde').textContent = dados.membroDesde;
+
+            // 4. Atualiza a barra lateral (Contato)
+            document.getElementById('email-contato').textContent = dados.email;
+            document.getElementById('telefone-contato').textContent = dados.telefone;
+        }
+
+
+        /* ==================================================
+        // --- FUNÇÃO DE LÓGICA DAS ABAS ---
+        ================================================== */
+        function inicializarAbas() {
+            const botoesAba = document.querySelectorAll('.js-tab-button');
+            const paineisAba = document.querySelectorAll('.painel-aba');
+
+            botoesAba.forEach(button => {
+                button.addEventListener('click', () => {
+                    const tabId = button.getAttribute('data-tab');
+
+                    // Remove 'ativo' class de todos os botões e painéis
+                    botoesAba.forEach(btn => btn.classList.remove('ativo'));
+                    paineisAba.forEach(pane => pane.classList.remove('ativo'));
+
+                    // Adiciona 'ativo' class ao botão e painel clicados
+                    button.classList.add('ativo');
+                    document.getElementById(tabId).classList.add('ativo');
+                });
+            });
+        }
+
+
+        /* ==================================================
+        // --- INICIALIZAÇÃO DA PÁGINA ---
+        ================================================== */
+        document.addEventListener('DOMContentLoaded', () => {
+            carregarPerfilOrganizador();
+            inicializarAbas();
+        });
+    </script>
+</body>
+
+</html>

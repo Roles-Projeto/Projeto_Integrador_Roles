@@ -2,255 +2,388 @@
 <html lang="pt-br">
 
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Rolês - Início</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Rolês - Início</title>
 
-  <link rel="stylesheet" href="../header/css/style.css">
+    <link rel="stylesheet" href="../header/css/style.css">
 
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
-  <link rel="stylesheet" href="../css/locais.css">
+    <link rel="stylesheet" href="../css/locais.css">
 
-  <script src="https://unpkg.com/feather-icons"></script>
+    <script src="https://unpkg.com/feather-icons"></script>
 
 
 </head>
 
 <body>
-  <header>
     <header>
-      <iframe id="site-header" src="../header/header.html" frameborder="0" scrolling="no" width="100%" height="200"
-        style="position: fixed; top: 0; left: 0; z-index: 999999999;"></iframe>
+        <iframe id="site-header" src="../header/header.html" frameborder="0" scrolling="no" width="100%" height="200"
+            style="position: fixed; top: 0; left: 0; z-index: 999999999;"></iframe>
     </header>
 
     <main>
-      <section class="todos-locais">
-        <h1>Todos os Locais</h1>
-        <p>Descubra os melhores lugares para sair e se divertir na sua cidade</p>
+        <section class="todos-locais">
+            <h1>Todos os Locais</h1>
+            <p>Descubra os melhores lugares para sair e se divertir na sua cidade</p>
 
-        <div class="search-box">
-          <i data-feather="search" class="icon"></i>
-          <input type="text" placeholder="Buscar locais, bairros, tipos..." />
+            <div class="search-box">
+                <i data-feather="search" class="icon"></i> 
+                <input type="text" placeholder="Buscar locais, bairros, tipos..." id="search-input" /> 
+            </div>
+        </section>
+
+        <div class="content-container">
+            <section class="barra-filtros">
+                <div class="filtro-esquerda">
+                    <i class="fa-solid fa-filter icone-filtro"></i>
+                    <span>Filtros</span>
+                </div>
+
+                <div class="filtro-direita">
+                    <button class="botao-dropdown" data-filtro-tipo="categoria">Todas as Categorias <i
+                            class="fa-solid fa-chevron-down"></i></button>
+                    <button class="botao-dropdown" data-filtro-tipo="avaliacao">Melhor avaliados <i
+                            class="fa-solid fa-chevron-down"></i></button>
+                </div>
+            </section>
+
+            <section class="opçoes">
+                <p class="mover">Encontrado <strong id="contador-locais">6</strong> locais</p>
+
+                <div class="botoes" id="botoes-categoria-locais">
+                    <button class="opçoes-abaixo ativo" data-categoria="todos">Todos</button>
+                    <button class="opçoes-abaixo" data-categoria="baladas">Baladas</button>
+                    <button class="opçoes-abaixo" data-categoria="bares">Bares</button>
+                    <button class="opçoes-abaixo" data-categoria="restaurantes">Restaurantes</button>
+                    <button class="opçoes-abaixo" data-categoria="shows">Shows</button>
+                </div>
+            </section>
+
+            <section>
+                <div class="cards-container" id="cards-container-locais">
+                    <div class="card" data-categoria-card="bares">
+                        <div class="card-img">
+                            <img src="../Imagens/1º imagem cad.png" alt="Pinga Fogo">
+                            <span class="categoria">Bar</span>
+                            <span class="nota">⭐ 4.5</span>
+                        </div>
+                        <div class="card-content">
+                            <h3>Pinga Fogo <span class="preco">$$</span></h3>
+                            <p class="local"><i class="fa-solid fa-location-dot"></i> Setor Marista, Goiânia</p>
+                            <p class="descricao">Opções de chopp gelado e petiscos variados. Perfeito para um happy hour.</p>
+                            <div class="info">
+                                <p><i class="fa-regular fa-clock"></i> 17:00 – 01:00</p>
+                                <p><i class="fa-solid fa-phone"></i> (62) 32XX-XXXX</p>
+                            </div>
+                            <div class="tags">
+                                <span>Happy Hour</span>
+                                <span>Música ao vivo</span>
+                                <span>Cerveja artesanal</span>
+                            </div>
+                            <div class="footer">
+                                <p class="avaliacoes"><i class="fa-solid fa-star"></i> 450 avaliações</p>
+                                <button class="detalhes">Ver Detalhes</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card" data-categoria-card="restaurantes">
+                        <div class="card-img">
+                            <img src="../Imagens/2º imagem card.png" alt="Kabanas Restaurante">
+                            <span class="categoria">Restaurante</span>
+                            <span class="nota">⭐ 4.6</span>
+                        </div>
+                        <div class="card-content">
+                            <h3>Kabanas Restaurante <span class="preco">$$$</span></h3>
+                            <p class="local"><i class="fa-solid fa-location-dot"></i> Setor Bueno, Goiânia</p>
+                            <p class="descricao">Culinária sofisticada em ambiente elegante. Ideal para ocasiões especiais.</p>
+                            <div class="info">
+                                <p><i class="fa-regular fa-clock"></i> 11:30 – 00:00</p>
+                                <p><i class="fa-solid fa-phone"></i> (62) 32XX-XXXX</p>
+                            </div>
+                            <div class="tags">
+                                <span>Menu degustação</span>
+                                <span>Carta de vinhos</span>
+                                <span>Rolê romântico</span>
+                            </div>
+                            <div class="footer">
+                                <p class="avaliacoes"><i class="fa-solid fa-star"></i> 1200 avaliações</p>
+                                <button class="detalhes">Ver Detalhes</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card" data-categoria-card="baladas">
+                        <div class="card-img">
+                            <img src="../Imagens/3º imagem card.png" alt="Roxy">
+                            <span class="categoria">Balada</span>
+                            <span class="nota">⭐ 4.7</span>
+                        </div>
+                        <div class="card-content">
+                            <h3>Roxy <span class="preco">$$</span></h3>
+                            <p class="local"><i class="fa-solid fa-location-dot"></i> Setor Sul, Goiânia</p>
+                            <p class="descricao">Um dos maiores clubs de Goiânia com DJs locais e nacionais e pista de dança.</p>
+                            <div class="info">
+                                <p><i class="fa-regular fa-clock"></i> 23:00 – 06:00</p>
+                                <p><i class="fa-solid fa-phone"></i> (62) 9XXXX-XXXX</p>
+                            </div>
+                            <div class="tags">
+                                <span>Pista de dança</span>
+                                <span>Música eletrônica</span>
+                                <span>Bar completo</span>
+                            </div>
+                            <div class="footer">
+                                <p class="avaliacoes"><i class="fa-solid fa-star"></i> 780 avaliações</p>
+                                <button class="detalhes">Ver Detalhes</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card" data-categoria-card="shows">
+                        <div class="card-img">
+                            <img src="../Imagens/4º imagem cad.png" alt="Guardian Comedy Club">
+                            <span class="categoria">Stand-up</span>
+                            <span class="nota">⭐ 4.6</span>
+                        </div>
+                        <div class="card-content">
+                            <h3>Guardian Comedy Club <span class="preco">$</span></h3>
+                            <p class="local"><i class="fa-solid fa-location-dot"></i> Setor Marista, Goiânia</p>
+                            <p class="descricao">O principal palco de Stand-up da cidade. Risadas garantidas toda semana.</p>
+                            <div class="info">
+                                <p><i class="fa-regular fa-clock"></i> 19:30 – 23:00</p>
+                                <p><i class="fa-solid fa-phone"></i> (62) 9XXXX-XXXX</p>
+                            </div>
+                            <div class="tags">
+                                <span>Sala de comédia</span>
+                                <span>Bar e Petiscos</span>
+                                <span>Eventos corporativos</span>
+                            </div>
+                            <div class="footer">
+                                <p class="avaliacoes"><i class="fa-solid fa-star"></i> 286 avaliações</p>
+                                <button class="detalhes">Ver Detalhes</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card" data-categoria-card="restaurantes">
+                        <div class="card-img">
+                            <img src="../Imagens/5º imagem cad.png" alt="Pizzaria da 8">
+                            <span class="categoria">Restaurante</span>
+                            <span class="nota">⭐ 4.4</span>
+                        </div>
+                        <div class="card-content">
+                            <h3>Pizzaria da 8 <span class="preco">$</span></h3>
+                            <p class="local"><i class="fa-solid fa-location-dot"></i> Setor Central, Goiânia</p>
+                            <p class="descricao">Receitas tradicionais e ingredientes frescos. Ambiente familiar e acolhedor.</p>
+                            <div class="info">
+                                <p><i class="fa-regular fa-clock"></i> 18:00 – 23:30</p>
+                                <p><i class="fa-solid fa-phone"></i> (62) 32XX-XXXX</p>
+                            </div>
+                            <div class="tags">
+                                <span>Entrega em casa</span>
+                                <span>Massa artesanal</span>
+                                <span>Opções vegetarianas</span>
+                            </div>
+                            <div class="footer">
+                                <p class="avaliacoes"><i class="fa-solid fa-star"></i> 124 avaliações</p>
+                                <button class="detalhes">Ver Detalhes</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card" data-categoria-card="shows">
+                        <div class="card-img">
+                            <img src="../Imagens/6º imagem cad.png" alt="Teatro Rio Vermelho">
+                            <span class="categoria">Show</span>
+                            <span class="nota">⭐ 4.5</span>
+                        </div>
+                        <div class="card-content">
+                            <h3>Teatro Rio Vermelho <span class="preco">$$</span></h3>
+                            <p class="local"><i class="fa-solid fa-location-dot"></i> Setor Central, Goiânia</p>
+                            <p class="descricao">Principal espaço para grandes shows, peças de teatro e apresentações culturais.</p>
+                            <div class="info">
+                                <p><i class="fa-regular fa-clock"></i> Verificar Agenda</p>
+                                <p><i class="fa-solid fa-phone"></i> (62) 32XX-XXXX</p>
+                            </div>
+                            <div class="tags">
+                                <span>Grande capacidade</span>
+                                <span>Estacionamento</span>
+                                <span>Programação variada</span>
+                            </div>
+                            <div class="footer">
+                                <p class="avaliacoes"><i class="fa-solid fa-star"></i> 610 avaliações</p>
+                                <button class="detalhes">Ver Detalhes</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="stats-section">
+                <button class="ver-mais">Ver Todos os Locais</button>
+
+                <div class="cards-stats">
+                    <div class="stat-card">
+                        <h2><i class="fa-solid fa-map-location-dot"></i> 55+</h2>
+                        <p>Locais cadastrados</p>
+                    </div>
+                    <div class="stat-card">
+                        <h2><i class="fa-solid fa-tags"></i> 10+</h2>
+                        <p>Categorias disponíveis</p>
+                    </div>
+                    <div class="stat-card">
+                        <h2>⭐ 4.6</h2>
+                        <p>Avaliação média</p>
+                    </div>
+                </div>
+            </section>
         </div>
-      </section>
-
-      <div class="content-container">
-        <section class="barra-filtros">
-          <div class="filtro-esquerda">
-            <i class="fa-solid fa-filter icone-filtro"></i>
-            <span>Filtros</span>
-          </div>
-
-          <div class="filtro-direita">
-            <button class="botao-dropdown" data-filtro-tipo="categoria">Todas as Categorias <i
-                class="fa-solid fa-chevron-down"></i></button>
-            <button class="botao-dropdown" data-filtro-tipo="avaliacao">Melhor avaliados <i
-                class="fa-solid fa-chevron-down"></i></button>
-          </div>
-        </section>
-
-        <section class="opçoes">
-          <p class="mover">Encontrado <strong id="contador-locais">6</strong> locais</p>
-
-          <div class="botoes" id="botoes-categoria-locais">
-            <button class="opçoes-abaixo ativo" data-categoria="todos">Todos</button>
-            <button class="opçoes-abaixo" data-categoria="baladas">Baladas</button>
-            <button class="opçoes-abaixo" data-categoria="bares">Bares</button>
-            <button class="opçoes-abaixo" data-categoria="restaurantes">Restaurantes</button>
-            <button class="opçoes-abaixo" data-categoria="shows">Shows</button>
-          </div>
-        </section>
-
-        <section>
-          <div class="cards-container" id="cards-container-locais">
-            <div class="card" data-categoria-card="bares">
-              <div class="card-img">
-                <img src="../Imagens/Rectangle 142 (1).png" alt="Sky Bar Rooftop">
-                <span class="categoria">Bar</span>
-                <span class="nota">⭐ 4.6</span>
-              </div>
-              <div class="card-content">
-                <h3>Sky Bar Rooftop <span class="preco"> $</span></h3>
-                <p class="local"><i class="fa-solid fa-location-dot"></i> Vila Olímpia, Goiânia</p>
-                <p class="descricao">Vista incrível da cidade com drinks autorais e ambiente sofisticado</p>
-                <div class="info">
-                  <p><i class="fa-regular fa-clock"></i> 18:00 – 02:00</p>
-                  <p><i class="fa-solid fa-phone"></i> (62) 9999-9999</p>
-                </div>
-                <div class="tags">
-                  <span>Vista panorâmica</span>
-                  <span>DJ aos fins de semana</span>
-                  <span>Happy hour</span>
-                </div>
-                <div class="footer">
-                  <p class="avaliacoes"><i class="fa-regular fa-star"></i> 234 avaliações</p>
-                  <button class="detalhes">Ver Detalhes</button>
-                </div>
-              </div>
-            </div>
-
-            <div class="card" data-categoria-card="restaurantes">
-              <div class="card-img">
-                <img src="../Imagens/image 3.png" alt="Bistrô Gourmet">
-                <span class="categoria">Restaurante</span>
-                <span class="nota">⭐ 4.8</span>
-              </div>
-              <div class="card-content">
-                <h3>Bistrô Gourmet <span class="preco">$$</span></h3>
-                <p class="local"><i class="fa-solid fa-location-dot"></i> Jardins, Goiânia</p>
-                <p class="descricao">Culinária contemporânea e ambiente aconchegante</p>
-                <div class="info">
-                  <p><i class="fa-regular fa-clock"></i> 19:00 – 24:00</p>
-                  <p><i class="fa-solid fa-phone"></i> (62) 8888-8888</p>
-                </div>
-                <div class="tags">
-                  <span>Menu degustação</span>
-                  <span>Vinho</span>
-                  <span>Chef renomado</span>
-                </div>
-                <div class="footer">
-                  <p class="avaliacoes"><i class="fa-regular fa-star"></i> 189 avaliações</p>
-                  <button class="detalhes">Ver Detalhes</button>
-                </div>
-              </div>
-            </div>
-
-            <div class="card" data-categoria-card="baladas">
-              <div class="card-img">
-                <img src="../Imagens/image 4.png" alt="Tropical Club">
-                <span class="categoria">Balada</span>
-                <span class="nota">⭐ 4.7</span>
-              </div>
-              <div class="card-content">
-                <h3>Tropical Club <span class="preco">$$</span></h3>
-                <p class="local"><i class="fa-solid fa-location-dot"></i> Setor Bueno, Goiânia</p>
-                <p class="descricao">Festas com DJ’s e música eletrônica até o amanhecer</p>
-                <div class="info">
-                  <p><i class="fa-regular fa-clock"></i> 22:00 – 06:00</p>
-                  <p><i class="fa-solid fa-phone"></i> (62) 9777-7777</p>
-                </div>
-                <div class="tags">
-                  <span>DJ internacional</span>
-                  <span>Open bar</span>
-                  <span>After party</span>
-                </div>
-                <div class="footer">
-                  <p class="avaliacoes"><i class="fa-regular fa-star"></i> 412 avaliações</p>
-                  <button class="detalhes">Ver Detalhes</button>
-                </div>
-              </div>
-            </div>
-
-            <div class="card" data-categoria-card="shows">
-              <div class="card-img">
-                <img src="../Imagens/image 7.png" alt="Lagoa Sunset">
-                <span class="categoria">Shows</span>
-                <span class="nota">⭐ 4.9</span>
-              </div>
-              <div class="card-content">
-                <h3>Lagoa Sunset <span class="preco">$$$</span></h3>
-                <p class="local"><i class="fa-solid fa-location-dot"></i> Jardim Goiás</p>
-                <p class="descricao">Shows ao vivo e gastronomia premium à beira da lagoa</p>
-                <div class="info">
-                  <p><i class="fa-regular fa-clock"></i> 17:00 – 23:00</p>
-                  <p><i class="fa-solid fa-phone"></i> (62) 9666-6666</p>
-                </div>
-                <div class="tags">
-                  <span>Show ao vivo</span>
-                  <span>Pôr do sol</span>
-                  <span>Drinks artesanais</span>
-                </div>
-                <div class="footer">
-                  <p class="avaliacoes"><i class="fa-regular fa-star"></i> 305 avaliações</p>
-                  <button class="detalhes">Ver Detalhes</button>
-                </div>
-              </div>
-            </div>
-
-            <div class="card" data-categoria-card="restaurantes">
-              <div class="card-img">
-                <img src="../Imagens/image 6.png" alt="Cantina Italiana">
-                <span class="categoria">Restaurante</span>
-                <span class="nota">⭐ 4.5</span>
-              </div>
-              <div class="card-content">
-                <h3>Pizza da Casa <span class="preco">$$</span></h3>
-                <p class="local"><i class="fa-solid fa-location-dot"></i> Setor Oeste</p>
-                <p class="descricao">Massas artesanais e clima familiar</p>
-                <div class="info">
-                  <p><i class="fa-regular fa-clock"></i> 11:30 – 23:00</p>
-                  <p><i class="fa-solid fa-phone"></i> (62) 9555-5555</p>
-                </div>
-                <div class="tags">
-                  <span>Massas</span>
-                  <span>Vinho</span>
-                  <span>Música ao vivo</span>
-                </div>
-                <div class="footer">
-                  <p class="avaliacoes"><i class="fa-regular fa-star"></i> 274 avaliações</p>
-                  <button class="detalhes">Ver Detalhes</button>
-                </div>
-              </div>
-            </div>
-
-            <div class="card" data-categoria-card="restaurantes">
-              <div class="card-img">
-                <img src="../Imagens/image 5.png" alt="Churras Prime">
-                <span class="categoria">Restaurante</span>
-                <span class="nota">⭐ 4.3</span>
-              </div>
-              <div class="card-content">
-                <h3>Churras Prime <span class="preco">$$</span></h3>
-                <p class="local"><i class="fa-solid fa-location-dot"></i> Jardim América</p>
-                <p class="descricao">O melhor churrasco premium da cidade</p>
-                <div class="info">
-                  <p><i class="fa-regular fa-clock"></i> 12:00 – 22:00</p>
-                  <p><i class="fa-solid fa-phone"></i> (62) 9444-4444</p>
-                </div>
-                <div class="tags">
-                  <span>Rodízio</span>
-                  <span>Cortes nobres</span>
-                  <span>Ambiente familiar</span>
-                </div>
-                <div class="footer">
-                  <p class="avaliacoes"><i class="fa-regular fa-star"></i> 382 avaliações</p>
-                  <button class="detalhes">Ver Detalhes</button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <section class="stats-section">
-          <button class="ver-mais">Ver Todos os Locais</button>
-
-          <div class="cards-stats">
-            <div class="stat-card">
-              <h2>0+</h2>
-              <p>Locais cadastrados</p>
-            </div>
-            <div class="stat-card">
-              <h2>0</h2>
-              <p>Categorias disponíveis</p>
-            </div>
-            <div class="stat-card">
-              <h2>⭐ 0.0</h2>
-              <p>Avaliação média</p>
-            </div>
-          </div>
-        </section>
-      </div>
     </main>
 
-    <script>
-      feather.replace();
-    </script>
-
     <footer>
-      <iframe src="../footer/footer.html" frameborder="0" scrolling="no" width="100%" height="auto"></iframe>
+        <iframe src="../footer/footer.html" frameborder="0" scrolling="no" width="100%" height="auto"></iframe>
     </footer>
 
+    <script>
+        // Função para coletar todos os dados de um card específico
+        function coletarDadosDoCard(cardElement) {
+            const nomeElement = cardElement.querySelector('h3');
+            let nomeTexto = nomeElement.textContent;
+            let precoTexto = cardElement.querySelector('.preco').textContent.trim();
+            
+            // Limpa o nome removendo a tag de preço
+            nomeTexto = nomeTexto.replace(precoTexto, '').trim(); 
+            
+            const categoria = cardElement.querySelector('.categoria').textContent.trim();
+            const local = cardElement.querySelector('.local').textContent.trim();
+            const descricao = cardElement.querySelector('.descricao').textContent.trim();
+            const horario = cardElement.querySelector('.info p:nth-child(1)').textContent.replace(/(\s*clock\s*)|( Verificar Agenda)/, '').trim();
+            const telefone = cardElement.querySelector('.info p:nth-child(2)').textContent.replace(/(\s*phone\s*)/, '').trim();
+            const nota = cardElement.querySelector('.nota').textContent.trim();
+            const avaliacoes = cardElement.querySelector('.avaliacoes').textContent.replace(/[^\d\s\w]/g, '').trim();
+            const imagem = cardElement.querySelector('.card-img img').getAttribute('src');
+
+            // Coletar todas as tags
+            const tags = Array.from(cardElement.querySelectorAll('.tags span'))
+                .map(span => span.textContent.trim())
+                .join(', ');
+
+            return {
+                nome: nomeTexto, // Corrigido
+                preco: precoTexto, // Corrigido
+                categoria,
+                local,
+                descricao,
+                horario,
+                telefone,
+                nota,
+                avaliacoes,
+                imagem,
+                tags
+            };
+        }
+
+        // FUNÇÃO PRINCIPAL: Adiciona o evento de clique aos botões "Ver Detalhes"
+        function adicionarListenersDetalhes() {
+            const botoesDetalhes = document.querySelectorAll('.detalhes');
+
+            botoesDetalhes.forEach(button => {
+                button.addEventListener('click', (e) => {
+                    const card = e.target.closest('.card');
+                    if (card) {
+                        const localData = coletarDadosDoCard(card);
+
+                        // 1. Salva os dados no LocalStorage
+                        localStorage.setItem('localDetalhes', JSON.stringify(localData));
+
+                        // 2. Redireciona para a página de detalhes
+                        window.location.href = '../ver_detalhes_locais/verdetalheslocais.html';
+                    } else {
+                        console.error('Card pai não encontrado.');
+                    }
+                });
+            });
+        }
+
+        // Função de filtro por CATEGORIA E TEXTO (agora unificada)
+        function filtrarLocais(categoria) {
+            const cards = document.querySelectorAll('.card');
+            let contador = 0;
+            // Pega o valor do input de busca, garante que está em minúsculas e sem espaços extras
+            const textoBusca = document.getElementById('search-input').value.toLowerCase().trim(); 
+
+            cards.forEach(card => {
+                const categoriaCard = card.getAttribute('data-categoria-card');
+                
+                // Coleta todos os textos relevantes para a busca
+                const nomeCard = card.querySelector('h3').textContent.toLowerCase();
+                const localizacaoCard = card.querySelector('.local').textContent.toLowerCase();
+                const tagsCard = card.querySelector('.tags').textContent.toLowerCase();
+                
+                // 1. Filtro por Categoria (selecionada no botão)
+                const passaPelaCategoria = (categoria === 'todos' || categoriaCard === categoria);
+
+                // 2. Filtro por Texto (digitado na busca)
+                const passaPeloTexto = (
+                    nomeCard.includes(textoBusca) || // Busca no nome
+                    localizacaoCard.includes(textoBusca) || // Busca na localização
+                    tagsCard.includes(textoBusca) // Busca nas tags
+                );
+
+
+                if (passaPelaCategoria && passaPeloTexto) {
+                    card.style.display = 'flex';
+                    contador++;
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+            document.getElementById('contador-locais').textContent = contador;
+        }
+
+        // Função unificada para aplicar os dois filtros: Categoria e Busca
+        function aplicarFiltros() {
+            // Pega a categoria ativa no momento (usa 'todos' como padrão se nenhuma estiver ativa)
+            const categoriaAtiva = document.querySelector('.opçoes-abaixo.ativo')?.getAttribute('data-categoria') || 'todos';
+            filtrarLocais(categoriaAtiva);
+        }
+
+
+        // Execução: Garante que os listeners sejam adicionados após o carregamento do DOM
+        document.addEventListener('DOMContentLoaded', () => {
+            // Inicializa o Feather Icons (Garante que o ícone de busca apareça)
+            feather.replace(); 
+
+            // Adiciona o listener para os botões de CATEGORIA (filtro)
+            const botoesCategoria = document.getElementById('botoes-categoria-locais');
+            if(botoesCategoria) {
+                botoesCategoria.addEventListener('click', (e) => {
+                    if (e.target.classList.contains('opçoes-abaixo')) {
+                        // Remove 'ativo' de todos e adiciona ao clicado
+                        document.querySelectorAll('.opçoes-abaixo').forEach(btn => btn.classList.remove('ativo'));
+                        e.target.classList.add('ativo');
+
+                        aplicarFiltros(); // Aplica o filtro de categoria E o de texto
+                    }
+                });
+            }
+            
+            // Adiciona o listener para o campo de BUSCA (Onde você digitou o texto)
+            const searchInput = document.getElementById('search-input');
+            if (searchInput) {
+                searchInput.addEventListener('input', aplicarFiltros); // Chama a função a cada input
+            }
+
+
+            // Adiciona a funcionalidade de "Ver Detalhes"
+            adicionarListenersDetalhes();
+
+            // Inicializa a exibição (Mostra todos os locais ao carregar)
+            aplicarFiltros(); 
+        });
+    </script>
 </body>
 
 </html>

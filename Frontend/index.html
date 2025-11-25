@@ -6,16 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Rolês - Home</title>
 
-    <!--link css  header -->
     <link rel="stylesheet" href="header/css/style.css">
-    <!--link css footer-->
     <link rel="stylesheet" href="footer/css/style.css">
 
-    <!--link css-->
     <link rel="stylesheet" href="css/style.css">
 
 
-    <!--link icones-->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
@@ -24,9 +20,9 @@
 
 <body>
     <header>
-    <iframe id="site-header" src="header/header.html" frameborder="0" scrolling="no" width="100%"
-        height="200" style="position: fixed; top: 0; left: 0; z-index: 999999999;"></iframe>
-</header>
+        <iframe id="site-header" src="header/header.html" frameborder="0" scrolling="no" width="100%" height="200"
+            style="position: fixed; top: 0; left: 0; z-index: 999999999;"></iframe>
+    </header>
 
     <main>
         <section class="hero-section">
@@ -86,53 +82,56 @@
 
             <div class="categorias-container">
 
-                <div class="card-categoria">
+                <a href="categorias/categorias.html?name=Baladas&icon-class=fas%20fa-music" class="card-categoria">
                     <div class="icon roxo"><i class="fas fa-music"></i></div>
                     <h3>Baladas</h3>
                     <span>0 locais</span>
-                </div>
+                </a>
 
-                <div class="card-categoria">
+                <a href="categorias/categorias.html?name=Bar&icon-class=fas%20fa-glass-martini-alt"
+                    class="card-categoria">
                     <div class="icon amarelo"><i class="fas fa-glass-martini-alt"></i></div>
                     <h3>Bar</h3>
                     <span>0 locais</span>
-                </div>
+                </a>
 
-                <div class="card-categoria">
+                <a href="categorias/categorias.html?name=Restaurante&icon-class=fas%20fa-utensils"
+                    class="card-categoria">
                     <div class="icon laranja"><i class="fas fa-utensils"></i></div>
                     <h3>Restaurante</h3>
                     <span>0 locais</span>
-                </div>
+                </a>
 
-                <div class="card-categoria">
+                <a href="categorias/categorias.html?name=Karaoke&icon-class=fas%20fa-microphone" class="card-categoria">
                     <div class="icon cinza"><i class="fas fa-microphone"></i></div>
                     <h3>Karaoke</h3>
                     <span>0 locais</span>
-                </div>
+                </a>
 
-                <div class="card-categoria">
+                <a href="categorias/categorias.html?name=Show&icon-class=fas%20fa-ticket-alt" class="card-categoria">
                     <div class="icon azul"><i class="fas fa-ticket-alt"></i></div>
                     <h3>Show</h3>
                     <span>0 locais</span>
-                </div>
+                </a>
 
-                <div class="card-categoria">
+                <a href="categorias/categorias.html?name=Eventos&icon-class=fas%20fa-cocktail" class="card-categoria">
                     <div class="icon rosa"><i class="fas fa-cocktail"></i></div>
                     <h3>Eventos</h3>
                     <span>0 locais</span>
-                </div>
+                </a>
 
-                <div class="card-categoria">
+                <a href="categorias/categorias.html?name=Parques&icon-class=fas%20fa-tree" class="card-categoria">
                     <div class="icon azul-marinho"><i class="fas fa-tree"></i></div>
                     <h3>Parques</h3>
                     <span>0 locais</span>
-                </div>
+                </a>
 
-                <div class="card-categoria">
-                    <div class="icon vermelho"><i class="fas fa-mask"></i></div>
-                    <h3>Stand - up</h3>
+                <a href="categorias/categorias.html?name=%2B50%20anos&icon-class=fas%20fa-leaf"
+                    class="card-categoria card-50">
+                    <div class="icon vermelho"><i class="fas fa-leaf"></i></div>
+                    <h3>+50 anos</h3>
                     <span>0 locais</span>
-                </div>
+                </a>
 
             </div>
         </section>
@@ -375,7 +374,17 @@
                         </div>
 
                         <div class="evento-footer">
-                            <button  class="btn-detalhes-evento"  onclick="window.location.href='Ver mais detalhes/Eventos/vermaisdetalhes.html'">Mais Detalhes</button>
+                            <button class="btn-detalhes-evento"
+                                onclick="verDetalhesEvento(
+                                    'Festival de Jazz ao Ar Livre', 
+                                    'R$ 35', 
+                                    'Sex, 14 de Out', 
+                                    '20:00', 
+                                    'Setor Marista, Goiânia', 
+                                    'Uma noite mágica com os melhores músicos de jazz da cidade.',
+                                    'Música',
+                                    'Imagens/7º imagem card.png'
+                                )">Mais Detalhes</button>
                             <button class="btn-confirmar-evento">Confirmar Presença</button>
                         </div>
                     </div>
@@ -402,7 +411,17 @@
                         </div>
 
                         <div class="evento-footer">
-                            <button class="btn-detalhes-evento">Mais Detalhes</button>
+                            <button class="btn-detalhes-evento"
+                                onclick="verDetalhesEvento(
+                                    'Chopada da T-63', 
+                                    'R$ 25', 
+                                    'Qui, 27 de Out', 
+                                    '18:00', 
+                                    'Avenida T-63, Setor Bueno', 
+                                    'Drinks especiais e chopp em dobro no melhor bar da T-63.',
+                                    'Happy Hour',
+                                    'Imagens/8º imagem card.png'
+                                )">Mais Detalhes</button>
                             <button class="btn-confirmar-evento">Confirmar Presença</button>
                         </div>
                     </div>
@@ -429,7 +448,17 @@
                         </div>
 
                         <div class="evento-footer">
-                            <button class="btn-detalhes-evento">Mais Detalhes</button>
+                            <button class="btn-detalhes-evento"
+                                onclick="verDetalhesEvento(
+                                    'Salsa e Bachata Night', 
+                                    'R$ 30', 
+                                    'Dom, 2 de Out', 
+                                    '21:00', 
+                                    'Casa Latina, Setor Central', 
+                                    'Aulas gratuitas de salsa seguidas de muito baile latino.',
+                                    'Dança',
+                                    'Imagens/9º imagem card.png'
+                                )">Mais Detalhes</button>
                             <button class="btn-confirmar-evento">Confirmar Presença</button>
                         </div>
                     </div>
@@ -457,7 +486,17 @@
                         </div>
 
                         <div class="evento-footer">
-                            <button class="btn-detalhes-evento">Mais Detalhes</button>
+                            <button class="btn-detalhes-evento"
+                                onclick="verDetalhesEvento(
+                                    'Vinhos do Cerrado', 
+                                    'R$ 80', 
+                                    'Ter, 4 de Out', 
+                                    '19:30', 
+                                    'Adega Nobre, Setor Bueno', 
+                                    'Seleção especial de rótulos do centro-oeste em ambiente elegante.',
+                                    'Restaurante',
+                                    'Imagens/10º imagem card.png'
+                                )">Mais Detalhes</button>
                             <button class="btn-confirmar-evento">Confirmar Presença</button>
                         </div>
                     </div>
@@ -484,7 +523,17 @@
                         </div>
 
                         <div class="evento-footer">
-                            <button class="btn-detalhes-evento">Mais Detalhes</button>
+                            <button class="btn-detalhes-evento"
+                                onclick="verDetalhesEvento(
+                                    'Rock no Low Ridez', 
+                                    'R$ 35', 
+                                    'Dom, 9 de Out', 
+                                    '22:00', 
+                                    'Vila Cultural, Setor Central', 
+                                    'Bandas locais tocando clássicos nacionais em um pub underground.',
+                                    'Música',
+                                    'Imagens/11º imagem card.png'
+                                )">Mais Detalhes</button>
                             <button class="btn-confirmar-evento">Confirmar Presença</button>
                         </div>
                     </div>
@@ -513,7 +562,17 @@
                         </div>
 
                         <div class="evento-footer">
-                            <button class="btn-detalhes-evento">Mais Detalhes</button>
+                            <button class="btn-detalhes-evento"
+                                onclick="verDetalhesEvento(
+                                    'Brunch no Bougainville', 
+                                    'R$ 42', 
+                                    'Sáb, 8 de Out', 
+                                    '10:00', 
+                                    'Próximo ao Shopping, Setor Bueno', 
+                                    'Brunch especial com buffet de frios, doces e café da manhã completo.',
+                                    'Restaurante',
+                                    'Imagens/12º imagem card.png'
+                                )">Mais Detalhes</button>
                             <button class="btn-confirmar-evento">Confirmar Presença</button>
                         </div>
                     </div>
@@ -529,7 +588,29 @@
     <footer>
         <iframe src="footer/footer.html" frameborder="0" scrolling="no" width="100%" height="auto"></iframe>
     </footer>
-<script src="Js/teste-login.js"></script>
+    
+    <script>
+        function verDetalhesEvento(titulo, preco, data, hora, local, descricao, tag, imagem) {
+            const eventoData = {
+                titulo: titulo,
+                preco: preco,
+                data: data,
+                hora: hora,
+                local: local,
+                descricao: descricao,
+                tag: tag,
+                imagem: imagem
+            };
+            // Codifica o objeto JSON para ser seguro na URL
+            const dadosCodificados = encodeURIComponent(JSON.stringify(eventoData));
+
+            // Ajuste o caminho para detalheseventos.html conforme a estrutura do seu projeto.
+            // Pelo caminho original do seu primeiro card: 'Ver mais detalhes/Eventos/vermaisdetalhes.html'
+            // Vou manter o nome do arquivo como detalheseventos.html e presumir o caminho relativo:
+            window.location.href = `ver_mais_detalhes_eventos/detalheseventos.html?data=${dadosCodificados}`;
+        }
+    </script>
+    <script src="Js/teste-login.js"></script>
 
 </body>
 

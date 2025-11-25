@@ -1,0 +1,426 @@
+/* Importação da fonte Poppins (alternativa para o link no HTML) */
+/* @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap'); */
+
+:root {
+    --primary-color: #5C62F2; /* Cor principal, como a cor de Verificado e linha de aba */
+    --black-button-color: #000; /* Nova cor para botões 'Seguir' e 'Ver detalhes' */
+    --text-dark: #333;
+    --text-medium: #666;
+    --text-light: #999;
+    --bg-light: #f9f9f9; /* Cor de fundo da área superior */
+    --border-color: #eee;
+    --star-color: #FFC107;
+    --font-size-large: 14px;
+    --font-size-small: 12px;
+    --font-family: 'Poppins', sans-serif;
+}
+
+/* --- ESTILO MATERIAL SYMBOLS --- */
+.material-symbols-outlined {
+    /* Garante que o ícone utilize a fonte correta */
+    font-family: 'Material Symbols Outlined';
+    font-weight: normal;
+    font-style: normal;
+    font-size: 20px; /* Tamanho padrão para ícones */
+    line-height: 1;
+    text-transform: none;
+    display: inline-block;
+    vertical-align: middle; /* Ajuda a alinhar o ícone com o texto */
+    -webkit-font-smoothing: antialiased;
+    margin-right: 5px; /* Espaçamento padrão para ícones ao lado do texto */
+}
+
+/* Tamanho menor para o ícone de estrela no resumo de estatísticas */
+.icone-estrela-pequena {
+    font-size: 16px;
+    margin-right: 2px;
+}
+
+/* Garante que o ícone de volta use o tamanho certo no link */
+.link-voltar .icone {
+    font-size: 16px;
+    margin-right: 5px;
+}
+
+/* Remove a margem direita padrão do ícone para o botão de mensagem, pois é um elemento flex */
+.botao-enviar-mensagem .icone-botao {
+    margin-right: 5px;
+}
+
+/* Otimização e Estilização Base */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: var(--font-family);
+    background-color: #fff;
+    color: var(--text-dark);
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    /* CORREÇÃO: Adicionado padding superior para que o conteúdo não fique sob o header fixo de 200px */
+    padding: 120px 20px 20px 20px; 
+}
+
+/* --- Header do Perfil --- */
+.cabecalho-perfil {
+    background-color: var(--bg-light);
+    padding: 30px 40px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+.link-voltar {
+    color: var(--text-medium);
+    text-decoration: none;
+    font-size: var(--font-size-small);
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.info-perfil {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.detalhes-perfil {
+    display: flex;
+    gap: 20px;
+}
+
+.avatar {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.nome-empresa {
+    font-size: var(--font-size-large);
+    font-weight: 600;
+    margin-bottom: 5px;
+}
+
+.verificado {
+    color: var(--primary-color);
+    font-size: var(--font-size-small);
+    font-weight: 500;
+}
+
+.descricao {
+    font-size: var(--font-size-small);
+    color: var(--text-medium);
+    line-height: 1.5;
+    max-width: 700px;
+    margin-bottom: 10px;
+}
+
+.resumo-estatisticas {
+    font-size: var(--font-size-small);
+    color: var(--text-medium);
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.avaliacao {
+    color: var(--star-color);
+    font-weight: 500;
+    display: flex; /* Adicionado para alinhar o ícone estrela com o texto */
+    align-items: center;
+}
+
+.separador {
+    color: var(--border-color);
+}
+
+/* Botão Seguir (AGORA PRETO) */
+.botao-seguir {
+    background-color: var(--black-button-color); /* Preto */
+    color: white;
+    border: none;
+    padding: 8px 18px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: var(--font-size-small);
+    font-weight: 500;
+    transition: background-color 0.3s;
+}
+
+.botao-seguir:hover {
+    background-color: #444; /* Um tom um pouco mais claro para o hover */
+}
+
+/* --- Conteúdo Principal e Layout de Colunas --- */
+.conteudo-principal {
+    display: flex;
+    gap: 40px;
+}
+
+.abas-e-lista {
+    flex-grow: 1;
+}
+
+/* --- Navegação por Abas --- */
+.navegacao-abas {
+    display: flex;
+    border-bottom: 1px solid var(--border-color);
+    margin-bottom: 20px;
+}
+
+.botao-aba {
+    background: none;
+    border: none;
+    padding: 10px 20px;
+    font-family: var(--font-family);
+    font-size: var(--font-size-small);
+    color: var(--text-medium);
+    cursor: pointer;
+    border-bottom: 3px solid transparent;
+    transition: border-bottom 0.2s, color 0.2s;
+    font-weight: 500;
+}
+
+.botao-aba.ativo {
+    color: var(--primary-color);
+    border-bottom-color: var(--primary-color);
+}
+
+/* --- Conteúdo das Abas --- */
+.painel-aba {
+    display: none;
+}
+
+.painel-aba.ativo {
+    display: block;
+}
+
+/* Estilos de Eventos Passados */
+.cartao-evento {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 0;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.cartao-evento:last-child {
+    border-bottom: none;
+}
+
+.titulo-evento {
+    font-size: var(--font-size-large);
+    font-weight: 500;
+    margin-bottom: 2px;
+}
+
+.detalhes-evento {
+    font-size: var(--font-size-small);
+    color: var(--text-medium);
+}
+
+.avaliacao-evento {
+    font-size: var(--font-size-large);
+    font-weight: 600;
+    color: var(--star-color);
+    display: flex; /* Adicionado para alinhar o ícone estrela com o texto */
+    align-items: center;
+}
+
+/* Ajuste o tamanho do ícone de estrela nas avaliações de eventos passados */
+.avaliacao-evento .material-symbols-outlined {
+    font-size: 18px;
+    margin-right: 2px;
+}
+
+
+/* Estilos de Próximos Eventos */
+.cartao-proximo-evento {
+    display: flex;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    margin-bottom: 15px;
+    padding: 15px;
+    align-items: center;
+    gap: 15px;
+}
+
+.cartao-proximo-evento img {
+    width: 150px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 6px;
+}
+
+.info-evento {
+    flex-grow: 1;
+}
+
+.info-evento .titulo-evento {
+    margin-bottom: 5px;
+    font-size: var(--font-size-large);
+    font-weight: 600;
+}
+
+.local-evento, .confirmados-evento {
+    font-size: var(--font-size-small);
+    color: var(--text-medium);
+    margin-bottom: 3px;
+}
+
+.preco-evento {
+    font-size: var(--font-size-large);
+    font-weight: 600;
+    color: var(--text-dark);
+    margin-top: 5px;
+}
+
+/* Botão Ver Detalhes (AGORA PRETO) */
+.botao-ver-detalhes {
+    background-color: var(--black-button-color); /* Preto */
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: var(--font-size-small);
+    font-weight: 500;
+    height: fit-content;
+}
+
+.botao-ver-detalhes:hover {
+    background-color: #444; /* Um tom um pouco mais claro para o hover */
+}
+
+/* Estilos de Avaliações */
+.cartao-avaliacao {
+    border-bottom: 1px solid var(--border-color);
+    padding: 15px 0;
+}
+
+.cartao-avaliacao:last-child {
+    border-bottom: none;
+}
+
+.cabecalho-avaliacao {
+    display: flex;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.inicial-avaliador {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background-color: var(--primary-color);
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: var(--font-size-large);
+    font-weight: 500;
+    margin-right: 10px;
+}
+
+.meta-avaliacao {
+    display: flex;
+    flex-direction: column;
+}
+
+.nome-avaliador {
+    font-size: var(--font-size-large);
+    font-weight: 600;
+}
+
+.data-avaliacao, .estrelas-avaliacao {
+    font-size: var(--font-size-small);
+    color: var(--text-medium);
+}
+
+.estrelas-avaliacao {
+    color: var(--star-color);
+    font-size: var(--font-size-large);
+    line-height: 1; /* Para alinhar as estrelas */
+}
+
+.texto-avaliacao {
+    font-size: var(--font-size-large);
+    line-height: 1.5;
+}
+
+/* --- Barra Lateral (Estatísticas e Contato) --- */
+.barra-lateral {
+    width: 300px; /* Largura fixa para a barra-lateral */
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.caixa-estatisticas, .caixa-contato {
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 20px;
+}
+
+.titulo-caixa {
+    font-size: var(--font-size-large);
+    font-weight: 600;
+    margin-bottom: 15px;
+}
+
+.item-estatistica {
+    display: flex;
+    justify-content: space-between;
+    font-size: var(--font-size-large);
+    padding: 5px 0;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.item-estatistica:last-of-type {
+    border-bottom: none;
+}
+
+.valor-estatistica {
+    font-weight: 600;
+}
+
+.detalhe-contato {
+    font-size: var(--font-size-large);
+    color: var(--text-medium);
+    margin-bottom: 10px;
+    display: flex; /* Otimização: para alinhar o ícone de contato */
+    align-items: center;
+}
+
+/* Remove a margem direita padrão de 5px no ícone de contato para que o texto fique mais próximo do ícone */
+.detalhe-contato .icone-contato {
+    margin-right: 5px; 
+}
+
+/* Botão Enviar Mensagem (Fundo branco, texto PRETO) */
+.botao-enviar-mensagem {
+    width: 100%;
+    background-color: white;
+    color: var(--black-button-color); /* Texto Preto */
+    padding: 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: var(--font-size-large);
+    font-weight: 500;
+    margin-top: 10px;
+    transition: background-color 0.3s;
+    display: flex; /* Adicionado para alinhar o ícone de envio */
+    align-items: center;
+    justify-content: center;
+}
+
+.botao-enviar-mensagem:hover {
+    background-color: var(--bg-light);
+}

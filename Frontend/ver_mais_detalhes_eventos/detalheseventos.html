@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rolês - Ver mais detalhes/Eventos</title>
+    <link rel="stylesheet" href="../css/ver_mais_destalhes_eventos.css">
+</head>
+
+<body>
+
+    <header>
+        <iframe id="site-header" src="../header/header.html" frameborder="0" scrolling="no" width="100%" height="200"
+            style="position: fixed; top: 0; left: 0; z-index: 999999999;" class="header-overlay"></iframe>
+    </header>
+
+    <main class="conteudo-principal-evento">
+        <section class="banner-evento"
+            style="background-image: url(''); background-size: cover; background-position: center;">
+            <a href="javascript:history.back()" class="botao-voltar" role="button">
+                <svg class="icone-voltar" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M15 18L9 12L15 6" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round" />
+                </svg>
+                Voltar
+            </a>
+
+            <div class="informacoes-cabecalho">
+                <span class="etiqueta-categoria">Música</span>
+                <h1 class="titulo-evento">Carregando Evento...</h1>
+                <p class="data-hora-cabecalho">--</p>
+            </div>
+
+            <div class="acoes-cabecalho">
+                <button class="icone-acao" aria-label="Favoritar Evento">
+                    <svg class="icone-coracao" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                </button>
+                <button class="icone-acao" aria-label="Compartilhar Evento">
+                    <svg class="icone-compartilhar" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.47 1.22.77 1.96.77 2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4c0 .24.04.47.09.7L7.05 11.08C6.51 10.61 5.83 10.32 5.08 10.32c-2.21 0-4 1.79-4 4s1.79 4 4 4c.75 0 1.43-.29 1.96-.77l7.05 4.11c-.05.23-.09.46-.09.7 0 2.21 1.79 4 4 4s4-1.79 4-4-1.79-4-4-4z"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                </button>
+            </div>
+
+            <div class="preco-cabecalho">
+                A partir de <span class="valor-minimo">R$ --</span>
+                <span class="por-pessoas">por pessoa</span>
+            </div>
+        </section>
+
+        <div class="conteudo-evento">
+
+            <div class="detalhes-evento">
+
+                <section class="card-informacoes sobre-evento">
+                    <h2 class="titulo-secao">Sobre o Evento</h2>
+                    <p class="descricao-evento">
+                        Carregando descrição...
+                    </p>
+                    <div class="informacoes-extras">
+                        <div class="info-item local-evento">
+                            <svg class="icone-info" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M12 21.7C17.3 17 20 13 20 10C20 6.7 17.3 4 14 4C12.7 4 11.4 4.4 10.3 5.2L12 7H7V2L8.7 3.2C6.4 4.8 5 7.2 5 10C5 13 7.7 17 13 21.7L12 21.7Z"
+                                    stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round" />
+                            </svg>
+                            <div class="texto-info">
+                                <p class="nome-local">Carregando...</p>
+                                <p class="endereco-local">Carregando...</p>
+                            </div>
+                        </div>
+                        <div class="info-item confirmados">
+                            <svg class="icone-info" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M16 21V19C16 17.9391 15.5786 16.9217 14.8284 16.1716C14.0783 15.4214 13.0609 15 12 15H8C6.93913 15 5.92172 15.4214 5.17157 16.1716C4.42143 16.9217 4 17.9391 4 19V21M12 7C14.2091 7 16 5.20914 16 3C16 0.790861 14.2091 -1 12 -1C9.79086 -1 8 0.790861 8 3C8 5.20914 9.79086 7 12 7Z"
+                                    stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round" />
+                            </svg>
+                            <div class="texto-info">
+                                <span class="numero-confirmados">--</span>
+                                <span class="texto-confirmacao">confirmaram presença</span>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="card-informacoes organizador">
+                    <h2 class="titulo-secao">Organizador</h2>
+                    <div class="perfil-organizador">
+                        <img src="../Imagens/logo3.png" alt="Logo do Organizador"
+                            class="avatar-organizador" id="avatar-organizador">
+                        <div class="dados-organizador">
+                            <p class="nome-produtora" id="nome-produtora">
+                                Carregando...
+                                <span class="etiqueta-verificado">Verificado</span>
+                            </p>
+                            <p class="eventos-organizados" id="eventos-organizados">-- eventos organizados</p>
+                        </div>
+                        <a href="../eventos/ver_perfil.html" class="botao-ver-perfil js-link-ver-perfil">Ver Perfil</a>
+                    </div>
+                </section>
+
+                <section class="ingressos-disponiveis">
+                    <h3 class="titulo-ingressos">
+                        <span class="icone-ingresso">🎟️</span> Ingressos Disponíveis
+                    </h3>
+                    <p id="loading-ingressos">Carregando opções de ingressos...</p>
+
+                </section>
+
+                <div class="card-transparencia">
+                    <span class="icone-info-taxa">ⓘ</span>
+                    <div class="texto-transparencia">
+                        <p class="titulo-transparencia">Transparência Total</p>
+                        <p class="detalhe-taxa">
+                            Taxa de serviço de <span class="destaque-taxa">apenas 10%</span> será adicionada no
+                            checkout. Esta taxa cobre processamento de pagamento, emissão de ingresso digital e suporte.
+                        </p>
+                    </div>
+                </div>
+
+                <section class="card-informacoes avaliacoes">
+                    <h2 class="titulo-secao">Avaliações</h2>
+                    <div class="lista-avaliacoes">
+                        <p>Nenhuma avaliação encontrada para este evento. Seja o primeiro!</p>
+                    </div>
+                </section>
+
+            </div>
+
+            <aside class="compra-ingresso">
+
+                <div class="card-garantia-ingresso">
+                    <h2 class="titulo-secao">Garanta seu Ingresso</h2>
+
+                    <div class="detalhes-data-local">
+                        <div class="linha-detalhe">
+                            <span class="label-detalhe">Data</span>
+                            <span class="valor-detalhe data-resumo">--</span>
+                        </div>
+                        <div class="linha-detalhe">
+                            <span class="label-detalhe">Horário</span>
+                            <span class="valor-detalhe hora-resumo">--</span>
+                        </div>
+                        <div class="linha-detalhe">
+                            <span class="label-detalhe">Local</span>
+                            <span class="valor-detalhe local-resumo">--</span>
+                        </div>
+                        <div class="linha-detalhe">
+                            <span class="label-detalhe">Ingresso</span>
+                            <span class="valor-detalhe ingresso-resumo">--</span>
+                        </div>
+                    </div>
+
+                    <div class="detalhe-valor-total">
+                        <span class="label-valor">Valor</span>
+                        <span class="valor-ingresso">R$ 0,00</span>
+                    </div>
+
+                    <button class="botao-comprar" type="button">Comprar Ingresso</button>
+
+                    <div class="beneficios-compra">
+                        <div class="beneficio-item">
+                            <span class="icone-check">✔</span> Confirmação imediata
+                        </div>
+                        <div class="beneficio-item">
+                            <span class="icone-check">✔</span> Ingresso por email e app
+                        </div>
+                        <div class="beneficio-item">
+                            <span class="icone-check">✔</span> Pagamento seguro
+                        </div>
+                    </div>
+                </div>
+            </aside>
+        </div>
+    </main>
+
+    <footer>
+        <footer>
+            <iframe src="../footer/footer.html" frameborder="0" scrolling="no" width="100%" height="auto"></iframe>
+        </footer>
+    </footer>
+
+<script>
+    // Armazena a base de dados de eventos no escopo global para ser acessível por realizarAcaoComprar
+    const DADOS_ORGANIZADORES = {
+        'Org1': { nome: 'Produtora Ji & Cia', eventos: '42', avatar: '../imagens/logo3.png' },
+        'Org2': { nome: 'Drinks & Beer', eventos: '15', avatar: '../Imagens/8º imagem card.png' },
+        'Org3': { nome: 'Latino Danças', eventos: '25', avatar: '../Imagens/9º imagem card.png' },
+        'Org4': { nome: 'Sommelier Group', eventos: '8', avatar: '../Imagens/10º imagem card.png' },
+        'Org5': { nome: 'Underground Prod.', eventos: '50', avatar: '../Imagens/11º imagem card.png' },
+        'Org6': { nome: 'Café & Cia', eventos: '12', avatar: '../Imagens/12º imagem card.png' }
+    };
+
+    const DADOS_EVENTOS = {
+        '1': {
+            categoria: 'Música', titulo: 'Festival de Jazz ao Ar Livre', data: 'sex., 14 de Out', hora: '20:00', precoMinimo: 'Grátis', porPessoa: 'por pessoa', descricao: 'Uma noite mágica com os melhores músicos de jazz da cidade. Venha curtir solo ao estrelar com música ao vivo, food trucks e muito mais!', local: 'Setor Marista', endereco: 'Goiânia', confirmados: '260', organizacaoID: 'Org1', imagemBanner: '../Imagens/7º imagem card.png',
+            ingressos: [
+                { nome: 'Pista', preco: 'R$ 0,00', descricao: 'Acesso à área de pista', beneficios: ['Acesso à pista', '1 bebida cortesia'], disponiveis: 180, total: 200, selecionado: true },
+                { nome: 'Camarote', preco: 'R$ 75,00', descricao: 'Área VIP com vista privilegiada', beneficios: ['Área VIP', 'Open bar 2h', 'Petiscos inclusos', 'Vista privilegiada'], disponiveis: 28, total: 50, selecionado: false }
+            ]
+        },
+        '2': {
+            categoria: 'Happy Hour', titulo: 'Chopada da T-63', data: 'Qui, 27 de Out', hora: '18:00', precoMinimo: 'R$ 25', porPessoa: '+ 10% taxa', descricao: 'Drinks especiais e chopp em dobro no melhor bar da T-63. Música ambiente e petiscos variados.', local: 'Avenida T-63', endereco: 'Setor Bueno', confirmados: '88', organizacaoID: 'Org2', imagemBanner: '../Imagens/8º imagem card.png',
+            ingressos: [
+                { nome: 'Entrada Consumível', preco: 'R$ 25,00', descricao: 'Valor de entrada revertido em consumação', beneficios: ['1 Chopp incluso', 'Acesso à área VIP'], disponiveis: 100, total: 150, selecionado: true },
+            ]
+        },
+        '3': {
+            categoria: 'Dança', titulo: 'Salsa e Bachata Night', data: 'Dom, 2 de Out', hora: '21:00', precoMinimo: 'R$ 30', porPessoa: '+ 10% taxa', descricao: 'Aulas gratuitas de salsa seguidas de muito baile latino. Para dançar a noite toda!', local: 'Casa Latina', endereco: 'Setor Central', confirmados: '120', organizacaoID: 'Org3', imagemBanner: '../Imagens/9º imagem card.png',
+            ingressos: [
+                { nome: 'Acesso Pista', preco: 'R$ 30,00', descricao: 'Acesso à pista de dança e aulas', beneficios: ['Aula de Bachata', 'Open Bar de Água'], disponiveis: 150, total: 200, selecionado: true },
+                { nome: 'Ingresso Duplo', preco: 'R$ 50,00', descricao: 'Dois ingressos por preço promocional', beneficios: ['2 Acessos à Pista', 'Economia de R$10'], disponiveis: 50, total: 50, selecionado: false },
+            ]
+        },
+        '4': {
+            categoria: 'Gastronomia', titulo: 'Vinhos do Cerrado', data: 'Ter, 4 de Out', hora: '19:30', precoMinimo: 'R$ 80', porPessoa: '+ 10% taxa', descricao: 'Seleção especial de rótulos do centro-oeste em ambiente elegante. Harmonização com pratos regionais gourmet.', local: 'Adega Nobre', endereco: 'Setor Bueno', confirmados: '40', organizacaoID: 'Org4', imagemBanner: '../Imagens/10º imagem card.png',
+            ingressos: [
+                { nome: 'Experiência Padrão', preco: 'R$ 80,00', descricao: 'Degustação de 4 rótulos e tábua de frios', beneficios: ['4 taças de vinho', 'Tábua de Queijos'], disponiveis: 30, total: 50, selecionado: true },
+                { nome: 'Experiência Premium', preco: 'R$ 150,00', descricao: 'Acesso a rótulos exclusivos e jantar harmonizado', beneficios: ['Rótulos Premium', 'Jantar Completo'], disponiveis: 15, total: 20, selecionado: false },
+            ]
+        },
+        '5': {
+            categoria: 'Música', titulo: 'Rock no Low Ridez', data: 'Dom, 9 de Out', hora: '22:00', precoMinimo: 'R$ 35', porPessoa: '+ 10% taxa', descricao: 'Bandas locais tocando clássicos nacionais em um pub underground. Muita energia e cerveja gelada!', local: 'Vila Cultural', endereco: 'Setor Central', confirmados: '360', organizacaoID: 'Org5', imagemBanner: '../Imagens/11º imagem card.png',
+            ingressos: [
+                { nome: 'Pista', preco: 'R$ 35,00', descricao: 'Acesso à área de pista', beneficios: ['Acesso à pista', 'Música ao vivo'], disponiveis: 400, total: 500, selecionado: true },
+            ]
+        },
+        '6': {
+            categoria: 'Gastronomia', titulo: 'Brunch no Bougainville', data: 'Sáb, 8 de Out', hora: '10:00', precoMinimo: 'R$ 42', porPessoa: '+ 10% taxa', descricao: 'Brunch especial com buffet de frios, doces e café da manhã completo. Ambiente ao ar livre, perfeito para a família.', local: 'Próximo ao Shopping', endereco: 'Setor Bueno', confirmados: '60', organizacaoID: 'Org6', imagemBanner: '../Imagens/12º imagem card.png',
+            ingressos: [
+                { nome: 'Acesso ao Buffet', preco: 'R$ 42,00', descricao: 'Acesso livre ao buffet de brunch', beneficios: ['Buffet completo', 'Café e sucos'], disponiveis: 100, total: 150, selecionado: true },
+            ]
+        },
+        '7': {
+            categoria: 'Comunidade', titulo: 'Workshop de Programação Grátis', data: 'Seg, 10 de Jun', hora: '19:00', precoMinimo: 'Grátis', porPessoa: 'por pessoa', descricao: 'Aprenda o básico de JavaScript em um workshop divertido e totalmente gratuito.', local: 'Online - YouTube', endereco: 'Em todo lugar', confirmados: '150', organizacaoID: 'Org1', imagemBanner: '../Imagens/logo3.png',
+            ingressos: [
+                { nome: 'Acesso Livre', preco: 'R$ 0,00', descricao: 'Inscrição para o Workshop Online', beneficios: ['Acesso total', 'Certificado'], disponiveis: 500, total: 500, selecionado: true },
+            ]
+        },
+        '8': {
+            categoria: 'Exposição', titulo: 'Arte Moderna na Praça', data: 'Dom, 16 de Jun', hora: '10:00', precoMinimo: 'Grátis', porPessoa: 'por pessoa', descricao: 'Exposição a céu aberto com obras de artistas locais.', local: 'Praça da Liberdade', endereco: 'Setor Central', confirmados: '400', organizacaoID: 'Org3', imagemBanner: '../Imagens/logo3.png',
+            ingressos: [
+                { nome: 'Visitação', preco: 'R$ 0,00', descricao: 'Acesso a todas as áreas da exposição', beneficios: ['Passe livre', 'Guia digital'], disponiveis: 999, total: 1000, selecionado: true },
+            ]
+        }
+    };
+
+    /* ==================================================
+    // --- FUNÇÃO AUXILIAR: ATUALIZA BOTÃO DE COMPRA (PAGO vs GRÁTIS) ---
+    ================================================== */
+    function atualizarBotaoDeCompra(precoString) {
+        const botaoComprar = document.querySelector('.botao-comprar');
+        const valorIngressoElement = document.querySelector('.card-garantia-ingresso .valor-ingresso');
+
+        if (!botaoComprar || !valorIngressoElement) {
+            console.warn("Elemento do botão de compra não encontrado.");
+            return;
+        }
+
+        // 1. Converte a string de preço para um número (ignorando 'R$', ',', '.')
+        const precoLimpo = precoString.replace('R$', '').replace(',', '.').trim();
+        const precoNumerico = parseFloat(precoLimpo);
+
+        // 2. Lógica de atualização
+        if (precoNumerico === 0) {
+            // Caso seja evento GRATUITO
+            botaoComprar.textContent = 'Confirmar Presença';
+            botaoComprar.classList.add('botao-confirmar');
+            botaoComprar.classList.remove('botao-comprar-padrao');
+            valorIngressoElement.textContent = 'Grátis'; 
+        } else {
+            // Caso seja evento PAGO
+            botaoComprar.textContent = 'Comprar Ingresso';
+            botaoComprar.classList.remove('botao-confirmar');
+            botaoComprar.classList.add('botao-comprar-padrao');
+            valorIngressoElement.textContent = precoString;
+        }
+    }
+
+
+    /* ==================================================
+    // --- FUNÇÕES DE LÓGICA DE INGRESSOS ---
+    ================================================== */
+    function inicializarLogicaSelecao() {
+        const botoesSelecionar = document.querySelectorAll('.botao-selecionar');
+        const tipoIngressoResumo = document.querySelector('.ingresso-resumo');
+
+        if (botoesSelecionar.length > 0 && tipoIngressoResumo) {
+
+            botoesSelecionar.forEach(botao => {
+                botao.addEventListener('click', (event) => {
+
+                    // 1. Remove o estado 'selecionado' de todos os botões
+                    botoesSelecionar.forEach(btn => {
+                        btn.classList.remove('selecionado');
+                        btn.textContent = 'Selecionar';
+                    });
+
+                    // 2. Adiciona o estado 'selecionado' ao botão clicado
+                    const botaoClicado = event.currentTarget;
+                    botaoClicado.classList.add('selecionado');
+                    botaoClicado.textContent = 'Selecionado';
+
+                    // 3. Atualiza o card de 'Garantir Ingresso' (resumo de compra)
+                    const precoSelecionado = botaoClicado.previousElementSibling.textContent;
+                    const nomeIngresso = botaoClicado.closest('.opcao-ingresso').querySelector('.nome-ingresso').textContent;
+
+                    tipoIngressoResumo.textContent = nomeIngresso;
+                    
+                    // Chamada da função para ATUALIZAR O BOTÃO
+                    atualizarBotaoDeCompra(precoSelecionado);
+                });
+            });
+
+        } else {
+            console.warn("Lógica de Seleção de Ingressos: Elementos de ingressos ou de resumo de compra não encontrados.");
+        }
+    }
+
+
+    /* ==================================================
+    // --- LÓGICA DE CARREGAMENTO DO EVENTO NA PÁGINA ---
+    ================================================== */
+    function carregarDetalhesEvento() {
+        // 1. Obter o ID da URL. Usando '1' como padrão (fallback).
+        const params = new URLSearchParams(window.location.search);
+        const eventId = params.get('id') || '1'; 
+
+        const evento = DADOS_EVENTOS[eventId];
+
+        if (!evento) {
+            document.querySelector('.titulo-evento').textContent = 'Erro: Evento Não Encontrado';
+            document.querySelector('.descricao-evento').textContent = 'O ID do evento não é válido ou não foi fornecido.';
+            document.querySelector('.numero-confirmados').textContent = '0';
+            return;
+        }
+
+        const organizador = DADOS_ORGANIZADORES[evento.organizacaoID];
+
+
+        // 2. Preencher o Banner e Header
+        const bannerSection = document.querySelector('.banner-evento');
+        if (bannerSection) {
+            let imagemBanner = evento.imagemBanner;
+            if (imagemBanner.includes('logo3.png') && organizador && organizador.avatar) {
+                imagemBanner = organizador.avatar;
+            }
+            bannerSection.style.backgroundImage = `linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.6)), url('${imagemBanner}')`;
+        }
+
+        document.querySelector('.etiqueta-categoria').textContent = evento.categoria;
+        document.querySelector('.titulo-evento').textContent = evento.titulo;
+        document.querySelector('.data-hora-cabecalho').innerHTML = `${evento.data} <span class="separador-cabecalho">•</span> ${evento.hora}`;
+        document.querySelector('.valor-minimo').textContent = evento.precoMinimo;
+        document.querySelector('.por-pessoas').textContent = evento.porPessoa;
+
+        // 3. Preencher a Seção 'Sobre o Evento'
+        document.querySelector('.descricao-evento').textContent = evento.descricao;
+        document.querySelector('.nome-local').textContent = evento.local;
+        document.querySelector('.endereco-local').textContent = evento.endereco;
+        document.querySelector('.numero-confirmados').textContent = `${evento.confirmados} pessoas`;
+
+        // 4. Preencher a Seção 'Organizador'
+        const nomeProdutoraElement = document.getElementById('nome-produtora');
+        const eventosOrganizadosElement = document.getElementById('eventos-organizados');
+        const avatarOrganizadorElement = document.getElementById('avatar-organizador');
+        const linkVerPerfil = document.querySelector('.js-link-ver-perfil');
+        
+        if (organizador) {
+            nomeProdutoraElement.innerHTML = `${organizador.nome} <span class="etiqueta-verificado">Verificado</span>`;
+            eventosOrganizadosElement.textContent = `${organizador.eventos} eventos organizados`;
+            avatarOrganizadorElement.src = organizador.avatar;
+            
+            const nomeCodificado = encodeURIComponent(organizador.nome);
+            linkVerPerfil.href = `../eventos/ver_perfil.html?nome=${nomeCodificado}`;
+        } else {
+            nomeProdutoraElement.textContent = 'Organizador não encontrado';
+            eventosOrganizadosElement.textContent = '--';
+        }
+        
+        // 5. Preencher a Seção 'Ingressos Disponíveis'
+        const ingressosContainer = document.querySelector('.ingressos-disponiveis');
+        const loadingIngressos = document.getElementById('loading-ingressos');
+        if (loadingIngressos) loadingIngressos.remove(); 
+
+        // Gera o HTML dos ingressos
+        evento.ingressos.forEach((ingresso) => {
+            const progressoVendas = (ingresso.total > 0) ? (ingresso.disponiveis / ingresso.total) * 100 : 0;
+            const beneficiosHtml = ingresso.beneficios.map(b => `<li class="beneficio-item-check">${b}</li>`).join('');
+            const isSelecionado = ingresso.selecionado ? 'selecionado' : '';
+            const textoBotao = ingresso.selecionado ? 'Selecionado' : 'Selecionar';
+
+            const ingressoHtml = `
+                <div class="opcao-ingresso ${ingresso.nome.toLowerCase().replace(/[^a-z0-9]/g, '-')}" data-tipo="${ingresso.nome}">
+                    <div class="detalhes-opcao">
+                        <h4 class="nome-ingresso">${ingresso.nome}</h4>
+                        <p class="descricao-ingresso">${ingresso.descricao}</p>
+                        <ul class="beneficios-ingresso">${beneficiosHtml}</ul>
+                        <div class="status-vendas">
+                            <span class="quantidade-restante">${ingresso.disponiveis} de ${ingresso.total} disponíveis</span>
+                            <div class="barra-progresso">
+                                <div class="progresso" style="width: ${progressoVendas}%;"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="acao-opcao">
+                        <span class="preco-ingresso">${ingresso.preco}</span>
+                        <button class="botao-selecionar ${isSelecionado}" data-tipo="${ingresso.nome}">${textoBotao}</button>
+                    </div>
+                </div>
+            `;
+            if (ingressosContainer) {
+                ingressosContainer.insertAdjacentHTML('beforeend', ingressoHtml);
+            }
+        });
+
+        // 6. Atualizar o Card de Resumo de Compra com o ingresso padrão/selecionado
+        const ingressoPadrao = evento.ingressos.find(i => i.selecionado) || evento.ingressos[0];
+
+        document.querySelector('.data-resumo').textContent = evento.data;
+        document.querySelector('.hora-resumo').textContent = evento.hora;
+        document.querySelector('.local-resumo').textContent = evento.local;
+
+        if (ingressoPadrao) {
+            document.querySelector('.ingresso-resumo').textContent = ingressoPadrao.nome;
+            
+            // Chamada da nova função: ATUALIZA O BOTÃO E O PREÇO NO RESUMO COM O INGRESSO PADRÃO
+            atualizarBotaoDeCompra(ingressoPadrao.preco); 
+        }
+
+        // 7. Reinicializar a lógica de seleção para os novos botões dinâmicos
+        inicializarLogicaSelecao();
+    }
+
+    // A função principal de inicialização deve ser chamada APENAS quando o DOM estiver pronto
+    document.addEventListener('DOMContentLoaded', function () {
+        carregarDetalhesEvento();
+        inicializarAcaoBotaoComprar();
+    });
+    
+    
+    /* ==================================================
+    // --- FUNÇÃO CENTRAL: SALVA DADOS E REDIRECIONA PARA CHECKOUT ---
+    // Esta função está fora do DOMContentLoaded para ser acessível como callback de click.
+    ================================================== */
+    function realizarAcaoComprar() {
+        // 1. Encontra o ingresso ATUALMENTE SELECIONADO (no DOM)
+        const ingressoSelecionadoElemento = document.querySelector('.opcao-ingresso .botao-selecionar.selecionado');
+
+        if (!ingressoSelecionadoElemento) {
+            alert('Por favor, selecione um ingresso antes de prosseguir.');
+            return;
+        }
+        
+        // Coleta dados do ingresso selecionado no card de ingressos
+        const opcaoIngressoPai = ingressoSelecionadoElemento.closest('.opcao-ingresso');
+        const nomeIngresso = opcaoIngressoPai.querySelector('.nome-ingresso').textContent;
+        const precoIngressoTexto = opcaoIngressoPai.querySelector('.preco-ingresso').textContent;
+        
+        // Converte o preço de volta para o formato numérico limpo, ignorando 'R$' e ','
+        const precoIngressoLimpo = parseFloat(precoIngressoTexto.replace('R$', '').replace(',', '.').trim()) || 0.00;
+
+
+        // 2. Coleta dados gerais do evento usando o ID atual e a base de dados
+        const eventId = new URLSearchParams(window.location.search).get('id') || '1'; 
+        const evento = DADOS_EVENTOS[eventId]; // Pega os dados brutos da base simulada
+
+        if (!evento) {
+            alert("Erro: Dados do evento não puderam ser carregados para o checkout.");
+            return;
+        }
+        
+        // 3. Monta o objeto final para o localStorage
+        const dadosParaCheckout = {
+            // Dados do Evento 
+            nome: evento.titulo,
+            data: evento.data,
+            hora: evento.hora,
+            local: evento.local,
+            imagem: evento.imagemBanner, 
+            
+            // Dados do Ingresso Selecionado
+            ingressoNome: nomeIngresso,
+            // É importante passar o valor numérico (sem formatação) para o checkout
+            ingressoPreco: precoIngressoLimpo, 
+        };
+
+        // 4. Salva os dados no localStorage
+        localStorage.setItem('eventoSelecionado', JSON.stringify(dadosParaCheckout));
+        
+        // 5. Redireciona
+        const botaoComprar = document.querySelector('.botao-comprar');
+        if (botaoComprar.classList.contains('botao-confirmar')) {
+            // Evento GRÁTIS
+            console.log(`Presença em "${nomeIngresso}" confirmada. Redirecionando...`);
+            // 🚨 CAMINHO CORRIGIDO: Volta um nível (de eventos/) e entra em checkout/ 
+            window.location.href = 'presenca_confirmada.html'; 
+        } else {
+            // Evento PAGO
+            console.log("Ingresso selecionado! Redirecionando para Finalizar Compra...");
+            // 🚨 CAMINHO CORRIGIDO: Volta um nível (de eventos/) e entra em checkout/
+            window.location.href = 'finalizar_compra.html'; 
+        }
+    }
+
+
+    /* ==================================================
+    // --- LÓGICA DE AÇÃO DO BOTÃO PRINCIPAL DE COMPRA/CONFIRMAÇÃO ---
+    // Esta função é chamada DEPOIS que o DOM está pronto.
+    ================================================== */
+    function inicializarAcaoBotaoComprar() {
+        const botaoComprar = document.querySelector('.botao-comprar');
+        
+        if (botaoComprar) {
+            // O evento de clique chama a função que salva os dados e redireciona.
+            botaoComprar.addEventListener('click', realizarAcaoComprar);
+        } else {
+             console.error("ERRO CRÍTICO: O botão de compra não foi encontrado no DOM.");
+        }
+    }
+</script>
+</body>
+
+</html>
