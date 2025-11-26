@@ -4,9 +4,8 @@ const usuariosController = require("../controllers/usuariosController");
 
 router.post("/cadastro", usuariosController.cadastrarUsuario);
 router.get("/", usuariosController.listarUsuarios);
+router.put("/perfil", usuariosController.atualizarUsuario);
 
 module.exports = router;
-
-router.put("/perfil", usuariosController.atualizarUsuario);
 
 

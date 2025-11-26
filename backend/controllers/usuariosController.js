@@ -3,7 +3,7 @@ const connection = require("../db/db_config");
 
 // Cadastrar novo usuário
 exports.cadastrarUsuario = async (req, res) => {
-  console.log("📩 Corpo recebido:", req.body); // ← deixa esse log pra ver o que chega
+  console.log("📩 Corpo recebido:", req.body);
   const { nome_completo, email, telefone, senha } = req.body;
 
   if (!nome_completo || !email || !senha) {
@@ -52,6 +52,28 @@ exports.listarUsuarios = (req, res) => {
     (err, results) => {
       if (err) return res.status(500).json({ erro: "Erro no servidor." });
       res.json(results);
+    }
+  );
+};
+
+// Atualizar usuário (PUT)
+exports.atualizarUsuario = (req, res) => {
+  const { id, nome_completo, email, telefone } = req.body;
+
+  if (!id) {
+    return res.status(400).json({ erro: "ID do usuário é obrigatório." });
+  }
+
+  connection.query(
+    "UPDATE usuarios SET nome_completo = ?, email = ?, telefone = ? WHERE id = ?",
+    [nome_completo, email, telefone, id],
+    (err, results) => {
+      if (err) {
+        console.error("❌ Erro ao atualizar usuário:", err);
+        return res.status(500).json({ erro: "Erro ao atualizar usuário." });
+      }
+
+      return res.json({ mensagem: "Usuário atualizado com sucesso!" });
     }
   );
 };
