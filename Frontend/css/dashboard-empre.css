@@ -1,0 +1,1153 @@
+/* RESET */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Poppins, sans-serif;
+}
+
+body {
+    background: #f8f9fa;
+    overflow-x: hidden;
+}
+
+/* MAIN COM ESPAÇAMENTO FIXO DO HEADER */
+.main-content {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding: 150px 40px 40px 40px;
+    margin: 0;
+}
+
+/* CONTAINER PRINCIPAL */
+.dashboard-container {
+    width: 100%;
+    max-width: 1400px;
+    padding: 0 20px;
+}
+
+/* HEADER DO DASHBOARD */
+.dashboard-header {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 25px;
+}
+
+.dashboard-header h1 {
+    font-size: 24px;
+    font-weight: 600;
+}
+
+.dashboard-header p {
+    font-size: 14px;
+    color: #7a7a7a;
+}
+/* ====== CARD DE VENDAS RECENTES ====== */
+.recent-sales-card {
+    background: #FFFFFF;
+    border: 1px solid #EAEAEA;
+    border-radius: 18px;
+    padding: 25px;
+    box-shadow: 0px 2px 6px rgba(0,0,0,0.05);
+    transition: 0.2s ease-in-out;
+    margin-top: 40px;
+}
+
+.recent-sales-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0px 4px 14px rgba(0,0,0,0.08);
+}
+
+/* Header do card */
+.sales-header h3 {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 5px;
+}
+
+.sales-header p {
+    font-size: 14px;
+    color: #7f8c8d;
+    margin-bottom: 20px;
+}
+
+/* Lista de vendas */
+.sales-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* Item individual de venda */
+.sale-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 15px 0;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.sale-item:last-child {
+    border-bottom: none;
+}
+
+/* Informações da venda */
+.sale-info {
+    flex: 1;
+}
+
+.sale-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.customer-name {
+    font-weight: 600;
+    font-size: 15px;
+    color: #333;
+}
+
+/* Status da venda */
+.sale-status {
+    font-size: 12px;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-weight: 600;
+}
+
+.sale-status.completed {
+    background: #E8F5E8;
+    color: #2E7D32;
+}
+
+.sale-status.pending {
+    background: #FFF3E0;
+    color: #EF6C00;
+}
+
+/* Detalhes da venda */
+.sale-details {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 4px;
+}
+
+.sale-date {
+    font-size: 12px;
+    color: #999;
+}
+
+.sale-date-container {
+    margin-top: 4px;
+}
+
+/* Valor da venda */
+.sale-amount {
+    text-align: right;
+}
+
+.amount {
+    font-weight: 700;
+    font-size: 15px;
+    color: #333;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .sale-item {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .sale-amount {
+        text-align: left;
+        width: 100%;
+    }
+    
+    .sale-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 5px;
+    }
+}
+/* BOTÃO EXPORTAR */
+.btn-export {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 16px;
+    border-radius: 10px;
+    border: 1px solid #DCDCDC;
+    background: white;
+    cursor: pointer;
+    margin-top: 0;
+}
+
+.icon {
+    width: 18px;
+    height: 18px;
+}
+
+/* ALERTA */
+.alert-box {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    background: #F3E8FF;
+    border: 1px solid #E6CCFF;
+    padding: 16px 20px;
+    border-radius: 12px;
+    margin-bottom: 20px;
+}
+
+.alert-icon {
+    width: 22px;
+}
+
+.alert-text strong {
+    color: #a35ef6;
+    font-size: 15px;
+}
+
+/* TABS */
+.tabs {
+    background: #EFEFF3;
+    padding: 8px;
+    border-radius: 16px;
+    display: flex;
+    gap: 6px;
+    width: fit-content;
+    margin-bottom: 30px;
+}
+
+.tab {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border: none;
+    background: transparent;
+    padding: 10px 16px;
+    border-radius: 14px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.25s ease-in-out;
+}
+
+/* Hover para criar a silhueta branca */
+.tab:hover {
+    background: white;
+    box-shadow: 0 0 0 2px rgba(0,0,0,0.05);
+}
+
+/* Tab ativa - ESTILO CORRIGIDO */
+.tab.active {
+    background-color: white;
+    color: black;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    font-weight: 600;
+}
+
+.badge {
+    background: #000;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    font-size: 11px;
+    color: #FFF;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* CONTAINER DOS CARDS - CORRIGIDO */
+.stats-container {
+    margin-top: 40px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 25px;
+}
+
+/* CARD */
+.stat-card {
+    background: #FFFFFF;
+    border: 1px solid #EAEAEA;
+    border-radius: 18px;
+    padding: 25px;
+    box-shadow: 0px 2px 6px rgba(0,0,0,0.05);
+    transition: 0.2s ease-in-out;
+}
+
+/* Hover tipo Figma */
+.stat-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0px 4px 14px rgba(0,0,0,0.08);
+}
+
+/* Header do Card */
+.stat-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.stat-header h3 {
+    font-size: 16px;
+    font-weight: 600;
+}
+
+/* Valor Principal */
+.stat-value {
+    font-size: 16px;
+    font-weight: 700;
+    margin: 15px 0 8px;
+}
+
+/* Tendência */
+.stat-increase {
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    color: #2ecc71;
+    font-weight: 600;
+}
+
+.stat-increase span {
+    color: #7f8c8d;
+    margin-left: 5px;
+}
+
+.trend-icon {
+    width: 18px;
+    margin-right: 5px;
+    height: 18px;
+    color: #2ecc71;
+}
+
+/* Descrição extra */
+.stat-description {
+    margin-top: 5px;
+    font-size: 14px;
+    color: #7f8c8d;
+}
+
+/* CONTAINER DOS GRÁFICOS */
+.charts-row {
+    margin-top: 40px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+    gap: 35px;
+}
+
+/* CARD DO GRÁFICO */
+.chart-card {
+    background: #FFFFFF;
+    border: 1px solid #EAEAEA;
+    border-radius: 18px;
+    padding: 25px;
+    box-shadow: 0px 2px 6px rgba(0,0,0,0.05);
+    transition: 0.2s ease-in-out;
+}
+
+/* Hover igual aos outros cards */
+.chart-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0px 4px 14px rgba(0,0,0,0.08);
+}
+
+/* Título do card */
+.chart-card h3 {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 5px;
+}
+
+/* Subtítulo */
+.chart-card p {
+    font-size: 14px;
+    color: #7f8c8d;
+    margin-bottom: 15px;
+}
+
+/* Canvas */
+.chart-card canvas {
+    width: 100% !important;
+    height: 300px !important;
+}
+/* ====== SEÇÃO ESTABELECIMENTOS ====== */
+/* ====== SEÇÃO ESTABELECIMENTOS - CARD MAIOR ====== */
+.establishments-header {
+  margin-bottom: 30px;
+}
+
+.establishments-header h2 {
+  font-size: 24px;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.establishments-header p {
+  font-size: 14px;
+  color: #7f8c8d;
+}
+
+/* Container dos cards MAIOR */
+.establishments-container {
+    width: 100%;
+    max-width: 100%;
+   display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(600px, 1fr));
+  gap: 30px;
+}
+
+/* Card individual do estabelecimento - MAIOR */
+.establishment-card {
+  background: #FFFFFF;
+  border: 1px solid #EAEAEA;
+  border-radius: 18px;
+  box-shadow: 0px 2px 6px rgba(0,0,0,0.05);
+  overflow: hidden;
+
+  /* ---- TAMANHO CERTINHO ---- */
+  width: 100%;           /* preenche a coluna do grid */
+  min-height: 750px;     /* altura maior para conteúdo e botões */
+  padding-bottom: 20px;  /* espaço extra embaixo */
+
+  display: flex;
+  flex-direction: column;
+
+}
+
+
+.establishment-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0px 4px 14px rgba(0,0,0,0.08);
+}
+
+/* Imagem do estabelecimento - MAIOR */
+.establishment-image {
+  width: 100%;
+  height: 350px;     /* altura da imagem igual ao Figma */
+  overflow: hidden;
+}
+
+
+.estrelinha{
+  height: 25px;
+}
+
+.establishment-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.establishment-card:hover .establishment-img {
+  transform: scale(1.05);
+}
+
+/* Conteúdo do card - MAIS ESPAÇOSO */
+.establishment-content {
+  padding: 50px 40px 60px; /* MAIS PADDING */
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 20px; /* ESPAÇO ENTRE ELEMENTOS */
+}
+
+/* Header do card */
+.establishment-header {
+  margin-bottom: 0; /* REMOVI a margem extra */
+  padding-bottom: 15px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.establishment-name {
+  font-size: 20px; /* TEXTO MAIOR */
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: #333;
+}
+
+.establishment-address {
+  font-size: 15px; /* TEXTO MAIOR */
+  color: #666;
+  line-height: 1.4;
+}
+
+/* Estatísticas - MAIS ESPAÇO */
+.establishment-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  margin-bottom: 0; /* REMOVI a margem extra */
+}
+
+.stat-item {
+  text-align: center;
+  padding: 20px 12px; /* MAIS PADDING */
+  background: #f8f9fa;
+  border-radius: 12px;
+  transition: 0.2s ease-in-out;
+}
+
+.stat-item:hover {
+  background: #f0f2f5;
+  transform: translateY(-2px);
+}
+
+.stat-value {
+  display: block;
+  font-size: 24px; /* NÚMEROS MAIORES */
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 8px;
+}
+
+.stat-label {
+  font-size: 13px; /* TEXTO MAIOR */
+  color: #7f8c8d;
+  font-weight: 500;
+}
+
+/* Ações - MUITO MAIS ESPAÇO */
+.establishment-actions {
+  display: flex;
+  gap: 15px; /* MAIS ESPAÇO ENTRE BOTÕES */
+  padding-top: 25px;
+  border-top: 1px solid #f0f0f0;
+  margin-top: auto;
+}
+
+.btn-edit, .btn-view {
+  display: flex;
+  align-items: center;
+  gap: 10px; /* MAIS ESPAÇO ENTRE ÍCONE E TEXTO */
+  padding: 14px 24px; /* BOTÕES MUITO MAIORES */
+  border-radius: 12px;
+  border: 1px solid #DCDCDC;
+  background: white;
+  cursor: pointer;
+  font-size: 15px; /* TEXTO MAIOR */
+  font-weight: 500;
+  transition: all 0.2s ease-in-out;
+  flex: 1;
+  justify-content: center;
+  min-height: 50px; /* ALTURA MÍNIMA DOS BOTÕES */
+}
+
+
+.btn-edit:hover {
+  background: #f8f9fa;
+  border-color: #A78BFA;
+  color: #A78BFA;
+}
+
+.btn-view:hover {
+  background: #f8f9fa;
+  border-color: #666;
+  color: #333;
+}
+.section-content {
+  width: 100% !important;
+  max-width: 100% !important;
+}
+.dashboard-section {
+  width: 100% !important;
+  max-width: 100% !important;
+}
+
+/*eventos*/
+/* evento_card.css - estilos separados (100% fiel ao modelo)
+   Use: <link rel="stylesheet" href="/styles/evento_card.css"> (ou ajuste o caminho)
+*/
+
+.event-card {
+    width: 100%;
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 25px;
+    border: 1px solid #ececec;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    box-sizing: border-box;
+    margin-top: 25px;
+}
+
+.event-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.event-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.event-title {
+    font-size: 20px;
+    font-weight: 600;
+    margin: 0;
+}
+
+.status {
+    display: inline-block;
+    background: #0b0b10; /* badge preto */
+    color: #fff;
+    padding: 5px 10px;
+    font-size: 12px;
+    border-radius: 12px;
+}
+
+.event-revenue {
+    text-align: right;
+    font-weight: 600;
+    font-size: 18px;
+}
+
+.event-revenue small { color: #8a8a8a; font-weight: 400; }
+
+.event-meta {
+    display: flex;
+    gap: 28px;
+    color: #5b5b5b;
+    font-size: 14px;
+}
+
+.meta-item { display:flex; align-items:center; gap:8px; }
+
+.event-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    background: #f3f3f6;
+    padding: 18px;
+    border-radius: 10px;
+    text-align: center;
+}
+
+.stat h4 { font-size: 22px; margin: 0; }
+.stat p { margin: 0; color: #8a8a8a; font-size: 14px; }
+
+.progress-wrapper { margin-top: 6px; }
+.progress-bar {
+    width: 100%;
+    height: 8px;
+    background: #e9e9ea;
+    border-radius: 30px;
+    overflow: hidden;
+}
+/* Animação suave nos botões */
+.btn {
+    background:#fff;
+    border:1px solid #e0e0e0;
+    padding:12px;
+    border-radius:8px;
+    font-size:14px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:8px;
+    cursor:pointer;
+    transition: all 0.2s ease;   /* Animação */
+}
+
+/* Hover mais bonito */
+.btn:hover {
+    background: #f5f5f5;
+    transform: translateY(-2px); /* levanta */
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+/* Click (press) */
+.btn:active {
+    transform: scale(0.95);       /* efeito de clique */
+    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+
+.progress-bar span { display:block; height:100%; background:#ff7a00; }
+.progress-text { font-size:13px; text-align:right; margin-top:6px; color:#777; }
+
+.event-actions { display:grid; grid-template-columns: repeat(3, 1fr); gap:12px; }
+.btn { background:#fff; border:1px solid #e0e0e0; padding:12px; border-radius:8px; font-size:14px; display:flex; justify-content:center; align-items:center; gap:8px; }
+
+/* Espaçamento para ícones dentro dos botões */
+.btn i { margin-right: 8px; display: inline-block; }
+
+/* Estilos do cabeçalho da section com o botão + Criar Evento */
+.section-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:18px; }
+.section-header .titles { display:flex; flex-direction:column; }
+.section-header h2 { margin:0; font-size:20px; font-weight:600; }
+.section-header p { margin:0; color:#888; font-size:14px; }
+
+.create-event-button { background:#0b0b10; color:#fff; padding:10px 16px; border-radius:12px; border:none; font-weight:600; display:flex; gap:8px; align-items:center; cursor:pointer; }
+.create-event-button i { font-size:18px; }
+
+/* Pequenas responsividades para manter proporção */
+@media (max-width: 768px) {
+    .event-stats { grid-template-columns: 1fr; gap:10px; }
+    .event-actions { grid-template-columns: 1fr; }
+}
+
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .establishments-container {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  
+  .establishment-card {
+    min-height: 450px;
+  }
+  
+  .establishment-stats {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+  
+  .establishment-actions {
+    flex-direction: column;
+  }
+  
+  .btn-edit, .btn-view {
+    width: 100%;
+  }
+  
+  .establishment-image {
+    height: 180px;
+  }
+}
+
+@media (max-width: 480px) {
+  .establishment-content {
+    padding: 20px;
+  }
+  
+  .establishment-card {
+    min-height: 420px;
+  }
+  
+  .stat-value {
+    font-size: 20px;
+  }
+  
+  .establishment-image {
+    height: 150px;
+  }
+  
+  .btn-edit, .btn-view {
+    padding: 12px 20px;
+    min-height: 45px;
+  }
+}
+.event-card-flat {
+  width: 100%;
+  background: #ffffff;
+  border: 1px solid #e6e6e6;
+  padding: 22px;
+  border-radius: 14px;
+  margin-top: 20px;
+}
+
+.flat-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.flat-title-wrap {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.flat-title-wrap h3 {
+  font-size: 20px;
+  font-weight: 600;
+  margin: 0;
+}
+
+.flat-status {
+  background: #e0e0e0;
+  color: #444;
+  padding: 4px 10px;
+  font-size: 13px;
+  border-radius: 8px;
+}
+
+.flat-revenue {
+  font-size: 18px;
+  font-weight: 600;
+  text-align: right;
+}
+
+.flat-revenue small {
+  font-size: 12px;
+  color: #666;
+}
+
+.flat-meta {
+  display: flex;
+  gap: 22px;
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 20px;
+}
+
+.flat-stats {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 18px;
+}
+
+.flat-stat {
+  background: #f4f4f7;
+  width: 32%;
+  padding: 20px 0;
+  border-radius: 10px;
+  text-align: center;
+}
+
+.flat-stat h4 {
+  font-size: 20px;
+  margin: 0;
+}
+
+.flat-stat p {
+  font-size: 13px;
+  margin: 0;
+  color: #777;
+}
+
+.flat-progress-wrapper {
+  margin-bottom: 18px;
+}
+
+.flat-progress-bar {
+  width: 100%;
+  height: 6px;
+  background: #ececec;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.flat-progress-bar span {
+  display: block;
+  height: 100%;
+  background: #cfcfcf;
+}
+
+.flat-progress-text {
+  text-align: right;
+  font-size: 13px;
+  margin-top: 6px;
+  color: #777;
+}
+
+.flat-actions {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.flat-btn {
+  width: 33%;
+  padding: 12px 0;
+  border: 1px solid #dadada;
+  border-radius: 10px;
+  background: white;
+  font-size: 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.flat-btn:hover {
+  background: #f4f4f4;
+}
+/*vendas/*
+/* Wrapper geral da tabela */
+.sales-table-wrapper {
+    width: 100%;
+    background: #fff;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    overflow-x: auto;
+}
+
+/* Tabela */
+.sales-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: "Poppins", sans-serif;
+    color: #2d3436;
+}
+
+/* Cabeçalho */
+.sales-table thead tr th {
+    text-align: left;
+    font-size: 14px;
+    font-weight: 600;
+    color: #7b7b7b;
+    padding: 14px 8px;
+    border-bottom: 1px solid #eaeaea;
+}
+
+/* Linhas */
+.sales-table tbody tr {
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.sales-table tbody tr:last-child {
+    border-bottom: none;
+}
+
+/* Células */
+.sales-table tbody td {
+    padding: 18px 8px;
+    font-size: 15px;
+}
+
+/* Hover suave (igual ao Figma) */
+.sales-table tbody tr:hover {
+    background: #fafafa;
+}
+
+/* Badges de status */
+.status-badge {
+    font-size: 13px;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-weight: 500;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+/* Confirmado */
+.status-badge.confirmed {
+    background: #0e0e2f;
+    color: #fff;
+}
+
+/* Pendente */
+.status-badge.pending {
+    background: #f1f1f1;
+    color: #2d2d2d;
+    border: 1px solid #ccc;
+}
+
+/* Círculo antes do texto */
+.status-badge::before {
+    content: "";
+    width: 8px;
+    height: 8px;
+    background: currentColor;
+    border-radius: 50%;
+}
+
+/* Pendente → bolinha vazada */
+.status-badge.pending::before {
+    background: transparent;
+    border: 2px solid #2d2d2d;
+}
+
+/* Cabeçalho */
+.notifications-header h2 {
+    font-size: 22px;
+    font-weight: 600;
+}
+
+.notifications-header p {
+    font-size: 14px;
+    color: #7f8c8d;
+    margin-bottom: 20px;
+}
+
+/* Card base */
+.notification {
+    width: 100%;
+    padding: 22px 24px;
+    border-radius: 14px;
+    background: #f9f9fb;
+    border: 2px solid #ece6ff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+/* Cores por tipo */
+.notification.success {
+    background: #f9f9fb;
+    border-color: #e8dfff;
+}
+
+.notification.rating {
+    background: #b9adf6;
+    border-color: #ffe7af;
+}
+
+.notification.alert {
+    background: #8a84e4;
+    border-color: #b8b8ff;
+}
+
+/* Conteúdo */
+.notification .title {
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.notification .time {
+    display: block;
+    margin-top: 6px;
+    font-size: 13px;
+    color: #000000;
+}
+
+/* Tag "Nova" */
+.tag {
+    background: #000000;
+    color: white;
+    padding: 4px 10px;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+/* Borda roxa para novas */
+.notification.new {
+    border-color: #e8d3ff;
+}
+
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .establishments-container {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  
+  .establishment-stats {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+  
+  .establishment-actions {
+    flex-direction: column;
+  }
+  
+  .btn-edit, .btn-view {
+    width: 100%;
+  }
+  
+  .establishment-image {
+    height: 180px;
+  }
+}
+
+@media (max-width: 480px) {
+  .establishment-content {
+    padding: 20px;
+  }
+  
+  .stat-value {
+    font-size: 18px;
+  }
+  
+  .establishment-image {
+    height: 160px;
+  }
+}
+
+/* ====== SEÇÕES DAS TABS ====== */
+.dashboard-section {
+    display: none;
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+.dashboard-section.active-section {
+    display: block;
+}
+
+/* Animação de transição */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Estilos para notificações */
+.notifications-list {
+    margin-top: 20px;
+}
+
+.notification-item {
+    background: white;
+    padding: 15px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    border-left: 4px solid #A78BFA;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.notification-badge {
+    background: #EF4444;
+    color: white;
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 12px;
+    margin-right: 10px;
+}
+
+.notification-time {
+    color: #777;
+    font-size: 12px;
+    float: right;
+}
+
+/* RESPONSIVIDADE */
+@media (max-width: 768px) {
+    .main-content {
+        padding: 120px 20px 20px 20px;
+    }
+    
+    .dashboard-container {
+        padding: 0 10px;
+    }
+    
+    .stats-container {
+        grid-template-columns: 1fr;
+    }
+    
+    .charts-row {
+        grid-template-columns: 1fr;
+    }
+    
+    .dashboard-header {
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    .tabs {
+        flex-wrap: wrap;
+        width: 100%;
+    }
+}
+
+footer iframe {
+    min-height: 22rem;
+    display: block;
+}
