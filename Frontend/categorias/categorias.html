@@ -75,14 +75,22 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
     const params = new URLSearchParams(window.location.search);
-    
-    // Decodifica os parâmetros da URL
-    const nomeCategoria = params.get('name');
-    const iconClass = decodeURIComponent(params.get('icon-class')); 
-    
-    // --- 1. Dados de Simulação (Substitua por dados reais do seu Backend) ---
-    
-    // Estrutura base de Locais (baseada nos cards da sua home)
+
+    // Decodifica corretamente o nome da categoria
+    let nomeCategoria = params.get('name');
+    const iconClass = decodeURIComponent(params.get('icon-class'));
+
+    // Trata o problema do + virar espaço na URL
+    if (nomeCategoria) {
+        nomeCategoria = decodeURIComponent(nomeCategoria);
+
+        // Converte "50 anos", "+50 anos", "50+" → "+50"
+        if (nomeCategoria.includes("50")) {
+            nomeCategoria = "+50";
+        }
+    }
+
+    // --- 1. Dados Simulados ---
     const locaisSimulados = [
         {
             nome: 'Pinga Fogo Bar',
@@ -93,7 +101,7 @@
             descricao: 'Opções de chopp gelado e petiscos variados. Perfeito para um happy hour.',
             horario: '17:00 - 01:00',
             tags: ['Happy Hour', 'Música ao vivo', 'Cerveja artesanal'],
-            imagem: '../Imagens/1º imagem cad.png' 
+            imagem: '../Imagens/1º imagem cad.png'
         },
         {
             nome: 'Kabanas Restaurante',
@@ -126,7 +134,7 @@
             descricao: 'Pistas de boliche e salas de karaoke privadas para você soltar a voz.',
             horario: '14:00 - 00:00',
             tags: ['Salas privadas', 'Diversão em grupo', 'Drinks'],
-            imagem: '../Imagens/local-karaoke.png' // Imagem simulada
+            imagem: '../Imagens/local-karaoke.png'
         },
         {
             nome: 'Teatro Rio Vermelho',
@@ -137,11 +145,10 @@
             descricao: 'Principal espaço para grandes shows, peças de teatro e apresentações culturais.',
             horario: 'Verificar Agenda',
             tags: ['Grande capacidade', 'Estacionamento', 'Programação variada'],
-            imagem: '../Imagens/6º imagem cad.png' 
+            imagem: '../Imagens/6º imagem cad.png'
         }
     ];
 
-    // Estrutura base de Eventos (baseada nos cards da sua home)
     const eventosSimulados = [
         {
             nome: 'Festival de Jazz ao Ar Livre',
@@ -174,97 +181,71 @@
             local: 'Guardian Comedy Club',
             descricao: 'Os melhores comediantes do Brasil em uma noite de risadas.',
             interessados: 95,
-            imagem: '../Imagens/4º imagem cad.png' 
+            imagem: '../Imagens/4º imagem cad.png'
         }
     ];
 
-    // --- 2. Mapeamento de Cores e Filtro de Dados ---
-    let corFundoHex = '#5d3fd3'; // Cor padrão
-    let locaisFiltrados = [];
-    let eventosFiltrados = [];
+    // --- 2. Mapeamento de Cores ---
+    let corFundoHex = '#6c757d';
 
-    if (nomeCategoria) {
-        // Mapeamento de Cores
-        switch(nomeCategoria) {
-            case 'Baladas':
-                corFundoHex = '#5d3fd3';
-                break;
-            case 'Bar':
-                corFundoHex = '#fbc02d';
-                break;
-            case 'Restaurante':
-                corFundoHex = '#ff8a65';
-                break;
-            case 'Karaoke':
-                corFundoHex = '#9e9e9e';
-                break;
-            case 'Show':
-                corFundoHex = '#29b6f6';
-                break;
-            case 'Eventos':
-                corFundoHex = '#ec407a';
-                break;
-            case 'Parques':
-                corFundoHex = '#0d47a1';
-                break;
-            case '+50 anos':
-                corFundoHex = '#e53935';
-                break;
-            default:
-                corFundoHex = '#6c757d'; 
-        }
-        
-        // Filtro de Dados
-        locaisFiltrados = locaisSimulados.filter(l => l.categoria === nomeCategoria);
-        // Filtra eventos que têm a categoria como principal ou que se encaixam no nome da categoria
-        eventosFiltrados = eventosSimulados.filter(e => e.categoria === nomeCategoria || (nomeCategoria === 'Show' && e.categoria === 'Música'));
-
+    switch (nomeCategoria) {
+        case 'Baladas':
+            corFundoHex = '#5d3fd3';
+            break;
+        case 'Bar':
+            corFundoHex = '#fbc02d';
+            break;
+        case 'Restaurante':
+            corFundoHex = '#ff8a65';
+            break;
+        case 'Karaoke':
+            corFundoHex = '#9e9e9e';
+            break;
+        case 'Show':
+            corFundoHex = '#29b6f6';
+            break;
+        case 'Eventos':
+            corFundoHex = '#ec407a';
+            break;
+        case 'Parques':
+            corFundoHex = '#0d47a1';
+            break;
+        case '+50': // corrigido!
+            corFundoHex = '#e53935';
+            break;
     }
 
+    // --- 3. Filtrar Dados ---
+    const locaisFiltrados = locaisSimulados.filter(l => l.categoria === nomeCategoria);
+    const eventosFiltrados = eventosSimulados.filter(e => e.categoria === nomeCategoria);
 
-    // --- 3. Atualiza o Hero da Categoria ---
-    const heroSection = document.getElementById('categoria-hero');
-    const nomeElement = document.getElementById('categoria-nome');
-    const iconContainer = document.getElementById('categoria-icon');
-    const countElement = document.getElementById('locais-eventos-count');
-    
-    if (nomeCategoria && iconClass) {
-        heroSection.style.backgroundColor = corFundoHex;
-        nomeElement.textContent = nomeCategoria;
-        iconContainer.innerHTML = `<i class="${iconClass}"></i>`;
+    // --- 4. Atualiza o Hero ---
+    const hero = document.getElementById('categoria-hero');
+    const nomeEl = document.getElementById('categoria-nome');
+    const iconEl = document.getElementById('categoria-icon');
+    const countEl = document.getElementById('locais-eventos-count');
 
-        // Contagem de itens
-        countElement.textContent = `${locaisFiltrados.length} locais e ${eventosFiltrados.length} eventos`;
+    hero.style.backgroundColor = corFundoHex;
+    nomeEl.textContent = nomeCategoria || "Categoria";
+    iconEl.innerHTML = `<i class="${iconClass}"></i>`;
+    countEl.textContent = `${locaisFiltrados.length} locais e ${eventosFiltrados.length} eventos`;
 
-        // Atualiza o ícone nos blocos "sem encontrado"
-        document.querySelectorAll('.sem-encontrado i').forEach(icon => {
-            icon.className = iconClass;
-        });
-
-    } else {
-        // Fallback
-        nomeElement.textContent = 'Categoria Não Encontrada';
-        heroSection.style.backgroundColor = '#6c757d'; 
-        iconContainer.innerHTML = `<i class="fas fa-question-circle"></i>`;
-    }
-
-    // --- 4. Renderização (Locais) ---
+    // --- 5. Render Locais ---
     const locaisTab = document.getElementById('locais-tab');
-    
+
     if (locaisFiltrados.length > 0) {
-        locaisTab.innerHTML = ''; // Limpa o "Nenhum local encontrado"
-        
+        locaisTab.innerHTML = '';
         const grid = document.createElement('div');
-        grid.className = 'populares-grid'; 
-        
+        grid.className = 'populares-grid';
+
         locaisFiltrados.forEach(local => {
             const tagsHTML = local.tags.map(tag => `<span class="atributo">${tag}</span>`).join('');
-            
-            const cardHTML = `
+
+            grid.innerHTML += `
                 <div class="card-local">
                     <div class="card-image-wrap">
                         <img src="${local.imagem}">
-                        <span class="tag tag-${local.categoria.toLowerCase().replace(/ /g, '-')}">${local.categoria}</span>
+                        <span class="tag tag-${local.categoria.toLowerCase()}">${local.categoria}</span>
                         <span class="avaliacao"><i class="fas fa-star"></i> ${local.avaliacao}</span>
                     </div>
                     <div class="card-content">
@@ -275,10 +256,8 @@
                         </div>
                         <p class="descricao">${local.descricao}</p>
                         <div class="horario"><i class="fas fa-clock"></i> ${local.horario}</div>
-                        
-                        <div class="atributos">
-                            ${tagsHTML}
-                        </div>
+
+                        <div class="atributos">${tagsHTML}</div>
 
                         <div class="card-footer">
                             <p class="avaliacoes-count">0 avaliações</p>
@@ -287,27 +266,25 @@
                     </div>
                 </div>
             `;
-            grid.innerHTML += cardHTML;
         });
+
         locaisTab.appendChild(grid);
     }
 
-
-    // --- 5. Renderização (Eventos) ---
+    // --- 6. Render Eventos ---
     const eventosTab = document.getElementById('eventos-tab');
 
     if (eventosFiltrados.length > 0) {
-        eventosTab.innerHTML = ''; // Limpa o "Nenhum evento encontrado"
-        
+        eventosTab.innerHTML = '';
         const grid = document.createElement('div');
-        grid.className = 'eventos-grid'; 
-        
+        grid.className = 'eventos-grid';
+
         eventosFiltrados.forEach(evento => {
-            const cardHTML = `
+            grid.innerHTML += `
                 <div class="card-evento card-evento-duas-colunas">
                     <div class="evento-imagem-wrap">
                         <img src="${evento.imagem}">
-                        <span class="tag-evento tag-musica">${evento.categoria}</span>
+                        <span class="tag-evento">${evento.categoria}</span>
                     </div>
                     <div class="evento-content">
                         <h3>${evento.nome}</h3>
@@ -318,10 +295,11 @@
                             <p><i class="fas fa-calendar-alt"></i> ${evento.data}</p>
                             <p><i class="fas fa-clock"></i> ${evento.horario}</p>
                         </div>
+
                         <p class="evento-local"><i class="fas fa-map-marker-alt"></i> ${evento.local}</p>
-                        
+
                         <div class="evento-interessados">
-                             <i class="fas fa-users"></i> ${evento.interessados} pessoas interessadas
+                            <i class="fas fa-users"></i> ${evento.interessados} pessoas interessadas
                         </div>
 
                         <div class="evento-footer">
@@ -331,28 +309,26 @@
                     </div>
                 </div>
             `;
-            grid.innerHTML += cardHTML;
         });
+
         eventosTab.appendChild(grid);
     }
 
-
-    // --- 6. Lógica de Troca de Tabs ---
+    // --- 7. Tabs ---
     const tabButtons = document.querySelectorAll('.tab-button');
     const tabContents = document.querySelectorAll('.tab-content');
 
     tabButtons.forEach(button => {
         button.addEventListener('click', () => {
             tabButtons.forEach(btn => btn.classList.remove('active'));
-            tabContents.forEach(content => content.classList.remove('active'));
+            tabContents.forEach(tab => tab.classList.remove('active'));
 
             button.classList.add('active');
-
-            const targetId = button.getAttribute('data-tab');
-            document.getElementById(`${targetId}-tab`).classList.add('active');
+            document.getElementById(`${button.dataset.tab}-tab`).classList.add('active');
         });
     });
 });
+
     </script>
 
 </body>
