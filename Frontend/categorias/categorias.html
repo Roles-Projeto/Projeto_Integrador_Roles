@@ -328,7 +328,13 @@
         });
     });
 });
+// Converte "50 anos", "+50 anos", "50+" → "50+"
+if (nomeCategoria.includes("50")) {
+    nomeCategoria = "50+";
 
+    elementoCategoria.style.backgroundColor = "red"; // fundo vermelho
+    elementoCategoria.style.color = "white"; // opcional: texto branco
+}
     </script>
 
 </body>
