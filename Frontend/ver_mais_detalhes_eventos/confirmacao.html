@@ -18,10 +18,8 @@
             flex-direction: column;
             min-height: 100vh;
             font-size: 12px; 
-            color: #333; /* Cor base do texto */
+            color: #333; 
         }
-
-        
 
         main {
             flex-grow: 1;
@@ -29,12 +27,11 @@
         }
 
         .page-content {
-            max-width: 800px; /* Largura centralizada para páginas de confirmação */
+            max-width: 800px; 
             width: 100%;
             margin: 0 auto;
         }
         
-        /* Estilos de Card */
         .card {
             background-color: white;
             padding: 25px;
@@ -43,29 +40,27 @@
             margin-bottom: 20px;
         }
 
-        /* Título e Subtítulos */
         .section-title {
-            font-size: 15px; /* Ajustado */
+            font-size: 15px; 
             font-weight: 600;
             color: #333;
             margin-bottom: 15px;
         }
 
-        /* --- Bloco de Sucesso (Topo) --- */
         .success-box {
-            background-color: #e8f5e9; /* Verde claro */
-            color: #388e3c; /* Texto verde escuro */
+            background-color: #e8f5e9; 
+            color: #388e3c; 
             border: 1px solid #c8e6c9;
             text-align: center;
-            padding: 20px; /* Reduzido */
+            padding: 20px; 
         }
         .success-box i {
-            font-size: 28px; /* Reduzido */
+            font-size: 28px; 
             margin-bottom: 5px;
         }
         .success-box h1 {
-            font-size: 20px; /* Reduzido */
-            font-weight: 600; /* Reduzido de 700 */
+            font-size: 20px; 
+            font-weight: 600; 
             margin: 0 0 5px 0;
             color: #333;
         }
@@ -74,16 +69,15 @@
             margin: 0 0 10px 0;
         }
         .order-id {
-            font-weight: 500; /* Reduzido de 600 */
+            font-weight: 500; 
             background-color: #dcedc8;
             padding: 5px 10px;
             border-radius: 4px;
             display: inline-block;
             color: #333;
-            font-size: 11px; /* Reduzido */
+            font-size: 11px; 
         }
-        
-        /* --- Detalhes do Evento --- */
+
         .event-details-card {
             display: flex;
             gap: 20px;
@@ -98,7 +92,7 @@
             flex-grow: 1;
         }
         .event-info h4 {
-            font-size: 16px; /* Reduzido */
+            font-size: 16px; 
             font-weight: 600;
             color: #333;
             margin: 0 0 8px 0;
@@ -113,7 +107,6 @@
             color: #999;
         }
 
-        /* --- Seus Ingressos --- */
         .ticket-summary {
             margin-bottom: 20px;
             padding-bottom: 15px;
@@ -123,22 +116,22 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 8px 0; /* Reduzido */
+            padding: 8px 0; 
         }
         .ticket-type {
-            font-size: 14px; /* Reduzido */
-            font-weight: 500; /* Reduzido de 600 */
+            font-size: 14px; 
+            font-weight: 500; 
             color: #333;
             display: flex;
             align-items: center;
         }
         .ticket-type i {
             margin-right: 10px;
-            font-size: 18px; /* Ajustado */
+            font-size: 18px; 
             color: #999;
         }
         .ticket-price {
-            font-weight: 500; /* Reduzido de 600 */
+            font-weight: 500; 
             color: #333;
         }
 
@@ -146,7 +139,7 @@
             list-style: none;
             padding: 0;
             margin: 10px 0 20px 0;
-            font-size: 12px; /* Reduzido */
+            font-size: 12px; 
             color: #555;
             border-left: 3px solid #dcedc8;
             padding-left: 15px;
@@ -159,22 +152,20 @@
             margin-right: 5px;
         }
 
-        /* Breakdown de Preço */
         .price-row {
             display: flex;
             justify-content: space-between;
-            font-size: 12px; /* Reduzido */
+            font-size: 12px; 
             padding: 4px 0;
         }
         .price-row.total-row {
-            font-size: 16px; /* Reduzido */
-            font-weight: 600; /* Reduzido de 700 */
+            font-size: 16px; 
+            font-weight: 600; 
             border-top: 1px dashed #ddd; 
             padding-top: 10px;
             margin-top: 10px;
         }
-        
-        /* QR Code */
+
         .qr-code-area {
             text-align: center;
             border: 2px dashed #ddd;
@@ -195,12 +186,11 @@
             color: #aaa;
         }
         .qr-code-text {
-            font-size: 11px; /* Reduzido */
+            font-size: 11px; 
             color: #666;
             margin-top: 5px;
         }
 
-        /* Ações e Informações */
         .actions-buttons {
             display: flex;
             justify-content: center;
@@ -209,10 +199,10 @@
         }
 
         .btn-action, .btn-primary {
-            padding: 8px 15px; /* Reduzido */
+            padding: 8px 15px; 
             border-radius: 6px;
-            font-size: 13px; /* Reduzido */
-            font-weight: 500; /* Reduzido de 600 */
+            font-size: 13px; 
+            font-weight: 500; 
             cursor: pointer;
             transition: background-color 0.3s;
             text-decoration: none;
@@ -220,7 +210,7 @@
             border: 1px solid transparent;
         }
 
-        .btn-action { /* Baixar/Reenviar */
+        .btn-action {
             background-color: white;
             color: #333;
             border-color: #ddd;
@@ -229,7 +219,7 @@
             background-color: #f0f0f0;
         }
 
-        .btn-primary { /* Ver Meus Ingressos */
+        .btn-primary {
             background-color: #1a1a1a;
             color: white;
         }
@@ -237,18 +227,17 @@
             background-color: #333;
         }
 
-        /* Informações Importantes */
         .important-info-list {
             list-style: none;
             padding: 0;
-            font-size: 12px; /* Reduzido */
+            font-size: 12px; 
             color: #555;
         }
         .important-info-list li {
             margin-bottom: 8px;
         }
         .important-info-list li::before {
-            content: "\2022"; /* Bullet point */
+            content: "\2022"; 
             color: #999;
             font-weight: bold;
             display: inline-block;
@@ -256,8 +245,24 @@
             margin-left: -1em;
         }
 
-       
-        
+        /* --- Toast --- */
+        #toast {
+            visibility: hidden;
+            min-width: 250px;
+            background-color: rgba(0,0,0,0.85);
+            color: #fff;
+            text-align: center;
+            border-radius: 6px;
+            padding: 10px;
+            position: fixed;
+            z-index: 10000;
+            left: 50%;
+            bottom: 30px;
+            font-size: 12px;
+            transform: translateX(-50%);
+            opacity: 0;
+            transition: opacity 0.5s, bottom 0.5s;
+        }
     </style>
 </head>
 
@@ -359,11 +364,13 @@
         </div>
     </main>
 
-   <footer>
-        <footer>
-            <iframe src="../footer/footer.html" frameborder="0" scrolling="no" width="100%" height="auto"></iframe>
-        </footer>
+    <footer>
+        <iframe src="../footer/footer.html" frameborder="0" scrolling="no" width="100%" height="auto"></iframe>
     </footer>
+
+    <!-- Toast -->
+    <div id="toast">Mensagem de confirmação</div>
+
     <script>
         function formatarMoeda(valor) {
             return valor.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
@@ -371,28 +378,20 @@
 
         function carregarDadosConfirmacao() {
             const dadosCompraJSON = localStorage.getItem('compraConfirmada');
-
             if (!dadosCompraJSON) {
-                console.error("Nenhum dado de compra encontrado no localStorage.");
-                // Se não houver dados, redireciona ou mostra mensagem de erro
                 document.querySelector('.page-content').innerHTML = '<h1>Erro na Compra</h1><p>Não foi possível carregar os detalhes do pedido.</p>';
                 return;
             }
 
             const dados = JSON.parse(dadosCompraJSON);
 
-            // ----------------------------------------------------
-            // 1. Bloco de Sucesso (Topo)
-            // ----------------------------------------------------
-            document.querySelector('.order-id').textContent = `Pedido #${dados.pedidoID || 'N/A'}`;
+            document.querySelectorAll('.order-id').forEach(el => {
+                el.textContent = `Pedido #${dados.pedidoID || 'N/A'}`;
+            });
 
-            // ----------------------------------------------------
-            // 2. Detalhes do Evento
-            // ----------------------------------------------------
             document.querySelector('.event-image').src = dados.imagem || 'caminho/para/placeholder.jpg';
             document.querySelector('.event-info h4').textContent = dados.nome || 'Evento Desconhecido';
             
-            // Busca e atualiza os parágrafos de metadados
             const eventMeta = document.querySelector('.event-meta').querySelectorAll('p');
             if (eventMeta.length >= 3) {
                 eventMeta[0].innerHTML = `<i class="fas fa-calendar-alt"></i> ${dados.data || 'N/A'}`;
@@ -400,35 +399,45 @@
                 eventMeta[2].innerHTML = `<i class="fas fa-map-marker-alt"></i> ${dados.local || 'N/A'}`;
             }
 
-            // ----------------------------------------------------
-            // 3. Seus Ingressos
-            // ----------------------------------------------------
-            // Ingresso principal
             const precoPorIngresso = formatarMoeda(dados.ingressoPreco);
             document.querySelector('.ticket-type').innerHTML = `<i class="fas fa-ticket-alt"></i> ${dados.ingressoNome || 'N/A'}`;
             document.querySelector('.ticket-price').textContent = `${precoPorIngresso} cada`;
             document.querySelector('.ticket-summary p').textContent = `Quantidade: ${dados.quantidade || 1}`;
 
-            // (Nota: A lista de benefícios (ul.benefits-list) é estática neste HTML e precisaria ser carregada dinamicamente se a fonte de dados do ingresso for mais complexa.)
-
-
-            // ----------------------------------------------------
-            // 4. Breakdown de Preço
-            // ----------------------------------------------------
             document.querySelector('.price-row:nth-child(1) .price').textContent = formatarMoeda(dados.subtotal || 0);
             document.querySelector('.price-row:nth-child(2) .price').textContent = formatarMoeda(dados.taxaServico || 0);
             document.querySelector('.total-row .price').textContent = formatarMoeda(dados.totalPago || 0);
-            
-            // QR Code ID
-            document.querySelector('.qr-code-area .order-id').textContent = `#${dados.pedidoID || 'N/A'}`;
-
-
-            // Opcional: Limpar o localStorage após a exibição (para evitar confusão em futuras compras)
-            // localStorage.removeItem('compraConfirmada');
         }
 
-        // Garante que a função seja chamada após o carregamento completo do HTML
         document.addEventListener('DOMContentLoaded', carregarDadosConfirmacao);
+
+        // --- Toast ---
+        function mostrarToast(mensagem) {
+            const toast = document.getElementById('toast');
+            toast.textContent = mensagem;
+            toast.style.visibility = 'visible';
+            toast.style.opacity = '1';
+            toast.style.bottom = '50px';
+
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                toast.style.bottom = '30px';
+                setTimeout(() => {
+                    toast.style.visibility = 'hidden';
+                }, 500);
+            }, 2000);
+        }
+
+        document.querySelectorAll('.btn-action').forEach(botao => {
+            botao.addEventListener('click', function(e) {
+                e.preventDefault(); 
+                if (botao.textContent.includes('Baixar')) {
+                    mostrarToast('Ingressos baixados com sucesso!');
+                } else if (botao.textContent.includes('Reenviar')) {
+                    mostrarToast('Ingressos reenviados para seu email!');
+                }
+            });
+        });
     </script>
 
 </body>

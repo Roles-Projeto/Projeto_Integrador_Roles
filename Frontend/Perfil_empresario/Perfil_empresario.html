@@ -17,18 +17,17 @@
 
     <main>
         <div class="profile-container">
+            <!-- CARD PRINCIPAL DE PERFIL -->
             <div class="profile-card">
-
                 <div class="profile-pic-container">
                     <img id="profile-pic-display" src="../Imagens/Logo Restaurante.avif" alt="Logo do Restaurante"
                         class="profile-pic">
-
-                    <input type="file" id="upload-pic-input" accept="image/*" style="display: none;">
-
-                    <label for="upload-pic-input" id="edit-pic-btn" class="edit-pic-btn">
+                    <label for="upload-pic-input" class="edit-pic-btn">
                         <i class="fas fa-camera"></i>
                     </label>
+                    <input type="file" id="upload-pic-input" accept="image/*" style="display: none;">
                 </div>
+
                 <h2 id="nome-restaurante">Restaurante Casa do Chef João e Bar</h2>
                 <p class="tag">Empresário</p>
 
@@ -45,12 +44,12 @@
                 </div>
             </div>
 
-            <div class="edit-and-stats-wrapper" id="edit-and-stats-wrapper">
-
-                <div class="edit-form-card" id="edit-form-card" style="display: none;">
+            <!-- WRAPPER PARA FORMULÁRIO E ESTATÍSTICAS -->
+            <div class="edit-and-stats-wrapper">
+                <!-- FORMULÁRIO DE EDIÇÃO -->
+                <div class="edit-form-card" id="edit-form-card">
                     <h3 id="form-title">Editar Informações do Perfil</h3>
                     <form id="edit-form">
-
                         <label for="edit-nome-restaurante">Nome do Estabelecimento:</label>
                         <input type="text" id="edit-nome-restaurante" value="Restaurante Casa do Chef João e Bar">
 
@@ -65,11 +64,12 @@
 
                         <div class="form-buttons">
                             <button type="submit" id="salvar-btn">Salvar Alterações</button>
-                            <button type="button" id="cancelar-btn" class="cancel-btn">Cancelar</button>
+                            <button type="button" id="cancelar-btn">Cancelar</button>
                         </div>
                     </form>
                 </div>
 
+                <!-- ESTATÍSTICAS SIMPLES -->
                 <div class="stats-card" id="stats-card">
                     <div class="stat">
                         <i class="fa-solid fa-eye"></i>
@@ -78,7 +78,6 @@
                             <p>1.245</p>
                         </div>
                     </div>
-
                     <div class="stat">
                         <i class="fa-solid fa-star"></i>
                         <div>
@@ -87,9 +86,7 @@
                         </div>
                     </div>
                 </div>
-
             </div>
-
         </div>
     </main>
 
@@ -98,193 +95,133 @@
     </footer>
 
     <script>
-        // Seleção de elementos (mantida)
         const editarBtn = document.getElementById("editar-btn");
-        const sairBtn = document.getElementById("sair-btn");
-        const editFormCard = document.getElementById("edit-form-card");
-        const statsCard = document.getElementById("stats-card");
-        const cancelarBtn = document.getElementById("cancelar-btn");
-        const salvarBtn = document.getElementById("salvar-btn");
+const sairBtn = document.getElementById("sair-btn");
+const editFormCard = document.getElementById("edit-form-card");
+const statsCard = document.getElementById("stats-card");
+const cancelarBtn = document.getElementById("cancelar-btn");
+const salvarBtn = document.getElementById("salvar-btn");
 
-        // Elementos de exibição dos dados no cartão de perfil
-        const displayNome = document.getElementById("nome-restaurante");
-        const displayEmail = document.getElementById("display-email");
-        const displayTelefone = document.getElementById("display-telefone");
-        const displayCidade = document.getElementById("display-cidade");
+const displayNome = document.getElementById("nome-restaurante");
+const displayEmail = document.getElementById("display-email");
+const displayTelefone = document.getElementById("display-telefone");
+const displayCidade = document.getElementById("display-cidade");
 
-        // Campos de input do formulário
-        const inputNome = document.getElementById("edit-nome-restaurante");
-        const inputEmail = document.getElementById("edit-email");
-        const inputTelefone = document.getElementById("edit-telefone");
-        const inputCidade = document.getElementById("edit-cidade");
+const inputNome = document.getElementById("edit-nome-restaurante");
+const inputEmail = document.getElementById("edit-email");
+const inputTelefone = document.getElementById("edit-telefone");
+const inputCidade = document.getElementById("edit-cidade");
 
-        // Variáveis da Imagem
-        const profilePicDisplay = document.getElementById("profile-pic-display");
-        const uploadPicInput = document.getElementById("upload-pic-input");
-        const editPicBtn = document.getElementById("edit-pic-btn");
+const profilePicDisplay = document.getElementById("profile-pic-display");
+const uploadPicInput = document.getElementById("upload-pic-input");
 
+// -----------------------------
+// 🔹 Carrega informações do LocalStorage
+// -----------------------------
+document.addEventListener('DOMContentLoaded', () => {
+    const isLogged = localStorage.getItem('userIsLoggedIn') === 'true';
+    const userType = localStorage.getItem('userType');
 
-        // ----------------------------------------------------
-        // FUNÇÃO: CARREGA DADOS DO LOCALSTORAGE E PREENCHE O PERFIL (CRÍTICO)
-        // ----------------------------------------------------
-        function loadProfileDataFromStorage() {
-            const nomeEstabelecimento = localStorage.getItem('profileName');
-            const emailResponsavel = localStorage.getItem('profileEmail');
-            const fotoUrl = localStorage.getItem('profilePhotoUrl');
-            
-            // Preenche a área de exibição principal
-            if (nomeEstabelecimento) {
-                displayNome.textContent = nomeEstabelecimento;
-            }
-            if (emailResponsavel) {
-                displayEmail.textContent = emailResponsavel;
-            }
-            // Usa a imagem padrão do HTML se não houver foto salva no localStorage
-            if (fotoUrl && profilePicDisplay) {
-                profilePicDisplay.src = fotoUrl;
-            }
+    if (!isLogged || userType !== 'empresario') {
+        window.location.href = '../login/login.html';
+        return;
+    }
 
-            // Preenche o formulário de edição com os dados atuais
-            if (nomeEstabelecimento && inputNome) {
-                inputNome.value = nomeEstabelecimento;
-            }
-            if (emailResponsavel && inputEmail) {
-                inputEmail.value = emailResponsavel;
-            }
-            // Manter os valores atuais do HTML para Telefone e Cidade se não estiverem no storage
-        }
+    // Preenche os campos do perfil com dados do localStorage
+    const profileName = localStorage.getItem('profileName') || 'Nome do Estabelecimento';
+    const profileEmail = localStorage.getItem('profileEmail') || 'email@exemplo.com';
+    const profilePhone = localStorage.getItem('profilePhone') || '(00) 0000-0000';
+    const profileCity = localStorage.getItem('profileCity') || 'Cidade - UF';
+    const profilePhotoUrl = localStorage.getItem('profilePhotoUrl') || '../Imagens/Logo Restaurante.avif';
 
-        // ----------------------------------------------------
-        // LÓGICA DE INICIALIZAÇÃO E EVENTOS
-        // ----------------------------------------------------
-        document.addEventListener('DOMContentLoaded', () => {
-            // 1. Carrega os dados salvos ao iniciar a página
-            loadProfileDataFromStorage(); 
-            
-            // 2. Proteção da página: garante que só empresários vejam esta página
-            const isLogged = localStorage.getItem('userIsLoggedIn') === 'true';
-            const userType = localStorage.getItem('userType');
+    displayNome.textContent = profileName;
+    displayEmail.textContent = profileEmail;
+    displayTelefone.textContent = profilePhone;
+    displayCidade.textContent = profileCity;
+    profilePicDisplay.src = profilePhotoUrl;
 
-            if (!isLogged || userType !== 'empresario') {
-                // Redireciona para o login se não for empresário logado
-                window.location.href = '../login/login.html';
-                return; 
-            }
-        });
-        
-        // Função para mostrar o formulário
-        function showEditForm() {
-            editFormCard.style.display = 'block';
-            sairBtn.disabled = true;
+    inputNome.value = profileName;
+    inputEmail.value = profileEmail;
+    inputTelefone.value = profilePhone;
+    inputCidade.value = profileCity;
+});
 
-            // PREENCHE O FORMULÁRIO COM OS DADOS ATUAIS DA PÁGINA
-            inputNome.value = displayNome.textContent;
-            inputEmail.value = displayEmail.textContent;
-            inputTelefone.value = displayTelefone.textContent;
-            inputCidade.value = displayCidade.textContent;
-            
-            statsCard.style.display = 'none'; // Esconde as estatísticas ao editar
-        }
-        
-        // ----------------------------------------------------
-        // EVENT LISTENER: Lógica de Edição (Salvar)
-        // ----------------------------------------------------
-        salvarBtn.addEventListener('click', (e) => {
-            e.preventDefault();
-            
-            const newName = inputNome.value.trim();
-            const newEmail = inputEmail.value.trim();
-            const newTelefone = inputTelefone.value.trim();
-            const newCidade = inputCidade.value.trim();
+// -----------------------------
+// 🔹 Formulário de edição
+// -----------------------------
+function showEditForm() {
+    editFormCard.style.display = 'block';
+    statsCard.style.opacity = 0.3;
+}
 
-            if (newName === "" || newEmail === "") {
-                // ✅ MANTIDO: Aviso de erro obrigatório
-                alert("⚠️ Nome do estabelecimento e E-mail são obrigatórios!");
-                return;
-            }
+editarBtn.addEventListener('click', showEditForm);
+cancelarBtn.addEventListener('click', () => {
+    editFormCard.style.display = 'none';
+    statsCard.style.opacity = 1;
+});
 
-            // 1. Atualiza a exibição na página de Perfil
-            displayNome.textContent = newName;
-            displayEmail.textContent = newEmail;
-            displayTelefone.textContent = newTelefone;
-            displayCidade.textContent = newCidade;
+salvarBtn.addEventListener('click', (e) => {
+    e.preventDefault();
 
-            // 2. Salva os novos dados no localStorage
-            localStorage.setItem('profileName', newName); 
-            localStorage.setItem('profileEmail', newEmail);
-            // Salvamos os outros campos para futura persistência no perfil, mas não afetam o header.
-            
-            // ❌ REMOVIDO: alert("Perfil atualizado com sucesso!");
+    displayNome.textContent = inputNome.value;
+    displayEmail.textContent = inputEmail.value;
+    displayTelefone.textContent = inputTelefone.value;
+    displayCidade.textContent = inputCidade.value;
 
-            // 3. Comunica a mudança ao Header (iframe) para ele se atualizar imediatamente
-            const headerIframe = document.getElementById("site-header");
-            if (headerIframe && headerIframe.contentWindow) {
+    editFormCard.style.display = 'none';
+    statsCard.style.opacity = 1;
+
+    // Salva no localStorage
+    localStorage.setItem('profileName', inputNome.value);
+    localStorage.setItem('profileEmail', inputEmail.value);
+    localStorage.setItem('profilePhone', inputTelefone.value);
+    localStorage.setItem('profileCity', inputCidade.value);
+
+    // Atualiza o header em tempo real
+    const headerIframe = document.getElementById('site-header');
+    if (headerIframe) {
+        headerIframe.contentWindow.postMessage({
+            action: 'UPDATE_PROFILE_INFO',
+            newName: inputNome.value,
+            newEmail: inputEmail.value,
+            newPicUrl: profilePicDisplay.src
+        }, '*');
+    }
+});
+
+// -----------------------------
+// 🔹 Atualizar foto de perfil
+// -----------------------------
+uploadPicInput.addEventListener('change', (e) => {
+    const file = e.target.files[0];
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = function(event) {
+            const newPicUrl = event.target.result;
+            profilePicDisplay.src = newPicUrl;
+
+            localStorage.setItem('profilePhotoUrl', newPicUrl);
+
+            const headerIframe = document.getElementById('site-header');
+            if (headerIframe) {
                 headerIframe.contentWindow.postMessage({
                     action: 'UPDATE_PROFILE_INFO',
-                    newName: newName,
-                    newEmail: newEmail
+                    newPicUrl: newPicUrl
                 }, '*');
             }
+        };
+        reader.readAsDataURL(file);
+    }
+});
 
-            // 4. Retorna para o modo de exibição
-            editFormCard.style.display = 'none';
-            statsCard.style.display = 'flex';
-            sairBtn.disabled = false;
-        });
-
-        // ----------------------------------------------------
-        // EVENT LISTENER: Lógica de Troca de Foto
-        // ----------------------------------------------------
-        uploadPicInput.addEventListener('change', (e) => {
-            const file = e.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(event) {
-                    const newPicUrl = event.target.result;
-
-                    // 1. Atualiza a exibição na página de Perfil
-                    profilePicDisplay.src = newPicUrl;
-                    
-                    // 2. Salva a nova URL no localStorage
-                    localStorage.setItem('profilePhotoUrl', newPicUrl);
-
-                    // ❌ REMOVIDO: alert("Foto de perfil atualizada com sucesso!");
-
-                    // 3. Comunica a mudança ao Header (iframe) para ele se atualizar imediatamente
-                    const headerIframe = document.getElementById("site-header");
-                    if (headerIframe && headerIframe.contentWindow) {
-                        headerIframe.contentWindow.postMessage({
-                            action: 'UPDATE_PROFILE_PIC',
-                            newPicUrl: newPicUrl
-                        }, '*');
-                    }
-                };
-                reader.readAsDataURL(file);
-            }
-        });
-        
-        // ----------------------------------------------------
-        // EVENT LISTENERS: Botões de Ação
-        // ----------------------------------------------------
-        editarBtn.addEventListener('click', showEditForm);
-        cancelarBtn.addEventListener('click', () => {
-            editFormCard.style.display = 'none';
-            statsCard.style.display = 'flex';
-            sairBtn.disabled = false;
-        });
-        
-        sairBtn.addEventListener('click', () => {
-             // Comunica o logout para o header, que fará a limpeza do storage
-            const headerIframe = document.getElementById("site-header");
-            if (headerIframe && headerIframe.contentWindow) {
-                headerIframe.contentWindow.postMessage({
-                    action: 'LOGOUT_REQUEST',
-                }, '*');
-            }
-            
-            // Redireciona a página principal
-            window.location.href = '../login/logout-empresario.html'; 
-        });
+// -----------------------------
+// 🔹 Logout
+// -----------------------------
+sairBtn.addEventListener('click', () => {
+    localStorage.removeItem('userIsLoggedIn');
+    localStorage.removeItem('userType');
+    window.location.href = '../login/logout-empresario.html';
+});
 
     </script>
 </body>

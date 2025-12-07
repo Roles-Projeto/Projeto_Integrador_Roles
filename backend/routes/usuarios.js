@@ -7,5 +7,3 @@ router.get("/", usuariosController.listarUsuarios);
 router.put("/perfil", usuariosController.atualizarUsuario);
 
 module.exports = router;
-
-

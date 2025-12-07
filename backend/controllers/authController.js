@@ -2,7 +2,7 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const connection = require("../db/db_config");
 
-exports.loginUsuario = (req, res) => {
+exports.loginUsuario = async (req, res) => {
   const { email, senha } = req.body;
   if (!email || !senha) return res.status(400).json({ erro: "Preencha email e senha." });
 
@@ -10,7 +10,7 @@ exports.loginUsuario = (req, res) => {
     "SELECT * FROM usuarios WHERE email = ?",
     [email],
     async (err, results) => {
-      if (err) return res.status(500).json({ erro: "Erro no servidor." });
+      if (err) return res.status(500).json({ erro: "Erro no servidor.", detalhes: err.message });
       if (results.length === 0) return res.status(400).json({ erro: "Email não cadastrado." });
 
       const usuario = results[0];
@@ -23,7 +23,7 @@ exports.loginUsuario = (req, res) => {
   );
 };
 
-exports.loginEmpresario = (req, res) => {
+exports.loginEmpresario = async (req, res) => {
   const { email, senha } = req.body;
   if (!email || !senha) return res.status(400).json({ erro: "Preencha email e senha." });
 
@@ -31,7 +31,7 @@ exports.loginEmpresario = (req, res) => {
     "SELECT * FROM empresarios WHERE email = ?",
     [email],
     async (err, results) => {
-      if (err) return res.status(500).json({ erro: "Erro no servidor." });
+      if (err) return res.status(500).json({ erro: "Erro no servidor.", detalhes: err.message });
       if (results.length === 0) return res.status(400).json({ erro: "Email não cadastrado." });
 
       const empresario = results[0];
