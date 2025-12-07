@@ -41,6 +41,7 @@
                     <p class="profile-detail member-since">Membro desde Jan 2026</p>
 
                     <button id="edit-profile-btn" class="action-btn edit-btn">Editar Perfil</button>
+                    <button id="view-tickets-btn" class="action-btn tickets-btn">Ver Meus Ingressos</button>
                     <button class="action-btn logout-btn">Sair</button>
                 </div>
                 
@@ -133,6 +134,21 @@
                             </li>
                         </ul>
                     </div>
+
+                    <div id="tickets-section" class="content-section tickets-section hidden">
+                        <h3>Meus Ingressos</h3>
+                        <ul class="ticket-list">
+                            <li class="ticket-item">
+                                <span class="ticket-name">Show BTS - Setor A</span>
+                                <button class="transfer-ticket-btn">Transferir</button>
+                            </li>
+                            <li class="ticket-item">
+                                <span class="ticket-name">Festival Rock - Setor B</span>
+                                <button class="transfer-ticket-btn">Transferir</button>
+                            </li>
+                        </ul>
+                    </div>
+
                 </div>
 
             </section>
@@ -145,188 +161,132 @@
     </footer>
 
     <script>
-        // Elementos de Perfil (source of truth)
+        // Elementos de Perfil
         const profilePicture = document.querySelector('.profile-picture');
         const profileNameDisplay = document.querySelector('.profile-name');
         const profileEmailDisplay = document.getElementById('profile-email-display');
         const profilePhoneDisplay = document.getElementById('profile-phone-display');
 
-        // Inputs do Formulário
         const inputNome = document.getElementById('nome');
         const inputEmail = document.getElementById('email');
         const inputTelefone = document.getElementById('telefone');
 
-        // Elementos de Ação
         const editProfileForm = document.querySelector('.edit-profile-form');
         const editPictureBtn = document.getElementById('edit-picture-btn');
         const pictureUploadInput = document.getElementById('picture-upload');
         const editProfileBtn = document.getElementById('edit-profile-btn');
         const cancelEditBtn = document.getElementById('cancel-edit-btn');
         const editProfileSection = document.getElementById('edit-profile-section');
-        const listsSection = document.getElementById('lists-section'); // Adicionado
+        const listsSection = document.getElementById('lists-section');
         const headerIframe = document.getElementById('site-header');
 
-        // =========================================================
-        // 1. 🔑 FUNÇÃO CRUCIAL: CARREGA DADOS DO LOCALSTORAGE
-        // =========================================================
+        const viewTicketsBtn = document.getElementById('view-tickets-btn');
+        const ticketsSection = document.getElementById('tickets-section');
+
         function loadProfileData() {
-            // Busca dados salvos no localStorage (vindos do login ou edição).
             const savedName = localStorage.getItem('profileName') || 'Nome de Exemplo';
             const savedEmail = localStorage.getItem('profileEmail') || 'exemplo@rolês.com';
             const savedPhone = localStorage.getItem('profilePhone') || '(62) 00000-0000';
-            // Usa o placeholder padrão se não houver foto salva
-            const savedPhoto = localStorage.getItem('profilePhotoUrl') || "https://i.imgur.com/default-placeholder.png"; 
+            const savedPhoto = localStorage.getItem('profilePhotoUrl') || "https://i.imgur.com/default-placeholder.png";
 
-            // 1. Atualiza a exibição no cartão de perfil (DIV principal)
             profilePicture.src = savedPhoto;
             profileNameDisplay.textContent = savedName;
             profileEmailDisplay.textContent = savedEmail;
             profilePhoneDisplay.textContent = savedPhone;
 
-            // 2. Atualiza os inputs do formulário de edição para que a edição funcione sobre o dado correto
             inputNome.value = savedName;
             inputEmail.value = savedEmail;
             inputTelefone.value = savedPhone;
         }
 
-
-        // =========================================================
-        // 2. ⬆️ FUNÇÃO CRUCIAL: ATUALIZAÇÃO E SALVAMENTO NO LOCALSTORAGE (usado ao editar)
-        // =========================================================
         function updateProfileData(photoUrl, name, email, phone) {
-            
-            // 🔑 SALVA NO LOCALSTORAGE PARA PERSISTÊNCIA 
             localStorage.setItem('profilePhotoUrl', photoUrl);
             localStorage.setItem('profileName', name);
             localStorage.setItem('profileEmail', email);
             localStorage.setItem('profilePhone', phone);
 
-            // Usa postMessage para comunicar a atualização ao Header Iframe
             if (headerIframe && headerIframe.contentWindow) {
                 headerIframe.contentWindow.postMessage({
                     action: 'UPDATE_PROFILE_INFO',
                     newName: name,
                     newEmail: email,
-                    newPicUrl: photoUrl 
+                    newPicUrl: photoUrl
                 }, '*');
             }
         }
-        
-        // =========================================================
-        // 3. 🏃 LÓGICA DO DOMContentLoaded
-        // =========================================================
+
         document.addEventListener('DOMContentLoaded', function () {
-            
-            // 🚨 CARREGA OS DADOS SALVOS DO LOCALSTORAGE ASSIM QUE A PÁGINA ABRE
             loadProfileData();
 
-            // ------------------------------------------
-            // LÓGICA DE MOSTRAR/OCULTAR FORMULÁRIO
-            // ------------------------------------------
             editProfileBtn.addEventListener('click', function() {
                 const isEditing = editProfileSection.classList.toggle('hidden');
-                listsSection.classList.toggle('hidden', !isEditing); // Oculta a lista quando edita
-
-                if (!isEditing) {
-                    editProfileBtn.textContent = 'Cancelar Edição';
-                } else {
-                    editProfileBtn.textContent = 'Editar Perfil';
-                }
+                listsSection.classList.toggle('hidden', !isEditing);
+                editProfileBtn.textContent = isEditing ? 'Cancelar Edição' : 'Editar Perfil';
             });
 
             cancelEditBtn.addEventListener('click', function() {
                 editProfileSection.classList.add('hidden');
-                listsSection.classList.remove('hidden'); 
+                listsSection.classList.remove('hidden');
                 editProfileBtn.textContent = 'Editar Perfil';
             });
-            // ------------------------------------------
 
-            // ------------------------------------------
-            // LÓGICA DO BOTÃO SAIR (LOGOUT)
-            // ------------------------------------------
             const logoutBtn = document.querySelector('.logout-btn');
             logoutBtn.addEventListener('click', function () {
-                
-                // Limpa as credenciais do usuário do localStorage
                 localStorage.removeItem('profilePhotoUrl');
                 localStorage.removeItem('profileName');
                 localStorage.removeItem('profileEmail');
                 localStorage.removeItem('profilePhone');
                 localStorage.removeItem('userIsLoggedIn');
                 localStorage.removeItem('userType');
-                
-                // ENVIA COMANDO DE LOGOUT PARA O HEADER
+
                 if (headerIframe && headerIframe.contentWindow) {
-                    headerIframe.contentWindow.postMessage({
-                        action: 'LOGOUT_REQUEST'
-                    }, '*');
+                    headerIframe.contentWindow.postMessage({ action: 'LOGOUT_REQUEST' }, '*');
                 }
 
-                // Redireciona o usuário para a página de logout
                 window.location.href = '../login/logout-usuario.html';
             });
-            // ------------------------------------------
-            
-            
-            // Lógica de Edição de Imagem de Perfil (MANTIDA)
+
             editPictureBtn.addEventListener('click', function () {
                 pictureUploadInput.click();
             });
 
-            // Pré-visualiza e define a nova imagem de perfil
             pictureUploadInput.addEventListener('change', function (event) {
                 const file = event.target.files[0];
                 if (file) {
                     const reader = new FileReader();
                     reader.onload = function (e) {
                         profilePicture.src = e.target.result;
-                        // Salva a nova imagem e os dados atuais
-                        updateProfileData(e.target.result, inputNome.value, inputEmail.value, inputTelefone.value); 
-                        // ❌ Não há alert aqui, pois a atualização é visual e imediata (apenas a foto)
+                        updateProfileData(e.target.result, inputNome.value, inputEmail.value, inputTelefone.value);
                     }
                     reader.readAsDataURL(file);
                 }
             });
 
-            // Lógica para Atualizar Dados do Perfil ao Salvar (SUBMIT DO FORM)
             editProfileForm.addEventListener('submit', function (event) {
                 event.preventDefault();
 
                 const novoNome = inputNome.value;
                 const novoEmail = inputEmail.value;
                 const novoTelefone = inputTelefone.value;
-                const novoSenha = document.getElementById('senha').value;
 
-                // ** Validação: Verifica se o Nome e Email foram preenchidos **
                 if (!novoNome.trim() || !novoEmail.trim()) {
-                    alert('⚠️ Nome e Email são campos obrigatórios e devem ser preenchidos!');
+                    alert('⚠️ Nome e Email são campos obrigatórios!');
                     return; 
                 }
-                
-                // Validação de telefone (exemplo simples, mantendo a regra de formato de caracter)
-                // Se houver validação de caracteres (como no seu pedido original de conter X caracteres) você adicionaria aqui.
-                // Exemplo:
-                // if (novoNome.length < 3) {
-                //     alert('⚠️ O nome deve conter no mínimo 3 caracteres.');
-                //     return;
-                // }
 
-
-                // Salva no localStorage e envia a notificação ao Header
                 updateProfileData(profilePicture.src, novoNome, novoEmail, novoTelefone);
+                loadProfileData();
 
-                // Recarrega a exibição do perfil com os dados recém-salvos
-                loadProfileData(); 
-
-                // Oculta o formulário após salvar
                 editProfileSection.classList.add('hidden');
                 listsSection.classList.remove('hidden');
                 editProfileBtn.textContent = 'Editar Perfil';
+            });
 
-                // ❌ REMOVIDO: alert('Perfil atualizado com sucesso!');
+            viewTicketsBtn.addEventListener('click', function () {
+                ticketsSection.classList.toggle('hidden');
+                ticketsSection.scrollIntoView({ behavior: "smooth" });
             });
         });
     </script>
 </body>
-
 </html>

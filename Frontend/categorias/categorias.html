@@ -9,8 +9,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="../css/categoria.css">
-
-
 </head>
 
 <body>
@@ -74,287 +72,278 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-    const params = new URLSearchParams(window.location.search);
-    
-    // Decodifica os parâmetros da URL
-    const nomeCategoria = params.get('name');
-    const iconClass = decodeURIComponent(params.get('icon-class')); 
-    
-    // --- 1. Dados de Simulação (Substitua por dados reais do seu Backend) ---
-    
-    // Estrutura base de Locais (baseada nos cards da sua home)
-    const locaisSimulados = [
-        {
-            nome: 'Pinga Fogo Bar',
-            categoria: 'Bar',
-            endereco: 'Setor Marista, Goiânia',
-            avaliacao: '4.5',
-            faixaPreco: '$$',
-            descricao: 'Opções de chopp gelado e petiscos variados. Perfeito para um happy hour.',
-            horario: '17:00 - 01:00',
-            tags: ['Happy Hour', 'Música ao vivo', 'Cerveja artesanal'],
-            imagem: '../Imagens/1º imagem cad.png' 
-        },
-        {
-            nome: 'Kabanas Restaurante',
-            categoria: 'Restaurante',
-            endereco: 'Setor Bueno, Goiânia',
-            avaliacao: '4.6',
-            faixaPreco: '$$$',
-            descricao: 'Culinária sofisticada em ambiente elegante. Ideal para ocasiões especiais.',
-            horario: '11:30 - 00:00',
-            tags: ['Menu degustação', 'Carta de vinhos', 'Rolê romântico'],
-            imagem: '../Imagens/2º imagem card.png'
-        },
-        {
-            nome: 'Roxy Club',
-            categoria: 'Baladas',
-            endereco: 'Setor Sul, Goiânia',
-            avaliacao: '4.7',
-            faixaPreco: '$$',
-            descricao: 'Um dos maiores clubs de Goiânia com DJs locais e nacionais e pista de dança.',
-            horario: '23:00 - 06:00',
-            tags: ['Pista de dança', 'Música eletrônica', 'Bar completo'],
-            imagem: '../Imagens/3º imagem card.png'
-        },
-        {
-            nome: 'Boliche do Park',
-            categoria: 'Karaoke',
-            endereco: 'Shopping Park, Goiânia',
-            avaliacao: '4.2',
-            faixaPreco: '$$',
-            descricao: 'Pistas de boliche e salas de karaoke privadas para você soltar a voz.',
-            horario: '14:00 - 00:00',
-            tags: ['Salas privadas', 'Diversão em grupo', 'Drinks'],
-            imagem: '../Imagens/local-karaoke.png' // Imagem simulada
-        },
-        {
-            nome: 'Teatro Rio Vermelho',
-            categoria: 'Show',
-            endereco: 'Setor Central, Goiânia',
-            avaliacao: '4.5',
-            faixaPreco: '$$',
-            descricao: 'Principal espaço para grandes shows, peças de teatro e apresentações culturais.',
-            horario: 'Verificar Agenda',
-            tags: ['Grande capacidade', 'Estacionamento', 'Programação variada'],
-            imagem: '../Imagens/6º imagem cad.png' 
-        }
-    ];
+            const params = new URLSearchParams(window.location.search);
 
-    // Estrutura base de Eventos (baseada nos cards da sua home)
-    const eventosSimulados = [
-        {
-            nome: 'Festival de Jazz ao Ar Livre',
-            categoria: 'Música',
-            data: 'Sex, 14 de Out',
-            horario: '20:00',
-            preco: 'R$ 35',
-            local: 'Setor Marista, Goiânia',
-            descricao: 'Uma noite mágica com os melhores músicos de jazz da cidade.',
-            interessados: 260,
-            imagem: '../Imagens/7º imagem card.png'
-        },
-        {
-            nome: 'Salsa e Bachata Night',
-            categoria: 'Dança',
-            data: 'Dom, 2 de Out',
-            horario: '21:00',
-            preco: 'R$ 30',
-            local: 'Casa Latina, Setor Central',
-            descricao: 'Aulas gratuitas de salsa seguidas de muito baile latino.',
-            interessados: 120,
-            imagem: '../Imagens/9º imagem card.png'
-        },
-        {
-            nome: 'Noite de Stand-up',
-            categoria: 'Show',
-            data: 'Qua, 25 de Dez',
-            horario: '20:30',
-            preco: 'R$ 40',
-            local: 'Guardian Comedy Club',
-            descricao: 'Os melhores comediantes do Brasil em uma noite de risadas.',
-            interessados: 95,
-            imagem: '../Imagens/4º imagem cad.png' 
-        }
-    ];
+            // Decodifica os parâmetros da URL
+            let nomeCategoria = params.get('name');
+            const iconClass = decodeURIComponent(params.get('icon-class')); 
 
-    // --- 2. Mapeamento de Cores e Filtro de Dados ---
-    let corFundoHex = '#5d3fd3'; // Cor padrão
-    let locaisFiltrados = [];
-    let eventosFiltrados = [];
+            // --- Corrige +50 anos para 50+ ---
+            if (nomeCategoria === '+50 anos') {
+                nomeCategoria = '50+';
+            }
 
-    if (nomeCategoria) {
-        // Mapeamento de Cores
-        switch(nomeCategoria) {
-            case 'Baladas':
-                corFundoHex = '#5d3fd3';
-                break;
-            case 'Bar':
-                corFundoHex = '#fbc02d';
-                break;
-            case 'Restaurante':
-                corFundoHex = '#ff8a65';
-                break;
-            case 'Karaoke':
-                corFundoHex = '#9e9e9e';
-                break;
-            case 'Show':
-                corFundoHex = '#29b6f6';
-                break;
-            case 'Eventos':
-                corFundoHex = '#ec407a';
-                break;
-            case 'Parques':
-                corFundoHex = '#0d47a1';
-                break;
-            case '+50 anos':
-                corFundoHex = '#e53935';
-                break;
-            default:
-                corFundoHex = '#6c757d'; 
-        }
-        
-        // Filtro de Dados
-        locaisFiltrados = locaisSimulados.filter(l => l.categoria === nomeCategoria);
-        // Filtra eventos que têm a categoria como principal ou que se encaixam no nome da categoria
-        eventosFiltrados = eventosSimulados.filter(e => e.categoria === nomeCategoria || (nomeCategoria === 'Show' && e.categoria === 'Música'));
+            // --- 1. Dados de Simulação ---
+            const locaisSimulados = [
+                {
+                    nome: 'Pinga Fogo Bar',
+                    categoria: 'Bar',
+                    endereco: 'Setor Marista, Goiânia',
+                    avaliacao: '4.5',
+                    faixaPreco: '$$',
+                    descricao: 'Opções de chopp gelado e petiscos variados. Perfeito para um happy hour.',
+                    horario: '17:00 - 01:00',
+                    tags: ['Happy Hour', 'Música ao vivo', 'Cerveja artesanal'],
+                    imagem: '../Imagens/1º imagem cad.png' 
+                },
+                {
+                    nome: 'Kabanas Restaurante',
+                    categoria: 'Restaurante',
+                    endereco: 'Setor Bueno, Goiânia',
+                    avaliacao: '4.6',
+                    faixaPreco: '$$$',
+                    descricao: 'Culinária sofisticada em ambiente elegante. Ideal para ocasiões especiais.',
+                    horario: '11:30 - 00:00',
+                    tags: ['Menu degustação', 'Carta de vinhos', 'Rolê romântico'],
+                    imagem: '../Imagens/2º imagem card.png'
+                },
+                {
+                    nome: 'Roxy Club',
+                    categoria: 'Baladas',
+                    endereco: 'Setor Sul, Goiânia',
+                    avaliacao: '4.7',
+                    faixaPreco: '$$',
+                    descricao: 'Um dos maiores clubs de Goiânia com DJs locais e nacionais e pista de dança.',
+                    horario: '23:00 - 06:00',
+                    tags: ['Pista de dança', 'Música eletrônica', 'Bar completo'],
+                    imagem: '../Imagens/3º imagem card.png'
+                },
+                {
+                    nome: 'Boliche do Park',
+                    categoria: 'Karaoke',
+                    endereco: 'Shopping Park, Goiânia',
+                    avaliacao: '4.2',
+                    faixaPreco: '$$',
+                    descricao: 'Pistas de boliche e salas de karaoke privadas para você soltar a voz.',
+                    horario: '14:00 - 00:00',
+                    tags: ['Salas privadas', 'Diversão em grupo', 'Drinks'],
+                    imagem: '../Imagens/local-karaoke.png'
+                },
+                {
+                    nome: 'Teatro Rio Vermelho',
+                    categoria: 'Show',
+                    endereco: 'Setor Central, Goiânia',
+                    avaliacao: '4.5',
+                    faixaPreco: '$$',
+                    descricao: 'Principal espaço para grandes shows, peças de teatro e apresentações culturais.',
+                    horario: 'Verificar Agenda',
+                    tags: ['Grande capacidade', 'Estacionamento', 'Programação variada'],
+                    imagem: '../Imagens/6º imagem cad.png' 
+                }
+            ];
 
-    }
+            const eventosSimulados = [
+                {
+                    nome: 'Festival de Jazz ao Ar Livre',
+                    categoria: 'Música',
+                    data: 'Sex, 14 de Out',
+                    horario: '20:00',
+                    preco: 'R$ 35',
+                    local: 'Setor Marista, Goiânia',
+                    descricao: 'Uma noite mágica com os melhores músicos de jazz da cidade.',
+                    interessados: 260,
+                    imagem: '../Imagens/7º imagem card.png'
+                },
+                {
+                    nome: 'Salsa e Bachata Night',
+                    categoria: 'Dança',
+                    data: 'Dom, 2 de Out',
+                    horario: '21:00',
+                    preco: 'R$ 30',
+                    local: 'Casa Latina, Setor Central',
+                    descricao: 'Aulas gratuitas de salsa seguidas de muito baile latino.',
+                    interessados: 120,
+                    imagem: '../Imagens/9º imagem card.png'
+                },
+                {
+                    nome: 'Noite de Stand-up',
+                    categoria: 'Show',
+                    data: 'Qua, 25 de Dez',
+                    horario: '20:30',
+                    preco: 'R$ 40',
+                    local: 'Guardian Comedy Club',
+                    descricao: 'Os melhores comediantes do Brasil em uma noite de risadas.',
+                    interessados: 95,
+                    imagem: '../Imagens/4º imagem cad.png' 
+                }
+            ];
 
+            // --- 2. Mapeamento de Cores e Filtro de Dados ---
+            let corFundoHex = '#5d3fd3';
+            let locaisFiltrados = [];
+            let eventosFiltrados = [];
 
-    // --- 3. Atualiza o Hero da Categoria ---
-    const heroSection = document.getElementById('categoria-hero');
-    const nomeElement = document.getElementById('categoria-nome');
-    const iconContainer = document.getElementById('categoria-icon');
-    const countElement = document.getElementById('locais-eventos-count');
-    
-    if (nomeCategoria && iconClass) {
-        heroSection.style.backgroundColor = corFundoHex;
-        nomeElement.textContent = nomeCategoria;
-        iconContainer.innerHTML = `<i class="${iconClass}"></i>`;
+            if (nomeCategoria) {
+                switch(nomeCategoria) {
+                    case 'Baladas':
+                        corFundoHex = '#5d3fd3';
+                        break;
+                    case 'Bar':
+                        corFundoHex = '#fbc02d';
+                        break;
+                    case 'Restaurante':
+                        corFundoHex = '#ff8a65';
+                        break;
+                    case 'Karaoke':
+                        corFundoHex = '#9e9e9e';
+                        break;
+                    case 'Show':
+                        corFundoHex = '#29b6f6';
+                        break;
+                    case 'Eventos':
+                        corFundoHex = '#ec407a';
+                        break;
+                    case 'Parques':
+                        corFundoHex = '#0d47a1';
+                        break;
+                    case '50+':
+                        corFundoHex = '#e53935';
+                        break;
+                    default:
+                        corFundoHex = '#6c757d'; 
+                }
 
-        // Contagem de itens
-        countElement.textContent = `${locaisFiltrados.length} locais e ${eventosFiltrados.length} eventos`;
+                locaisFiltrados = locaisSimulados.filter(l => l.categoria === nomeCategoria);
+                eventosFiltrados = eventosSimulados.filter(e => e.categoria === nomeCategoria || (nomeCategoria === 'Show' && e.categoria === 'Música'));
+            }
 
-        // Atualiza o ícone nos blocos "sem encontrado"
-        document.querySelectorAll('.sem-encontrado i').forEach(icon => {
-            icon.className = iconClass;
-        });
-
-    } else {
-        // Fallback
-        nomeElement.textContent = 'Categoria Não Encontrada';
-        heroSection.style.backgroundColor = '#6c757d'; 
-        iconContainer.innerHTML = `<i class="fas fa-question-circle"></i>`;
-    }
-
-    // --- 4. Renderização (Locais) ---
-    const locaisTab = document.getElementById('locais-tab');
-    
-    if (locaisFiltrados.length > 0) {
-        locaisTab.innerHTML = ''; // Limpa o "Nenhum local encontrado"
-        
-        const grid = document.createElement('div');
-        grid.className = 'populares-grid'; 
-        
-        locaisFiltrados.forEach(local => {
-            const tagsHTML = local.tags.map(tag => `<span class="atributo">${tag}</span>`).join('');
+            // --- 3. Atualiza o Hero da Categoria ---
+            const heroSection = document.getElementById('categoria-hero');
+            const nomeElement = document.getElementById('categoria-nome');
+            const iconContainer = document.getElementById('categoria-icon');
+            const countElement = document.getElementById('locais-eventos-count');
             
-            const cardHTML = `
-                <div class="card-local">
-                    <div class="card-image-wrap">
-                        <img src="${local.imagem}">
-                        <span class="tag tag-${local.categoria.toLowerCase().replace(/ /g, '-')}">${local.categoria}</span>
-                        <span class="avaliacao"><i class="fas fa-star"></i> ${local.avaliacao}</span>
-                    </div>
-                    <div class="card-content">
-                        <h3>${local.nome}</h3>
-                        <div class="local-meta">
-                            <p class="endereco"><i class="fas fa-map-marker-alt"></i> ${local.endereco}</p>
-                            <p class="preco-faixa">${local.faixaPreco}</p>
-                        </div>
-                        <p class="descricao">${local.descricao}</p>
-                        <div class="horario"><i class="fas fa-clock"></i> ${local.horario}</div>
-                        
-                        <div class="atributos">
-                            ${tagsHTML}
-                        </div>
+            if (nomeCategoria && iconClass) {
+                heroSection.style.backgroundColor = corFundoHex;
+                nomeElement.textContent = nomeCategoria;
+                iconContainer.innerHTML = `<i class="${iconClass}"></i>`;
 
-                        <div class="card-footer">
-                            <p class="avaliacoes-count">0 avaliações</p>
-                            <button class="btn-detalhes">Ver Detalhes</button>
+                countElement.textContent = `${locaisFiltrados.length} locais e ${eventosFiltrados.length} eventos`;
+
+                document.querySelectorAll('.sem-encontrado i').forEach(icon => {
+                    icon.className = iconClass;
+                });
+
+            } else {
+                nomeElement.textContent = 'Categoria Não Encontrada';
+                heroSection.style.backgroundColor = '#6c757d'; 
+                iconContainer.innerHTML = `<i class="fas fa-question-circle"></i>`;
+            }
+
+            // --- 4. Renderização (Locais) ---
+            const locaisTab = document.getElementById('locais-tab');
+            
+            if (locaisFiltrados.length > 0) {
+                locaisTab.innerHTML = '';
+                
+                const grid = document.createElement('div');
+                grid.className = 'populares-grid'; 
+                
+                locaisFiltrados.forEach(local => {
+                    const tagsHTML = local.tags.map(tag => `<span class="atributo">${tag}</span>`).join('');
+                    
+                    const cardHTML = `
+                        <div class="card-local">
+                            <div class="card-image-wrap">
+                                <img src="${local.imagem}">
+                                <span class="tag tag-${local.categoria.toLowerCase().replace(/ /g, '-')}">${local.categoria}</span>
+                                <span class="avaliacao"><i class="fas fa-star"></i> ${local.avaliacao}</span>
+                            </div>
+                            <div class="card-content">
+                                <h3>${local.nome}</h3>
+                                <div class="local-meta">
+                                    <p class="endereco"><i class="fas fa-map-marker-alt"></i> ${local.endereco}</p>
+                                    <p class="preco-faixa">${local.faixaPreco}</p>
+                                </div>
+                                <p class="descricao">${local.descricao}</p>
+                                <div class="horario"><i class="fas fa-clock"></i> ${local.horario}</div>
+                                
+                                <div class="atributos">
+                                    ${tagsHTML}
+                                </div>
+
+                                <div class="card-footer">
+                                    <p class="avaliacoes-count">0 avaliações</p>
+                                    <button class="btn-detalhes">Ver Detalhes</button>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                </div>
-            `;
-            grid.innerHTML += cardHTML;
+                    `;
+                    grid.innerHTML += cardHTML;
+                });
+                locaisTab.appendChild(grid);
+            }
+
+            // --- 5. Renderização (Eventos) ---
+            const eventosTab = document.getElementById('eventos-tab');
+
+            if (eventosFiltrados.length > 0) {
+                eventosTab.innerHTML = '';
+                
+                const grid = document.createElement('div');
+                grid.className = 'eventos-grid'; 
+                
+                eventosFiltrados.forEach(evento => {
+                    const cardHTML = `
+                        <div class="card-evento card-evento-duas-colunas">
+                            <div class="evento-imagem-wrap">
+                                <img src="${evento.imagem}">
+                                <span class="tag-evento tag-musica">${evento.categoria}</span>
+                            </div>
+                            <div class="evento-content">
+                                <h3>${evento.nome}</h3>
+                                <span class="preco-evento">${evento.preco}</span>
+                                <p class="descricao-evento">${evento.descricao}</p>
+
+                                <div class="evento-data-local">
+                                    <p><i class="fas fa-calendar-alt"></i> ${evento.data}</p>
+                                    <p><i class="fas fa-clock"></i> ${evento.horario}</p>
+                                </div>
+                                <p class="evento-local"><i class="fas fa-map-marker-alt"></i> ${evento.local}</p>
+                                
+                                <div class="evento-interessados">
+                                    <i class="fas fa-users"></i> ${evento.interessados} pessoas interessadas
+                                </div>
+
+                                <div class="evento-footer">
+                                    <button class="btn-detalhes-evento">Mais Detalhes</button>
+                                    <button class="btn-confirmar-evento">Confirmar Presença</button>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    grid.innerHTML += cardHTML;
+                });
+                eventosTab.appendChild(grid);
+            }
+
+            // --- 6. Lógica de Troca de Tabs ---
+            const tabButtons = document.querySelectorAll('.tab-button');
+            const tabContents = document.querySelectorAll('.tab-content');
+
+            tabButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    tabButtons.forEach(btn => btn.classList.remove('active'));
+                    tabContents.forEach(content => content.classList.remove('active'));
+
+                    button.classList.add('active');
+
+                    const targetId = button.getAttribute('data-tab');
+                    document.getElementById(`${targetId}-tab`).classList.add('active');
+                });
+            });
         });
-        locaisTab.appendChild(grid);
-    }
-
-
-    // --- 5. Renderização (Eventos) ---
-    const eventosTab = document.getElementById('eventos-tab');
-
-    if (eventosFiltrados.length > 0) {
-        eventosTab.innerHTML = ''; // Limpa o "Nenhum evento encontrado"
-        
-        const grid = document.createElement('div');
-        grid.className = 'eventos-grid'; 
-        
-        eventosFiltrados.forEach(evento => {
-            const cardHTML = `
-                <div class="card-evento card-evento-duas-colunas">
-                    <div class="evento-imagem-wrap">
-                        <img src="${evento.imagem}">
-                        <span class="tag-evento tag-musica">${evento.categoria}</span>
-                    </div>
-                    <div class="evento-content">
-                        <h3>${evento.nome}</h3>
-                        <span class="preco-evento">${evento.preco}</span>
-                        <p class="descricao-evento">${evento.descricao}</p>
-
-                        <div class="evento-data-local">
-                            <p><i class="fas fa-calendar-alt"></i> ${evento.data}</p>
-                            <p><i class="fas fa-clock"></i> ${evento.horario}</p>
-                        </div>
-                        <p class="evento-local"><i class="fas fa-map-marker-alt"></i> ${evento.local}</p>
-                        
-                        <div class="evento-interessados">
-                             <i class="fas fa-users"></i> ${evento.interessados} pessoas interessadas
-                        </div>
-
-                        <div class="evento-footer">
-                            <button class="btn-detalhes-evento">Mais Detalhes</button>
-                            <button class="btn-confirmar-evento">Confirmar Presença</button>
-                        </div>
-                    </div>
-                </div>
-            `;
-            grid.innerHTML += cardHTML;
-        });
-        eventosTab.appendChild(grid);
-    }
-
-
-    // --- 6. Lógica de Troca de Tabs ---
-    const tabButtons = document.querySelectorAll('.tab-button');
-    const tabContents = document.querySelectorAll('.tab-content');
-
-    tabButtons.forEach(button => {
-        button.addEventListener('click', () => {
-            tabButtons.forEach(btn => btn.classList.remove('active'));
-            tabContents.forEach(content => content.classList.remove('active'));
-
-            button.classList.add('active');
-
-            const targetId = button.getAttribute('data-tab');
-            document.getElementById(`${targetId}-tab`).classList.add('active');
-        });
-    });
-});
     </script>
 
 </body>
-
 </html>

@@ -1,4 +1,3 @@
-/* Variáveis de Cores */
 :root {
     --primary-color: #6C1DCE;
     --secondary-color: #ffffff;
@@ -10,7 +9,6 @@
     --star-empty: #E0E0E0;
 }
 
-/* 1. Estilos Globais e Body */
 body {
     font-family: 'Poppins', sans-serif;
     margin: 0; 
@@ -29,7 +27,6 @@ h3 {
     color: var(--primary-color);
 }
 
-/* 3. Container Principal (Centralização) */
 .profile-container {
     display: flex;
     gap: 30px;
@@ -40,7 +37,6 @@ h3 {
     padding: 0 20px; 
 }
 
-/* Estilo para o CARD GIGANTE que envolve todo o conteúdo */
 .main-profile-card {
     display: flex; 
     gap: 30px;
@@ -53,8 +49,6 @@ h3 {
     max-width: 900px; 
 }
 
-
-/* 4. Footer (Mantido) */
 footer {
     width: 100%;
     margin-top: 40px; 
@@ -69,7 +63,6 @@ footer iframe {
     border: none;
 }
 
-/* 5. Sidebar (Coluna Lateral) */
 .profile-sidebar {
     width: 300px;
     flex-shrink: 0;
@@ -85,8 +78,6 @@ footer iframe {
     text-align: center;
 }
 
-
-/* 6. Foto de Perfil (Mantido) */
 .profile-picture-container {
     position: relative;
     width: 100px;
@@ -158,7 +149,6 @@ footer iframe {
     border-top: 1px solid var(--border-color);
 }
 
-/* 7. Botões de Ação (Mantido) */
 .action-btn {
     width: 100%;
     padding: 10px;
@@ -181,6 +171,16 @@ footer iframe {
     background-color: #5a14a3;
 }
 
+.tickets-btn {
+    background-color: #7a3fe0;
+    color: white;
+    border: 1px solid #7a3fe0;
+}
+
+.tickets-btn:hover {
+    background-color: #5e2ccf;
+}
+
 .logout-btn {
     background-color: #F8F8F8; 
     color: var(--text-color-dark);
@@ -191,14 +191,11 @@ footer iframe {
     background-color: #E0E0E0;
 }
 
-
-/* 8. Conteúdo Principal */
 .profile-content {
     flex-grow: 1;
     max-width: 600px;
     display: flex; 
     flex-direction: column;
-    /* 🔴 CORREÇÃO: Garante que o gap funcione entre os itens flex diretos */
     gap: 20px; 
 }
 
@@ -206,32 +203,24 @@ footer iframe {
     display: none !important;
 }
 
-/* Estilo para as SUB-SEÇÕES (Formulário, Favoritos, Visitas) */
 .content-section {
     background-color: var(--secondary-color);
     border: 1px solid var(--border-color); 
     border-radius: 8px; 
     padding: 20px; 
-    margin-bottom: 0; /* Garante que o gap em profile-content faz a separação */
+    margin-bottom: 0; 
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05); 
 }
 
-/* 🔴 NOVO ESTILO: Garante o espaçamento entre as listas se elas estiverem aninhadas de forma diferente */
-/* Se #lists-section é o pai direto de .favorites-list e .recent-visits-list, então este estilo aplica o gap */
 #lists-section {
     display: flex;
     flex-direction: column;
-    gap: 20px; /* Adiciona o gap entre "Lugares Favoritos" e "Visitas Recentes" */
+    gap: 20px; 
 }
 
+.edit-profile-form-container {}
 
-/* 9. Formulário de Edição (Mantido) */
-.edit-profile-form-container {
-    /* Mantido o padding de 20px do .content-section */
-}
-
-/* 10. Listas (Favoritos e Visitas) (Mantido) */
-.favorites-list h3, .recent-visits-list h3 {
+.favorites-list h3, .recent-visits-list h3, .tickets-section h3 {
     display: flex;
     align-items: center;
     color: var(--text-color-dark);
@@ -242,11 +231,7 @@ footer iframe {
     color: #FF69B4; 
     margin-right: 10px;
 }
-.recent-visits-list h3 {
-    margin-top: 0;
-}
 
-/* ... Estilos de Formulário e Lista (Mantidos) ... */
 .form-group {
     margin-bottom: 15px;
 }
@@ -309,7 +294,7 @@ footer iframe {
     margin: 0;
 }
 
-.place-item {
+.place-item, .ticket-item {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -317,11 +302,11 @@ footer iframe {
     border-bottom: 1px solid #F0F0F0;
 }
 
-.place-item:last-child {
+.place-item:last-child, .ticket-item:last-child {
     border-bottom: none;
 }
 
-.place-name {
+.place-name, .ticket-name {
     font-size: 14px;
     font-weight: 600;
     flex-grow: 1;
@@ -358,4 +343,17 @@ footer iframe {
 
 .place-rating-stars .fa-star.filled {
     color: var(--star-filled);
+}
+
+.transfer-ticket-btn {
+    background-color: #6C1DCE;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.transfer-ticket-btn:hover {
+    background-color: #5a14a3;
 }
