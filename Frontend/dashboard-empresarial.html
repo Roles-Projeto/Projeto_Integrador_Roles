@@ -753,78 +753,53 @@
   </script>
 
   <script>
-    function showSection(sectionId) {
-      // Esconde todas as seções
-      const sections = document.querySelectorAll('.dashboard-section');
-      sections.forEach(section => {
-        section.classList.remove('active-section');
-      });
-
-      // Remove a classe active de todas as tabs
-      const tabs = document.querySelectorAll('.tab');
-      tabs.forEach(tab => {
-        tab.classList.remove('active');
-      });
-
-      // Mostra a seção selecionada
-      const activeSection = document.getElementById(sectionId);
-      if (activeSection) {
-        activeSection.classList.add('active-section');
-      }
-
-      // Adiciona a classe active na tab clicada
-      event.currentTarget.classList.add('active');
-    }
-
-    // Inicialização corrigida
-    document.addEventListener('DOMContentLoaded', function () {
-      // Não precisa chamar showSection() aqui
-      // A classe 'active-section' já está no HTML para o dashboard
-    });
-  </script>
-  <script>
-  // Função geral para mudar de tela
-  function showSection(sectionId) {
+  function showSection(sectionId, btn) {
+    // Esconde todas as seções
     document.querySelectorAll('.dashboard-section').forEach(sec => {
       sec.classList.remove('active-section');
     });
 
+    // Mostra somente a seção clicada
     document.getElementById(sectionId).classList.add('active-section');
+
+    // Remove active de todos os botões
+    document.querySelectorAll('.tabs .tab').forEach(tab => {
+      tab.classList.remove('active');
+    });
+
+    // Adiciona active ao botão clicado
+    if (btn) btn.classList.add('active');
   }
 
-  // Botão RELATÓRIO → abre a aba de VENDAS (ou cria nova, se quiser)
-  document.querySelectorAll('.btn-report').forEach(btn => {
-    btn.addEventListener('click', () => {
-      showSection('vendas'); 
+  // Adiciona evento automático para tabs
+  document.querySelectorAll('.tabs .tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      const target = tab.getAttribute('onclick').match(/'(.+)'/)[1];
+      showSection(target, tab);
     });
   });
 
-  // Botão INGRESSOS → abre uma tela específica de ingressos (crie se não existir)
+  // Botões de relatório → abre aba de vendas
+  document.querySelectorAll('.btn-report').forEach(btn => {
+    btn.addEventListener('click', () => {
+      showSection('vendas');
+    });
+  });
+
+  // Botões de ingressos → alerta
   document.querySelectorAll('.btn-tickets').forEach(btn => {
     btn.addEventListener('click', () => {
       alert("Tela de ingressos ainda não foi criada!");
-      // exemplo: showSection('ingressos')
     });
   });
-</script>
-<script>
-  function showSection(sectionId) {
-    // esconder todas as sections
-    document.querySelectorAll('.dashboard-section').forEach(sec =>
-      sec.classList.remove('active-section')
-    );
 
-    // mostrar somente a section clicada
-    document.getElementById(sectionId).classList.add('active-section');
-
-    // remover active de todos os botões
-    document.querySelectorAll('.tabs .tab').forEach(btn =>
-      btn.classList.remove('active')
-    );
-
-    // adicionar active somente ao botão clicado
-    event.currentTarget.classList.add('active');
-  }
+  document.querySelector('.btn-export').addEventListener('click', () => {
+    const blob = new Blob(["Relatório fictício do Dashboard"], { type: "text/plain;charset=utf-8" });
+    const link = document.createElement("a");
+    link.href = URL.createObjectURL(blob);
+    link.download = "relatorio_dashboard.txt"; // pode ser .pdf se usar biblioteca
+    link.click();
+  });
 </script>
 
 
