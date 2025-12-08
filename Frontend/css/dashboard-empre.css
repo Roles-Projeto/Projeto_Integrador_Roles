@@ -414,7 +414,7 @@ body {
 
   /* ---- TAMANHO CERTINHO ---- */
   width: 100%;           /* preenche a coluna do grid */
-  min-height: 750px;     /* altura maior para conteúdo e botões */
+  min-height: 250px;     /* altura maior para conteúdo e botões */
   padding-bottom: 20px;  /* espaço extra embaixo */
 
   display: flex;
@@ -431,7 +431,7 @@ body {
 /* Imagem do estabelecimento - MAIOR */
 .establishment-image {
   width: 100%;
-  height: 350px;     /* altura da imagem igual ao Figma */
+  height: 250px;     /* altura da imagem igual ao Figma */
   overflow: hidden;
 }
 
