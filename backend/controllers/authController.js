@@ -18,7 +18,17 @@ exports.loginUsuario = async (req, res) => {
       if (!senhaValida) return res.status(400).json({ erro: "Senha incorreta." });
 
       const token = jwt.sign({ id: usuario.id, email: usuario.email }, process.env.JWT_SECRET, { expiresIn: "2h" });
-      res.json({ mensagem: "Login realizado com sucesso!", token });
+
+      // ✅ Retornando também os dados do usuário
+      res.json({
+        mensagem: "Login realizado com sucesso!",
+        token,
+        id: usuario.id,
+        nome_completo: usuario.nome_completo,
+        email: usuario.email,
+        telefone: usuario.telefone,
+        foto_perfil: usuario.foto_perfil
+      });
     }
   );
 };
@@ -39,7 +49,17 @@ exports.loginEmpresario = async (req, res) => {
       if (!senhaValida) return res.status(400).json({ erro: "Senha incorreta." });
 
       const token = jwt.sign({ id: empresario.id, email: empresario.email }, process.env.JWT_SECRET, { expiresIn: "2h" });
-      res.json({ mensagem: "Login realizado com sucesso!", token });
+
+      // ✅ Retornando também os dados do empresário
+      res.json({
+        mensagem: "Login realizado com sucesso!",
+        token,
+        id: empresario.id,
+        nome_estabelecimento: empresario.nome_estabelecimento,
+        email: empresario.email,
+        telefone: empresario.telefone,
+        foto_perfil: empresario.foto_perfil
+      });
     }
   );
 };

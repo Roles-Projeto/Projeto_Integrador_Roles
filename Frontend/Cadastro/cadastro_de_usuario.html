@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cadastro - Rolês</title>
-    <link rel="stylesheet" href="../css/cadastro_de_usuario.css"> 
+    <link rel="stylesheet" href="../css/cadastro_de_usuario.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 
@@ -52,7 +52,8 @@
             </form>
 
             <p class="termos">
-                Ao criar uma conta, você concorda com nossos <a href="../Termo_de_uso/termodeuso.html">Termos de Uso</a> </a>.
+                Ao criar uma conta, você concorda com nossos <a href="../Termo_de_uso/termodeuso.html">Termos de Uso</a>
+                </a>.
             </p>
 
             <p class="login">
@@ -69,64 +70,57 @@
 </body>
 
 <script>
-const form = document.getElementById('cadastroForm');
+    const form = document.getElementById('cadastroForm');
 
-form.addEventListener('submit', async (e) => {
-    e.preventDefault();
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault();
 
-    const nome_completo = document.getElementById('nome').value.trim();
-    const email = document.getElementById('email').value.trim();
-    const telefone = document.getElementById('telefone').value.trim();
-    const senha = document.getElementById('senha').value.trim();
-    const confirmar = document.getElementById('confirmarSenha').value.trim();
+        const nome_completo = document.getElementById('nome').value.trim();
+        const email = document.getElementById('email').value.trim();
+        const telefone = document.getElementById('telefone').value.trim();
+        const senha = document.getElementById('senha').value.trim();
+        const confirmar = document.getElementById('confirmarSenha').value.trim();
 
-    // ✅ Validação
-    if (senha !== confirmar) {
-        alert('As senhas não coincidem!');
-        return;
-    }
-    if (senha.length < 6) {
-        alert('A senha deve ter no mínimo 6 caracteres.');
-        return;
-    }
-
-    try {
-        // 🚀 Envio dos dados para o back-end
-        const response = await fetch("http://localhost:3000/usuarios/cadastro", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-                nome_completo,
-                email,
-                telefone,
-                senha
-            })
-        });
-
-        const data = await response.json();
-
-        if (response.ok) {
-            alert("✅ " + data.mensagem);
-
-            // 🔐 Login automático e salvamento local
-            localStorage.setItem('userIsLoggedIn', 'true');
-            localStorage.setItem('userType', 'cliente'); 
-            localStorage.setItem('profileName', nome_completo);
-            localStorage.setItem('profileEmail', email);
-            localStorage.setItem('profilePhone', telefone || '(Não informado)');
-            localStorage.setItem('profilePhotoUrl', 'https://via.placeholder.com/150'); 
-
-            // Redireciona
-            window.location.href = '../Perfil_usuario/Perfil_usuario.html';
-        } else {
-            alert("❌ Erro: " + (data.erro || "Falha desconhecida."));
+        // ✅ Validação
+        if (senha !== confirmar) {
+            alert('As senhas não coincidem!');
+            return;
         }
-    } catch (err) {
-        console.error("Erro:", err);
-        alert("❌ Erro ao conectar com o servidor.");
-    }
-});
+        if (senha.length < 6) {
+            alert('A senha deve ter no mínimo 6 caracteres.');
+            return;
+        }
+
+        try {
+            // 🚀 Envio dos dados para o back-end
+            const response = await fetch("http://localhost:3000/usuarios/cadastro", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    nome_completo,
+                    email,
+                    telefone,
+                    senha
+                })
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                alert("✅ " + data.mensagem);
+                // 🔹 Redireciona para o login após cadastro
+                window.location.href = '../login/login.html';
+            } else {
+                alert("❌ Erro: " + (data.erro || "Falha desconhecida."));
+            }
+        } catch (err) {
+            console.error("Erro:", err);
+            alert("❌ Erro ao conectar com o servidor.");
+        }
+    });
 </script>
+
+
 
 
 </html>

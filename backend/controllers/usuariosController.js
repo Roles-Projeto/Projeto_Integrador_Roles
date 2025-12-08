@@ -62,4 +62,22 @@ function atualizarUsuario(req, res) {
   );
 }
 
-module.exports = { cadastrarUsuario, listarUsuarios, atualizarUsuario };
+function buscarUsuarioPorId(req, res) {
+  const { id } = req.params;
+
+  if (!id) return res.status(400).json({ erro: "ID do usuário é obrigatório." });
+
+  connection.query(
+    "SELECT id, nome_completo, email, telefone, foto_perfil FROM usuarios WHERE id = ?",
+    [id],
+    (err, results) => {
+      if (err) return res.status(500).json({ erro: "Erro ao buscar usuário.", detalhes: err.message });
+
+      if (results.length === 0) return res.status(404).json({ erro: "Usuário não encontrado." });
+
+      res.json(results[0]);
+    }
+  );
+}
+
+module.exports = { cadastrarUsuario, listarUsuarios, atualizarUsuario, buscarUsuarioPorId };

@@ -40,6 +40,22 @@ exports.cadastrarEmpresario = async (req, res) => {
         return res.status(500).json({ erro: "Erro interno do servidor", detalhes: erro.message });
     }
 };
+// Pega empresário pelo ID
+exports.getEmpresarioById = (req, res) => {
+    const empresarioId = req.params.id;
+
+    connection.query(
+        "SELECT * FROM empresarios WHERE id = ?",
+        [empresarioId],
+        (err, results) => {
+            if (err) return res.status(500).json({ erro: "Erro no servidor.", detalhes: err.message });
+            if (results.length === 0) return res.status(404).json({ erro: "Empresário não encontrado." });
+
+            res.json(results[0]);
+        }
+    );
+};
+
 
 // Função para atualizar empresário (aceita campos parciais)
 exports.atualizarEmpresario = (req, res) => {

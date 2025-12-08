@@ -95,7 +95,10 @@
     </footer>
 
     <script>
-        const editarBtn = document.getElementById("editar-btn");
+    // -----------------------------
+// Elementos do perfil
+// -----------------------------
+const editarBtn = document.getElementById("editar-btn");
 const sairBtn = document.getElementById("sair-btn");
 const editFormCard = document.getElementById("edit-form-card");
 const statsCard = document.getElementById("stats-card");
@@ -114,40 +117,69 @@ const inputCidade = document.getElementById("edit-cidade");
 
 const profilePicDisplay = document.getElementById("profile-pic-display");
 const uploadPicInput = document.getElementById("upload-pic-input");
+const headerIframe = document.getElementById('site-header');
 
 // -----------------------------
-// 🔹 Carrega informações do LocalStorage
+// Função para atualizar dados no localStorage e header
 // -----------------------------
-document.addEventListener('DOMContentLoaded', () => {
-    const isLogged = localStorage.getItem('userIsLoggedIn') === 'true';
-    const userType = localStorage.getItem('userType');
+function updateProfileData(photoUrl, name, email, phone, city) {
+    localStorage.setItem('profilePhotoUrl', photoUrl);
+    localStorage.setItem('profileName', name);
+    localStorage.setItem('profileEmail', email);
+    localStorage.setItem('profilePhone', phone);
+    localStorage.setItem('profileCity', city);
 
-    if (!isLogged || userType !== 'empresario') {
-        window.location.href = '../login/login.html';
+    if (headerIframe && headerIframe.contentWindow) {
+        headerIframe.contentWindow.postMessage({
+            action: 'UPDATE_PROFILE_INFO',
+            newName: name,
+            newEmail: email,
+            newPicUrl: photoUrl
+        }, '*');
+    }
+}
+
+// -----------------------------
+// Função para carregar dados do backend
+// -----------------------------
+async function loadEmpresarioData() {
+    const userId = localStorage.getItem('userId');
+    if (!userId) {
+        alert("❌ Usuário não logado. Redirecionando para login...");
+        window.location.href = "../login/login.html";
         return;
     }
 
-    // Preenche os campos do perfil com dados do localStorage
-    const profileName = localStorage.getItem('profileName') || 'Nome do Estabelecimento';
-    const profileEmail = localStorage.getItem('profileEmail') || 'email@exemplo.com';
-    const profilePhone = localStorage.getItem('profilePhone') || '(00) 0000-0000';
-    const profileCity = localStorage.getItem('profileCity') || 'Cidade - UF';
-    const profilePhotoUrl = localStorage.getItem('profilePhotoUrl') || '../Imagens/Logo Restaurante.avif';
+    try {
+        const response = await fetch(`http://localhost:3000/empresarios/${userId}`);
+        if (!response.ok) throw new Error("Erro ao buscar dados do empresário");
 
-    displayNome.textContent = profileName;
-    displayEmail.textContent = profileEmail;
-    displayTelefone.textContent = profilePhone;
-    displayCidade.textContent = profileCity;
-    profilePicDisplay.src = profilePhotoUrl;
+        const data = await response.json();
 
-    inputNome.value = profileName;
-    inputEmail.value = profileEmail;
-    inputTelefone.value = profilePhone;
-    inputCidade.value = profileCity;
-});
+        // Atualiza DOM
+        displayNome.textContent = data.nome_estabelecimento || "Empresário Rolês";
+        displayEmail.textContent = data.email || "email@exemplo.com";
+        displayTelefone.textContent = data.telefone_comercial || "(00) 0000-0000";
+        displayCidade.textContent = data.cidade || "Cidade - UF";
+        profilePicDisplay.src = data.foto_perfil || '../Imagens/Logo Restaurante.avif';
+
+        // Atualiza inputs
+        inputNome.value = data.nome_estabelecimento || "";
+        inputEmail.value = data.email || "";
+        inputTelefone.value = data.telefone_comercial || "";
+        inputCidade.value = data.cidade || "";
+
+        // Atualiza localStorage
+        updateProfileData(profilePicDisplay.src, inputNome.value, inputEmail.value, inputTelefone.value, inputCidade.value);
+
+    } catch (err) {
+        console.error(err);
+        alert("❌ Não foi possível carregar os dados do perfil. Verifique o backend.");
+    }
+}
 
 // -----------------------------
-// 🔹 Formulário de edição
+// Exibir formulário de edição
 // -----------------------------
 function showEditForm() {
     editFormCard.style.display = 'block';
@@ -155,42 +187,65 @@ function showEditForm() {
 }
 
 editarBtn.addEventListener('click', showEditForm);
+
 cancelarBtn.addEventListener('click', () => {
     editFormCard.style.display = 'none';
     statsCard.style.opacity = 1;
 });
 
-salvarBtn.addEventListener('click', (e) => {
+// -----------------------------
+// Salvar alterações
+// -----------------------------
+salvarBtn.addEventListener('click', async (e) => {
     e.preventDefault();
 
-    displayNome.textContent = inputNome.value;
-    displayEmail.textContent = inputEmail.value;
-    displayTelefone.textContent = inputTelefone.value;
-    displayCidade.textContent = inputCidade.value;
+    const userId = localStorage.getItem('userId');
+    const novoNome = inputNome.value.trim();
+    const novoEmail = inputEmail.value.trim();
+    const novoTelefone = inputTelefone.value.trim();
+    const novaCidade = inputCidade.value.trim();
 
-    editFormCard.style.display = 'none';
-    statsCard.style.opacity = 1;
+    if (!novoNome || !novoEmail) {
+        alert("⚠️ Nome e Email são obrigatórios!");
+        return;
+    }
 
-    // Salva no localStorage
-    localStorage.setItem('profileName', inputNome.value);
-    localStorage.setItem('profileEmail', inputEmail.value);
-    localStorage.setItem('profilePhone', inputTelefone.value);
-    localStorage.setItem('profileCity', inputCidade.value);
+    try {
+        const response = await fetch(`http://localhost:3000/empresarios/atualizar/${userId}`, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                nome_estabelecimento: novoNome,
+                email: novoEmail,
+                telefone_comercial: novoTelefone,
+                cidade: novaCidade,
+                foto_perfil: profilePicDisplay.src
+            })
+        });
 
-    // Atualiza o header em tempo real
-    const headerIframe = document.getElementById('site-header');
-    if (headerIframe) {
-        headerIframe.contentWindow.postMessage({
-            action: 'UPDATE_PROFILE_INFO',
-            newName: inputNome.value,
-            newEmail: inputEmail.value,
-            newPicUrl: profilePicDisplay.src
-        }, '*');
+        if (!response.ok) throw new Error("Erro ao atualizar perfil");
+
+        displayNome.textContent = novoNome;
+        displayEmail.textContent = novoEmail;
+        displayTelefone.textContent = novoTelefone;
+        displayCidade.textContent = novaCidade;
+
+        editFormCard.style.display = 'none';
+        statsCard.style.opacity = 1;
+
+        // Atualiza localStorage e header
+        updateProfileData(profilePicDisplay.src, novoNome, novoEmail, novoTelefone, novaCidade);
+
+        alert("✅ Perfil atualizado com sucesso!");
+
+    } catch (err) {
+        console.error(err);
+        alert("❌ Falha ao atualizar perfil. Verifique o backend.");
     }
 });
 
 // -----------------------------
-// 🔹 Atualizar foto de perfil
+// Atualizar foto de perfil
 // -----------------------------
 uploadPicInput.addEventListener('change', (e) => {
     const file = e.target.files[0];
@@ -199,29 +254,24 @@ uploadPicInput.addEventListener('change', (e) => {
         reader.onload = function(event) {
             const newPicUrl = event.target.result;
             profilePicDisplay.src = newPicUrl;
-
-            localStorage.setItem('profilePhotoUrl', newPicUrl);
-
-            const headerIframe = document.getElementById('site-header');
-            if (headerIframe) {
-                headerIframe.contentWindow.postMessage({
-                    action: 'UPDATE_PROFILE_INFO',
-                    newPicUrl: newPicUrl
-                }, '*');
-            }
+            updateProfileData(newPicUrl, inputNome.value, inputEmail.value, inputTelefone.value, inputCidade.value);
         };
         reader.readAsDataURL(file);
     }
 });
 
 // -----------------------------
-// 🔹 Logout
+// Logout
 // -----------------------------
 sairBtn.addEventListener('click', () => {
-    localStorage.removeItem('userIsLoggedIn');
-    localStorage.removeItem('userType');
+    localStorage.clear();
     window.location.href = '../login/logout-empresario.html';
 });
+
+// -----------------------------
+// Inicializa a página
+// -----------------------------
+document.addEventListener('DOMContentLoaded', loadEmpresarioData);
 
     </script>
 </body>

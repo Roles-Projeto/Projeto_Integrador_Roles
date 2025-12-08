@@ -251,19 +251,6 @@
             const confirmarSenha = document.getElementById('confirmar_senha').value;
             const planoSelecionado = planoEscolhidoInput ? planoEscolhidoInput.value : null;
 
-            // Captura a imagem de perfil (caso exista um input file)
-            const imagemInput = document.getElementById('foto_perfil');
-            let imagemBase64 = '../Imagens/Logo Restaurante.avif'; // padrão
-
-            if (imagemInput && imagemInput.files.length > 0) {
-                const arquivo = imagemInput.files[0];
-                const reader = new FileReader();
-                imagemBase64 = await new Promise((resolve) => {
-                    reader.onload = () => resolve(reader.result);
-                    reader.readAsDataURL(arquivo);
-                });
-            }
-
             // -----------------------------
             // 🧩 Validações básicas
             // -----------------------------
@@ -315,26 +302,8 @@
 
                 if (data.mensagem === "Empresário cadastrado com sucesso!") {
                     alert("✅ Cadastro realizado com sucesso!");
-
-                    // 🔹 Salva dados no LocalStorage
-                    localStorage.setItem('userIsLoggedIn', 'true');
-                    localStorage.setItem('userType', 'empresario');
-                    localStorage.setItem('profileName', estabelecimentoNome);
-                    localStorage.setItem('profileEmail', responsavelEmail);
-                    localStorage.setItem('profilePhotoUrl', imagemBase64);
-
-                    // 🔹 Atualiza o header em tempo real
-                    const headerIframe = document.getElementById("site-header");
-                    if (headerIframe && headerIframe.contentWindow) {
-                        headerIframe.contentWindow.postMessage({
-                            action: 'UPDATE_AVATAR',
-                            profilePhotoUrl: imagemBase64,
-                            profileName: estabelecimentoNome
-                        }, '*');
-                    }
-
-                    // 🔹 Redireciona para o perfil
-                    window.location.href = "../Perfil_empresario/Perfil_empresario.html";
+                    // Redireciona diretamente para a página de login
+                    window.location.href = "../login/login.html";
                 } else {
                     alert("⚠️ Erro ao cadastrar: " + (data.erro || "Verifique os dados e tente novamente."));
                 }
@@ -345,6 +314,7 @@
         });
     }
 </script>
+
 
 
 </body>
