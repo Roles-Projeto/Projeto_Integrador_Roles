@@ -11,17 +11,17 @@
 
 body {
     font-family: 'Poppins', sans-serif;
-    margin: 0; 
+    margin: 0;
     padding: 0;
     background-color: #2b0b77;
     color: var(--text-color-dark);
-    display: block; 
+    display: block;
     min-height: 100vh;
-    padding-top: 120px; 
+    padding-top: 120px;
 }
 
 h3 {
-    font-size: 18px; 
+    font-size: 18px;
     font-weight: 600;
     margin-bottom: 20px;
     color: var(--primary-color);
@@ -31,35 +31,35 @@ h3 {
     display: flex;
     gap: 30px;
     width: 100%;
-    max-width: 1280px; 
+    max-width: 1280px;
     justify-content: center;
-    margin: 20px auto 50px auto; 
-    padding: 0 20px; 
+    margin: 20px auto 50px auto;
+    padding: 0 20px;
 }
 
 .main-profile-card {
-    display: flex; 
+    display: flex;
     gap: 30px;
-    background-color: var(--secondary-color); 
+    background-color: var(--secondary-color);
     border: 1px solid var(--border-color);
     border-radius: 8px;
-    padding: 30px; 
+    padding: 30px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     width: 100%;
-    max-width: 900px; 
+    max-width: 900px;
 }
 
 footer {
     width: 100%;
-    margin-top: 40px; 
+    margin-top: 40px;
     background-color: #f8f8f8;
-    clear: both; 
+    clear: both;
 }
 
 footer iframe {
     display: block;
     width: 100%;
-    min-height: 22rem; 
+    min-height: 22rem;
     border: none;
 }
 
@@ -69,12 +69,12 @@ footer iframe {
     background-color: var(--secondary-color);
     border: 1px solid var(--border-color);
     border-radius: 8px;
-    padding: 20px; 
+    padding: 20px;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
 }
 
 .profile-info-content {
-    padding: 0; 
+    padding: 0;
     text-align: center;
 }
 
@@ -95,7 +95,7 @@ footer iframe {
 
 .edit-picture-btn {
     position: absolute;
-    bottom: -5px; 
+    bottom: -5px;
     right: -5px;
     width: 30px;
     height: 30px;
@@ -114,19 +114,19 @@ footer iframe {
 }
 
 .edit-picture-btn:hover {
-    background-color: #5a14a3; 
+    background-color: #5a14a3;
 }
 
 .profile-name {
-    font-size: 22px; 
+    font-size: 22px;
     font-weight: 700;
     margin-bottom: 5px;
 }
 
 .profile-badge {
     display: inline-block;
-    background-color: var(--primary-color); 
-    color: white; 
+    background-color: var(--primary-color);
+    color: white;
     font-size: 12px;
     padding: 2px 8px;
     border-radius: 4px;
@@ -158,11 +158,11 @@ footer iframe {
     font-weight: 600;
     cursor: pointer;
     transition: background-color 0.3s;
-    border: none; 
+    border: none;
 }
 
 .edit-btn {
-    background-color: var(--primary-color); 
+    background-color: var(--primary-color);
     color: white;
     border: 1px solid var(--primary-color);
 }
@@ -180,11 +180,110 @@ footer iframe {
 .tickets-btn:hover {
     background-color: #5e2ccf;
 }
+.ticket-actions {
+    display: flex;
+    gap: 5px;
+}
+
+.ticket-btn {
+    background-color: #6C1DCE; /* mesma cor roxa do transferir original */
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 12px;
+    transition: background-color 0.3s;
+}
+
+.ticket-btn:hover {
+    background-color: #5a14a3;
+}
+
 
 .logout-btn {
-    background-color: #F8F8F8; 
+    background-color: #F8F8F8;
     color: var(--text-color-dark);
     border: 1px solid var(--border-color);
+}
+
+/* FORMULÁRIO DE EDIÇÃO */
+.edit-profile-form-container {
+    background-color: #ffffff;
+    border: 1px solid #E0E0E0;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.edit-profile-form h3 {
+    color: var(--primary-color);
+    font-size: 18px;
+    margin-bottom: 20px;
+    font-weight: 600;
+}
+
+.edit-profile-form .form-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 15px;
+}
+
+.edit-profile-form label {
+    font-size: 14px;
+    margin-bottom: 5px;
+    color: var(--text-color-dark);
+    font-weight: 500;
+}
+
+.edit-profile-form input {
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid var(--border-color);
+    font-size: 14px;
+    outline: none;
+    transition: border 0.3s, box-shadow 0.3s;
+}
+
+.edit-profile-form input:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 5px rgba(108,29,206,0.3);
+}
+
+.edit-profile-form .form-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.edit-profile-form .save-btn {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.edit-profile-form .save-btn:hover {
+    background-color: #5a14a3;
+}
+
+.edit-profile-form .cancel-btn {
+    background-color: #F0F0F0;
+    color: var(--text-color-dark);
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background-color 0.3s;
+}
+
+.edit-profile-form .cancel-btn:hover {
+    background-color: #E0E0E0;
 }
 
 .logout-btn:hover {
@@ -194,9 +293,9 @@ footer iframe {
 .profile-content {
     flex-grow: 1;
     max-width: 600px;
-    display: flex; 
+    display: flex;
     flex-direction: column;
-    gap: 20px; 
+    gap: 20px;
 }
 
 .hidden {
@@ -205,96 +304,28 @@ footer iframe {
 
 .content-section {
     background-color: var(--secondary-color);
-    border: 1px solid var(--border-color); 
-    border-radius: 8px; 
-    padding: 20px; 
-    margin-bottom: 0; 
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05); 
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 0;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
 }
 
 #lists-section {
     display: flex;
     flex-direction: column;
-    gap: 20px; 
+    gap: 20px;
 }
 
-.edit-profile-form-container {}
-
-.favorites-list h3, .recent-visits-list h3, .tickets-section h3 {
-    display: flex;
-    align-items: center;
-    color: var(--text-color-dark);
-    font-size: 16px;
-}
-
-.favorites-list h3 i {
-    color: #FF69B4; 
-    margin-right: 10px;
-}
-
-.form-group {
-    margin-bottom: 15px;
-}
-
-.form-group label {
-    display: block;
-    font-size: 14px;
-    font-weight: 500;
-    margin-bottom: 5px;
-}
-
-.form-group input {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid var(--border-color);
-    border-radius: 4px;
-    background-color: var(--secondary-color);
-    font-family: 'Poppins', sans-serif;
-    font-size: 14px;
-    box-sizing: border-box;
-}
-
-.form-actions {
-    display: flex;
-    gap: 10px;
-    margin-top: 25px;
-}
-
-.save-btn, .cancel-btn {
-    padding: 10px 20px;
-    border: none;
-    border-radius: 4px;
-    font-size: 14px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: opacity 0.3s;
-}
-
-.save-btn {
-    background-color: var(--primary-color);
-    color: white;
-}
-
-.save-btn:hover {
-    opacity: 0.9;
-}
-
-.cancel-btn {
-    background-color: #E0E0E0; 
-    color: var(--text-color-dark);
-}
-
-.cancel-btn:hover {
-    opacity: 0.9;
-}
-
-.place-list {
+.place-list,
+.ticket-list {
     list-style: none;
     padding: 0;
     margin: 0;
 }
 
-.place-item, .ticket-item {
+.place-item,
+.ticket-item {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -302,11 +333,13 @@ footer iframe {
     border-bottom: 1px solid #F0F0F0;
 }
 
-.place-item:last-child, .ticket-item:last-child {
+.place-item:last-child,
+.ticket-item:last-child {
     border-bottom: none;
 }
 
-.place-name, .ticket-name {
+.place-name,
+.ticket-name {
     font-size: 14px;
     font-weight: 600;
     flex-grow: 1;
@@ -333,18 +366,6 @@ footer iframe {
     font-size: 10px;
 }
 
-.place-rating-stars {
-    font-size: 14px;
-}
-
-.place-rating-stars .fa-star {
-    color: var(--star-empty);
-}
-
-.place-rating-stars .fa-star.filled {
-    color: var(--star-filled);
-}
-
 .transfer-ticket-btn {
     background-color: #6C1DCE;
     color: white;
@@ -356,4 +377,24 @@ footer iframe {
 
 .transfer-ticket-btn:hover {
     background-color: #5a14a3;
+}
+
+.download-ticket-btn {
+    background-color: #FF69B4;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-left: 5px;
+    font-size: 12px;
+}
+
+.download-ticket-btn:hover {
+    background-color: #e0559c;
+}
+
+.ticket-actions {
+    display: flex;
+    gap: 5px;
 }

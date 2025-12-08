@@ -17,22 +17,23 @@
     </header>
 
     <main class="profile-container">
-        
+
         <div class="main-profile-card">
-            
+
             <aside class="profile-sidebar">
-                
+
                 <div class="profile-info-content">
 
                     <div class="profile-picture-container">
-                        <img src="https://i.imgur.com/default-placeholder.png" alt="Foto de Perfil" class="profile-picture">
+                        <img src="https://i.imgur.com/default-placeholder.png" alt="Foto de Perfil"
+                            class="profile-picture">
                         <button id="edit-picture-btn" class="edit-picture-btn" title="Editar Foto de Perfil">
                             <i class="fas fa-camera"></i>
                         </button>
                         <input type="file" id="picture-upload" accept="image/*" style="display: none;">
                     </div>
 
-                    <h2 class="profile-name"></h2> 
+                    <h2 class="profile-name"></h2>
                     <span class="profile-badge">Cliente</span>
 
                     <p class="profile-detail" id="profile-email-display"></p>
@@ -44,14 +45,14 @@
                     <button id="view-tickets-btn" class="action-btn tickets-btn">Ver Meus Ingressos</button>
                     <button class="action-btn logout-btn">Sair</button>
                 </div>
-                
+
             </aside>
 
             <section class="profile-content">
 
                 <div id="edit-profile-section" class="content-section edit-profile-form-container hidden">
                     <h3>Editar Perfil</h3>
-                    <form class="edit-profile-form" id="editProfileForm"> 
+                    <form class="edit-profile-form" id="editProfileForm">
                         <div class="form-group">
                             <label for="nome">Nome</label>
                             <input type="text" id="nome" value="">
@@ -77,7 +78,7 @@
                 </div>
 
                 <div id="lists-section" class="content-sections-wrapper">
-                    
+
                     <div class="content-section favorites-list">
                         <h3><i class="fas fa-heart"></i> Lugares Favoritos</h3>
                         <ul class="place-list">
@@ -140,19 +141,27 @@
                         <ul class="ticket-list">
                             <li class="ticket-item">
                                 <span class="ticket-name">Show BTS - Setor A</span>
-                                <button class="transfer-ticket-btn">Transferir</button>
+                                <div class="ticket-actions">
+                                    <button class="ticket-btn">Baixar</button>
+                                    <button class="ticket-btn">Transferir</button>
+                                </div>
                             </li>
                             <li class="ticket-item">
                                 <span class="ticket-name">Festival Rock - Setor B</span>
-                                <button class="transfer-ticket-btn">Transferir</button>
+                                <div class="ticket-actions">
+                                    <button class="ticket-btn">Baixar</button>
+                                    <button class="ticket-btn">Transferir</button>
+                                </div>
                             </li>
                         </ul>
                     </div>
 
+
+
                 </div>
 
             </section>
-        
+
         </div>
     </main>
 
@@ -183,22 +192,7 @@
         const viewTicketsBtn = document.getElementById('view-tickets-btn');
         const ticketsSection = document.getElementById('tickets-section');
 
-        function loadProfileData() {
-            const savedName = localStorage.getItem('profileName') || 'Nome de Exemplo';
-            const savedEmail = localStorage.getItem('profileEmail') || 'exemplo@rolês.com';
-            const savedPhone = localStorage.getItem('profilePhone') || '(62) 00000-0000';
-            const savedPhoto = localStorage.getItem('profilePhotoUrl') || "https://i.imgur.com/default-placeholder.png";
-
-            profilePicture.src = savedPhoto;
-            profileNameDisplay.textContent = savedName;
-            profileEmailDisplay.textContent = savedEmail;
-            profilePhoneDisplay.textContent = savedPhone;
-
-            inputNome.value = savedName;
-            inputEmail.value = savedEmail;
-            inputTelefone.value = savedPhone;
-        }
-
+        // Função para atualizar dados locais e no header
         function updateProfileData(photoUrl, name, email, phone) {
             localStorage.setItem('profilePhotoUrl', photoUrl);
             localStorage.setItem('profileName', name);
@@ -215,16 +209,51 @@
             }
         }
 
+        // Função para carregar dados do backend usando userId
+        async function loadProfileData() {
+            const userId = localStorage.getItem('userId'); // 🔹 Pega o ID salvo no login
+            if (!userId) {
+                alert("❌ Usuário não logado. Redirecionando para login...");
+                window.location.href = "../login/login.html";
+                return;
+            }
+
+            try {
+                const response = await fetch(`http://localhost:3000/usuarios/${userId}`);
+                if (!response.ok) throw new Error("Erro ao buscar dados do usuário");
+
+                const data = await response.json();
+
+                // Atualizar na tela
+                profileNameDisplay.textContent = data.nome_completo || "Cliente Rolês";
+                profileEmailDisplay.textContent = data.email || "exemplo@roles.com";
+                profilePhoneDisplay.textContent = data.telefone || "(62) 00000-0000";
+                profilePicture.src = data.foto_perfil || "https://i.imgur.com/default-placeholder.png";
+
+                // Atualizar inputs do formulário
+                inputNome.value = data.nome_completo || "";
+                inputEmail.value = data.email || "";
+                inputTelefone.value = data.telefone || "";
+
+                // Atualizar localStorage
+                updateProfileData(profilePicture.src, inputNome.value, inputEmail.value, inputTelefone.value);
+
+            } catch (err) {
+                console.error(err);
+                alert("❌ Não foi possível carregar os dados do perfil. Verifique o backend.");
+            }
+        }
+
         document.addEventListener('DOMContentLoaded', function () {
             loadProfileData();
 
-            editProfileBtn.addEventListener('click', function() {
+            editProfileBtn.addEventListener('click', function () {
                 const isEditing = editProfileSection.classList.toggle('hidden');
                 listsSection.classList.toggle('hidden', !isEditing);
                 editProfileBtn.textContent = isEditing ? 'Cancelar Edição' : 'Editar Perfil';
             });
 
-            cancelEditBtn.addEventListener('click', function() {
+            cancelEditBtn.addEventListener('click', function () {
                 editProfileSection.classList.add('hidden');
                 listsSection.classList.remove('hidden');
                 editProfileBtn.textContent = 'Editar Perfil';
@@ -232,18 +261,11 @@
 
             const logoutBtn = document.querySelector('.logout-btn');
             logoutBtn.addEventListener('click', function () {
-                localStorage.removeItem('profilePhotoUrl');
-                localStorage.removeItem('profileName');
-                localStorage.removeItem('profileEmail');
-                localStorage.removeItem('profilePhone');
-                localStorage.removeItem('userIsLoggedIn');
-                localStorage.removeItem('userType');
-
+                localStorage.clear();
                 if (headerIframe && headerIframe.contentWindow) {
                     headerIframe.contentWindow.postMessage({ action: 'LOGOUT_REQUEST' }, '*');
                 }
-
-                window.location.href = '../login/logout-usuario.html';
+                window.location.href = '../login/login.html';
             });
 
             editPictureBtn.addEventListener('click', function () {
@@ -262,24 +284,46 @@
                 }
             });
 
-            editProfileForm.addEventListener('submit', function (event) {
+            editProfileForm.addEventListener('submit', async function (event) {
                 event.preventDefault();
 
-                const novoNome = inputNome.value;
-                const novoEmail = inputEmail.value;
-                const novoTelefone = inputTelefone.value;
+                const novoNome = inputNome.value.trim();
+                const novoEmail = inputEmail.value.trim();
+                const novoTelefone = inputTelefone.value.trim();
 
-                if (!novoNome.trim() || !novoEmail.trim()) {
-                    alert('⚠️ Nome e Email são campos obrigatórios!');
-                    return; 
+                if (!novoNome || !novoEmail) {
+                    alert('⚠️ Nome e Email são obrigatórios!');
+                    return;
                 }
 
-                updateProfileData(profilePicture.src, novoNome, novoEmail, novoTelefone);
-                loadProfileData();
+                const userId = localStorage.getItem('userId');
 
-                editProfileSection.classList.add('hidden');
-                listsSection.classList.remove('hidden');
-                editProfileBtn.textContent = 'Editar Perfil';
+                try {
+                    const response = await fetch(`http://localhost:3000/usuarios/perfil`, { // 🔹 Endpoint que aceita PUT
+                        method: "PUT",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({
+                            id: userId, // 🔹 Adicionado para garantir que o backend saiba qual atualizar
+                            nome_completo: novoNome,
+                            email: novoEmail,
+                            telefone: novoTelefone,
+                            foto_perfil: profilePicture.src
+                        })
+                    });
+
+                    if (!response.ok) throw new Error("Erro ao atualizar perfil");
+
+                    updateProfileData(profilePicture.src, novoNome, novoEmail, novoTelefone);
+                    alert("✅ Perfil atualizado com sucesso!");
+                    loadProfileData();
+                    editProfileSection.classList.add('hidden');
+                    listsSection.classList.remove('hidden');
+                    editProfileBtn.textContent = 'Editar Perfil';
+
+                } catch (err) {
+                    console.error(err);
+                    alert("❌ Falha ao atualizar perfil. Verifique o backend.");
+                }
             });
 
             viewTicketsBtn.addEventListener('click', function () {
@@ -287,6 +331,9 @@
                 ticketsSection.scrollIntoView({ behavior: "smooth" });
             });
         });
+
+
     </script>
 </body>
+
 </html>
