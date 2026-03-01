@@ -1,0 +1,33 @@
+version: "3.8"
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: roles_mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: 0411
+      MYSQL_DATABASE: roles_db
+    ports:
+      - "3307:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+  backend:
+    build: .
+    container_name: roles_backend
+    restart: always
+    ports:
+      - "3000:3000"
+    depends_on:
+      - mysql
+    environment:
+      DB_HOST: mysql
+      DB_USER: root
+      DB_PASSWORD: 0411
+      DB_NAME: roles_db
+      PORT: 3000
+      JWT_SECRET: minha_chave_secreta_segura
+
+volumes:
+  mysql_data:
