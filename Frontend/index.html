@@ -25,115 +25,171 @@
     </header>
 
     <main>
-        <section class="hero-section">
-            <div class="hero-bg"></div>
+       <section class="hero-section">
 
-            <div class="hero-inner container">
-                <p class="kicker">✨ DESCUBRA OS MELHORES ROLÊS ✨</p>
+    <div class="hero-bg"></div>
 
-                <h1 class="hero-title">
-                    Encontre o lugar perfeito
-                    <span class="hero-accent">para se divertir</span>
-                </h1>
+    <div class="hero-inner container">
 
-                <p class="hero-sub">
-                    Bares, baladas, restaurantes e eventos incríveis esperando por você.
-                    Descubra novos lugares e faça cada noite ser inesquecível.
-                </p>
+        <div class="kicker">
+            <h1 class="h1">Eventos em Destaque</h1>
+            <p class="p1">Descubra as melhores experiências da cidade</p>
+        </div>
 
-                <form class="hero-search" action="#" onsubmit="return false;">
-                    <div class="input-wrap search-input">
-                        <i class="fas fa-search"></i>
-                        <input type="text" placeholder="O que você está procurando">
+        <div class="carousel-container">
+
+            <!-- BOTÃO ESQUERDA -->
+            <button class="carousel-btn prev">
+                <i class="fas fa-chevron-left"></i>
+            </button>
+
+            <div class="carousel-track" id="carouselTrack">
+
+                <a href="eventos/festival-jazz.html" class="carousel-card">
+                    <img src="Imagens/1º imagem cad.png" alt="Festival de Jazz">
+                    <div class="carousel-info">
+                        <h3>Festival de Jazz</h3>
+                        <p>Sáb • 21:00</p>
                     </div>
+                </a>
 
-                    <div class="input-wrap city-input">
-                        <i class="fas fa-map-marker-alt"></i>
-                        <input type="text" placeholder="Cidade" value="Goiânia">
+                <a href="eventos/chopada-universitaria.html" class="carousel-card">
+                    <img src="Imagens/2º imagem card.png" alt="Chopada Universitária">
+                    <div class="carousel-info">
+                        <h3>Chopada Universitária</h3>
+                        <p>Sex • 22:00</p>
                     </div>
+                </a>
 
-                    <button class="btn-search">Buscar</button>
-                </form>
+                <a href="eventos/salsa-night.html" class="carousel-card">
+                    <img src="Imagens/3º imagem card.png" alt="Salsa Night">
+                    <div class="carousel-info">
+                        <h3>Salsa Night</h3>
+                        <p>Dom • 20:00</p>
+                    </div>
+                </a>
 
-                <div class="hero-stats">
-                    <div class="stat">
-                        <h3>0+</h3>
-                        <p>Locais</p>
+                <!-- CARD CENTRAL ATIVO -->
+                <a href="eventos/standup-comedy.html" class="carousel-card active">
+                    <img src="Imagens/4º imagem cad.png" alt="Stand-up Comedy">
+                    <div class="carousel-info">
+                        <h3>Stand-up Comedy</h3>
+                        <p>Sáb • 19:30</p>
                     </div>
-                    <div class="stat">
-                        <h3>0+</h3>
-                        <p>Eventos/mês</p>
+                </a>
+
+                <a href="eventos/rock-festival.html" class="carousel-card">
+                    <img src="Imagens/5º imagem cad.png" alt="Rock Festival">
+                    <div class="carousel-info">
+                        <h3>Rock Festival</h3>
+                        <p>Sex • 23:00</p>
                     </div>
-                    <div class="stat">
-                        <h3>0+</h3>
-                        <p>Avaliações</p>
+                </a>
+
+                <a href="eventos/festival-gastronomico.html" class="carousel-card">
+                    <img src="Imagens/6º imagem cad.png" alt="Festival Gastronômico">
+                    <div class="carousel-info">
+                        <h3>Festival Gastronômico</h3>
+                        <p>Dom • 12:00</p>
                     </div>
-                    <div class="stat">
-                        <h3>0+</h3>
-                        <p>Categorias</p>
+                </a>
+
+                <a href="eventos/noite-eletronica.html" class="carousel-card">
+                    <img src="Imagens/7º imagem card.png" alt="Noite Eletrônica">
+                    <div class="carousel-info">
+                        <h3>Noite Eletrônica</h3>
+                        <p>Sáb • 23:30</p>
                     </div>
-                </div>
+                </a>
+
             </div>
-        </section>
+
+            <!-- BOTÃO DIREITA -->
+            <button class="carousel-btn next">
+                <i class="fas fa-chevron-right"></i>
+            </button>
+
+        </div>
+
+    </div>
+
+</section>
 
         <section class="section-categorias">
-            <h2>Explore Por categoria</h2>
-            <p>Encontre exatamente o tipo de lugar que você está procura</p>
 
-            <div class="categorias-container">
+            <h2>Explore por categoria</h2>
+            <p>Encontre exatamente o tipo de lugar que você procura</p>
 
-                <a href="categorias/categorias.html?name=Baladas&icon-class=fas%20fa-music" class="card-categoria">
-                    <div class="icon roxo"><i class="fas fa-music"></i></div>
-                    <h3>Baladas</h3>
-                    <span>0 locais</span>
-                </a>
+            <div class="categorias-carousel">
 
-                <a href="categorias/categorias.html?name=Bar&icon-class=fas%20fa-glass-martini-alt"
-                    class="card-categoria">
-                    <div class="icon amarelo"><i class="fas fa-glass-martini-alt"></i></div>
-                    <h3>Bar</h3>
-                    <span>0 locais</span>
-                </a>
+                <button class="cat-btn prev">
+                    <i class="fa-solid fa-chevron-left"></i>
+                </button>
 
-                <a href="categorias/categorias.html?name=Restaurante&icon-class=fas%20fa-utensils"
-                    class="card-categoria">
-                    <div class="icon laranja"><i class="fas fa-utensils"></i></div>
-                    <h3>Restaurante</h3>
-                    <span>0 locais</span>
-                </a>
+                <div class="categorias-track">
 
-                <a href="categorias/categorias.html?name=Karaoke&icon-class=fas%20fa-microphone" class="card-categoria">
-                    <div class="icon cinza"><i class="fas fa-microphone"></i></div>
-                    <h3>Karaoke</h3>
-                    <span>0 locais</span>
-                </a>
+                    <a href="categorias/categorias.html?name=Baladas&icon-class=fas%20fa-music" class="card-categoria">
+                        <div class="icon"><i class="fas fa-music"></i></div>
+                        <h3>Baladas</h3>
+                        <span>0 locais</span>
+                    </a>
 
-                <a href="categorias/categorias.html?name=Show&icon-class=fas%20fa-ticket-alt" class="card-categoria">
-                    <div class="icon azul"><i class="fas fa-ticket-alt"></i></div>
-                    <h3>Show</h3>
-                    <span>0 locais</span>
-                </a>
+                    <a href="categorias/categorias.html?name=Bar&icon-class=fas%20fa-glass-martini-alt"
+                        class="card-categoria">
+                        <div class="icon"><i class="fas fa-glass-martini-alt"></i></div>
+                        <h3>Bar</h3>
+                        <span>0 locais</span>
+                    </a>
 
-                <a href="categorias/categorias.html?name=Eventos&icon-class=fas%20fa-cocktail" class="card-categoria">
-                    <div class="icon rosa"><i class="fas fa-cocktail"></i></div>
-                    <h3>Eventos</h3>
-                    <span>0 locais</span>
-                </a>
+                    <a href="categorias/categorias.html?name=Restaurante&icon-class=fas%20fa-utensils"
+                        class="card-categoria">
+                        <div class="icon"><i class="fas fa-utensils"></i></div>
+                        <h3>Restaurante</h3>
+                        <span>0 locais</span>
+                    </a>
 
-                <a href="categorias/categorias.html?name=Parques&icon-class=fas%20fa-tree" class="card-categoria">
-                    <div class="icon azul-marinho"><i class="fas fa-tree"></i></div>
-                    <h3>Parques</h3>
-                    <span>0 locais</span>
-                </a>
+                    <a href="categorias/categorias.html?name=Karaoke&icon-class=fas%20fa-microphone"
+                        class="card-categoria">
+                        <div class="icon"><i class="fas fa-microphone"></i></div>
+                        <h3>Karaoke</h3>
+                        <span>0 locais</span>
+                    </a>
 
-                <a href="categorias/categorias.html?name=%2B50%20anos&icon-class=fas%20fa-leaf"
-                    class="card-categoria card-50">
-                    <div class="icon vermelho"><i class="fas fa-leaf"></i></div>
-                    <h3>50+</h3>
-                    <span>0 locais</span>
-                </a>
+                    <a href="categorias/categorias.html?name=Show&icon-class=fas%20fa-ticket-alt"
+                        class="card-categoria">
+                        <div class="icon"><i class="fas fa-ticket-alt"></i></div>
+                        <h3>Show</h3>
+                        <span>0 locais</span>
+                    </a>
+
+                    <a href="categorias/categorias.html?name=Eventos&icon-class=fas%20fa-cocktail"
+                        class="card-categoria">
+                        <div class="icon"><i class="fas fa-cocktail"></i></div>
+                        <h3>Eventos</h3>
+                        <span>0 locais</span>
+                    </a>
+
+                    <a href="categorias/categorias.html?name=Parques&icon-class=fas%20fa-tree" class="card-categoria">
+                        <div class="icon"><i class="fas fa-tree"></i></div>
+                        <h3>Parques</h3>
+                        <span>0 locais</span>
+                    </a>
+
+                    <a href="categorias/categorias.html?name=%2B50%20anos&icon-class=fas%20fa-leaf"
+                        class="card-categoria">
+                        <div class="icon"><i class="fas fa-leaf"></i></div>
+                        <h3>50+</h3>
+                        <span>0 locais</span>
+                    </a>
+
+                </div>
+
+                <button class="cat-btn next">
+                    <i class="fa-solid fa-chevron-right"></i>
+                </button>
 
             </div>
+
         </section>
         <section class="section-populares">
             <div class="populares-header container">
@@ -142,209 +198,97 @@
             </div>
 
             <div class="populares-grid container">
-                <div class="card-local">
+
+                <a href="ver_mais_detalhes_eventos/detalheseventos.html" class="card-local">
                     <div class="card-image-wrap">
-                        <img src="Imagens/1º imagem cad.png">
+                        <img src="Imagens/1º imagem cad.png" alt="Pingo Fogo">
                         <span class="tag tag-bar">Bar</span>
-                        <span class="avaliacao"><i class="fas fa-star"></i> 4.5</span>
                     </div>
                     <div class="card-content">
-                        <h3>Pinga Fogo </h3>
-
+                        <h3>Pingo Fogo</h3>
                         <div class="local-meta">
-                            <p class="endereco"><i class="fas fa-map-marker-alt"></i> Setor Marista, Goiânia</p>
-                            <p class="preco-faixa">$$</p>
+                            <p><i class="fas fa-calendar-alt"></i> Sex, 14 de Out - 20:00</p>
                         </div>
-
-                        <p class="descricao">Opções de chopp gelado e petiscos variados. Perfeito para um happy hour.
-                        </p>
-
-                        <div class="horario"><i class="fas fa-clock"></i> 17:00 - 01:00</div>
-                        <div class="telefone"><i class="fas fa-phone-alt"></i> (62) 32XX-XXXX</div>
-
-                        <div class="atributos">
-                            <span class="atributo">Happy Hour</span>
-                            <span class="atributo">Música ao vivo</span>
-                            <span class="atributo">Cerveja artesanal</span>
-                        </div>
-
-                        <div class="card-footer">
-                            <p class="avaliacoes-count">450 avaliações</p>
-                            <button class="btn-detalhes">Ver Detalhes</button>
-                        </div>
+                        <p class="evento-local"><i class="fas fa-map-marker-alt"></i> Setor Marista, Goiânia</p>
                     </div>
-                </div>
+                </a>
 
-                <div class="card-local">
+                <a href="ver_mais_detalhes_eventos/detalheseventos.html" class="card-local">
                     <div class="card-image-wrap">
-                        <img src="Imagens/2º imagem card.png">
+                        <img src="Imagens/2º imagem card.png " alt="Kabanas Restaurante">
                         <span class="tag tag-restaurante">Restaurante</span>
-                        <span class="avaliacao"><i class="fas fa-star"></i> 4.6</span>
                     </div>
-
                     <div class="card-content">
-                        <h3>Kabanas Restaurante </h3>
-
+                        <h3>Kabanas Restaurante</h3>
                         <div class="local-meta">
-                            <p class="endereco"><i class="fas fa-map-marker-alt"></i> Setor Bueno, Goiânia</p>
-                            <p class="preco-faixa">$$$</p>
+                            <p><i class="fas fa-calendar-alt"></i> Sex, 14 de Out - 20:00</p>
                         </div>
-
-                        <p class="descricao">Culinária sofisticada em ambiente elegante. Ideal para ocasiões especiais.
-                        </p>
-
-                        <div class="horario"><i class="fas fa-clock"></i> 11:30 - 00:00</div>
-                        <div class="telefone"><i class="fas fa-phone-alt"></i> (62) 32XX-XXXX</div>
-
-                        <div class="atributos">
-                            <span class="atributo selecionado">Menu degustação</span>
-                            <span class="atributo selecionado">Carta de vinhos</span>
-                            <span class="atributo selecionado">Rolê romântico</span>
-                        </div>
-
-                        <div class="card-footer">
-                            <p class="avaliacoes-count">1200 avaliações</p>
-                            <button class="btn-detalhes">Ver Detalhes</button>
-                        </div>
+                        <p class="evento-local"><i class="fas fa-map-marker-alt"></i> Setor Bueno, Goiânia</p>
                     </div>
-                </div>
+                </a>
 
-                <div class="card-local">
+                <a href="ver_mais_detalhes_eventos/detalheseventos.html" class="card-local">
                     <div class="card-image-wrap">
-                        <img src="Imagens/3º imagem card.png">
+                        <img src="Imagens/3º imagem card.png" alt="Roxy">
                         <span class="tag tag-balada">Balada</span>
-                        <span class="avaliacao"><i class="fas fa-star"></i> 4.7</span>
                     </div>
                     <div class="card-content">
-                        <h3>Roxy </h3>
-
+                        <h3>Roxy</h3>
                         <div class="local-meta">
-                            <p class="endereco"><i class="fas fa-map-marker-alt"></i> Setor Sul, Goiânia</p>
-                            <p class="preco-faixa">$$</p>
+                            <p><i class="fas fa-calendar-alt"></i> Sex, 14 de Out - 20:00</p>
                         </div>
-
-                        <p class="descricao">Um dos maiores clubs de Goiânia com DJs locais e nacionais e pista de
-                            dança.</p>
-
-                        <div class="horario"><i class="fas fa-clock"></i> 23:00 - 06:00</div>
-                        <div class="telefone"><i class="fas fa-phone-alt"></i> (62) 9XXXX-XXXX</div>
-
-                        <div class="atributos">
-                            <span class="atributo">Pista de dança</span>
-                            <span class="atributo">Música eletrônica</span>
-                            <span class="atributo">Bar completo</span>
-                        </div>
-
-                        <div class="card-footer">
-                            <p class="avaliacoes-count">780 avaliações</p>
-                            <button class="btn-detalhes">Ver Detalhes</button>
-                        </div>
+                        <p class="evento-local"><i class="fas fa-map-marker-alt"></i> Setor Sul, Goiânia</p>
                     </div>
-                </div>
+                </a>
 
-                <div class="card-local">
+                <a href="ver_mais_detalhes_eventos/detalheseventos.html" class="card-local">
                     <div class="card-image-wrap">
-                        <img src="Imagens/4º imagem cad.png">
-                        <span class="tag tag-standup">Stand-up</span>
-                        <span class="avaliacao"><i class="fas fa-star"></i> 4.6</span>
+                        <img src="Imagens/4º imagem cad.png" alt="Guardian Comedy Club">
+                        <span class="tag tag-comedy">Stand-up</span>
                     </div>
                     <div class="card-content">
-                        <h3>Guardian Comedy Club </h3>
-
+                        <h3>Guardian Comedy Club</h3>
                         <div class="local-meta">
-                            <p class="endereco"><i class="fas fa-map-marker-alt"></i> Setor Marista, Goiânia</p>
-                            <p class="preco-faixa">$</p>
+                            <p><i class="fas fa-calendar-alt"></i> Sex, 14 de Out - 20:00</p>
                         </div>
-
-                        <p class="descricao">O principal palco de Stand-up da cidade. Risadas garantidas toda semana.
-                        </p>
-
-                        <div class="horario"><i class="fas fa-clock"></i> 19:30 - 23:00</div>
-                        <div class="telefone"><i class="fas fa-phone-alt"></i> (62) 9XXXX-XXXX</div>
-
-                        <div class="atributos">
-                            <span class="atributo">Sala de comédia</span>
-                            <span class="atributo">Bar e Petiscos</span>
-                            <span class="atributo">Eventos corporativos</span>
-                        </div>
-
-                        <div class="card-footer">
-                            <p class="avaliacoes-count">286 avaliações</p>
-                            <button class="btn-detalhes">Ver Detalhes</button>
-                        </div>
+                        <p class="evento-local"><i class="fas fa-map-marker-alt"></i> Setor Marista, Goiânia</p>
                     </div>
-                </div>
+                </a>
 
-                <div class="card-local">
+                <a href="ver_mais_detalhes_eventos/detalheseventos.html" class="card-local">
                     <div class="card-image-wrap">
-                        <img src="Imagens/5º imagem cad.png">
+                        <img src="Imagens/5º imagem cad.png" alt="Pizzaria da 8">
                         <span class="tag tag-restaurante">Restaurante</span>
-                        <span class="avaliacao"><i class="fas fa-star"></i> 4.4</span>
                     </div>
                     <div class="card-content">
-                        <h3>Pizzaria da 8 </h3>
-
+                        <h3>Pizzaria da 8</h3>
                         <div class="local-meta">
-                            <p class="endereco"><i class="fas fa-map-marker-alt"></i> Setor Central, Goiânia</p>
-                            <p class="preco-faixa">$</p>
+                            <p><i class="fas fa-calendar-alt"></i> Sex, 14 de Out - 20:00</p>
                         </div>
-
-                        <p class="descricao">Receitas tradicionais e ingredientes frescos. Ambiente familiar e
-                            acolhedor.</p>
-
-                        <div class="horario"><i class="fas fa-clock"></i> 18:00 - 23:30</div>
-                        <div class="telefone"><i class="fas fa-phone-alt"></i> (62) 32XX-XXXX</div>
-
-                        <div class="atributos">
-                            <span class="atributo">Entrega em casa</span>
-                            <span class="atributo">Massa artesanal</span>
-                            <span class="atributo">Opções vegetarianas</span>
-                        </div>
-
-                        <div class="card-footer">
-                            <p class="avaliacoes-count">124 avaliações</p>
-                            <button class="btn-detalhes">Ver Detalhes</button>
-                        </div>
+                        <p class="evento-local"><i class="fas fa-map-marker-alt"></i> Setor Central, Goiânia</p>
                     </div>
-                </div>
+                </a>
 
-                <div class="card-local">
+                <a href="ver_mais_detalhes_eventos/detalheseventos.html" class="card-local">
                     <div class="card-image-wrap">
-                        <img src="Imagens/6º imagem cad.png">
-                        <span class="tag tag-show">Show</span>
-                        <span class="avaliacao"><i class="fas fa-star"></i> 4.5</span>
+                        <img src="Imagens/6º imagem cad.png" alt="Teatro Rio Vermelho">
+                        <span class="tag tag-show">Teatro</span>
                     </div>
                     <div class="card-content">
-                        <h3>Teatro Rio Vermelho </h3>
-
+                        <h3>Teatro Rio Vermelho</h3>
                         <div class="local-meta">
-                            <p class="endereco"><i class="fas fa-map-marker-alt"></i> Setor Central, Goiânia</p>
-                            <p class="preco-faixa">$$</p>
+                            <p><i class="fas fa-calendar-alt"></i> Verificar Agenda</p>
                         </div>
-
-                        <p class="descricao">Principal espaço para grandes shows, peças de teatro e apresentações
-                            culturais.</p>
-
-                        <div class="horario"><i class="fas fa-clock"></i> Verificar Agenda</div>
-                        <div class="telefone"><i class="fas fa-phone-alt"></i> (62) 32XX-XXXX</div>
-
-                        <div class="atributos">
-                            <span class="atributo">Grande capacidade</span>
-                            <span class="atributo">Estacionamento</span>
-                            <span class="atributo">Programação variada</span>
-                        </div>
-
-                        <div class="card-footer">
-                            <p class="avaliacoes-count">610 avaliações</p>
-                            <button class="btn-detalhes">Ver Detalhes</button>
-                        </div>
+                        <p class="evento-local"><i class="fas fa-map-marker-alt"></i> Setor Central, Goiânia</p>
                     </div>
-                </div>
+                </a>
+
             </div>
 
             <a href="locais/locais.html" class="btn-ver-todos">Ver Todos os Locais</a>
         </section>
 
+        </section>
         <section class="section-eventos">
             <div class="eventos-header container">
                 <h2 class="section-title">Eventos Próximos</h2>
@@ -353,265 +297,102 @@
 
             <div class="eventos-grid container">
 
-                <div class="card-evento card-evento-duas-colunas">
+                <a href="ver_mais_detalhes_eventos/detalheseventos.html" class="card-evento">
                     <div class="evento-imagem-wrap">
-                        <img src="Imagens/7º imagem card.png">
+                        <img src="Imagens/7º imagem card.png" alt="Festival de Jazz ao Ar Livre">
                         <span class="tag-evento tag-musica">Música</span>
                     </div>
                     <div class="evento-content">
                         <h3>Festival de Jazz ao Ar Livre</h3>
-                        <span class="preco-evento">R$ 35</span>
-                        <p class="descricao-evento">Uma noite mágica com os melhores músicos de jazz da cidade.</p>
-
                         <div class="evento-data-local">
-                            <p><i class="fas fa-calendar-alt"></i> Sex, 14 de Out</p>
-                            <p><i class="fas fa-clock"></i> 20:00</p>
+                            <p><i class="fas fa-calendar-alt"></i> Sex, 14 de Out - 20:00</p>
                         </div>
                         <p class="evento-local"><i class="fas fa-map-marker-alt"></i> Setor Marista, Goiânia</p>
-
-                        <div class="evento-interessados">
-                            <i class="fas fa-users"></i> 260 pessoas interessadas
-                        </div>
-
-                        <div class="evento-footer">
-                            <button class="btn-detalhes-evento"
-                                onclick="verDetalhesEvento(
-                                    'Festival de Jazz ao Ar Livre', 
-                                    'R$ 35', 
-                                    'Sex, 14 de Out', 
-                                    '20:00', 
-                                    'Setor Marista, Goiânia', 
-                                    'Uma noite mágica com os melhores músicos de jazz da cidade.',
-                                    'Música',
-                                    'Imagens/7º imagem card.png'
-                                )">Mais Detalhes</button>
-                            <button class="btn-confirmar-evento">Confirmar Presença</button>
-                        </div>
                     </div>
-                </div>
+                </a>
 
-                <div class="card-evento card-evento-duas-colunas">
+                <a href="ver_mais_detalhes_eventos/detalheseventos.html" class="card-evento">
                     <div class="evento-imagem-wrap">
-                        <img src="Imagens/8º imagem card.png">
+                        <img src="Imagens/8º imagem card.png" alt="Chopada da T-63">
                         <span class="tag-evento tag-happy-hour">Happy Hour</span>
                     </div>
                     <div class="evento-content">
                         <h3>Chopada da T-63</h3>
-                        <span class="preco-evento">R$ 25</span>
-                        <p class="descricao-evento">Drinks especiais e chopp em dobro no melhor bar da T-63.</p>
-
                         <div class="evento-data-local">
-                            <p><i class="fas fa-calendar-alt"></i> Qui, 27 de Out</p>
-                            <p><i class="fas fa-clock"></i> 18:00</p>
+                            <p><i class="fas fa-calendar-alt"></i> Qui, 27 de Out - 18:00</p>
                         </div>
                         <p class="evento-local"><i class="fas fa-map-marker-alt"></i> Avenida T-63, Setor Bueno</p>
-
-                        <div class="evento-interessados">
-                            <i class="fas fa-users"></i> 88 pessoas interessadas
-                        </div>
-
-                        <div class="evento-footer">
-                            <button class="btn-detalhes-evento"
-                                onclick="verDetalhesEvento(
-                                    'Chopada da T-63', 
-                                    'R$ 25', 
-                                    'Qui, 27 de Out', 
-                                    '18:00', 
-                                    'Avenida T-63, Setor Bueno', 
-                                    'Drinks especiais e chopp em dobro no melhor bar da T-63.',
-                                    'Happy Hour',
-                                    'Imagens/8º imagem card.png'
-                                )">Mais Detalhes</button>
-                            <button class="btn-confirmar-evento">Confirmar Presença</button>
-                        </div>
                     </div>
-                </div>
+                </a>
 
-                <div class="card-evento card-evento-duas-colunas">
+                <a href="ver_mais_detalhes_eventos/detalheseventos.html" class="card-evento">
                     <div class="evento-imagem-wrap">
-                        <img src="Imagens/9º imagem card.png">
+                        <img src="Imagens/9º imagem card.png" alt="Salsa e Bachata Night">
                         <span class="tag-evento tag-danca">Dança</span>
                     </div>
                     <div class="evento-content">
                         <h3>Salsa e Bachata Night</h3>
-                        <span class="preco-evento">R$ 30</span>
-                        <p class="descricao-evento">Aulas gratuitas de salsa seguidas de muito baile latino.</p>
-
                         <div class="evento-data-local">
-                            <p><i class="fas fa-calendar-alt"></i> Dom, 2 de Out</p>
-                            <p><i class="fas fa-clock"></i> 21:00</p>
+                            <p><i class="fas fa-calendar-alt"></i> Dom, 2 de Out - 21:00</p>
                         </div>
                         <p class="evento-local"><i class="fas fa-map-marker-alt"></i> Casa Latina, Setor Central</p>
-
-                        <div class="evento-interessados">
-                            <i class="fas fa-users"></i> 120 pessoas interessadas
-                        </div>
-
-                        <div class="evento-footer">
-                            <button class="btn-detalhes-evento"
-                                onclick="verDetalhesEvento(
-                                    'Salsa e Bachata Night', 
-                                    'R$ 30', 
-                                    'Dom, 2 de Out', 
-                                    '21:00', 
-                                    'Casa Latina, Setor Central', 
-                                    'Aulas gratuitas de salsa seguidas de muito baile latino.',
-                                    'Dança',
-                                    'Imagens/9º imagem card.png'
-                                )">Mais Detalhes</button>
-                            <button class="btn-confirmar-evento">Confirmar Presença</button>
-                        </div>
                     </div>
-                </div>
+                </a>
 
-                <div class="card-evento card-evento-duas-colunas">
+                <a href="ver_mais_detalhes_eventos/detalheseventos.html" class="card-evento">
                     <div class="evento-imagem-wrap">
-                        <img src="Imagens/10º imagem card.png">
+                        <img src="Imagens/10º imagem card.png" alt="Vinhos do Cerrado">
                         <span class="tag-evento tag-restaurante">Restaurante</span>
                     </div>
                     <div class="evento-content">
                         <h3>Vinhos do Cerrado</h3>
-                        <span class="preco-evento">R$ 80</span>
-                        <p class="descricao-evento">Seleção especial de rótulos do centro-oeste em ambiente elegante.
-                        </p>
-
                         <div class="evento-data-local">
-                            <p><i class="fas fa-calendar-alt"></i> Ter, 4 de Out</p>
-                            <p><i class="fas fa-clock"></i> 19:30</p>
+                            <p><i class="fas fa-calendar-alt"></i> Ter, 4 de Out - 19:30</p>
                         </div>
                         <p class="evento-local"><i class="fas fa-map-marker-alt"></i> Adega Nobre, Setor Bueno</p>
-
-                        <div class="evento-interessados">
-                            <i class="fas fa-users"></i> 40 pessoas interessadas
-                        </div>
-
-                        <div class="evento-footer">
-                            <button class="btn-detalhes-evento"
-                                onclick="verDetalhesEvento(
-                                    'Vinhos do Cerrado', 
-                                    'R$ 80', 
-                                    'Ter, 4 de Out', 
-                                    '19:30', 
-                                    'Adega Nobre, Setor Bueno', 
-                                    'Seleção especial de rótulos do centro-oeste em ambiente elegante.',
-                                    'Restaurante',
-                                    'Imagens/10º imagem card.png'
-                                )">Mais Detalhes</button>
-                            <button class="btn-confirmar-evento">Confirmar Presença</button>
-                        </div>
                     </div>
-                </div>
+                </a>
 
-                <div class="card-evento card-evento-duas-colunas">
+                <a href="ver_mais_detalhes_eventos/detalheseventos.html" class="card-evento">
                     <div class="evento-imagem-wrap">
-                        <img src="Imagens/11º imagem card.png">
+                        <img src="Imagens/11º imagem card.png" alt="Rock no Low Ridez">
                         <span class="tag-evento tag-musica">Música</span>
                     </div>
                     <div class="evento-content">
                         <h3>Rock no Low Ridez</h3>
-                        <span class="preco-evento">R$ 35</span>
-                        <p class="descricao-evento">Bandas locais tocando clássicos nacionais em um pub underground.</p>
-
                         <div class="evento-data-local">
-                            <p><i class="fas fa-calendar-alt"></i> Dom, 9 de Out</p>
-                            <p><i class="fas fa-clock"></i> 22:00</p>
+                            <p><i class="fas fa-calendar-alt"></i> Dom, 9 de Out - 22:00</p>
                         </div>
                         <p class="evento-local"><i class="fas fa-map-marker-alt"></i> Vila Cultural, Setor Central</p>
-
-                        <div class="evento-interessados">
-                            <i class="fas fa-users"></i> 360 pessoas interessadas
-                        </div>
-
-                        <div class="evento-footer">
-                            <button class="btn-detalhes-evento"
-                                onclick="verDetalhesEvento(
-                                    'Rock no Low Ridez', 
-                                    'R$ 35', 
-                                    'Dom, 9 de Out', 
-                                    '22:00', 
-                                    'Vila Cultural, Setor Central', 
-                                    'Bandas locais tocando clássicos nacionais em um pub underground.',
-                                    'Música',
-                                    'Imagens/11º imagem card.png'
-                                )">Mais Detalhes</button>
-                            <button class="btn-confirmar-evento">Confirmar Presença</button>
-                        </div>
                     </div>
-                </div>
+                </a>
 
-                <div class="card-evento card-evento-duas-colunas">
+                <a href="ver_mais_detalhes_eventos/detalheseventos.html" class="card-evento">
                     <div class="evento-imagem-wrap">
-                        <img src="Imagens/12º imagem card.png">
+                        <img src="Imagens/12º imagem card.png" alt="Brunch no Bougainville">
                         <span class="tag-evento tag-brunch">Restaurante</span>
                     </div>
                     <div class="evento-content">
                         <h3>Brunch no Bougainville</h3>
-                        <span class="preco-evento">R$ 42</span>
-                        <p class="descricao-evento">Brunch especial com buffet de frios, doces e café da manhã completo.
-                        </p>
-
                         <div class="evento-data-local">
-                            <p><i class="fas fa-calendar-alt"></i> Sáb, 8 de Out</p>
-                            <p><i class="fas fa-clock"></i> 10:00</p>
+                            <p><i class="fas fa-calendar-alt"></i> Sáb, 8 de Out - 10:00</p>
                         </div>
                         <p class="evento-local"><i class="fas fa-map-marker-alt"></i> Próximo ao Shopping, Setor Bueno
                         </p>
-
-                        <div class="evento-interessados">
-                            <i class="fas fa-users"></i> 60 pessoas interessadas
-                        </div>
-
-                        <div class="evento-footer">
-                            <button class="btn-detalhes-evento"
-                                onclick="verDetalhesEvento(
-                                    'Brunch no Bougainville', 
-                                    'R$ 42', 
-                                    'Sáb, 8 de Out', 
-                                    '10:00', 
-                                    'Próximo ao Shopping, Setor Bueno', 
-                                    'Brunch especial com buffet de frios, doces e café da manhã completo.',
-                                    'Restaurante',
-                                    'Imagens/12º imagem card.png'
-                                )">Mais Detalhes</button>
-                            <button class="btn-confirmar-evento">Confirmar Presença</button>
-                        </div>
                     </div>
-                </div>
+                </a>
+
             </div>
 
-            <a href="Eventos/eventos.html" class="btn-ver-todos">Ver Todos os Eventos</a>
-
+            <a href="eventos/eventos.html" class="btn-ver-todos">Ver Todos os Eventos</a>
         </section>
-
     </main>
 
     <footer>
         <iframe src="footer/footer.html" frameborder="0" scrolling="no" width="100%" height="auto"></iframe>
     </footer>
-    
-    <script>
-        function verDetalhesEvento(titulo, preco, data, hora, local, descricao, tag, imagem) {
-            const eventoData = {
-                titulo: titulo,
-                preco: preco,
-                data: data,
-                hora: hora,
-                local: local,
-                descricao: descricao,
-                tag: tag,
-                imagem: imagem
-            };
-            // Codifica o objeto JSON para ser seguro na URL
-            const dadosCodificados = encodeURIComponent(JSON.stringify(eventoData));
 
-            // Ajuste o caminho para detalheseventos.html conforme a estrutura do seu projeto.
-            // Pelo caminho original do seu primeiro card: 'Ver mais detalhes/Eventos/vermaisdetalhes.html'
-            // Vou manter o nome do arquivo como detalheseventos.html e presumir o caminho relativo:
-            window.location.href = `ver_mais_detalhes_eventos/detalheseventos.html?data=${dadosCodificados}`;
-        }
-    </script>
-    <script src="Js/teste-login.js"></script>
-
+    <script src="JS/carousel.js"></script>
 </body>
 
 </html>
