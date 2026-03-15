@@ -63,9 +63,9 @@ function setupLogoutListener() {
 
             let logoutPath;
             if (userType === 'empresario') {
-                logoutPath = 'login/logout-empresario.html';
+                logoutPath = '/frontend/login/logoutEmpresario.html';
             } else {
-                logoutPath = 'login/logout-usuario.html';
+                logoutPath = '/frontend/login/logoutUsuario.html';
             }
 
             alternarEstadoHeader(false, 'cliente');
@@ -100,10 +100,10 @@ function alternarEstadoHeader(logado, userType = 'cliente') {
         if (editProfileLink) {
             if (userType === 'empresario') {
                 // Link correto para o perfil do empresário
-                editProfileLink.href = 'Perfil_empresario/Perfil_empresario.html';
+                editProfileLink.href = '/frontend/perfilEmpresario/perfilEmpresario.html';
             } else {
                 // Link correto para o perfil do usuário
-                editProfileLink.href = 'Perfil_usuario/perfil_usuario.html';
+                editProfileLink.href = '/frontend/perfilUsuario/perfilUsuario.html';
             }
         }
 

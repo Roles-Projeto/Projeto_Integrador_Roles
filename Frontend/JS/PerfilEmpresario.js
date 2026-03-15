@@ -50,7 +50,7 @@ async function loadEmpresarioData() {
     const userId = localStorage.getItem('userId');
     if (!userId) {
         alert("❌ Usuário não logado. Redirecionando para login...");
-        window.location.href = "../login/login.html";
+        window.location.href = "/frontend/login/login.html";
         return;
     }
 
@@ -169,7 +169,7 @@ uploadPicInput.addEventListener('change', (e) => {
 // -----------------------------
 sairBtn.addEventListener('click', () => {
     localStorage.clear();
-    window.location.href = '../login/logout-empresario.html';
+    window.location.href = '/frontend/login/logoutEmpresario.html';
 });
 
 // -----------------------------

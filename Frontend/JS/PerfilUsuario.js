@@ -43,7 +43,7 @@ async function loadProfileData() {
     const userId = localStorage.getItem('userId'); // 🔹 Pega o ID salvo no login
     if (!userId) {
         alert("❌ Usuário não logado. Redirecionando para login...");
-        window.location.href = "../login/login.html";
+        window.location.href = "/frontend/login/login.html";
         return;
     }
 
@@ -94,7 +94,7 @@ document.addEventListener('DOMContentLoaded', function () {
         if (headerIframe && headerIframe.contentWindow) {
             headerIframe.contentWindow.postMessage({ action: 'LOGOUT_REQUEST' }, '*');
         }
-        window.location.href = '../login/logout-usuario.html';
+        window.location.href = '/frontend/login/logoutUsuario.html';
     });
 
     editPictureBtn.addEventListener('click', function () {

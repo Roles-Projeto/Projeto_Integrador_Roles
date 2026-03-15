@@ -128,7 +128,7 @@ function finalizePurchase() {
 
     // 6. Redirecionar
     console.log("Compra finalizada. Redirecionando para Confirmação...");
-    window.location.href = 'confirmacao.html';
+    window.location.href = '/frontend/verDetalhesEventos/confirmacao.html';
 }
 
 /* ==================================================

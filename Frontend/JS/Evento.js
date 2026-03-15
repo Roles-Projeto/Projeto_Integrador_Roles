@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const linkDetalhes = document.createElement('a');
 
             // IMPORTANTE: Este é o link de destino correto
-            linkDetalhes.href = `../ver_mais_detalhes_eventos/detalheseventos.html?id=${eventId}`;
+            linkDetalhes.href = `/frontend/verDetalhesEventos/detalhesEventos.html?id=${eventId}`;
 
             // Copia as classes e o texto do botão original para manter o estilo
             linkDetalhes.className = button.className;
@@ -29,7 +29,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const linkConfirmar = document.createElement('a');
 
         // IMPORTANTE: Este é o link de destino correto para a página de confirmação
-        linkConfirmar.href = `../ver_mais_detalhes_eventos/presenca_confirmada.html`;
+        linkConfirmar.href = `/frontend/verDetalhesEventos/presencaConfirmada.html`;
 
         // Copia as classes e o texto do botão original para manter o estilo
         linkConfirmar.className = button.className;
