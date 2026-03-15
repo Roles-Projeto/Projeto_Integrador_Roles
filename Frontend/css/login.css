@@ -21,7 +21,9 @@ main {
   justify-content: center;
   align-items: center;
   width: 100%;
+  min-height: 500px;
 }
+
 
 .login-box {
   background: #fff;
@@ -192,11 +194,11 @@ main {
 }
 
 iframe {
-  /* 1. Remove qualquer borda que o HTML não removeu */
   border: none;
-  /* 2. Garante que ele se alinhe perfeitamente na esquerda */
   display: block;
+  overflow: hidden;
 }
+
 
 
 
@@ -204,4 +206,28 @@ iframe {
 footer iframe {
     min-height: 22rem;
     display: block;
+}
+/* ==================================================
+================ LOGIN MODAL / FORMULÁRIO ===========
+================================================== */
+
+body {
+  background: transparent;
+  overflow: auto;
+}
+
+
+.login-container {
+  padding: 20px;
+}
+
+.login-box {
+  background: #fff;
+  border-radius: 16px;
+  padding: 40px;
+  box-shadow: 0 6px 25px rgba(0, 0, 0, 0.2);
+  max-width: 380px;
+  width: 100%;
+  text-align: center;
+  animation: fadeIn 0.8s ease;
 }

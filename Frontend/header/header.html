@@ -61,7 +61,7 @@
                 </button>
 
                 <div id="header-nao-logado" class="user-action-btns">
-                    <a href="login/login.html" class="login">Entrar</a>
+                    <a href="../login/loginForm.html" class="login" id="openLogin">Entrar</a>
                     <a href="Cadastro/cadastro.html" class="btn-header-cadastro">Cadastrar</a>
                 </div>
 
@@ -95,8 +95,10 @@
 
         <div class="header-placeholder-fixo"></div>
 
-        <main class="conteudo-principal-evento">
+
     </header>
+    
+    <main class="conteudo-principal-evento"></main>
 
 
     <script>
@@ -122,7 +124,7 @@
                 headerPicElement.src = photoUrl;
             } else if (headerPicElement) {
                 // Placeholder padrão
-                headerPicElement.src = "https://i.imgur.com/default-placeholder.png"; 
+                headerPicElement.src = "https://i.imgur.com/default-placeholder.png";
             }
 
             // 💡 Atualiza Nome 
@@ -164,9 +166,9 @@
 
                     let logoutPath;
                     if (userType === 'empresario') {
-                        logoutPath = 'login/logout-empresario.html'; 
-                    } else { 
-                        logoutPath = 'login/logout-usuario.html'; 
+                        logoutPath = 'login/logout-empresario.html';
+                    } else {
+                        logoutPath = 'login/logout-usuario.html';
                     }
 
                     alternarEstadoHeader(false, 'cliente');
@@ -193,7 +195,7 @@
                 if (userType === 'empresario') {
                     menuCliente.style.display = 'none';
                     menuEmpresario.style.display = 'flex';
-                } else { 
+                } else {
                     menuCliente.style.display = 'flex';
                     menuEmpresario.style.display = 'none';
                 }
@@ -202,7 +204,7 @@
                     if (userType === 'empresario') {
                         // Link correto para o perfil do empresário
                         editProfileLink.href = 'Perfil_empresario/Perfil_empresario.html';
-                    } else { 
+                    } else {
                         // Link correto para o perfil do usuário
                         editProfileLink.href = 'Perfil_usuario/perfil_usuario.html';
                     }
@@ -257,52 +259,65 @@
             // Ação de login de empresário vinda do cadastro_empresario.html (MANTIDA)
             if (data && data.action === 'LOGIN_SUCCESS_EMPRESARIO') {
                 alternarEstadoHeader(true, 'empresario');
-                loadPersistentData(); 
-            } 
+                loadPersistentData();
+            }
             // 💡 NOVO: Ação de login de usuário vinda do login.html
-            else if (data && data.action === 'LOGIN_SUCCESS') { 
+            else if (data && data.action === 'LOGIN_SUCCESS') {
                 const userType = data.userType || 'cliente';
 
                 // 🔑 Salva os dados frescos (Nome Padrão e Email real) do login no localStorage
                 if (data.newName) localStorage.setItem('profileName', data.newName);
                 if (data.newEmail) localStorage.setItem('profileEmail', data.newEmail);
-                
+
                 alternarEstadoHeader(true, userType);
                 loadPersistentData(); // Recarrega com os novos dados
-            } 
-            
+            }
+
             // Recebe a atualização de FOTO + INFO (do perfil) (MANTIDA)
             else if (data && data.action === 'UPDATE_PROFILE_INFO' && data.newPicUrl) {
-                
+
                 if (headerPic) headerPic.src = data.newPicUrl;
                 if (data.newName && dropdownName) dropdownName.textContent = data.newName;
                 if (data.newEmail && dropdownEmail) dropdownEmail.textContent = data.newEmail;
-                
+
                 localStorage.setItem('profilePhotoUrl', data.newPicUrl);
             }
 
             // Recebe atualização de NOME e EMAIL (do botão Salvar) (MANTIDA)
             else if (data && data.action === 'UPDATE_PROFILE_INFO' && data.newName && data.newEmail) {
-                
+
                 if (dropdownName) dropdownName.textContent = data.newName;
                 if (dropdownEmail) dropdownEmail.textContent = data.newEmail;
-                
-                localStorage.setItem('profileName', data.newName); 
+
+                localStorage.setItem('profileName', data.newName);
                 localStorage.setItem('profileEmail', data.newEmail);
             }
-            
+
             // Recebe o comando de logout (MANTIDA)
             else if (data && data.action === 'LOGOUT_REQUEST') {
-                
+
                 localStorage.removeItem('profilePhotoUrl');
                 localStorage.removeItem('profileName');
                 localStorage.removeItem('profileEmail');
                 localStorage.removeItem('userIsLoggedIn');
                 localStorage.removeItem('userType');
 
-                alternarEstadoHeader(false, 'cliente'); 
+                alternarEstadoHeader(false, 'cliente');
             }
         });
+
+        const openLoginBtn = document.getElementById("openLogin");
+
+        if (openLoginBtn) {
+            openLoginBtn.addEventListener("click", (e) => {
+
+                e.preventDefault();
+
+                window.parent.postMessage("OPEN_LOGIN_MODAL", "*");
+
+            });
+        }
+
     </script>
 </body>
 

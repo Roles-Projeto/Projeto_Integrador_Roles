@@ -19,13 +19,15 @@ body {
 .hero-section {
     position: relative;
     overflow: hidden;
-    min-height: 720px;
+    height: 49em;
     display: flex;
     align-items: center;
     justify-content: center;
     color: #fff;
     text-align: center;
+
 }
+
 
 .hero-bg {
     position: absolute;
@@ -45,9 +47,8 @@ body {
 .hero-inner {
     position: relative;
     z-index: 2;
-    max-width: 1500px;
+    max-width: 100em;
     margin: 0 auto;
-    padding: 130px 20px;
 }
 
 .kicker {
@@ -167,8 +168,8 @@ body {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    width: 38px;
-    height: 38px;
+    width: 2.5em;
+    height: 2.5em;
     border-radius: 50%;
     border: 1px solid #eee;
     background: #fff;
@@ -188,8 +189,8 @@ body {
     border-color: #9333ea;
 }
 
-.cat-btn.prev { left: -15px; }
-.cat-btn.next { right: -15px; }
+
+.cat-btn.next { right: -0em; }
 
 /* ==================================================
 ==================== CARDS DE LOCAIS/ EVENTOS ======
@@ -358,8 +359,8 @@ body {
 }
 
 .carousel-card {
-    flex: 0 0 420px;
-    height: 500px;
+    flex: 0 0 900px;
+    height: 45vh;
     border-radius: 20px;
     overflow: hidden;
     position: relative;
@@ -429,28 +430,262 @@ body {
     background: #9333ea;
     transform: translateY(-50%) scale(1.1);
 }
-
-/* ==================================================
-==================== RESPONSIVIDADE =================
-================================================== */
-@media (max-width: 768px) {
-    .populares-grid,
-    .eventos-grid {
-        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    }
-}
-
-@media (max-width: 480px) {
-    .populares-grid,
-    .eventos-grid {
-        grid-template-columns: 1fr;
-    }
-}
-
-
-
 /* FOOTER */
 footer iframe {
     min-height: 22rem;
     display: block;
+}
+
+/* ==================================================
+==================== FAQ (PERGUNTAS FREQUENTES) ====
+================================================== */
+
+
+.faq-arrow{
+    font-size:2rem;
+    color:#9333ea;
+    transition: transform .3s ease;
+}
+
+/* seta gira quando abre */
+
+.faq-question.active .faq-arrow{
+    transform: rotate(90deg);
+}
+
+
+
+.faq {
+    background: #f4eef8;
+    padding: 6rem 2rem;
+    text-align: center;
+}
+
+.faq-header h2 {
+    font-size: 2rem;
+    color: #03021a;
+    margin-bottom: .5rem;
+}
+
+.faq-header p {
+    color: #666;
+    margin-bottom: 3rem;
+}
+
+.faq-container {
+    max-width: 45em;
+    margin: auto;
+}
+
+.faq-item {
+    background: #fff;
+    border-radius: 1rem;
+    margin-bottom: 1rem;
+    overflow: hidden;
+    border: 1px solid #ddd;
+    
+}
+
+.faq-question {
+    width: 100%;
+    padding: 0.8rem 2rem;
+    border: none;
+    background: none;
+    text-align: left;
+    font-size: 0.9rem;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.faq-question span {
+    color: #a020f0;
+    font-size: 2rem;
+}
+
+.faq-answer{
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height .3s ease;
+    padding: 0 2rem;
+    text-align: left;
+}
+
+.faq-item.active .faq-answer{
+    padding: 1rem 2rem 1.5rem 2rem;
+}
+
+.faq-answer p {
+    color: #555;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    margin: 0;
+}
+
+.faq-contact {
+    margin-top: 3rem;
+}
+
+.faq-btn {
+    display: inline-block;
+    margin-top: 1rem;
+    padding: 1.2rem 3rem;
+    border-radius: 3rem;
+    background: linear-gradient(90deg,#9333ea,#ff2c8c);
+    color: #fff;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.faq-btn:hover {
+    opacity: .9;
+}
+
+/* ==================================================
+================ MODAL DE LOGIN =====================
+================================================== */
+
+.login-modal{
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+
+    background: rgba(0,0,0,0.5);
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 150px;
+
+    opacity:0;
+    visibility:hidden;
+    transition:.3s;
+}
+
+.login-modal.active{
+    opacity:1;
+    visibility:visible;
+}
+
+
+.login-modal-content {
+    background: transparent;
+    border-radius: 12px;
+    position: relative;
+}
+
+.login-iframe {
+    width: 420px;
+    height: 500px;
+    border: none;
+}
+
+.close-login {
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    background: white;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 30px;
+    cursor: pointer;
+    font-weight: bold;
+}
+.login-iframe {
+    width: 420px;
+    height: 90vh;
+    border: none;
+    overflow: hidden;
+    scrollbar-width: none;
+}
+
+.login-iframe::-webkit-scrollbar {
+    display: none;
+}
+
+
+
+/* RESPONSIVO */
+
+@media (max-width:768px){
+
+.faq-header h2{
+font-size:2.4rem;
+}
+
+.faq-question{
+font-size:1.4rem;
+}
+
+}
+
+
+
+
+/* ==================================================
+RESPONSIVIDADE
+================================================== */
+
+/* TABLET */
+
+@media (max-width:1024px){
+
+.hero-title{
+font-size:4rem;
+}
+
+.carousel-card{
+flex:0 0 50rem;
+height:38rem;
+}
+
+}
+
+/* MOBILE */
+
+@media (max-width:768px){
+
+.hero-section{
+min-height:60rem;
+}
+
+.hero-title{
+font-size:3.2rem;
+}
+
+.hero-accent{
+font-size:3.2rem;
+}
+
+.populares-grid,
+.eventos-grid{
+grid-template-columns:1fr;
+}
+
+.carousel-card{
+flex:0 0 32rem;
+height:28rem;
+}
+
+}
+
+/* MOBILE PEQUENO */
+
+@media (max-width:480px){
+
+.hero-title{
+font-size:2.6rem;
+}
+
+.section-title{
+font-size:2.2rem;
+}
+
+.card-content h3{
+font-size:1.8rem;
+}
+
 }

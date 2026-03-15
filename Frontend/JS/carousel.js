@@ -1,8 +1,8 @@
 document.addEventListener("DOMContentLoaded", () => {
 
-    /* ============================
-       CARROSSEL PRINCIPAL
-    ============================ */
+    /* ==================================================
+    ================= CARROSSEL PRINCIPAL ===============
+    ================================================== */
 
     const track = document.querySelector(".carousel-track");
     const cards = document.querySelectorAll(".carousel-card");
@@ -29,7 +29,6 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         function proximoCard() {
-
             index++;
 
             if (index >= cards.length) {
@@ -40,7 +39,6 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         function cardAnterior() {
-
             index--;
 
             if (index < 0) {
@@ -58,9 +56,9 @@ document.addEventListener("DOMContentLoaded", () => {
         atualizarCarousel();
     }
 
-    /* ============================
-       CARROSSEL CATEGORIAS
-    ============================ */
+    /* ==================================================
+    ================= CARROSSEL CATEGORIAS =============
+    ================================================== */
 
     const catTrack = document.querySelector(".categorias-track");
     const catCards = document.querySelectorAll(".card-categoria");
@@ -105,9 +103,61 @@ document.addEventListener("DOMContentLoaded", () => {
         if (catNext) catNext.addEventListener("click", proximaCategoria);
         if (catPrev) catPrev.addEventListener("click", categoriaAnterior);
 
-        /* AUTOPLAY */
-
         setInterval(proximaCategoria, 2500);
     }
 
+    /* ==================================================
+    ================= FAQ ===============================
+    ================================================== */
+
+    const perguntas = document.querySelectorAll(".faq-question");
+
+    if (perguntas.length > 0) {
+
+        perguntas.forEach(btn => {
+
+            btn.addEventListener("click", () => {
+
+                const resposta = btn.nextElementSibling;
+
+                btn.classList.toggle("active");
+
+                if (resposta.style.maxHeight) {
+                    resposta.style.maxHeight = null;
+                } else {
+                    resposta.style.maxHeight =
+                        resposta.scrollHeight + "px";
+                }
+
+            });
+
+        });
+
+    }
+
+    /* ==================================================
+    ================= MODAL LOGIN ======================
+    ================================================== */
+
+    const modal = document.getElementById("loginModal");
+    const closeLogin = document.getElementById("closeLogin");
+
+    if (modal && closeLogin) {
+
+        closeLogin.addEventListener("click", () => {
+            modal.classList.remove("active");
+        });
+
+        window.addEventListener("message", (event) => {
+
+            if (event.data === "OPEN_LOGIN_MODAL") {
+                modal.classList.add("active");
+            }
+
+        });
+
+    }
+
 });
+
+
