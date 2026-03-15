@@ -1,0 +1,335 @@
+/* Estilos Gerais e Poppins */
+body {
+    font-family: 'Poppins', Arial, sans-serif;
+    margin: 0;
+    background-color: #f4f5f7;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+header {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    background-color: white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+main {
+    flex-grow: 1;
+    padding: 90px 20px;
+}
+
+.page-content {
+    max-width: 1100px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 20px 0;
+}
+
+/* Link "Voltar ao Evento" */
+.back-link {
+    display: inline-block;
+    color: #666;
+    margin-bottom: 20px;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.back-link:hover {
+    color: #000;
+}
+
+/* Layout de Duas Colunas */
+.checkout-container {
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+}
+
+.form-section {
+    flex: 2;
+    background-color: white;
+    padding: 25px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.summary-section {
+    flex: 1;
+    background-color: white;
+    padding: 25px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    position: sticky;
+    top: 70px;
+}
+
+/* Estilos do Formulário */
+.section-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-subtitle {
+    font-size: 14px;
+    font-weight: 600;
+    color: #555;
+    margin-bottom: 10px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 8px;
+    margin-top: 20px;
+}
+
+.dados-pessoais {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+}
+
+/* Validade e CVV LADO A LADO */
+.validade-cvv-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+}
+
+.input-group label {
+    display: block;
+    font-size: 12px;
+    color: #888;
+    margin-bottom: 4px;
+    font-weight: 500;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 8px 10px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    background-color: #f8f8f8;
+    font-size: 14px;
+    box-sizing: border-box;
+    color: #333;
+}
+
+.input-group input:focus {
+    outline: none;
+    border-color: #bbb;
+    background-color: white;
+}
+
+/* Pagamento - Segurança */
+.security-info {
+    display: flex;
+    align-items: center;
+    font-size: 12px;
+    color: #888;
+    margin-top: -5px;
+    margin-bottom: 15px;
+}
+
+.security-info i {
+    margin-right: 6px;
+    color: #4CAF50;
+}
+
+/* Botão Final */
+.btn-pagar {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 6px;
+    background-color: #1a1a1a;
+    color: white;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.btn-pagar:hover {
+    background-color: #333;
+}
+
+/* --- Resumo do Pedido (Right Column) --- */
+.summary-section .section-title {
+    margin-bottom: 15px;
+}
+
+/* Detalhes do Evento */
+.event-details {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #eee;
+}
+
+.event-image {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 4px;
+}
+
+.event-info {
+    text-align: left;
+}
+
+.event-info h4 {
+    font-size: 14px;
+    font-weight: 600;
+    color: #333;
+    margin: 0 0 5px 0;
+}
+
+.event-meta {
+    font-size: 11px;
+    color: #888;
+    line-height: 1.5;
+}
+
+/* Ingresso Selecionado */
+.ticket-selected {
+    margin-bottom: 15px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #eee;
+}
+
+.ticket-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 14px;
+    color: #333;
+    padding: 5px 0;
+}
+
+.ticket-type {
+    font-weight: 500;
+}
+
+.ticket-price {
+    font-weight: 600;
+}
+
+.ticket-benefits {
+    font-size: 11px;
+    color: #4CAF50;
+    margin-left: 10px;
+}
+
+.ticket-benefits i {
+    margin-right: 4px;
+}
+
+/* Quantidade e Preço Final */
+.quantity-control {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 5px 0 10px 0;
+}
+
+.quantity-control label {
+    font-size: 14px;
+    font-weight: 500;
+    color: #555;
+}
+
+.quantity-input {
+    display: flex;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+.quantity-input button {
+    background: none;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    font-size: 16px;
+    color: #333;
+}
+
+.quantity-input input {
+    width: 25px;
+    text-align: center;
+    border: none;
+    border-left: 1px solid #ddd;
+    border-right: 1px solid #ddd;
+    padding: 5px 0;
+    background-color: white;
+    font-size: 14px;
+}
+
+.price-breakdown {
+    margin-top: 15px;
+}
+
+.price-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+    padding: 3px 0;
+}
+
+.price-row.total-row {
+    font-size: 16px;
+    font-weight: 700;
+    border-top: 1px solid #eee;
+    padding-top: 8px;
+    margin-top: 8px;
+}
+
+.total-row .price {
+    color: #1a1a1a;
+}
+
+.tax-info {
+    background-color: #e6f7ff;
+    border: 1px solid #bae7ff;
+    padding: 6px;
+    font-size: 10px;
+    color: #0056b3;
+    margin-top: 8px;
+    text-align: center;
+}
+
+.final-message {
+    font-size: 10px;
+    color: #888;
+    margin-top: 15px;
+    line-height: 1.4;
+}
+
+/* Media Queries para responsividade */
+@media (max-width: 900px) {
+    .checkout-container {
+        flex-direction: column;
+    }
+
+    .summary-section {
+        position: static;
+    }
+}
+
+@media (max-width: 600px) {
+    .dados-pessoais {
+        grid-template-columns: 1fr;
+    }
+
+    .validade-cvv-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+    }
+}

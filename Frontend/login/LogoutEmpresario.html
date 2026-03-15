@@ -5,12 +5,12 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Rolês - Área do Empresário</title>
-  <link rel="stylesheet" href="../css/logout-empresario.css">
+  <link rel="stylesheet" href="../CSS/LogoutEmpresario.css">
 </head>
 
 <body>
   <header>
-    <iframe id="site-header" src="../header/header.html" frameborder="0" scrolling="no" width="100%"
+    <iframe id="site-header" src="../Header/Header.html" frameborder="0" scrolling="no" width="100%"
       height="80"></iframe>
 
   </header>
@@ -23,24 +23,11 @@
   </main>
 
   <footer>
-    <iframe src="../footer/footer.html" frameborder="0" scrolling="no" width="100%" height="auto"></iframe>
+    <iframe src="../Footer/Footer.html" frameborder="0" scrolling="no" width="100%" height="auto"></iframe>
   </footer>
-  <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const headerIframe = document.getElementById("site-header");
-        
-        if (headerIframe && headerIframe.contentWindow) {
-            // Tentativa robusta de recarregar/deslogar o iframe
-            try {
-                // Se a lógica de deslogar estiver no header.html e depender do recarregamento:
-                headerIframe.contentWindow.location.reload(true);
-            } catch (e) {
-                // Se o iframe for de domínio diferente, isso pode falhar silenciosamente (ignorar)
-                console.error("Erro ao recarregar iframe do header:", e);
-            }
-        }
-    });
-</script>
+
+  <script src="../JS/LogoutEmpresario.js"></script>
+
 </body>
 
 </html>

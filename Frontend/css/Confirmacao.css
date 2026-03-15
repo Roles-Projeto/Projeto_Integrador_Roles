@@ -1,0 +1,277 @@
+/* Estilos Gerais */
+body {
+    font-family: 'Poppins', Arial, sans-serif;
+    margin: 0;
+    background-color: #f4f5f7;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    font-size: 12px;
+    color: #333;
+}
+
+main {
+    flex-grow: 1;
+    padding: 100px 20px;
+}
+
+.page-content {
+    max-width: 800px;
+    width: 100%;
+    margin: 0 auto;
+}
+
+.card {
+    background-color: white;
+    padding: 25px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    margin-bottom: 20px;
+}
+
+.section-title {
+    font-size: 15px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 15px;
+}
+
+.success-box {
+    background-color: #e8f5e9;
+    color: #388e3c;
+    border: 1px solid #c8e6c9;
+    text-align: center;
+    padding: 20px;
+}
+
+.success-box i {
+    font-size: 28px;
+    margin-bottom: 5px;
+}
+
+.success-box h1 {
+    font-size: 20px;
+    font-weight: 600;
+    margin: 0 0 5px 0;
+    color: #333;
+}
+
+.success-box p {
+    font-size: 12px;
+    margin: 0 0 10px 0;
+}
+
+.order-id {
+    font-weight: 500;
+    background-color: #dcedc8;
+    padding: 5px 10px;
+    border-radius: 4px;
+    display: inline-block;
+    color: #333;
+    font-size: 11px;
+}
+
+.event-details-card {
+    display: flex;
+    gap: 20px;
+}
+
+.event-image {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 4px;
+}
+
+.event-info {
+    flex-grow: 1;
+}
+
+.event-info h4 {
+    font-size: 16px;
+    font-weight: 600;
+    color: #333;
+    margin: 0 0 8px 0;
+}
+
+.event-meta p {
+    font-size: 12px;
+    color: #666;
+    margin: 5px 0;
+}
+
+.event-meta i {
+    width: 20px;
+    color: #999;
+}
+
+.ticket-summary {
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #eee;
+}
+
+.ticket-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 0;
+}
+
+.ticket-type {
+    font-size: 14px;
+    font-weight: 500;
+    color: #333;
+    display: flex;
+    align-items: center;
+}
+
+.ticket-type i {
+    margin-right: 10px;
+    font-size: 18px;
+    color: #999;
+}
+
+.ticket-price {
+    font-weight: 500;
+    color: #333;
+}
+
+.benefits-list {
+    list-style: none;
+    padding: 0;
+    margin: 10px 0 20px 0;
+    font-size: 12px;
+    color: #555;
+    border-left: 3px solid #dcedc8;
+    padding-left: 15px;
+}
+
+.benefits-list li {
+    margin-bottom: 5px;
+}
+
+.benefits-list i {
+    color: #4CAF50;
+    margin-right: 5px;
+}
+
+.price-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    padding: 4px 0;
+}
+
+.price-row.total-row {
+    font-size: 16px;
+    font-weight: 600;
+    border-top: 1px dashed #ddd;
+    padding-top: 10px;
+    margin-top: 10px;
+}
+
+.qr-code-area {
+    text-align: center;
+    border: 2px dashed #ddd;
+    padding: 20px;
+    margin: 20px 0;
+    border-radius: 8px;
+}
+
+.qr-placeholder {
+    width: 150px;
+    height: 150px;
+    background-color: #f0f0f0;
+    margin: 10px auto;
+    border-radius: 4px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 40px;
+    color: #aaa;
+}
+
+.qr-code-text {
+    font-size: 11px;
+    color: #666;
+    margin-top: 5px;
+}
+
+.actions-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.btn-action,
+.btn-primary {
+    padding: 8px 15px;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    text-decoration: none;
+    text-align: center;
+    border: 1px solid transparent;
+}
+
+.btn-action {
+    background-color: white;
+    color: #333;
+    border-color: #ddd;
+}
+
+.btn-action:hover {
+    background-color: #f0f0f0;
+}
+
+.btn-primary {
+    background-color: #1a1a1a;
+    color: white;
+}
+
+.btn-primary:hover {
+    background-color: #333;
+}
+
+.important-info-list {
+    list-style: none;
+    padding: 0;
+    font-size: 12px;
+    color: #555;
+}
+
+.important-info-list li {
+    margin-bottom: 8px;
+}
+
+.important-info-list li::before {
+    content: "\2022";
+    color: #999;
+    font-weight: bold;
+    display: inline-block;
+    width: 1em;
+    margin-left: -1em;
+}
+
+/* --- Toast --- */
+#toast {
+    visibility: hidden;
+    min-width: 250px;
+    background-color: rgba(0, 0, 0, 0.85);
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 10px;
+    position: fixed;
+    z-index: 10000;
+    left: 50%;
+    bottom: 30px;
+    font-size: 12px;
+    transform: translateX(-50%);
+    opacity: 0;
+    transition: opacity 0.5s, bottom 0.5s;
+}

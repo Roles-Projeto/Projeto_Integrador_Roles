@@ -161,3 +161,29 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 
+const loginModal = document.getElementById("loginModal");
+const closeLogin = document.getElementById("closeLogin");
+
+/* RECEBER MENSAGEM DO HEADER */
+window.addEventListener("message", (event) => {
+
+    if (event.data === "OPEN_LOGIN_MODAL") {
+        loginModal.style.display = "flex";
+    }
+
+});
+
+/* FECHAR MODAL */
+closeLogin.addEventListener("click", () => {
+    loginModal.style.display = "none";
+});
+
+/* FECHAR CLICANDO FORA */
+loginModal.addEventListener("click", (e) => {
+    if (e.target === loginModal) {
+        loginModal.style.display = "none";
+    }
+});
+
+
+
