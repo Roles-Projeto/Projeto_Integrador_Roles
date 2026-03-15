@@ -190,7 +190,7 @@ function carregarDetalhesEvento() {
         avatarOrganizadorElement.src = organizador.avatar;
 
         const nomeCodificado = encodeURIComponent(organizador.nome);
-        linkVerPerfil.href = `../eventos/ver_perfil.html?nome=${nomeCodificado}`;
+        linkVerPerfil.href = `/frontend/envetos/verPerfil.html?nome=${nomeCodificado}`;
     } else {
         nomeProdutoraElement.textContent = 'Organizador não encontrado';
         eventosOrganizadosElement.textContent = '--';
@@ -312,12 +312,12 @@ function realizarAcaoComprar() {
         // Evento GRÁTIS
         console.log(`Presença em "${nomeIngresso}" confirmada. Redirecionando...`);
         // 🚨 CAMINHO CORRIGIDO: Volta um nível (de eventos/) e entra em checkout/ 
-        window.location.href = 'presenca_confirmada.html';
+        window.location.href = '/frontend/verDetalhesEventos/presencaConfirmada.html';
     } else {
         // Evento PAGO
         console.log("Ingresso selecionado! Redirecionando para Finalizar Compra...");
         // 🚨 CAMINHO CORRIGIDO: Volta um nível (de eventos/) e entra em checkout/
-        window.location.href = 'finalizar_compra.html';
+        window.location.href = '/frontend/verDetalhesEventos/finalizarCompra.html';
     }
 }
 

@@ -51,7 +51,7 @@ function adicionarListenersDetalhes() {
                 localStorage.setItem('localDetalhes', JSON.stringify(localData));
 
                 // 2. Redireciona para a página de detalhes
-                window.location.href = '../ver_detalhes_locais/verdetalheslocais.html';
+                window.location.href = '/frontend/verDetalhesLocais/verDetalhesLocais.html';
             } else {
                 console.error('Card pai não encontrado.');
             }

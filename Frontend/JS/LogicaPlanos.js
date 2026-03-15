@@ -99,7 +99,7 @@ if (formCadastro) {
             if (data.mensagem === "Empresário cadastrado com sucesso!") {
                 alert("✅ Cadastro realizado com sucesso!");
                 // Redireciona diretamente para a página de login
-                window.location.href = "../login/login.html";
+                window.location.href = "/frontend/login/login.html";
             } else {
                 alert("⚠️ Erro ao cadastrar: " + (data.erro || "Verifique os dados e tente novamente."));
             }
