@@ -1,0 +1,163 @@
+/* 🎯 2. DEFINIÇÃO DA FONTE PRINCIPAL NO BODY */
+body {
+    font-family: 'Poppins', Arial, sans-serif;
+    margin: 0;
+    background-color: #f4f5f7;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* Estilo para simular o header */
+header {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    background-color: white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+main {
+    flex-grow: 1;
+    padding: 50px 20px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.container-confirmacao {
+    padding: 40px 60px;
+    text-align: center;
+    max-width: 600px;
+    width: 100%;
+}
+
+.icone-check-container {
+    margin-bottom: 20px;
+}
+
+.icone-check {
+    width: 80px;
+    height: 80px;
+    color: #4CAF50;
+}
+
+.titulo-confirmacao {
+    font-size: 26px;
+    /* Tamanho mantido para destaque */
+    color: #333;
+    font-weight: 700;
+    /* Poppins usa 700 para bold */
+    margin-bottom: 5px;
+}
+
+.mensagem-confirmacao {
+    font-size: 14px;
+    /* 🎯 Ajustado para 14px */
+    color: #666;
+    margin-bottom: 30px;
+}
+
+.card-lembrete {
+    background-color: #e6f7ff;
+    border: 1px solid #bae7ff;
+    padding: 20px;
+    border-radius: 8px;
+    text-align: left;
+    margin-bottom: 30px;
+}
+
+.card-lembrete h3 {
+    margin-top: 0;
+    font-size: 14px;
+    /* 🎯 Ajustado para 14px */
+    color: #333;
+    font-weight: 600;
+    /* Poppins usa 600 para semi-bold */
+}
+
+.card-lembrete ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    font-size: 12px;
+    /* 🎯 Ajustado para 12px */
+    color: #444;
+}
+
+.card-lembrete li {
+    margin-bottom: 8px;
+    line-height: 1.4;
+}
+
+.acoes-finais {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+.botao-acao {
+    /* padding: 12px 25px; Removido/Comentado */
+    padding: 8px 20px;
+    /* 🎯 Ajustado para ser mais curto (8px vertical) e mais largo (30px horizontal) */
+    border: none;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 300px;
+}
+
+.botao-explorar {
+    background-color: white;
+    color: #000;
+    border: 2px solid #bbb9b9;
+}
+
+.botao-explorar:hover {
+    background-color: #f0f0f0;
+}
+
+.botao-compartilhar {
+    background-color: #1a1a1a;
+    color: white;
+}
+
+.botao-compartilhar:hover {
+    background-color: #333;
+}
+
+.icone-compartilhar {
+    margin-right: 8px;
+    width: 18px;
+    height: 18px;
+}
+
+/* Estilo para simular o footer */
+footer {
+    width: 100%;
+    background-color: #1a1a1a;
+    color: white;
+    text-align: center;
+    padding: 10px 0;
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+    .container-confirmacao {
+        padding: 30px 20px;
+    }
+
+    .acoes-finais {
+        flex-direction: column;
+    }
+
+    .botao-acao {
+        width: 100%;
+    }
+}

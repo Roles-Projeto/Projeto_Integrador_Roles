@@ -29,11 +29,14 @@
                     <div class="detalhes-perfil">
                         <img src="../Imagens/logo3.png" alt="Avatar Organizador" class="avatar" id="avatar-organizador">
                         <div>
-                            <h1 class="nome-empresa" id="nome-organizador">Carregando... <span class="verificado">◉ Verificado</span>
+                            <h1 class="nome-empresa" id="nome-organizador">Carregando... <span class="verificado">◉
+                                    Verificado</span>
                             </h1>
                             <p class="descricao" id="descricao-organizador">Carregando descrição...</p>
                             <div class="resumo-estatisticas">
-                                <span class="avaliacao"><span class="material-symbols-outlined icone-estrela-pequena">star</span> <span id="avaliacao-perfil">4.9</span> de avaliação</span>
+                                <span class="avaliacao"><span
+                                        class="material-symbols-outlined icone-estrela-pequena">star</span> <span
+                                        id="avaliacao-perfil">4.9</span> de avaliação</span>
                                 <span class="separador">|</span>
                                 <span id="eventos-realizados">127 eventos realizados</span>
                                 <span class="separador">|</span>
@@ -48,8 +51,10 @@
             <div class="conteudo-principal">
                 <div class="abas-e-lista">
                     <div class="navegacao-abas">
-                        <button class="botao-aba js-tab-button" data-tab="proximos-eventos">Próximos Eventos (8)</button>
-                        <button class="botao-aba js-tab-button ativo" data-tab="eventos-passados">Eventos Passados (119)</button>
+                        <button class="botao-aba js-tab-button" data-tab="proximos-eventos">Próximos Eventos
+                            (8)</button>
+                        <button class="botao-aba js-tab-button ativo" data-tab="eventos-passados">Eventos Passados
+                            (119)</button>
                         <button class="botao-aba js-tab-button" data-tab="avaliacoes">Avaliações</button>
                     </div>
 
@@ -60,21 +65,24 @@
                                     <h3 class="titulo-evento">Rock na Praça 2024</h3>
                                     <p class="detalhes-evento">15/09/2024 • 933 participantes</p>
                                 </div>
-                                <span class="avaliacao-evento"><span class="material-symbols-outlined">star</span> 4.8</span>
+                                <span class="avaliacao-evento"><span class="material-symbols-outlined">star</span>
+                                    4.8</span>
                             </div>
                             <div class="cartao-evento">
                                 <div>
                                     <h3 class="titulo-evento">Festival Gastronômico</h3>
                                     <p class="detalhes-evento">20/08/2024 • 495 participantes</p>
                                 </div>
-                                <span class="avaliacao-evento"><span class="material-symbols-outlined">star</span> 4.9</span>
+                                <span class="avaliacao-evento"><span class="material-symbols-outlined">star</span>
+                                    4.9</span>
                             </div>
                             <div class="cartao-evento">
                                 <div>
                                     <h3 class="titulo-evento">Sunset Session</h3>
                                     <p class="detalhes-evento">10/07/2024 • 168 participantes</p>
                                 </div>
-                                <span class="avaliacao-evento"><span class="material-symbols-outlined">star</span> 5</span>
+                                <span class="avaliacao-evento"><span class="material-symbols-outlined">star</span>
+                                    5</span>
                             </div>
                         </div>
 
@@ -154,125 +162,25 @@
 
                     <div class="caixa-contato">
                         <h3 class="titulo-caixa">Contato</h3>
-                        <p class="detalhe-contato"><span class="material-symbols-outlined icone-contato">mail</span> <span id="email-contato">contato@eventosgp.com.br</span></p>
-                        <p class="detalhe-contato"><span class="material-symbols-outlined icone-contato">call</span> <span id="telefone-contato">(62) 98765-4321</span></p>
-                        <button class="botao-enviar-mensagem"><span class="material-symbols-outlined icone-botao">send</span> Enviar Mensagem</button>
+                        <p class="detalhe-contato"><span class="material-symbols-outlined icone-contato">mail</span>
+                            <span id="email-contato">contato@eventosgp.com.br</span></p>
+                        <p class="detalhe-contato"><span class="material-symbols-outlined icone-contato">call</span>
+                            <span id="telefone-contato">(62) 98765-4321</span></p>
+                        <button class="botao-enviar-mensagem"><span
+                                class="material-symbols-outlined icone-botao">send</span> Enviar Mensagem</button>
                     </div>
                 </div>
             </div>
         </div>
 
     </main>
+
     <footer>
         <iframe src="../footer/footer.html" frameborder="0" scrolling="no" width="100%" height="auto"></iframe>
     </footer>
-    <script>
-        // Dados de perfil simulados (pode ser expandido para todos os perfis)
-        const DADOS_PERFIS = {
-            'Produtora Ji & Cia': {
-                descricao: 'Especializada em jazz, blues e eventos culturais ao ar livre. Qualidade e boa música em Goiânia.',
-                avaliacao: '4.9',
-                eventosRealizados: '42',
-                participantes: '7.850',
-                seguidores: '1.500',
-                eventosAtivos: '5',
-                membroDesde: 'Março de 2021',
-                email: 'contato@produtorajiecia.com',
-                telefone: '(62) 99123-4567',
-                avatar: '../Imagens/logo3.png' // Imagem específica (se houver)
-            },
-            'Drinks & Beer': {
-                descricao: 'O melhor do happy hour na T-63! Oferecemos os melhores chopps e drinks com música ambiente e petiscos.',
-                avaliacao: '4.7',
-                eventosRealizados: '15',
-                participantes: '2.500',
-                seguidores: '950',
-                eventosAtivos: '3',
-                membroDesde: 'Outubro de 2022',
-                email: 'contato@drinksandbeer.com.br',
-                telefone: '(62) 98888-7777',
-                avatar: '../Imagens/avatar-generico.jpg'
-            },
-            // Perfil Padrão/Fallback para quando o parâmetro não for encontrado
-            'Eventos Goiânia Premium': {
-                descricao: 'Somos uma empresa especializada em criar experiências únicas em Goiânia. Com mais de 5 anos de mercado, já realizamos centenas de eventos inesquecíveis para nossos clientes.',
-                avaliacao: '4.9',
-                eventosRealizados: '127',
-                participantes: '15.420',
-                seguidores: '2.340',
-                eventosAtivos: '8',
-                membroDesde: 'Janeiro de 2020',
-                email: 'contato@eventosgp.com.br',
-                telefone: '(62) 98765-4321',
-                avatar: '../Imagens/Logo Restaurante.avif'
-            }
-            // Adicione outros perfis aqui conforme necessário
-        };
 
-        /* ==================================================
-        // --- FUNÇÃO DE CARREGAMENTO DO PERFIL ---
-        ================================================== */
-        function carregarPerfilOrganizador() {
-            const params = new URLSearchParams(window.location.search);
-            // Pega o nome do parâmetro 'nome' e o decodifica (reverte espaços e caracteres especiais)
-            const nomeOrganizadorURL = decodeURIComponent(params.get('nome') || 'Eventos Goiânia Premium');
-            
-            // Tenta encontrar os dados, se não encontrar, usa o padrão 'Eventos Goiânia Premium'
-            const dados = DADOS_PERFIS[nomeOrganizadorURL] || DADOS_PERFIS['Eventos Goiânia Premium'];
-            
-            // 1. Atualiza o cabeçalho do perfil
-            document.getElementById('nome-organizador').innerHTML = `${nomeOrganizadorURL} <span class="verificado">◉ Verificado</span>`;
-            document.getElementById('descricao-organizador').textContent = dados.descricao;
-            document.getElementById('avatar-organizador').src = dados.avatar;
+    <script src="../JS/VerPerfil.js"></script>
 
-            // 2. Atualiza as estatísticas no resumo do cabeçalho
-            document.getElementById('avaliacao-perfil').textContent = dados.avaliacao;
-            document.getElementById('eventos-realizados').textContent = `${dados.eventosRealizados} eventos realizados`;
-            document.getElementById('participantes-totais').textContent = `${dados.participantes} participantes`;
-            
-            // 3. Atualiza a barra lateral (Estatísticas)
-            document.getElementById('seguidores').textContent = dados.seguidores;
-            document.getElementById('eventos-ativos').textContent = dados.eventosAtivos;
-            document.getElementById('total-eventos-estatistica').textContent = dados.eventosRealizados; // Reusa o total de eventos
-            document.getElementById('membro-desde').textContent = dados.membroDesde;
-
-            // 4. Atualiza a barra lateral (Contato)
-            document.getElementById('email-contato').textContent = dados.email;
-            document.getElementById('telefone-contato').textContent = dados.telefone;
-        }
-
-
-        /* ==================================================
-        // --- FUNÇÃO DE LÓGICA DAS ABAS ---
-        ================================================== */
-        function inicializarAbas() {
-            const botoesAba = document.querySelectorAll('.js-tab-button');
-            const paineisAba = document.querySelectorAll('.painel-aba');
-
-            botoesAba.forEach(button => {
-                button.addEventListener('click', () => {
-                    const tabId = button.getAttribute('data-tab');
-
-                    // Remove 'ativo' class de todos os botões e painéis
-                    botoesAba.forEach(btn => btn.classList.remove('ativo'));
-                    paineisAba.forEach(pane => pane.classList.remove('ativo'));
-
-                    // Adiciona 'ativo' class ao botão e painel clicados
-                    button.classList.add('ativo');
-                    document.getElementById(tabId).classList.add('ativo');
-                });
-            });
-        }
-
-
-        /* ==================================================
-        // --- INICIALIZAÇÃO DA PÁGINA ---
-        ================================================== */
-        document.addEventListener('DOMContentLoaded', () => {
-            carregarPerfilOrganizador();
-            inicializarAbas();
-        });
-    </script>
 </body>
 
 </html>
