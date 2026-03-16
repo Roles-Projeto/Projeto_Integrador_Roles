@@ -98,3 +98,30 @@ exports.atualizarEmpresario = (req, res) => {
         }
     );
 };
+// Perfil do empresário (usando token)
+exports.perfil = (req, res) => {
+
+    const userId = req.userId;
+
+    connection.query(
+        "SELECT * FROM empresarios WHERE id = ?",
+        [userId],
+        (err, results) => {
+
+            if (err) {
+                return res.status(500).json({
+                    erro: "Erro no servidor",
+                    detalhes: err.message
+                });
+            }
+
+            if (results.length === 0) {
+                return res.status(404).json({
+                    erro: "Empresário não encontrado"
+                });
+            }
+
+            res.json(results[0]);
+        }
+    );
+};
