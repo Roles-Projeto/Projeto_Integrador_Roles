@@ -1,217 +1,173 @@
-
-// Seleciona os containers de menu
-const menuCliente = document.getElementById('menu-cliente');
-const menuEmpresario = document.getElementById('menu-empresario');
-
 // ----------------------------------------------------
-// FUNÇÃO: CARREGA DADOS SALVOS DO LOCALSTORAGE (CRÍTICO)
+// HEADER.JS COMPLETO ATUALIZADO
+// Mantém toda a lógica original, apenas adaptado para funcionar após fetch
 // ----------------------------------------------------
-function loadPersistentData() {
-    // 🔑 Lê os dados salvos (agora salvos no login)
-    const photoUrl = localStorage.getItem('profilePhotoUrl');
-    const name = localStorage.getItem('profileName');
-    const email = localStorage.getItem('profileEmail');
 
-    const headerPicElement = document.getElementById('profile-pic-header');
-    const dropdownName = document.querySelector('.dropdown-menu .user-info strong');
-    const dropdownEmail = document.querySelector('.dropdown-menu .user-info span');
+// Função principal para inicializar o header
+function initHeader() {
 
-    // Atualiza Foto
-    if (photoUrl && headerPicElement) {
-        headerPicElement.src = photoUrl;
-    } else if (headerPicElement) {
-        // Placeholder padrão
-        headerPicElement.src = "https://i.imgur.com/default-placeholder.png";
+    // Seleciona os containers de menu **depois que o DOM do header existe**
+    const menuCliente = document.getElementById('menu-cliente');
+    const menuEmpresario = document.getElementById('menu-empresario');
+
+    // ----------------------------------------------------
+    // FUNÇÃO: CARREGA DADOS SALVOS DO LOCALSTORAGE
+    // ----------------------------------------------------
+    function loadPersistentData() {
+        const photoUrl = localStorage.getItem('profilePhotoUrl');
+        const name = localStorage.getItem('profileName');
+        const email = localStorage.getItem('profileEmail');
+
+        const headerPicElement = document.getElementById('profile-pic-header');
+        const dropdownName = document.querySelector('.dropdown-menu .user-info strong');
+        const dropdownEmail = document.querySelector('.dropdown-menu .user-info span');
+
+        if (headerPicElement) headerPicElement.src = photoUrl || "https://i.imgur.com/default-placeholder.png";
+        if (dropdownName) dropdownName.textContent = name || 'Visitante';
+        if (dropdownEmail) dropdownEmail.textContent = email || 'email@padrao.com';
     }
 
-    // 💡 Atualiza Nome 
-    if (name && dropdownName) {
-        dropdownName.textContent = name;
-    } else if (dropdownName) {
-        dropdownName.textContent = 'Visitante'; // Fallback
-    }
-
-    // 💡 Atualiza Email
-    if (email && dropdownEmail) {
-        dropdownEmail.textContent = email;
-    } else if (dropdownEmail) {
-        dropdownEmail.textContent = 'email@padrao.com'; // Fallback
-    }
-}
-
-// ----------------------------------------------------
-// FUNÇÃO LÓGICA DE LOGOUT 
-// ----------------------------------------------------
-function setupLogoutListener() {
-    const logoutBtn = document.querySelector('.logout-btn');
-
-    if (logoutBtn && !logoutBtn.dataset.listenerAdded) {
+    // ----------------------------------------------------
+    // FUNÇÃO LÓGICA DE LOGOUT
+    // ----------------------------------------------------
+    function setupLogoutListener() {
+        const logoutBtn = document.querySelector('.logout-btn');
+        if (!logoutBtn || logoutBtn.dataset.listenerAdded) return;
 
         logoutBtn.addEventListener('click', (e) => {
             e.preventDefault();
-
             const userType = localStorage.getItem('userType');
 
-            // Limpa as chaves de persistência
+            // Limpa todos os dados de persistência
             localStorage.removeItem('userIsLoggedIn');
             localStorage.removeItem('userType');
             localStorage.removeItem('profilePhotoUrl');
             localStorage.removeItem('profileName');
             localStorage.removeItem('profileEmail');
 
-            // ❌ REMOVIDO: alert('Logout realizado com sucesso!');
-
-            let logoutPath;
-            if (userType === 'empresario') {
-                logoutPath = '/frontend/login/logoutEmpresario.html';
-            } else {
-                logoutPath = '/frontend/login/logoutUsuario.html';
-            }
-
+            // Atualiza visual do header
             alternarEstadoHeader(false, 'cliente');
 
-            // Redireciona a página principal (o pai do iframe)
+            // Redireciona para a página de logout correta
+            const logoutPath = userType === 'empresario' ?
+                '/frontend/login/logoutEmpresario.html' :
+                '/frontend/login/logoutUsuario.html';
+
             window.parent.location.href = logoutPath;
         });
 
         logoutBtn.dataset.listenerAdded = 'true';
     }
-}
 
+    // ----------------------------------------------------
+    // FUNÇÃO PRINCIPAL: ALTERA ESTADO DO HEADER (LOGADO / NÃO LOGADO)
+    // ----------------------------------------------------
+    function alternarEstadoHeader(logado, userType = 'cliente') {
+        const naoLogado = document.getElementById('header-nao-logado');
+        const logadoDiv = document.getElementById('header-logado');
+        const editProfileLink = document.getElementById('edit-profile-link');
 
-// FUNÇÃO PRINCIPAL: Controla o estado, o menu e os links de Perfil (MANTIDA)
-function alternarEstadoHeader(logado, userType = 'cliente') {
-    const naoLogado = document.getElementById('header-nao-logado');
-    const logadoDiv = document.getElementById('header-logado');
-    const editProfileLink = document.getElementById('edit-profile-link');
+        if (!naoLogado || !logadoDiv) return; // segurança
 
-    if (logado) {
-        naoLogado.style.display = 'none';
-        logadoDiv.style.display = 'flex';
+        if (logado) {
+            naoLogado.style.display = 'none';
+            logadoDiv.style.display = 'flex';
 
-        if (userType === 'empresario') {
-            menuCliente.style.display = 'none';
-            menuEmpresario.style.display = 'flex';
+            if (menuCliente && menuEmpresario) {
+                menuCliente.style.display = userType === 'empresario' ? 'none' : 'flex';
+                menuEmpresario.style.display = userType === 'empresario' ? 'flex' : 'none';
+            }
+
+            if (editProfileLink) {
+                editProfileLink.href = userType === 'empresario' ?
+                    '/frontend/perfilEmpresario/perfilEmpresario.html' :
+                    '/frontend/perfilUsuario/perfilUsuario.html';
+            }
+
+            setupLogoutListener();
+
         } else {
-            menuCliente.style.display = 'flex';
-            menuEmpresario.style.display = 'none';
-        }
+            naoLogado.style.display = 'flex';
+            logadoDiv.style.display = 'none';
 
-        if (editProfileLink) {
-            if (userType === 'empresario') {
-                // Link correto para o perfil do empresário
-                editProfileLink.href = '/frontend/perfilEmpresario/perfilEmpresario.html';
-            } else {
-                // Link correto para o perfil do usuário
-                editProfileLink.href = '/frontend/perfilUsuario/perfilUsuario.html';
+            if (menuCliente && menuEmpresario) {
+                menuCliente.style.display = 'flex';
+                menuEmpresario.style.display = 'none';
             }
         }
-
-        setupLogoutListener();
-
-    } else {
-        naoLogado.style.display = 'flex';
-        logadoDiv.style.display = 'none';
-
-        menuCliente.style.display = 'flex';
-        menuEmpresario.style.display = 'none';
     }
-}
 
-// ----------------------------------------------------
-// VERIFICAÇÃO INICIAL (MANTIDA)
-// ----------------------------------------------------
-document.addEventListener('DOMContentLoaded', () => {
+    // ----------------------------------------------------
+    // VERIFICAÇÃO INICIAL AO CARREGAR
+    // ----------------------------------------------------
     loadPersistentData();
-
-    const isLogged = localStorage.getItem('userIsLoggedIn');
+    const isLogged = localStorage.getItem('userIsLoggedIn') === 'true';
     const userType = localStorage.getItem('userType') || 'cliente';
+    alternarEstadoHeader(isLogged, userType);
 
-    if (isLogged === 'true') {
-        alternarEstadoHeader(true, userType);
-    } else {
-        alternarEstadoHeader(false, userType);
+    // ----------------------------------------------------
+    // LÓGICA DO DROPDOWN (AVATAR)
+    // ----------------------------------------------------
+    const profileContainer = document.querySelector('.user-profile-container');
+    if (profileContainer) {
+        profileContainer.addEventListener('click', () => {
+            profileContainer.classList.toggle('active');
+        });
     }
-});
 
-// ----------------------------------------------------
-// LÓGICA DO DROPDOWN (AVATAR) (MANTIDA)
-// ----------------------------------------------------
-const profileContainer = document.querySelector('.user-profile-container');
-if (profileContainer) {
-    profileContainer.addEventListener('click', () => {
-        profileContainer.classList.toggle('active');
+    // ----------------------------------------------------
+    // BOTÃO ABRIR LOGIN
+    // ----------------------------------------------------
+    const openLoginBtn = document.getElementById("openLogin");
+    if (openLoginBtn) {
+        openLoginBtn.addEventListener("click", (e) => {
+            e.preventDefault();
+            window.parent.postMessage("OPEN_LOGIN_MODAL", "*");
+        });
+    }
+
+    // ----------------------------------------------------
+    // RECEBE MENSAGENS POSTMESSAGE (LOGIN, LOGOUT, UPDATE)
+    // ----------------------------------------------------
+    window.addEventListener('message', (event) => {
+        const data = event.data;
+        if (!data) return;
+
+        if (data.action === 'LOGIN_SUCCESS_EMPRESARIO') {
+            alternarEstadoHeader(true, 'empresario');
+            loadPersistentData();
+        } else if (data.action === 'LOGIN_SUCCESS') {
+            const userType = data.userType || 'cliente';
+            if (data.newName) localStorage.setItem('profileName', data.newName);
+            if (data.newEmail) localStorage.setItem('profileEmail', data.newEmail);
+            alternarEstadoHeader(true, userType);
+            loadPersistentData();
+        } else if (data.action === 'UPDATE_PROFILE_INFO') {
+            if (data.newPicUrl) document.getElementById('profile-pic-header').src = data.newPicUrl;
+            if (data.newName) document.querySelector('.dropdown-menu .user-info strong').textContent = data.newName;
+            if (data.newEmail) document.querySelector('.dropdown-menu .user-info span').textContent = data.newEmail;
+
+            if (data.newPicUrl) localStorage.setItem('profilePhotoUrl', data.newPicUrl);
+            if (data.newName) localStorage.setItem('profileName', data.newName);
+            if (data.newEmail) localStorage.setItem('profileEmail', data.newEmail);
+        } else if (data.action === 'LOGOUT_REQUEST') {
+            localStorage.removeItem('userIsLoggedIn');
+            localStorage.removeItem('userType');
+            localStorage.removeItem('profilePhotoUrl');
+            localStorage.removeItem('profileName');
+            localStorage.removeItem('profileEmail');
+            alternarEstadoHeader(false, 'cliente');
+        }
     });
 }
 
 // ----------------------------------------------------
-// COMUNICAÇÃO COM O IFRAME (postMessage) - RECEBE ATUALIZAÇÕES
+// AGUARDA O HEADER SER CARREGADO PELO FETCH
 // ----------------------------------------------------
-window.addEventListener('message', (event) => {
-    const data = event.data;
-    const headerPic = document.getElementById('profile-pic-header');
-    const dropdownName = document.querySelector('.dropdown-menu .user-info strong');
-    const dropdownEmail = document.querySelector('.dropdown-menu .user-info span');
-
-    // Ação de login de empresário vinda do cadastro_empresario.html (MANTIDA)
-    if (data && data.action === 'LOGIN_SUCCESS_EMPRESARIO') {
-        alternarEstadoHeader(true, 'empresario');
-        loadPersistentData();
+const headerContainerCheck = setInterval(() => {
+    if (document.getElementById('header-container')?.children.length > 0) {
+        initHeader();
+        clearInterval(headerContainerCheck);
     }
-    // 💡 NOVO: Ação de login de usuário vinda do login.html
-    else if (data && data.action === 'LOGIN_SUCCESS') {
-        const userType = data.userType || 'cliente';
-
-        // 🔑 Salva os dados frescos (Nome Padrão e Email real) do login no localStorage
-        if (data.newName) localStorage.setItem('profileName', data.newName);
-        if (data.newEmail) localStorage.setItem('profileEmail', data.newEmail);
-
-        alternarEstadoHeader(true, userType);
-        loadPersistentData(); // Recarrega com os novos dados
-    }
-
-    // Recebe a atualização de FOTO + INFO (do perfil) (MANTIDA)
-    else if (data && data.action === 'UPDATE_PROFILE_INFO' && data.newPicUrl) {
-
-        if (headerPic) headerPic.src = data.newPicUrl;
-        if (data.newName && dropdownName) dropdownName.textContent = data.newName;
-        if (data.newEmail && dropdownEmail) dropdownEmail.textContent = data.newEmail;
-
-        localStorage.setItem('profilePhotoUrl', data.newPicUrl);
-    }
-
-    // Recebe atualização de NOME e EMAIL (do botão Salvar) (MANTIDA)
-    else if (data && data.action === 'UPDATE_PROFILE_INFO' && data.newName && data.newEmail) {
-
-        if (dropdownName) dropdownName.textContent = data.newName;
-        if (dropdownEmail) dropdownEmail.textContent = data.newEmail;
-
-        localStorage.setItem('profileName', data.newName);
-        localStorage.setItem('profileEmail', data.newEmail);
-    }
-
-    // Recebe o comando de logout (MANTIDA)
-    else if (data && data.action === 'LOGOUT_REQUEST') {
-
-        localStorage.removeItem('profilePhotoUrl');
-        localStorage.removeItem('profileName');
-        localStorage.removeItem('profileEmail');
-        localStorage.removeItem('userIsLoggedIn');
-        localStorage.removeItem('userType');
-
-        alternarEstadoHeader(false, 'cliente');
-    }
-});
-
-const openLoginBtn = document.getElementById("openLogin");
-
-if (openLoginBtn) {
-    openLoginBtn.addEventListener("click", (e) => {
-
-        e.preventDefault();
-
-        window.parent.postMessage("OPEN_LOGIN_MODAL", "*");
-
-    });
-}
+}, 50);
 
