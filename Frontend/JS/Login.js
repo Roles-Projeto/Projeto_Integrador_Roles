@@ -88,8 +88,8 @@ form.addEventListener("submit", async (e) => {
 
             // Redireciona para o perfil
             const redirectUrl = userType === 'empresario'
-                ? "../Perfil_empresario/Perfil_empresario.html"
-                : "../Perfil_usuario/Perfil_usuario.html";
+                ? "/frontend/perfilEmpresario/perfilEmpresario.html"
+                : "/frontend/perfilUsuario/perfilUsuario.html";
             window.location.href = redirectUrl;
 
         } else {
