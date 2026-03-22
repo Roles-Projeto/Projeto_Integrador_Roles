@@ -2,62 +2,125 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
 <link rel="stylesheet" href="/Frontend/css/header.css">
-<header>
+
+<header class="header-main">
+
+    <!-- NAVBAR -->
     <nav class="navbar">
+
+        <!-- LOGO -->
         <div class="logo">
             <a href="/Frontend/index.html">Rolês</a>
         </div>
 
-        <ul class="menu">
+        <!-- BARRA DE BUSCA -->
+        <div class="search-bar">
 
-            <div id="menu-cliente" style="display: none; display: flex; gap: 30px;">
-                <li><a href="/Frontend/index.html">Início</a></li>
-                <li><a href="/Frontend/locais/locais.html">Locais</a></li>
-                <li><a href="/Frontend/eventos/eventos.html">Eventos</a></li>
-                <li><a href="/Frontend/paraEmpresarios/empresario.html">Para Empresários</a></li>
-                <li><a href="/Frontend/quemSomos/quemSomos.html">Quem Somos</a></li>
-                <li><a href="/Frontend/contato/contato.html">Contato</a></li>
-            </div>
+            <input
+                type="text"
+                id="searchInput"
+                placeholder="Buscar eventos..."
+            />
 
-            <div id="menu-empresario" style="display: none; display: flex; gap: 30px;">
-                <li><a href="/Frontend/dashboardEmpresario/dashboard.html">Dashboard</a></li>
-                <li><a href="/Frontend/quemSomos/quemSomos.html">Quem Somos</a></li>
-                <li><a href="/Frontend/contato/contato.html">Contato</a></li>
-            </div>
-        </ul>
-
-        <div class="right-section">
-
+            <div class="divider"></div>
 
             <div class="city-dropdown">
-                <button class="city-btn">
-                    <i class="fas fa-map-marker-alt"></i> Goiânia
+
+                <button
+                    class="city-btn"
+                    id="cityBtn"
+                >
+                    <i class="fas fa-map-marker-alt"></i>
+
+                    <span id="selectedCity">
+                        Minha localização
+                    </span>
+
                 </button>
 
-                <ul class="city-menu">
+                <ul
+                    class="city-menu"
+                    id="cityMenu"
+                >
                     <li>Goiânia</li>
                     <li>Aparecida de Goiânia</li>
                     <li>Caldas Novas</li>
                 </ul>
-            </div>
-
-            <div id="header-nao-logado" class="user-action-btns">
-                <a href="/Frontend/login/login.html" class="login" id="openLogin">Entrar</a>
 
             </div>
 
-            <div id="header-logado" class="user-profile-container" style="display: none;">
+            <button
+                class="search-btn"
+                onclick="buscar()"
+            >
+                <img
+                    src="/Frontend/Imagens/lupa.png"
+                    alt="Buscar"
+                >
+            </button>
+
+        </div>
+
+        <!-- LADO DIREITO -->
+        <div class="right-section">
+
+            <!-- AÇÕES -->
+            <div class="event-actions">
+
+               
+               
+                <button class="action-btn">
+                  Criar evento
+                </button>
+
+                <button class="action-btn">
+                    Meus ingressos
+                </button>
+
+            </div>
+
+            <!-- NÃO LOGADO -->
+            <div
+                id="header-nao-logado"
+                class="user-action-btns"
+            >
+                <a
+                    href="/Frontend/login/login.html"
+                    class="login"
+                    id="openLogin"
+                >
+                    Entrar
+                </a>
+            </div>
+
+            <!-- LOGADO -->
+            <div
+                id="header-logado"
+                class="user-profile-container"
+                style="display: none;"
+            >
+
+                <!-- AVATAR -->
                 <div class="profile-avatar">
-                    <img id="profile-pic-header" src="https://i.imgur.com/default-placeholder.png" alt="Foto de Perfil"
-                        class="avatar-img">
+
+                    <img
+                        id="profile-pic-header"
+                        src="https://i.imgur.com/default-placeholder.png"
+                        alt="Foto de Perfil"
+                        class="avatar-img"
+                    >
+
                 </div>
 
+                <!-- DROPDOWN -->
                 <div class="dropdown-menu">
 
                     <div class="user-info">
 
-                        <img id="profile-pic-header" src="https://i.imgur.com/default-placeholder.png"
-                            alt="Foto de Perfil" class="avatar-img">
+                        <img
+                            src="https://i.imgur.com/default-placeholder.png"
+                            alt="Foto de Perfil"
+                        >
 
                         <div>
 
@@ -115,46 +178,76 @@
                     </a>
 
                 </div>
+
             </div>
 
         </div>
 
     </nav>
 
+    <!-- BARRA GRADIENTE -->
     <div class="bottom-gradient-bar"></div>
 
+    <!-- PLACEHOLDER FIXO -->
     <div class="header-placeholder-fixo"></div>
 
-
 </header>
-<!------------------------------------------------------
-                // CARD FLUTUANTE
-                //---------------------------------------------------- -->
 
-<div id="city-overlay" class="overlay"></div>
+<!-- OVERLAY -->
+<div
+    id="city-overlay"
+    class="overlay"
+></div>
 
-<!-- Card -->
-<div id="city-card" class="city-card">
+<!-- CARD DE LOCALIZAÇÃO -->
+<div
+    id="city-card"
+    class="city-card"
+>
 
     <div class="card-header">
+
         <h3>Localização</h3>
-        <span id="close-card">&times;</span>
+
+        <span id="close-card">
+            &times;
+        </span>
+
     </div>
 
     <div class="search-box">
+
         <i class="fas fa-search"></i>
-        <input type="text" id="city-search" placeholder="Onde?">
+
+        <input
+            type="text"
+            id="city-search"
+            placeholder="Onde?"
+        >
+
     </div>
 
-    <div class="use-location" id="use-location">
+    <div
+        class="use-location"
+        id="use-location"
+    >
+
         <i class="fas fa-location-arrow"></i>
+
         <div>
-            <strong>Usar minha localização atual</strong>
+
+            <strong>
+                Usar minha localização atual
+            </strong>
+
         </div>
+
     </div>
 
-    <ul class="city-list" id="city-list">
-
+    <ul
+        class="city-list"
+        id="city-list"
+    >
 
         <li data-city="Goiânia">
             <i class="fas fa-map-marker-alt"></i>
@@ -171,11 +264,8 @@
             Caldas Novas
         </li>
 
-
     </ul>
 
 </div>
-
-
 
 <script src="/Frontend/js/header.js"></script>

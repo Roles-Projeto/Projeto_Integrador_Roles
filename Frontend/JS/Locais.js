@@ -1,29 +1,30 @@
+
 // Função para coletar todos os dados de um card específico
 function coletarDadosDoCard(cardElement) {
     const nomeElement = cardElement.querySelector('h3');
     let nomeTexto = nomeElement.textContent;
-    let precoTexto = cardElement.querySelector('.rls-preco').textContent.trim();
+    let precoTexto = cardElement.querySelector('.preco').textContent.trim();
 
     // Limpa o nome removendo a tag de preço
     nomeTexto = nomeTexto.replace(precoTexto, '').trim();
 
-    const categoria = cardElement.querySelector('.rls-categoria').textContent.trim();
-    const local = cardElement.querySelector('.rls-local').textContent.trim();
-    const descricao = cardElement.querySelector('.rls-descricao').textContent.trim();
-    const horario = cardElement.querySelector('.rls-info p:nth-child(1)').textContent.replace(/(\s*clock\s*)|( Verificar Agenda)/, '').trim();
-    const telefone = cardElement.querySelector('.rls-info p:nth-child(2)').textContent.replace(/(\s*phone\s*)/, '').trim();
-    const nota = cardElement.querySelector('.rls-nota').textContent.trim();
-    const avaliacoes = cardElement.querySelector('.rls-avaliacoes').textContent.replace(/[^\d\s\w]/g, '').trim();
-    const imagem = cardElement.querySelector('.rls-card-img img').getAttribute('src');
+    const categoria = cardElement.querySelector('.categoria').textContent.trim();
+    const local = cardElement.querySelector('.local').textContent.trim();
+    const descricao = cardElement.querySelector('.descricao').textContent.trim();
+    const horario = cardElement.querySelector('.info p:nth-child(1)').textContent.replace(/(\s*clock\s*)|( Verificar Agenda)/, '').trim();
+    const telefone = cardElement.querySelector('.info p:nth-child(2)').textContent.replace(/(\s*phone\s*)/, '').trim();
+    const nota = cardElement.querySelector('.nota').textContent.trim();
+    const avaliacoes = cardElement.querySelector('.avaliacoes').textContent.replace(/[^\d\s\w]/g, '').trim();
+    const imagem = cardElement.querySelector('.card-img img').getAttribute('src');
 
     // Coletar todas as tags
-    const tags = Array.from(cardElement.querySelectorAll('.rls-tags span'))
+    const tags = Array.from(cardElement.querySelectorAll('.tags span'))
         .map(span => span.textContent.trim())
         .join(', ');
 
     return {
-        nome: nomeTexto, 
-        preco: precoTexto, 
+        nome: nomeTexto, // Corrigido
+        preco: precoTexto, // Corrigido
         categoria,
         local,
         descricao,
@@ -38,11 +39,11 @@ function coletarDadosDoCard(cardElement) {
 
 // FUNÇÃO PRINCIPAL: Adiciona o evento de clique aos botões "Ver Detalhes"
 function adicionarListenersDetalhes() {
-    const botoesDetalhes = document.querySelectorAll('.rls-detalhes');
+    const botoesDetalhes = document.querySelectorAll('.detalhes');
 
     botoesDetalhes.forEach(button => {
         button.addEventListener('click', (e) => {
-            const card = e.target.closest('.rls-card');
+            const card = e.target.closest('.card');
             if (card) {
                 const localData = coletarDadosDoCard(card);
 
@@ -60,23 +61,29 @@ function adicionarListenersDetalhes() {
 
 // Função de filtro por CATEGORIA E TEXTO (agora unificada)
 function filtrarLocais(categoria) {
-    const cards = document.querySelectorAll('.rls-card');
+    const cards = document.querySelectorAll('.card');
     let contador = 0;
-    const textoBusca = document.getElementById('rls-search-input').value.toLowerCase().trim();
+    // Pega o valor do input de busca, garante que está em minúsculas e sem espaços extras
+    const textoBusca = document.getElementById('search-input').value.toLowerCase().trim();
 
     cards.forEach(card => {
         const categoriaCard = card.getAttribute('data-categoria-card');
 
+        // Coleta todos os textos relevantes para a busca
         const nomeCard = card.querySelector('h3').textContent.toLowerCase();
-        const localizacaoCard = card.querySelector('.rls-local').textContent.toLowerCase();
-        const tagsCard = card.querySelector('.rls-tags').textContent.toLowerCase();
+        const localizacaoCard = card.querySelector('.local').textContent.toLowerCase();
+        const tagsCard = card.querySelector('.tags').textContent.toLowerCase();
 
+        // 1. Filtro por Categoria (selecionada no botão)
         const passaPelaCategoria = (categoria === 'todos' || categoriaCard === categoria);
+
+        // 2. Filtro por Texto (digitado na busca)
         const passaPeloTexto = (
-            nomeCard.includes(textoBusca) || 
-            localizacaoCard.includes(textoBusca) || 
-            tagsCard.includes(textoBusca) 
+            nomeCard.includes(textoBusca) || // Busca no nome
+            localizacaoCard.includes(textoBusca) || // Busca na localização
+            tagsCard.includes(textoBusca) // Busca nas tags
         );
+
 
         if (passaPelaCategoria && passaPeloTexto) {
             card.style.display = 'flex';
@@ -85,36 +92,46 @@ function filtrarLocais(categoria) {
             card.style.display = 'none';
         }
     });
-    document.getElementById('rls-contador-locais').textContent = contador;
+    document.getElementById('contador-locais').textContent = contador;
 }
 
 // Função unificada para aplicar os dois filtros: Categoria e Busca
 function aplicarFiltros() {
-    const categoriaAtiva = document.querySelector('.rls-opcoes-abaixo.rls-ativo')?.getAttribute('data-categoria') || 'todos';
+    // Pega a categoria ativa no momento (usa 'todos' como padrão se nenhuma estiver ativa)
+    const categoriaAtiva = document.querySelector('.opçoes-abaixo.ativo')?.getAttribute('data-categoria') || 'todos';
     filtrarLocais(categoriaAtiva);
 }
 
+
 // Execução: Garante que os listeners sejam adicionados após o carregamento do DOM
 document.addEventListener('DOMContentLoaded', () => {
+    // Inicializa o Feather Icons (Garante que o ícone de busca apareça)
     feather.replace();
 
-    const botoesCategoria = document.getElementById('rls-botoes-categoria-locais');
+    // Adiciona o listener para os botões de CATEGORIA (filtro)
+    const botoesCategoria = document.getElementById('botoes-categoria-locais');
     if (botoesCategoria) {
         botoesCategoria.addEventListener('click', (e) => {
-            if (e.target.classList.contains('rls-opcoes-abaixo')) {
-                document.querySelectorAll('.rls-opcoes-abaixo').forEach(btn => btn.classList.remove('rls-ativo'));
-                e.target.classList.add('rls-ativo');
+            if (e.target.classList.contains('opçoes-abaixo')) {
+                // Remove 'ativo' de todos e adiciona ao clicado
+                document.querySelectorAll('.opçoes-abaixo').forEach(btn => btn.classList.remove('ativo'));
+                e.target.classList.add('ativo');
 
-                aplicarFiltros(); 
+                aplicarFiltros(); // Aplica o filtro de categoria E o de texto
             }
         });
     }
 
-    const searchInput = document.getElementById('rls-search-input');
+    // Adiciona o listener para o campo de BUSCA (Onde você digitou o texto)
+    const searchInput = document.getElementById('search-input');
     if (searchInput) {
-        searchInput.addEventListener('input', aplicarFiltros); 
+        searchInput.addEventListener('input', aplicarFiltros); // Chama a função a cada input
     }
 
+
+    // Adiciona a funcionalidade de "Ver Detalhes"
     adicionarListenersDetalhes();
+
+    // Inicializa a exibição (Mostra todos os locais ao carregar)
     aplicarFiltros();
 });

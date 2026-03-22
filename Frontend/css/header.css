@@ -1,97 +1,407 @@
 /* ==================================================
-==================== Header Styles ===================
+   RESET E CONFIGURAÇÕES GERAIS
 ================================================== */
 
 *{
-box-sizing:border-box;
+    box-sizing: border-box;
 }
 
-
-/* Configurações básicas */
 body{
-    font-family:'Poppins',sans-serif;
-    margin:0;
-    padding:0;
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
 }
 
 header{
-    margin:0;
-    padding:0;
-    z-index:100;
+    margin: 0;
+    padding: 0;
+    z-index: 100;
 }
 
 /* ==================================================
-==================== Navbar ==========================
+   NAVBAR
 ================================================== */
 
 .navbar{
-    width:100%;
-    height:60px;
-    background:#fff;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    padding:0 10px;
-    box-sizing:border-box;
-    box-shadow:0 1px 0 rgba(0,0,0,0.05);
-    position:relative;
-    z-index:1000;
-}
+    width: 100%;
+    height: 65px;
 
-/* Logo */
-.logo a{
-    font-size:2.1em;
-    font-weight:700;
-    text-decoration:none;
-    background:linear-gradient(to right,#131314,#6C1DCE);
-    -webkit-background-clip:text;
-    background-clip:text;
-    -webkit-text-fill-color:transparent;
-    margin-left: 15%;
+    display: flex;
+    align-items: center;
+
+    padding: 0 20px;
+
+    background: #fff;
+
+    box-shadow: 0 1px 0 rgba(0,0,0,0.05);
+
+    position: relative;
+    z-index: 1000;
 }
 
 /* ==================================================
-==================== Menu ============================
+   LOGO
 ================================================== */
 
-.menu{
-    list-style:none;
-    display:flex;
-    gap:30px;
-    margin:0;
-    padding:0;
+.logo{
+    display: flex;
+    align-items: center;
 }
 
-.menu li a{
-    text-decoration:none;
-    color:#000;
-    font-size:12px;
-    transition:color .3s;
-}
+.logo a{
+    font-size: 2.1em;
+    font-weight: 700;
 
-.menu li a:hover{
-    color:#6C1DCE;
+    text-decoration: none;
+
+    background: linear-gradient(to right,#131314,#6C1DCE);
+
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+
+    margin-right: 20px;
 }
 
 /* ==================================================
-==================== Right Section ===================
+   SEARCH BAR
+================================================== */
+
+.search-bar{
+    display: flex;
+    align-items: center;
+
+    background: #f3f3f3;
+
+    border-radius: 50px;
+
+    padding: 5px;
+
+    width: 600px;
+}
+
+/* input */
+
+.search-bar input{
+    border: none;
+
+    background: transparent;
+
+    padding: 10px;
+
+    outline: none;
+
+    flex: 1;
+
+    font-size: 14px;
+}
+
+/* divider */
+
+.divider{
+    width: 1px;
+    height: 25px;
+    background: #ccc;
+}
+
+/* botão de busca */
+
+.search-btn{
+    background: #f3f3f3;
+
+    border: none;
+
+    border-radius: 50%;
+
+    width: 35px;
+    height: 35px;
+
+    cursor: pointer;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* ==================================================
+   CITY DROPDOWN
+================================================== */
+
+.city-dropdown{
+    position: relative;
+}
+
+.city-btn{
+    display: flex;
+    align-items: center;
+
+    gap: 5px;
+
+    background: transparent;
+
+    border: none;
+
+    padding: 8px 12px;
+
+    cursor: pointer;
+
+    font-size: 13px;
+}
+
+.city-btn i{
+    color: #6C1DCE;
+}
+
+/* menu */
+
+.city-menu{
+    position: absolute;
+
+    top: 100%;
+    left: 0;
+
+    background: white;
+
+    list-style: none;
+
+    padding: 10px 0;
+    margin: 0;
+
+    border-radius: 8px;
+
+    min-width: 180px;
+
+    display: none;
+
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+.city-menu li{
+    padding: 10px 15px;
+
+    cursor: pointer;
+}
+
+.city-menu li:hover{
+    background: #f0f0f0;
+}
+
+/* ==================================================
+   RIGHT SECTION
 ================================================== */
 
 .right-section{
-    display:flex;
-    gap:15px;
-    align-items:center;
-    margin-right: 0.7em;
+    display: flex;
+    align-items: center;
+
+    gap: 25px;
+
+    margin-left: auto;
 }
 
-/* Botões quando deslogado */
+/* ==================================================
+   BOTÕES - CRIAR EVENTO / INGRESSOS
+================================================== */
+
+.event-actions{
+    display: flex;
+    align-items: center;
+
+    gap: 25px;
+}
+
+.action-btn{
+    background: transparent;
+
+    border: none;
+
+    font-size: 14px;
+    font-weight: 500;
+
+    color: #4b5563;
+
+    cursor: pointer;
+
+    display: flex;
+    align-items: center;
+
+    gap: 8px;
+
+    transition: 0.2s;
+}
+
+.action-btn:hover{
+    color: #6C1DCE;
+}
+
+/* ==================================================
+   LOGIN
+================================================== */
+
 .user-action-btns{
-    display:flex;
-    gap:15px;
-    align-items:center;
+    display: flex;
+    align-items: center;
 }
 
-/* Overlay */
+.login{
+    background: #000;
+
+    color: #fff;
+
+    padding: 8px 15px;
+
+    border-radius: 6px;
+
+    text-decoration: none;
+
+    font-size: 12px;
+}
+
+.login:hover{
+    background: #333;
+}
+
+/* ==================================================
+   PROFILE
+================================================== */
+
+.user-profile-container{
+    position: relative;
+    cursor: pointer;
+}
+
+/* avatar */
+
+.profile-avatar{
+    width: 35px;
+    height: 35px;
+
+    border-radius: 50%;
+
+    overflow: hidden;
+
+    border: 2px solid #fff;
+
+    box-shadow: 0 0 0 2px #6C1DCE;
+}
+
+.avatar-img{
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+}
+
+/* ==================================================
+   DROPDOWN
+================================================== */
+
+.dropdown-menu{
+    position: absolute;
+
+    top: 45px;
+    right: 0;
+
+    width: 260px;
+
+    background: #fff;
+
+    border-radius: 8px;
+
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+
+    z-index: 2000;
+
+    opacity: 0;
+    visibility: hidden;
+
+    transform: translateY(-10px);
+
+    transition: 0.2s;
+}
+
+.user-profile-container.active .dropdown-menu{
+    opacity: 1;
+    visibility: visible;
+
+    transform: translateY(0);
+}
+
+/* user info */
+
+.user-info{
+    display: flex;
+    align-items: center;
+
+    gap: 10px;
+
+    padding: 12px 15px;
+
+    border-bottom: 1px solid #eee;
+}
+
+.user-info img{
+    width: 40px;
+    height: 40px;
+
+    border-radius: 50%;
+
+    object-fit: cover;
+}
+
+.user-info strong{
+    font-size: 14px;
+    color: #333;
+
+    display: block;
+}
+
+.user-info span{
+    font-size: 10px;
+    color: #888;
+
+    display: block;
+}
+
+.dropdown-menu hr{
+    border: none;
+
+    border-top: 1px solid #eee;
+
+    margin: 5px 0;
+}
+
+/* itens */
+
+.dropdown-item{
+    display: flex;
+    align-items: center;
+
+    padding: 10px 15px;
+
+    text-decoration: none;
+
+    color: #333;
+
+    font-size: 12px;
+}
+
+.dropdown-item i{
+    margin-right: 8px;
+
+    color: #6C1DCE;
+}
+
+.dropdown-item:hover{
+    background: #f5f5f5;
+}
+
+/* ==================================================
+   OVERLAY E CARD DE CIDADE
+================================================== */
+
+/* ==================================================
+================ CARD DE LOCALIZAÇÃO =================
+================================================== */
 
 .overlay {
 
@@ -109,6 +419,7 @@ header{
 
     z-index: 999998;
 }
+
 .city-card {
 
     position: fixed;
@@ -138,7 +449,9 @@ header{
 .card-header {
 
     display: flex;
+
     justify-content: space-between;
+
     align-items: center;
 
     margin-bottom: 15px;
@@ -147,12 +460,14 @@ header{
 .card-header h3 {
 
     margin: 0;
+
     font-size: 18px;
 }
 
 .card-header span {
 
     font-size: 22px;
+
     cursor: pointer;
 }
 
@@ -161,6 +476,7 @@ header{
 .search-box {
 
     display: flex;
+
     align-items: center;
 
     background: #f5f5f5;
@@ -175,13 +491,16 @@ header{
 .search-box i {
 
     color: #999;
+
     margin-right: 8px;
 }
 
 .search-box input {
 
     border: none;
+
     background: transparent;
+
     outline: none;
 
     width: 100%;
@@ -192,6 +511,7 @@ header{
 .use-location {
 
     display: flex;
+
     align-items: center;
 
     gap: 10px;
@@ -215,12 +535,14 @@ header{
 .use-location i {
 
     color: #6C1DCE;
+
     font-size: 18px;
 }
 
 .use-location span {
 
     font-size: 12px;
+
     color: #666;
 }
 
@@ -229,6 +551,7 @@ header{
 .city-list {
 
     list-style: none;
+
     padding: 0;
 
     max-height: 260px;
@@ -239,6 +562,7 @@ header{
 .city-list li {
 
     display: flex;
+
     align-items: center;
 
     gap: 10px;
@@ -262,200 +586,18 @@ header{
     color: #6C1DCE;
 }
 /* ==================================================
-==================== City Button =====================
-================================================== */
-.city-dropdown {
-  position: relative;
-}
-
-.city-menu {
-  position: absolute;
-  top: 100%;
-  left: 0;
-  background: white;
-  list-style: none;
-  padding: 10px 0;
-  margin: 0;
-  border-radius: 8px;
-  display: none;
-  min-width: 180px;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-}
-
-.city-menu li {
-  padding: 10px 15px;
-  cursor: pointer;
-}
-
-.city-menu li:hover {
-  background: #f0f0f0;
-}
-.city-btn{
-    display:flex;
-    align-items:center;
-    gap:5px;
-    background:#f5f5f5;
-    border:1px solid #e0e0e0;
-    padding:6px 12px;
-    border-radius:6px;
-    cursor:pointer;
-    font-size:12px;
-}
-
-.city-btn i{
-    color:#6C1DCE;
-    font-size:14px;
-}
-
-/* ==================================================
-==================== Login / Cadastro ================
-================================================== */
-
-
-.login{
-    background:#000;
-    color:#fff;
-    padding:8px 15px;
-    border-radius:6px;
-    text-decoration:none;
-    font-size:12px;
-}
-
-.login:hover{
-    background:#333;
-}
-
-/* ==================================================
-==================== Profile =========================
-================================================== */
-
-.user-profile-container{
-    position:relative;
-    cursor:pointer;
-}
-
-/* Avatar */
-
-.profile-avatar{
-    width:35px;
-    height:35px;
-    border-radius:50%;
-    overflow:hidden;
-    border:2px solid #fff;
-    box-shadow:0 0 0 2px #6C1DCE;
-}
-
-.avatar-img{
-    width:100%;
-    height:100%;
-    object-fit:cover;
-}
-
-/* ==================================================
-==================== Dropdown ========================
-================================================== */
-
-.dropdown-menu{
-    position:absolute;
-    top:45px;
-    right:0;
-    width:260px;
-    background:#fff;
-    border-radius:8px;
-    box-shadow:0 4px 12px rgba(0,0,0,0.15);
-    z-index:2000;
-
-    opacity:0;
-    visibility:hidden;
-    transform:translateY(-10px);
-    transition:opacity .2s ease, transform .2s ease;
-}
-
-.user-profile-container.active .dropdown-menu{
-    opacity:1;
-    visibility:visible;
-    transform:translateY(0);
-}
-
-/* User info */
-
-.user-info{
-    display:flex;
-    align-items:center;
-    gap:10px;
-
-    padding:12px 15px;
-
-    border-bottom:1px solid #eee;
-}
-
-.user-info img{
-    width:40px;
-    height:40px;
-
-    border-radius:50%;
-
-    object-fit:cover;
-}
-
-.user-info strong{
-    font-size:13px;
-    color:#333;
-}
-
-.user-info span{
-    font-size:11px;
-    color:#888;
-}
-
-.user-info strong{
-    display:block;
-    font-size:14px;
-    color:#333;
-}
-
-.user-info span{
-    display:block;
-    font-size:10px;
-    color:#888;
-}
-
-.dropdown-menu hr{
-    border:none;
-    border-top:1px solid #eee;
-    margin:5px 0;
-}
-
-/* Dropdown items */
-
-.dropdown-item{
-    display:flex;
-    align-items:center;
-    padding:10px 15px;
-    text-decoration:none;
-    color:#333;
-    font-size:12px;
-}
-
-.dropdown-item i{
-    margin-right:8px;
-    color:#6C1DCE;
-}
-
-.dropdown-item:hover{
-    background:#f5f5f5;
-}
-
-.dropdown-menu a:last-child{
-    border-bottom:none;
-}
-
-/* ==================================================
-================ Gradient Bar ========================
+   BARRA GRADIENTE
 ================================================== */
 
 .bottom-gradient-bar{
-    height:5px;
-    width:100%;
-    background:linear-gradient(to right,#131314 0%,#e9e5f5 50%,#6C1DCE 100%);
+    height: 5px;
+
+    width: 100%;
+
+    background: linear-gradient(
+        to right,
+        #131314 0%,
+        #e9e5f5 50%,
+        #6C1DCE 100%
+    );
 }
