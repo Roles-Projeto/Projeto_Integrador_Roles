@@ -31,9 +31,11 @@
             <form id="cadastroForm">
                 <label>Nome Completo</label>
                 <input type="text" id="nome" placeholder="Seu nome completo" required>
+                <small id="erroNome" class="erro"></small>
 
                 <label>Email</label>
                 <input type="email" id="email" placeholder="seu@email.com" required>
+                <small id="erroEmail" class="erro"></small>
 
                 <label>Comfirmar E-mail</label>
                 <input type="email" id="email" placeholder="seu@email.com" required>
@@ -42,10 +44,12 @@
                 <input type="tel" id="telefone" placeholder="(62) 99999-9999">
 
                 <label>Senha</label>
-                <input type="password" id="senha" placeholder="Mínimo 6 caracteres" required minlength="6">
+                <input type="password" id="senha" placeholder="Mínimo 8 caracteres" required minlength="8">
+                <small id="erroSenha" class="erro"></small>
 
                 <label>Confirmar Senha</label>
                 <input type="password" id="confirmarSenha" placeholder="Digite novamente sua senha" required>
+                <small id="erroConfirmar" class="erro"></small>
 
                 <button type="submit" class="btn-criar">Criar Conta</button>
             </form>

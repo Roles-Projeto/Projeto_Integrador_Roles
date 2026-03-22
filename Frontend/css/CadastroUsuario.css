@@ -12,7 +12,16 @@ body {
   align-items: center;
   min-height: 90vh;
 }
+.erro {
+    color: #e63946;
+    font-size: 13px;
+    margin-top: 5px;
+    display: block;
+}
 
+input.erro-input {
+    border: 2px solid #e63946;
+}
 .card {
   background-color: #fff;
   padding: 30px; /* Padding ajustado */
