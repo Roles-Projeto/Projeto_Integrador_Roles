@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tela de Login - Rolês</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
     <link rel="stylesheet" href="/Frontend/css/login.css">
 
 </head>
@@ -20,32 +21,34 @@
         <div class="login-container">
             <div class="login-box">
                 <h1>Entrar no Rolês</h1>
-
-                <div class="toggle-buttons">
-                    <button id="cliente-btn" class="active">Cliente</button>
-                    <button id="empresario-btn">Empresário</button>
-                </div>
-
                 <p id="main-text" class="text-muted">
                     Encontre os melhores lugares para sair e se divertir
                 </p>
-                <p id="sub-text" class="small">Entre rapidamente com</p>
 
-                <div class="social-login">
-                    <button><i class="fab fa-google"></i></button>
-                    <button><i class="fab fa-facebook-f"></i></button>
-                    <button><i class="fab fa-apple"></i></button>
-                </div>
+                <form id="login-form">
+                    <input type="email" id="email" placeholder="E-mail" required>
+                    <div class="password-container">
+                        <input type="password" id="password" placeholder="Senha" required>
+
+                        <span class="material-symbols-outlined" id="togglePassword">
+                            visibility
+                        </span>
+                    </div>
+                    <button type="submit" class="login-btn">Entrar</button>
+                </form>
 
                 <div class="divider">
                     <span>ou</span>
                 </div>
 
-                <form id="login-form">
-                    <input type="email" id="email" placeholder="E-mail" required>
-                    <input type="password" id="password" placeholder="Senha" required>
-                    <button type="submit" class="login-btn">Entrar</button>
-                </form>
+
+                <p id="sub-text" class="small">Entre rapidamente com</p>
+
+                <div class="social-login">
+                    <button><i class="fab fa-google"></i></button>
+                    <button><i class="fab fa-facebook-f"></i></button>
+                </div>
+
 
                 <p class="register-link">
                     Não tem conta? <a href="/Frontend/cadastro/cadastro.html">Cadastre-se</a>

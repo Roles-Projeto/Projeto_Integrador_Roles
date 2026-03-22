@@ -108,7 +108,8 @@ main {
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 15px;
+  margin-bottom: 0.6em;
+  padding: 1em 0 0 ;
 }
 
 .divider span {
@@ -131,6 +132,36 @@ main {
   border-radius: 10px;
   outline: none;
   transition: border 0.2s ease;
+}
+
+.password-container span {
+  opacity: 0;
+  pointer-events: none;
+  transition: 0.2s ease;
+}
+
+.password-container span.show {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.password-container {
+  position: relative;
+  width: 100%;
+}
+
+.password-container input {
+  width: 100%;
+  padding-right: 40px;
+}
+
+.password-container span {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: #5f6368; /* cor estilo Google */
 }
 
 #login-form input:focus {

@@ -16,7 +16,7 @@ body {
 .card {
   background-color: #fff;
   padding: 30px; /* Padding ajustado */
-  width: 350px; /* Nova largura reduzida */
+  width: 30em ; /* Nova largura reduzida */
   border-radius: 12px; /* Borda levemente reduzida */
   box-shadow: 0 0 8px rgba(0,0,0,0.05);
   text-align: center;

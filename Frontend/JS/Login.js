@@ -1,4 +1,3 @@
-
 const clienteBtn = document.getElementById("cliente-btn");
 const empresarioBtn = document.getElementById("empresario-btn");
 const mainText = document.getElementById("main-text");
@@ -23,20 +22,24 @@ function enviarLoginParaHeader(name, email, userType, photoUrl) {
     }
 }
 
-// Alterna entre Cliente e Empresário
-clienteBtn.addEventListener("click", () => {
-    clienteBtn.classList.add("active");
-    empresarioBtn.classList.remove("active");
-    mainText.textContent = "Encontre os melhores lugares para sair e se divertir";
-    subText.textContent = "Entre rapidamente com";
-});
+// Alterna entre Cliente e Empresário (AGORA PROTEGIDO)
+if (clienteBtn && empresarioBtn) {
 
-empresarioBtn.addEventListener("click", () => {
-    empresarioBtn.classList.add("active");
-    clienteBtn.classList.remove("active");
-    mainText.textContent = "Cadastre seu estabelecimento e aumente sua visibilidade";
-    subText.textContent = "Entre rapidamente com";
-});
+    clienteBtn.addEventListener("click", () => {
+        clienteBtn.classList.add("active");
+        empresarioBtn.classList.remove("active");
+        mainText.textContent = "Encontre os melhores lugares para sair e se divertir";
+        subText.textContent = "Entre rapidamente com";
+    });
+
+    empresarioBtn.addEventListener("click", () => {
+        empresarioBtn.classList.add("active");
+        clienteBtn.classList.remove("active");
+        mainText.textContent = "Cadastre seu estabelecimento e aumente sua visibilidade";
+        subText.textContent = "Entre rapidamente com";
+    });
+
+}
 
 // Lógica de login conectando ao backend
 form.addEventListener("submit", async (e) => {
@@ -44,7 +47,7 @@ form.addEventListener("submit", async (e) => {
 
     const email = inputEmail.value.trim();
     const senha = inputPassword.value;
-    let userType = clienteBtn.classList.contains("active") ? 'usuario' : 'empresario';
+    let userType = clienteBtn && clienteBtn.classList.contains("active") ? 'usuario' : 'empresario';
 
     if (!email || !senha) {
         alert("⚠️ Preencha todos os campos (Email e Senha)!");
@@ -77,7 +80,9 @@ form.addEventListener("submit", async (e) => {
                 ? (data.nome_estabelecimento || 'Empresário Rolês')
                 : (data.nome_completo || 'Cliente Rolês');
 
-            let photoUrl = data.foto || (userType === 'empresario' ? '../Imagens/Logo Restaurante.avif' : 'https://i.imgur.com/default-placeholder.png');
+            let photoUrl = data.foto || (userType === 'empresario'
+                ? '../Imagens/Logo Restaurante.avif'
+                : 'https://i.imgur.com/default-placeholder.png');
 
             localStorage.setItem('profileName', name);
             localStorage.setItem('profileEmail', email);
@@ -90,11 +95,13 @@ form.addEventListener("submit", async (e) => {
             const redirectUrl = userType === 'empresario'
                 ? "../Perfil_empresario/Perfil_empresario.html"
                 : "../Perfil_usuario/Perfil_usuario.html";
+
             window.location.href = redirectUrl;
 
         } else {
             alert("⚠️ " + (data.erro || "Email ou senha incorretos."));
         }
+
     } catch (err) {
         console.error("❌ Erro na requisição:", err);
         alert("❌ Não foi possível conectar ao servidor. Verifique se o backend está rodando (porta 3000).");
@@ -106,8 +113,7 @@ form.addEventListener("submit", async (e) => {
 ================ REDIRECIONAR CADASTRO ==============
 ================================================== */
 
-const btnCadastrar =
-    document.getElementById("btnCadastrar");
+const btnCadastrar = document.getElementById("btnCadastrar");
 
 if (btnCadastrar) {
 
@@ -115,11 +121,39 @@ if (btnCadastrar) {
 
         e.preventDefault();
 
-        // força abrir na página principal
-        window.parent.location.href =
-            "../Cadastro/cadastro.html";
+        window.parent.location.href = "../Cadastro/cadastro.html";
 
     });
 
 }
 
+
+// 👁️ MOSTRAR / ESCONDER SENHA (AGORA CORRIGIDO)
+const togglePassword = document.getElementById("togglePassword");
+const password = document.getElementById("password");
+
+if (togglePassword && password) {
+
+    // mostra/esconde o ícone ao digitar
+    password.addEventListener("input", () => {
+        if (password.value.length > 0) {
+            togglePassword.classList.add("show");
+        } else {
+            togglePassword.classList.remove("show");
+            password.type = "password";
+            togglePassword.textContent = "visibility";
+        }
+    });
+
+    // clique no olho
+    togglePassword.addEventListener("click", () => {
+        if (password.type === "password") {
+            password.type = "text";
+            togglePassword.textContent = "visibility_off";
+        } else {
+            password.type = "password";
+            togglePassword.textContent = "visibility";
+        }
+    });
+
+} 
