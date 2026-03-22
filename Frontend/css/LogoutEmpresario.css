@@ -18,6 +18,7 @@ main {
   justify-content: center;
   align-items: center;
   background: #fff;
+  height: 60vh;
 }
 
 .login-box {

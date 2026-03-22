@@ -16,10 +16,7 @@ header {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-main {
-    flex-grow: 1;
-    padding: 90px 20px;
-}
+
 
 .page-content {
     max-width: 1100px;

@@ -15,9 +15,9 @@
 
 <body>
     <header>
-        <iframe id="cabecalho-site" src="/Frontend/header/header.html" frameborder="0" scrolling="no" width="100%" height="200"
-            style="position: fixed; top: 0; left: 0; z-index: 999999999;"></iframe>
+        <div id="header-container"></div>
     </header>
+
 
     <main>
         <div class="container">
@@ -163,9 +163,11 @@
                     <div class="caixa-contato">
                         <h3 class="titulo-caixa">Contato</h3>
                         <p class="detalhe-contato"><span class="material-symbols-outlined icone-contato">mail</span>
-                            <span id="email-contato">contato@eventosgp.com.br</span></p>
+                            <span id="email-contato">contato@eventosgp.com.br</span>
+                        </p>
                         <p class="detalhe-contato"><span class="material-symbols-outlined icone-contato">call</span>
-                            <span id="telefone-contato">(62) 98765-4321</span></p>
+                            <span id="telefone-contato">(62) 98765-4321</span>
+                        </p>
                         <button class="botao-enviar-mensagem"><span
                                 class="material-symbols-outlined icone-botao">send</span> Enviar Mensagem</button>
                     </div>
@@ -178,7 +180,7 @@
     <footer>
         <iframe src="/Frontend/footer/footer.html" frameborder="0" scrolling="no" width="100%" height="auto"></iframe>
     </footer>
-
+    <script src="/Frontend/js/loadHeader.js"></script>
     <script src="/Frontend/js/verPerfil.js"></script>
 
 </body>

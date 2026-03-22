@@ -16,9 +16,9 @@
 <body>
 
     <header>
-        <iframe id="site-header" src="/Frontend/header/header.html" frameborder="0" scrolling="no" width="100%" height="200"
-            style="position: fixed; top: 0; left: 0; z-index: 999999999;" class="header-overlay"></iframe>
+        <div id="header-container"></div>
     </header>
+
 
     <main>
         <div class="page-content">
@@ -106,7 +106,8 @@
             <div class="actions-buttons" style="margin-bottom: 50px;">
                 <a href="/Frontend/index.html" class="btn-action"><i class="fas fa-home"></i> Página Inicial</a>
                 <a href="/Frontend/eventos/eventos.html" class="btn-action">Ver Mais Eventos</a>
-                <a href="/Frontend/perfilUsuario/perfilUsuario.html" class="btn-primary"><i class="fas fa-ticket-alt"></i> Ver
+                <a href="/Frontend/perfilUsuario/perfilUsuario.html" class="btn-primary"><i
+                        class="fas fa-ticket-alt"></i> Ver
                     Meus Ingressos</a>
             </div>
 
@@ -119,6 +120,8 @@
 
     <!-- Toast -->
     <div id="toast">Mensagem de confirmação</div>
+
+    <script src="/Frontend/js/loadHeader.js"></script>
 
     <script src="/Frontend/js/confirmacao.js"></script>
 

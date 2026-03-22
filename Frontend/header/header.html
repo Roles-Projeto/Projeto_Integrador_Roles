@@ -1,106 +1,181 @@
-<!DOCTYPE html>
-<html lang="pt-br">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-<head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Header Rolês</title>
+<link rel="stylesheet" href="/Frontend/css/header.css">
+<header>
+    <nav class="navbar">
+        <div class="logo">
+            <a href="/Frontend/index.html">Rolês</a>
+        </div>
 
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+        <ul class="menu">
 
-    <link rel="stylesheet" href="/Frontend/css/header.css">
-
-    <base href="../" target="_top">
-
-    <style>
-        .logo a {
-            font-family: 'Poppins', sans-serif;
-            font-size: 20px;
-            font-weight: 700;
-            text-decoration: none;
-        }
-    </style>
-</head>
-
-<body>
-    <header>
-        <nav class="navbar">
-            <div class="logo">
-                <a href="/Frontend/index.html">Rolês</a>
+            <div id="menu-cliente" style="display: none; display: flex; gap: 30px;">
+                <li><a href="/Frontend/index.html">Início</a></li>
+                <li><a href="/Frontend/locais/locais.html">Locais</a></li>
+                <li><a href="/Frontend/eventos/eventos.html">Eventos</a></li>
+                <li><a href="/Frontend/paraEmpresarios/empresario.html">Para Empresários</a></li>
+                <li><a href="/Frontend/quemSomos/quemSomos.html">Quem Somos</a></li>
+                <li><a href="/Frontend/contato/contato.html">Contato</a></li>
             </div>
 
-            <ul class="menu">
+            <div id="menu-empresario" style="display: none; display: flex; gap: 30px;">
+                <li><a href="/Frontend/dashboardEmpresario/dashboard.html">Dashboard</a></li>
+                <li><a href="/Frontend/quemSomos/quemSomos.html">Quem Somos</a></li>
+                <li><a href="/Frontend/contato/contato.html">Contato</a></li>
+            </div>
+        </ul>
 
-                <div id="menu-cliente" style="display: none; display: flex; gap: 30px;">
-                    <li><a href="/Frontend/index.html">Início</a></li>
-                    <li><a href="/Frontend/locais/locais.html">Locais</a></li>
-                    <li><a href="/Frontend/eventos/eventos.html">Eventos</a></li>
-                    <li><a href="/Frontend/paraEmpresarios/empresario.html">Para Empresários</a></li>
-                    <li><a href="/Frontend/quemSomos/quemSomos.html">Quem Somos</a></li>
-                    <li><a href="/Frontend/contato/contato.html">Contato</a></li>
-                </div>
+        <div class="right-section">
 
-                <div id="menu-empresario" style="display: none; display: flex; gap: 30px;">
-                    <li><a href="/Frontend/dashboardEmpresario/dashboard.html">Dashboard</a></li>
-                    <li><a href="/Frontend/quemSomos/quemSomos.html">Quem Somos</a></li>
-                    <li><a href="/Frontend/contato/contato.html">Contato</a></li>
-                </div>
-            </ul>
 
-            <div class="right-section">
-
-                <div class="search-container">
-                    <i class="fas fa-search"></i>
-                    <input type="text" placeholder="Buscar locais...">
-                </div>
-
+            <div class="city-dropdown">
                 <button class="city-btn">
                     <i class="fas fa-map-marker-alt"></i> Goiânia
                 </button>
 
-                <div id="header-nao-logado" class="user-action-btns">
-                    <a href="/Frontend/login/login.html" class="login" id="openLogin">Entrar</a>
-                    <a href="/Frontend/cadastro/cadastro.html" class="btn-header-cadastro">Cadastrar</a>
-                </div>
+                <ul class="city-menu">
+                    <li>Goiânia</li>
+                    <li>Aparecida de Goiânia</li>
+                    <li>Caldas Novas</li>
+                </ul>
+            </div>
 
-                <div id="header-logado" class="user-profile-container" style="display: none;">
-                    <div class="profile-avatar">
-                        <img id="profile-pic-header" src="https://i.imgur.com/default-placeholder.png"
-                            alt="Foto de Perfil" class="avatar-img">
-                    </div>
-
-                    <div class="dropdown-menu">
-                        <div class="user-info">
-                            <strong>Nome do Estabelecimento</strong>
-                            <span>email@empresa.com</span>
-                        </div>
-
-                        <a href="#" id="edit-profile-link" class="dropdown-item">
-                            <i class="fas fa-user"></i> Perfil
-                        </a>
-
-                        <a href="#" class="dropdown-item logout-btn">
-                            <i class="fas fa-sign-out-alt"></i> Sair
-                        </a>
-                    </div>
-                </div>
+            <div id="header-nao-logado" class="user-action-btns">
+                <a href="/Frontend/login/login.html" class="login" id="openLogin">Entrar</a>
 
             </div>
 
-        </nav>
+            <div id="header-logado" class="user-profile-container" style="display: none;">
+                <div class="profile-avatar">
+                    <img id="profile-pic-header" src="https://i.imgur.com/default-placeholder.png" alt="Foto de Perfil"
+                        class="avatar-img">
+                </div>
 
-        <div class="bottom-gradient-bar"></div>
+                <div class="dropdown-menu">
 
-        <div class="header-placeholder-fixo"></div>
+                    <div class="user-info">
+
+                        <img id="profile-pic-header" src="https://i.imgur.com/default-placeholder.png"
+                            alt="Foto de Perfil" class="avatar-img">
+
+                        <div>
+
+                            <strong id="profile-name-header">
+                                Nome do usuário
+                            </strong>
+
+                            <span id="profile-email-header">
+                                email@email.com
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                    <hr>
+
+                    <a href="#" id="minha-conta" class="dropdown-item">
+                        <i class="fas fa-user"></i>
+                        Minha conta
+                    </a>
+
+                    <a href="#" id="favoritos" class="dropdown-item">
+                        <i class="fas fa-heart"></i>
+                        Favoritos
+                    </a>
+
+                    <a href="#" id="criar-eventos" class="dropdown-item">
+                        <i class="fas fa-calendar-plus"></i>
+                        Criar eventos
+                    </a>
+
+                    <a href="#" id="cadastrar-estabelecimento" class="dropdown-item">
+                        <i class="fas fa-store"></i>
+                        Cadastrar estabelecimento
+                    </a>
+
+                    <a href="#" id="dashboard" class="dropdown-item">
+                        <i class="fas fa-chart-line"></i>
+                        Dashboard
+                    </a>
+
+                    <hr>
+
+                    <a href="/Frontend/ajuda/ajuda.html" class="dropdown-item">
+                        <i class="fas fa-headset"></i>
+                        Central de ajuda
+                    </a>
+
+                    <hr>
+
+                    <a href="#" class="dropdown-item logout-btn">
+                        <i class="fas fa-sign-out-alt"></i>
+                        Sair
+                    </a>
+
+                </div>
+            </div>
+
+        </div>
+
+    </nav>
+
+    <div class="bottom-gradient-bar"></div>
+
+    <div class="header-placeholder-fixo"></div>
 
 
-    </header>
+</header>
+<!------------------------------------------------------
+                // CARD FLUTUANTE
+                //---------------------------------------------------- -->
 
-    <main class="conteudo-principal-evento"></main>
+<div id="city-overlay" class="overlay"></div>
 
-    <script src="/Frontend/js/header.js"></script>
+<!-- Card -->
+<div id="city-card" class="city-card">
 
-</body>
+    <div class="card-header">
+        <h3>Localização</h3>
+        <span id="close-card">&times;</span>
+    </div>
 
-</html>
+    <div class="search-box">
+        <i class="fas fa-search"></i>
+        <input type="text" id="city-search" placeholder="Onde?">
+    </div>
+
+    <div class="use-location" id="use-location">
+        <i class="fas fa-location-arrow"></i>
+        <div>
+            <strong>Usar minha localização atual</strong>
+        </div>
+    </div>
+
+    <ul class="city-list" id="city-list">
+
+
+        <li data-city="Goiânia">
+            <i class="fas fa-map-marker-alt"></i>
+            Goiânia
+        </li>
+
+        <li data-city="Aparecida de Goiânia">
+            <i class="fas fa-map-marker-alt"></i>
+            Aparecida de Goiânia
+        </li>
+
+        <li data-city="Caldas Novas">
+            <i class="fas fa-map-marker-alt"></i>
+            Caldas Novas
+        </li>
+
+
+    </ul>
+
+</div>
+
+
+
+<script src="/Frontend/js/header.js"></script>

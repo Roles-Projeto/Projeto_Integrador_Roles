@@ -7,35 +7,32 @@ body {
     color: white; /* Cuidado aqui: todo elemento sem cor explícita herda branco */
 }
 
-
 /* ======= SEÇÃO TOPO ======= */
-.todos-locais {
+.rls-todos-locais {
     text-align: center;
     padding: 60px 20px;
-    /* Seu degradê */
     background: linear-gradient(to right, #03021A, #1D1F3A); 
-
 }
 
-.todos-locais h1 {
+.rls-todos-locais h1 {
     font-size: 24px;
     font-weight: 380;
     margin-bottom: 8px;
 }
 
-.todos-locais p {
-    font-size: 14px; /* Grande */
+.rls-todos-locais p {
+    font-size: 14px;
     opacity: 0.8;
     margin-bottom: 30px;
 }
 
 /* ======= CAMPO DE BUSCA ======= */
-.search-box {
+.rls-search-box {
     position: relative;
     display: inline-block;
 }
 
-.search-box .icon {
+.rls-search-box .rls-icon {
     position: absolute;
     top: 50%;
     left: 18px;
@@ -45,46 +42,37 @@ body {
     height: 20px;
 }
 
-.search-box input {
+.rls-search-box input {
     width: 450px;
-    max-width: 90%;
+    
     padding: 12px 18px 12px 45px;
     border-radius: 10px;
     border: 1px solid rgba(255,255,255,0.4);
     background-color: transparent;
     color: white;
-    font-size: 14px; /* Grande */
+    font-size: 14px;
     outline: none;
     transition: 0.3s;
 }
 
-.search-box input:focus {
+.rls-search-box input:focus {
     border-color: white;
 }
 
-.search-box input::placeholder {
+.rls-search-box input::placeholder {
     color: rgba(255,255,255,0.5);
 }
 
-/* ======= PARTE BRANCA ABAIXO (MAIN) ======= */
-main {
-    background-color: #fff;
-    
-    border-radius: 0; 
-    padding: 30px 0 80px 0; /* Removido padding horizontal para o container assumir */
-}
-
 /* NOVO: Container para largura máxima do conteúdo de filtro e cards */
-.content-container {
-    max-width: 980px; /* Largura para 3 cards de 300px + 20px de gap */
+.rls-content-container {
+    max-width: 980px;
     margin: 0 auto;
 }
 
-
-/* Barra de filtros - AGORA OCUPA A LARGURA DO content-container */
-.barra-filtros {
-    width: 95%; /* Ajuste interno */
-    max-width: 980px; /* Limita a largura do filtro */
+/* Barra de filtros */
+.rls-barra-filtros {
+    width: 95%;
+    max-width: 980px;
     margin: 20px auto; 
     background-color: #ffffff;
     border: 1px solid #e5e5e5;
@@ -96,39 +84,37 @@ main {
     box-shadow: 0 2px 6px rgba(128, 1, 1, 0.05);
 }
 
-/* Lado esquerdo (ícone + texto Filtros) */
-.filtro-esquerda {
+.rls-filtro-esquerda {
     display: flex;
     align-items: center;
     gap: 6px;
 }
 
-.icone-filtro { /* Ícone Font Awesome */
+.rls-icone-filtro {
     color: #333;
     width: 18px;
     height: 18px;
 }
 
-.filtro-esquerda span {
+.rls-filtro-esquerda span {
     font-family: 'Poppins', sans-serif;
     font-weight: 500;
-    font-size: 14px; /* Grande */
+    font-size: 14px;
     color: #333;
 }
 
-/* Lado direito (botões dropdown) */
-.filtro-direita {
+.rls-filtro-direita {
     display: flex;
     gap: 10px;
 }
 
-.botao-dropdown {
+.rls-botao-dropdown {
     background-color: #f9f9f9;
     border: 1px solid #ddd;
     border-radius: 8px;
     padding: 6px 14px;
     font-family: 'Poppins', sans-serif;
-    font-size: 12px; /* Pequeno */
+    font-size: 12px;
     color: #333;
     cursor: pointer;
     transition: all 0.2s ease;
@@ -137,76 +123,69 @@ main {
     gap: 4px; 
 }
 
-.botao-dropdown i {
+.rls-botao-dropdown i {
     font-size: 9px; 
 }
 
-.botao-dropdown:hover {
+.rls-botao-dropdown:hover {
     background-color: #efefef;
 }
-/* Fim da barra de filtros */
-
 
 /* Seção de Opções/Categorias de locais */
-.opçoes {
+.rls-opcoes {
     display: flex;
     align-items: center; 
     justify-content: space-between; 
-    /* Centralizado pelo content-container */
     margin: 15px 0; 
     padding: 0 10px;
 }
 
-.botoes {
+.rls-botoes {
     display: flex;
     gap: 8px;
 }
 
-.opçoes-abaixo {
+.rls-opcoes-abaixo {
     background-color: white;
     color: black;
     border: 1px solid #ccc;
     border-radius: 8px; 
     padding: 8px 16px;
-    font-size: 12px; /* Pequeno */
+    font-size: 12px;
     font-family: "Poppins", sans-serif;
     cursor: pointer;
     transition: all 0.3s ease;
 }
 
-/* Estilo para botão ativo/selecionado e no hover */
-.opçoes-abaixo.ativo,
-.opçoes-abaixo:hover {
+.rls-opcoes-abaixo.rls-ativo,
+.rls-opcoes-abaixo:hover {
     background-color: black;
     color: white;
     border-color: #000;
 }
 
-
-.mover {
-    font-size:14px; /* Grande */
+.rls-mover {
+    font-size:14px;
     font-family: "Poppins", sans-serif;
     color: #333;
     margin: 5px; 
 }
-.mover strong {
+.rls-mover strong {
     font-weight: 700;
     color: #000; 
 }
 
-
-/* Cards de Locais - MENORES E MAIS COMPACTOS */
-.cards-container {
+/* Cards de Locais */
+.rls-cards-container {
     display: flex;
     flex-wrap: wrap;
-    /* CORREÇÃO: Alinhamento à esquerda */
     justify-content: flex-start; 
     gap: 20px;
-    padding: 20px 10px; /* Adiciona padding para os cards não colarem nas bordas do content-container */
+    padding: 20px 10px;
 }
 
-.card {
-    width: 300px; /* Cartão menor */
+.rls-card {
+    width: 300px;
     height: auto; 
     background: #fff;
     border-radius: 12px;
@@ -217,42 +196,39 @@ main {
     transition: all 0.3s ease;
 }
 
-.card:hover {
+.rls-card:hover {
     transform: scale(1.01);
     box-shadow: 0 6px 20px rgba(0,0,0,0.15);
 }
 
-/* IMAGEM */
-.card-img {
+.rls-card-img {
     position: relative;
     width: 100%;
     height: 150px; 
 }
 
-.card-img img {
+.rls-card-img img {
     width: 100%;
     height: 100%;
     object-fit: cover;
 }
 
-/* CATEGORIA E NOTA */
-.categoria,
-.nota {
+.rls-categoria,
+.rls-nota {
     position: absolute;
     top: 10px;
     background: #fff;
     padding: 4px 10px; 
     border-radius: 20px;
-    font-size: 12px; /* Pequeno */
+    font-size: 12px;
     font-weight: 500;
     color: #000;
 }
 
-.categoria { left: 10px; }
-.nota { right: 10px; }
+.rls-categoria { left: 10px; }
+.rls-nota { right: 10px; }
 
-/* CONTEÚDO */
-.card-content {
+.rls-card-content {
     flex-grow: 1;
     padding: 15px;
     display: flex;
@@ -260,8 +236,8 @@ main {
     justify-content: flex-start; 
 }
 
-.card-content h3 {
-    font-size: 14px; /* Grande */
+.rls-card-content h3 {
+    font-size: 14px;
     font-weight: 600;
     color: #000;
     display: flex;
@@ -270,56 +246,52 @@ main {
     margin-bottom: 6px;
 }
 
-
-.preco {
+.rls-preco {
     color: #00A859;
     font-weight: 700;
-    font-size: 14px; /* Grande */
+    font-size: 14px;
     margin-left: 4px;
 }
 
-
-.local {
-    font-size: 12px; /* Pequeno */
+.rls-local {
+    font-size: 12px;
     color: #6b6b6b;
     margin-bottom: 6px;
 }
 
-.descricao {
-    font-size: 12px; /* Pequeno */
+.rls-descricao {
+    font-size: 12px;
     color: #555;
     margin-bottom: 8px;
 }
 
-/* INFO */
-.info {
-    font-size: 12px; /* Pequeno */
+.rls-info {
+    font-size: 12px;
     color: #444;
     margin-bottom: 8px;
 }
 
-.info i {
+.rls-info i {
     margin-right: 4px;
     color: #666;
 }
 
-/* TAGS */
-.tags {
+.rls-tags {
     display: flex;
     flex-wrap: wrap;
     gap: 6px;
     margin-bottom: 10px;
 }
 
-.tags span {
+.rls-tags span {
     border: 1px solid #ccc;
     border-radius: 20px;
     padding: 4px 10px;
-    font-size: 12px; /* Pequeno */
+    font-size: 12px;
     color: #444;
 }
 
-.footer {
+.rls-footer {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -328,28 +300,28 @@ main {
     border-top: 1px solid #f0f0f0;
 }
 
-.avaliacoes {
-    font-size: 12px; /* Pequeno */
+.rls-avaliacoes {
+    font-size: 12px;
     color: #6b6b6b;
 }
 
-.detalhes {
+.rls-detalhes {
     background: #0B0B0B;
     color: white;
     border: none;
     border-radius: 6px;
     padding: 6px 12px;
     cursor: pointer;
-    font-size: 12px; /* Pequeno */
+    font-size: 12px;
     transition: 0.2s ease;
 }
 
-.detalhes:hover {
+.rls-detalhes:hover {
     background: #2b2b2b;
 } 
 
 /* Estatísticas */
-.stats-section {
+.rls-stats-section {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -358,34 +330,32 @@ main {
     gap: 20px;
 }
 
-/* Botão “Ver Todos os Locais” */
-.ver-mais {
+.rls-ver-mais {
     background-color: white;
     color: black;
     border: 1px solid #ccc;
     border-radius: 10px;
     padding: 8px 20px;
-    font-size: 14px; /* Grande */
+    font-size: 14px;
     font-family: "Poppins", sans-serif;
     font-weight: 500;
     cursor: pointer;
     transition: all 0.3s ease;
 }
 
-.ver-mais:hover {
+.rls-ver-mais:hover {
     background-color: black;
     color: white;
 }
 
-/* Cards das estatísticas */
-.cards-stats {
+.rls-cards-stats {
     display: flex;
     justify-content: center;
     gap: 30px;
     flex-wrap: wrap;
 }
 
-.stat-card {
+.rls-stat-card {
     width: 250px;
     height: 100px;
     border: 1px solid #e0e0e0;
@@ -399,70 +369,59 @@ main {
     transition: transform 0.3s ease;
 }
 
-.stat-card:hover {
+.rls-stat-card:hover {
     transform: translateY(-3px);
 }
 
-.stat-card h2 {
+.rls-stat-card h2 {
     font-size: 30px;
     margin: 0;
     font-family: "Poppins", sans-serif;
     font-weight: 700;
 }
 
-.stat-card p {
-    font-size: 12px; /* Pequeno */
+.rls-stat-card p {
+    font-size: 12px;
     color: #333; 
     font-weight: 500; 
     font-family: "Poppins", sans-serif;
 }
 
-/* =======================================================
-// --- CORREÇÕES DE LAYOUT E COR PARA ÍCONES ---
-========================================================*/
-
-/* 1. Ícones de Local e Tags nos Cards de Estatísticas */
-.stat-card h2 i.fa-solid {
-    color: #333; /* Força cor escura */
+/* Ícones correções */
+.rls-stat-card h2 i.fa-solid {
+    color: #333;
     margin-right: 8px;
     font-size: 24px; 
 }
 
-/* 2. Ícone de Estrela Sólida nas Avaliações */
-.footer .avaliacoes i.fa-solid {
-    color: #FFC107; /* Cor amarela para a estrela */
+.rls-footer .rls-avaliacoes i.fa-solid {
+    color: #FFC107;
     margin-right: 4px;
 }
 
-/* =======================================================
-// --- FIM CORREÇÕES DE COR ---
-========================================================*/
-
-
 /* Responsividade */
 @media (max-width: 990px) {
-    /* Ajuste para caber 2 cards por linha */
-    .content-container {
+    .rls-content-container {
         max-width: 640px;
     }
-    /* Centraliza os cards quando há espaço para apenas 2 */
-    .cards-container {
+    .rls-cards-container {
         justify-content: center; 
     }
 }
 
 @media (max-width: 768px) {
-    .barra-filtros {
+    .rls-barra-filtros {
         flex-direction: column;
         align-items: flex-start;
         gap: 12px;
     }
 
-    .filtro-direita {
+    .rls-filtro-direita {
         width: 100%;
         justify-content: space-between;
     }
 }
+
 footer iframe {
     min-height: 22rem;
     display: block;

@@ -20,9 +20,7 @@
 /* REMOVIDAS as regras de .header-overlay e reabilitação de cliques. */
 
 /* 1. Empurra o conteúdo principal para baixo da barra de menu (de 70px, altura do iframe) */
-main {
-    padding-top: 40px;
-}
+
 
 header {
     margin: 0;

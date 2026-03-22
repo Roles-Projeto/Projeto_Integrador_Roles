@@ -102,4 +102,24 @@ form.addEventListener("submit", async (e) => {
 });
 
 
+/* ==================================================
+================ REDIRECIONAR CADASTRO ==============
+================================================== */
+
+const btnCadastrar =
+    document.getElementById("btnCadastrar");
+
+if (btnCadastrar) {
+
+    btnCadastrar.addEventListener("click", (e) => {
+
+        e.preventDefault();
+
+        // força abrir na página principal
+        window.parent.location.href =
+            "../Cadastro/cadastro.html";
+
+    });
+
+}
 

@@ -40,16 +40,14 @@ header{
 
 /* Logo */
 .logo a{
-    font-size:20px;
+    font-size:2.1em;
     font-weight:700;
     text-decoration:none;
-
     background:linear-gradient(to right,#131314,#6C1DCE);
-
     -webkit-background-clip:text;
     background-clip:text;
-
     -webkit-text-fill-color:transparent;
+    margin-left: 15%;
 }
 
 /* ==================================================
@@ -83,6 +81,7 @@ header{
     display:flex;
     gap:15px;
     align-items:center;
+    margin-right: 0.7em;
 }
 
 /* Botões quando deslogado */
@@ -92,42 +91,205 @@ header{
     align-items:center;
 }
 
-/* ==================================================
-==================== Search ==========================
-================================================== */
+/* Overlay */
 
-.search-container{
-    display:flex;
-    align-items:center;
-    background:#f7f7f7;
-    border-radius:6px;
-    padding:6px 10px;
-    width:180px;
+.overlay {
+
+    position: fixed;
+
+    top: 0;
+    left: 0;
+
+    width: 100vw;
+    height: 100vh;
+
+    background: rgba(0,0,0,0.45);
+
+    display: none;
+
+    z-index: 999998;
+}
+.city-card {
+
+    position: fixed;
+
+    top: 50%;
+    left: 50%;
+
+    transform: translate(-50%, -50%);
+
+    width: 420px;
+
+    background: white;
+
+    border-radius: 14px;
+
+    padding: 20px;
+
+    display: none;
+
+    z-index: 999999;
+
+    isolation: isolate;
 }
 
-.search-container i{
-    color:#999;
-    margin-right:8px;
-    font-size:14px;
+/* Header */
+
+.card-header {
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    margin-bottom: 15px;
 }
 
-.search-container input{
-    border:none;
-    background:transparent;
-    outline:none;
-    font-size:12px;
-    color:#333;
-    width:100%;
+.card-header h3 {
+
+    margin: 0;
+    font-size: 18px;
 }
 
-.search-container input::placeholder{
-    color:#aaa;
+.card-header span {
+
+    font-size: 22px;
+    cursor: pointer;
 }
 
+/* Busca */
+
+.search-box {
+
+    display: flex;
+    align-items: center;
+
+    background: #f5f5f5;
+
+    padding: 10px;
+
+    border-radius: 8px;
+
+    margin-bottom: 15px;
+}
+
+.search-box i {
+
+    color: #999;
+    margin-right: 8px;
+}
+
+.search-box input {
+
+    border: none;
+    background: transparent;
+    outline: none;
+
+    width: 100%;
+}
+
+/* Usar localização */
+
+.use-location {
+
+    display: flex;
+    align-items: center;
+
+    gap: 10px;
+
+    padding: 12px;
+
+    border-radius: 8px;
+
+    cursor: pointer;
+
+    margin-bottom: 15px;
+
+    transition: 0.2s;
+}
+
+.use-location:hover {
+
+    background: #f0f0f0;
+}
+
+.use-location i {
+
+    color: #6C1DCE;
+    font-size: 18px;
+}
+
+.use-location span {
+
+    font-size: 12px;
+    color: #666;
+}
+
+/* Lista */
+
+.city-list {
+
+    list-style: none;
+    padding: 0;
+
+    max-height: 260px;
+
+    overflow-y: auto;
+}
+
+.city-list li {
+
+    display: flex;
+    align-items: center;
+
+    gap: 10px;
+
+    padding: 12px;
+
+    cursor: pointer;
+
+    border-radius: 8px;
+
+    transition: 0.2s;
+}
+
+.city-list li:hover {
+
+    background: #f5f5f5;
+}
+
+.city-list i {
+
+    color: #6C1DCE;
+}
 /* ==================================================
 ==================== City Button =====================
 ================================================== */
+.city-dropdown {
+  position: relative;
+}
 
+.city-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background: white;
+  list-style: none;
+  padding: 10px 0;
+  margin: 0;
+  border-radius: 8px;
+  display: none;
+  min-width: 180px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+.city-menu li {
+  padding: 10px 15px;
+  cursor: pointer;
+}
+
+.city-menu li:hover {
+  background: #f0f0f0;
+}
 .city-btn{
     display:flex;
     align-items:center;
@@ -149,18 +311,8 @@ header{
 ==================== Login / Cadastro ================
 ================================================== */
 
+
 .login{
-    text-decoration:none;
-    color:#000;
-    font-size:12px;
-    padding:6px 0;
-}
-
-.login:hover{
-    opacity:.7;
-}
-
-.btn-header-cadastro{
     background:#000;
     color:#fff;
     padding:8px 15px;
@@ -169,7 +321,7 @@ header{
     font-size:12px;
 }
 
-.btn-header-cadastro:hover{
+.login:hover{
     background:#333;
 }
 
@@ -207,7 +359,7 @@ header{
     position:absolute;
     top:45px;
     right:0;
-    width:200px;
+    width:260px;
     background:#fff;
     border-radius:8px;
     box-shadow:0 4px 12px rgba(0,0,0,0.15);
@@ -228,8 +380,32 @@ header{
 /* User info */
 
 .user-info{
-    padding:10px 15px;
+    display:flex;
+    align-items:center;
+    gap:10px;
+
+    padding:12px 15px;
+
     border-bottom:1px solid #eee;
+}
+
+.user-info img{
+    width:40px;
+    height:40px;
+
+    border-radius:50%;
+
+    object-fit:cover;
+}
+
+.user-info strong{
+    font-size:13px;
+    color:#333;
+}
+
+.user-info span{
+    font-size:11px;
+    color:#888;
 }
 
 .user-info strong{
@@ -242,6 +418,12 @@ header{
     display:block;
     font-size:10px;
     color:#888;
+}
+
+.dropdown-menu hr{
+    border:none;
+    border-top:1px solid #eee;
+    margin:5px 0;
 }
 
 /* Dropdown items */

@@ -13,237 +13,238 @@
 
 <body>
     <header>
-        <iframe id="site-header" src="/Frontend/header/header.html" frameborder="0" scrolling="no" width="100%" height="200"
-            style="position: fixed; top: 0; left: 0; z-index: 999999999;"></iframe>
+        <div id="header-container"></div>
     </header>
 
-    <section class="hero-section">
-        <div class="content-wrapper">
-            <h1>Todos os Eventos</h1>
-            <p>Encontre os eventos mais incríveis acontecendo na sua cidade</p>
+        <section class="hero-section">
+            <div class="content-wrapper">
+                <h1>Todos os Eventos</h1>
+                <p>Encontre os eventos mais incríveis acontecendo na sua cidade</p>
 
-            <div class="search-bar">
-                <i class="fas fa-search search-icon" aria-hidden="true"></i>
-                <input id="searchInput" type="text" placeholder="Buscar eventos, locais, artistas..."
-                    aria-label="Buscar eventos">
+                <div class="search-bar">
+                    <i class="fas fa-search search-icon" aria-hidden="true"></i>
+                    <input id="searchInput" type="text" placeholder="Buscar eventos, locais, artistas..."
+                        aria-label="Buscar eventos">
+                </div>
             </div>
+        </section>
+
+        <section class="filtros-container">
+            <div class="filtros-box">
+                <div class="filtros-esquerda">
+                    <i class="fa-solid fa-filter"></i>
+                    <span>Filtros</span>
+                </div>
+
+                <div class="filtros-direita">
+                    <select id="dataFiltro" aria-label="Filtrar por data">
+                        <option value="todas">Todas as datas</option>
+                        <option value="hoje">Hoje</option>
+                        <option value="amanha">Amanhã</option>
+                        <option value="semana">Esta semana</option>
+                        <option value="mes">Este mês</option>
+                    </select>
+
+                    <select id="categoriaFiltro" aria-label="Filtrar por categoria">
+                        <option value="todas">Todas as categorias</option>
+                        <option value="festa">Festa</option>
+                        <option value="show">Show</option>
+                        <option value="festival">Festival</option>
+                        <option value="gastronomia">Gastronomia</option>
+                        <option value="workshop">Workshop</option>
+                    </select>
+
+                    <select id="ordenarPor" aria-label="Ordenar por">
+                        <option value="data">Data do evento</option>
+                        <option value="populares">Mais populares</option>
+                        <option value="nome">Nome A-Z</option>
+                        <option value="preco">Preço</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="filtros-meta">
+                <div class="encontrados" id="contadorEventos">
+                    Encontrados <strong id="qtdEventos">6</strong> eventos
+                </div>
+
+                <div class="pills" id="pillsContainer">
+                    <button class="pill active" data-cat="todas">Todos</button>
+                    <button class="pill" data-cat="festa">Festas</button>
+                    <button class="pill" data-cat="show">Shows</button>
+                    <button class="pill" data-cat="festival">Festivais</button>
+                    <button class="pill" data-cat="gastronomia">Gastronomia</button>
+                </div>
+            </div>
+        </section>
+
+
+        <main class="eventos-lista" id="eventosContainer" aria-live="polite">
+
+            <article class="evento-card" data-categoria="festival" data-nome="Festival de Jazz ao Ar Livre" data-id="1">
+                <div class="evento-imagem">
+                    <img src="../Imagens/7º imagem card.png" alt="Festival de Jazz ao Ar Livre" />
+                    <span class="badge">Música</span>
+                </div>
+                <div class="evento-info">
+                    <h3>Festival de Jazz ao Ar Livre</h3>
+                    <p class="descricao">Uma noite mágica com os melhores músicos de jazz da cidade.</p>
+                    <p class="meta"><i class="fa-regular fa-calendar"></i> Sex, 14 de Out &nbsp; <i
+                            class="fa-regular fa-clock"></i> 20:00</p>
+                    <p class="meta"><i class="fa-solid fa-location-dot"></i> Setor Marista, Goiânia</p>
+                    <p class="meta"><i class="fa-regular fa-user"></i> 260 pessoas interessadas</p>
+
+                    <div class="card-footer">
+                        <span class="preco">R$ 35 <small class="taxa"></small></span>
+                        <div class="acoes">
+                            <button class="btn-detalhes" data-event-id="1">Mais Detalhes</button>
+                            <button class="btn-confirmar">Confirmar Presença</button>
+                        </div>
+                    </div>
+                </div>
+            </article>
+
+            <article class="evento-card" data-categoria="festa" data-nome="Chopada da T-63" data-id="2">
+                <div class="evento-imagem">
+                    <img src="../Imagens/8º imagem card.png" alt="Chopada da T-63" />
+                    <span class="badge">Happy Hour</span>
+                </div>
+                <div class="evento-info">
+                    <h3>Chopada da T-63</h3>
+                    <p class="descricao">Drinks especiais e chopp em dobro no melhor bar da T-63.</p>
+                    <p class="meta"><i class="fa-regular fa-calendar"></i> Qui, 27 de Out &nbsp; <i
+                            class="fa-regular fa-clock"></i> 18:00</p>
+                    <p class="meta"><i class="fa-solid fa-location-dot"></i> Avenida T-63, Setor Bueno</p>
+                    <p class="meta"><i class="fa-regular fa-user"></i> 88 pessoas interessadas</p>
+
+                    <div class="card-footer">
+                        <span class="preco">R$ 25 <small class="taxa"></small></span>
+                        <div class="acoes">
+                            <button class="btn-detalhes" data-event-id="2">Mais Detalhes</button>
+                            <button class="btn-confirmar">Confirmar Presença</button>
+                        </div>
+                    </div>
+                </div>
+            </article>
+
+            <article class="evento-card" data-categoria="festa" data-nome="Salsa e Bachata Night" data-id="3">
+                <div class="evento-imagem">
+                    <img src="../Imagens/9º imagem card.png" alt="Salsa e Bachata Night" />
+                    <span class="badge">Dança</span>
+                </div>
+                <div class="evento-info">
+                    <h3>Salsa e Bachata Night</h3>
+                    <p class="descricao">Aulas gratuitas de salsa seguidas de muito baile latino.</p>
+                    <p class="meta"><i class="fa-regular fa-calendar"></i> Dom, 2 de Out &nbsp; <i
+                            class="fa-regular fa-clock"></i> 21:00</p>
+                    <p class="meta"><i class="fa-solid fa-location-dot"></i> Casa Latina, Setor Central</p>
+                    <p class="meta"><i class="fa-regular fa-user"></i> 120 pessoas interessadas</p>
+
+                    <div class="card-footer">
+                        <span class="preco">R$ 30 <small class="taxa"></small></span>
+                        <div class="acoes">
+                            <button class="btn-detalhes" data-event-id="3">Mais Detalhes</button>
+                            <button class="btn-confirmar">Confirmar Presença</button>
+                        </div>
+                    </div>
+                </div>
+            </article>
+
+            <article class="evento-card" data-categoria="gastronomia" data-nome="Vinhos do Cerrado" data-id="4">
+                <div class="evento-imagem">
+                    <img src="../Imagens/10º imagem card.png" alt="Vinhos do Cerrado" />
+                    <span class="badge">Restaurante</span>
+                </div>
+                <div class="evento-info">
+                    <h3>Vinhos do Cerrado</h3>
+                    <p class="descricao">Seleção especial de rótulos do centro-oeste em ambiente elegante.</p>
+                    <p class="meta"><i class="fa-regular fa-calendar"></i> Ter, 4 de Out &nbsp; <i
+                            class="fa-regular fa-clock"></i> 19:30</p>
+                    <p class="meta"><i class="fa-solid fa-location-dot"></i> Adega Nobre, Setor Bueno</p>
+                    <p class="meta"><i class="fa-regular fa-user"></i> 40 pessoas interessadas</p>
+
+                    <div class="card-footer">
+                        <span class="preco">R$ 80 <small class="taxa"></small></span>
+                        <div class="acoes">
+                            <button class="btn-detalhes" data-event-id="4">Mais Detalhes</button>
+                            <button class="btn-confirmar">Confirmar Presença</button>
+                        </div>
+                    </div>
+                </div>
+            </article>
+
+            <article class="evento-card" data-categoria="show" data-nome="Rock no Low Ridez" data-id="5">
+                <div class="evento-imagem">
+                    <img src="../Imagens/11º imagem card.png" alt="Rock no Low Ridez" />
+                    <span class="badge">Música</span>
+                </div>
+                <div class="evento-info">
+                    <h3>Rock no Low Ridez</h3>
+                    <p class="descricao">Bandas locais tocando clássicos nacionais em um pub underground.</p>
+                    <p class="meta"><i class="fa-regular fa-calendar"></i> Dom, 9 de Out &nbsp; <i
+                            class="fa-regular fa-clock"></i> 22:00</p>
+                    <p class="meta"><i class="fa-solid fa-location-dot"></i> Vila Cultural, Setor Central</p>
+                    <p class="meta"><i class="fa-regular fa-user"></i> 360 pessoas interessadas</p>
+
+                    <div class="card-footer">
+                        <span class="preco">R$ 35 <small class="taxa"></small></span>
+                        <div class="acoes">
+                            <button class="btn-detalhes" data-event-id="5">Mais Detalhes</button>
+                            <button class="btn-confirmar">Confirmar Presença</button>
+                        </div>
+                    </div>
+                </div>
+            </article>
+
+            <article class="evento-card" data-categoria="gastronomia" data-nome="Brunch no Bougainville" data-id="6">
+                <div class="evento-imagem">
+                    <img src="../Imagens/12º imagem card.png" alt="Brunch no Bougainville" />
+                    <span class="badge">Restaurante</span>
+                </div>
+                <div class="evento-info">
+                    <h3>Brunch no Bougainville</h3>
+                    <p class="descricao">Brunch especial com buffet de frios, doces e café da manhã completo.</p>
+                    <p class="meta"><i class="fa-regular fa-calendar"></i> Sáb, 8 de Out &nbsp; <i
+                            class="fa-regular fa-clock"></i> 10:00</p>
+                    <p class="meta"><i class="fa-solid fa-location-dot"></i> Próximo ao Shopping, Setor Bueno</p>
+                    <p class="meta"><i class="fa-regular fa-user"></i> 60 pessoas interessadas</p>
+
+                    <div class="card-footer">
+                        <span class="preco">R$ 42 <small class="taxa"></small></span>
+                        <div class="acoes">
+                            <button class="btn-detalhes" data-event-id="6">Mais Detalhes</button>
+                            <button class="btn-confirmar">Confirmar Presença</button>
+                        </div>
+                    </div>
+                </div>
+            </article>
+        </main>
+
+        <div class="carregar-container">
+            <button id="carregarMais" class="btn-carregar">Carregar mais eventos</button>
         </div>
-    </section>
 
-    <section class="filtros-container">
-        <div class="filtros-box">
-            <div class="filtros-esquerda">
-                <i class="fa-solid fa-filter"></i>
-                <span>Filtros</span>
+        <section class="estatisticas">
+            <div class="item">
+                <i class="fa-solid fa-calendar-check" aria-hidden="true"></i>
+                <p>6+<br><span>Eventos cadastrados</span></p>
             </div>
-
-            <div class="filtros-direita">
-                <select id="dataFiltro" aria-label="Filtrar por data">
-                    <option value="todas">Todas as datas</option>
-                    <option value="hoje">Hoje</option>
-                    <option value="amanha">Amanhã</option>
-                    <option value="semana">Esta semana</option>
-                    <option value="mes">Este mês</option>
-                </select>
-
-                <select id="categoriaFiltro" aria-label="Filtrar por categoria">
-                    <option value="todas">Todas as categorias</option>
-                    <option value="festa">Festa</option>
-                    <option value="show">Show</option>
-                    <option value="festival">Festival</option>
-                    <option value="gastronomia">Gastronomia</option>
-                    <option value="workshop">Workshop</option>
-                </select>
-
-                <select id="ordenarPor" aria-label="Ordenar por">
-                    <option value="data">Data do evento</option>
-                    <option value="populares">Mais populares</option>
-                    <option value="nome">Nome A-Z</option>
-                    <option value="preco">Preço</option>
-                </select>
+            <div class="item">
+                <i class="fa-solid fa-clock-rotate-left" aria-hidden="true"></i>
+                <p>24/7<br><span>Atualizações constantes</span></p>
             </div>
-        </div>
-
-        <div class="filtros-meta">
-            <div class="encontrados" id="contadorEventos">
-                Encontrados <strong id="qtdEventos">6</strong> eventos
+            <div class="item">
+                <i class="fa-solid fa-unlock-keyhole" aria-hidden="true"></i>
+                <p>Grátis<br><span>Acesso às informações</span></p>
             </div>
+        </section>
 
-            <div class="pills" id="pillsContainer">
-                <button class="pill active" data-cat="todas">Todos</button>
-                <button class="pill" data-cat="festa">Festas</button>
-                <button class="pill" data-cat="show">Shows</button>
-                <button class="pill" data-cat="festival">Festivais</button>
-                <button class="pill" data-cat="gastronomia">Gastronomia</button>
-            </div>
-        </div>
-    </section>
-
-
-    <main class="eventos-lista" id="eventosContainer" aria-live="polite">
-
-        <article class="evento-card" data-categoria="festival" data-nome="Festival de Jazz ao Ar Livre" data-id="1">
-            <div class="evento-imagem">
-                <img src="../Imagens/7º imagem card.png" alt="Festival de Jazz ao Ar Livre" />
-                <span class="badge">Música</span>
-            </div>
-            <div class="evento-info">
-                <h3>Festival de Jazz ao Ar Livre</h3>
-                <p class="descricao">Uma noite mágica com os melhores músicos de jazz da cidade.</p>
-                <p class="meta"><i class="fa-regular fa-calendar"></i> Sex, 14 de Out &nbsp; <i
-                        class="fa-regular fa-clock"></i> 20:00</p>
-                <p class="meta"><i class="fa-solid fa-location-dot"></i> Setor Marista, Goiânia</p>
-                <p class="meta"><i class="fa-regular fa-user"></i> 260 pessoas interessadas</p>
-
-                <div class="card-footer">
-                    <span class="preco">R$ 35 <small class="taxa"></small></span>
-                    <div class="acoes">
-                        <button class="btn-detalhes" data-event-id="1">Mais Detalhes</button>
-                        <button class="btn-confirmar">Confirmar Presença</button>
-                    </div>
-                </div>
-            </div>
-        </article>
-
-        <article class="evento-card" data-categoria="festa" data-nome="Chopada da T-63" data-id="2">
-            <div class="evento-imagem">
-                <img src="../Imagens/8º imagem card.png" alt="Chopada da T-63" />
-                <span class="badge">Happy Hour</span>
-            </div>
-            <div class="evento-info">
-                <h3>Chopada da T-63</h3>
-                <p class="descricao">Drinks especiais e chopp em dobro no melhor bar da T-63.</p>
-                <p class="meta"><i class="fa-regular fa-calendar"></i> Qui, 27 de Out &nbsp; <i
-                        class="fa-regular fa-clock"></i> 18:00</p>
-                <p class="meta"><i class="fa-solid fa-location-dot"></i> Avenida T-63, Setor Bueno</p>
-                <p class="meta"><i class="fa-regular fa-user"></i> 88 pessoas interessadas</p>
-
-                <div class="card-footer">
-                    <span class="preco">R$ 25 <small class="taxa"></small></span>
-                    <div class="acoes">
-                        <button class="btn-detalhes" data-event-id="2">Mais Detalhes</button>
-                        <button class="btn-confirmar">Confirmar Presença</button>
-                    </div>
-                </div>
-            </div>
-        </article>
-
-        <article class="evento-card" data-categoria="festa" data-nome="Salsa e Bachata Night" data-id="3">
-            <div class="evento-imagem">
-                <img src="../Imagens/9º imagem card.png" alt="Salsa e Bachata Night" />
-                <span class="badge">Dança</span>
-            </div>
-            <div class="evento-info">
-                <h3>Salsa e Bachata Night</h3>
-                <p class="descricao">Aulas gratuitas de salsa seguidas de muito baile latino.</p>
-                <p class="meta"><i class="fa-regular fa-calendar"></i> Dom, 2 de Out &nbsp; <i
-                        class="fa-regular fa-clock"></i> 21:00</p>
-                <p class="meta"><i class="fa-solid fa-location-dot"></i> Casa Latina, Setor Central</p>
-                <p class="meta"><i class="fa-regular fa-user"></i> 120 pessoas interessadas</p>
-
-                <div class="card-footer">
-                    <span class="preco">R$ 30 <small class="taxa"></small></span>
-                    <div class="acoes">
-                        <button class="btn-detalhes" data-event-id="3">Mais Detalhes</button>
-                        <button class="btn-confirmar">Confirmar Presença</button>
-                    </div>
-                </div>
-            </div>
-        </article>
-
-        <article class="evento-card" data-categoria="gastronomia" data-nome="Vinhos do Cerrado" data-id="4">
-            <div class="evento-imagem">
-                <img src="../Imagens/10º imagem card.png" alt="Vinhos do Cerrado" />
-                <span class="badge">Restaurante</span>
-            </div>
-            <div class="evento-info">
-                <h3>Vinhos do Cerrado</h3>
-                <p class="descricao">Seleção especial de rótulos do centro-oeste em ambiente elegante.</p>
-                <p class="meta"><i class="fa-regular fa-calendar"></i> Ter, 4 de Out &nbsp; <i
-                        class="fa-regular fa-clock"></i> 19:30</p>
-                <p class="meta"><i class="fa-solid fa-location-dot"></i> Adega Nobre, Setor Bueno</p>
-                <p class="meta"><i class="fa-regular fa-user"></i> 40 pessoas interessadas</p>
-
-                <div class="card-footer">
-                    <span class="preco">R$ 80 <small class="taxa"></small></span>
-                    <div class="acoes">
-                        <button class="btn-detalhes" data-event-id="4">Mais Detalhes</button>
-                        <button class="btn-confirmar">Confirmar Presença</button>
-                    </div>
-                </div>
-            </div>
-        </article>
-
-        <article class="evento-card" data-categoria="show" data-nome="Rock no Low Ridez" data-id="5">
-            <div class="evento-imagem">
-                <img src="../Imagens/11º imagem card.png" alt="Rock no Low Ridez" />
-                <span class="badge">Música</span>
-            </div>
-            <div class="evento-info">
-                <h3>Rock no Low Ridez</h3>
-                <p class="descricao">Bandas locais tocando clássicos nacionais em um pub underground.</p>
-                <p class="meta"><i class="fa-regular fa-calendar"></i> Dom, 9 de Out &nbsp; <i
-                        class="fa-regular fa-clock"></i> 22:00</p>
-                <p class="meta"><i class="fa-solid fa-location-dot"></i> Vila Cultural, Setor Central</p>
-                <p class="meta"><i class="fa-regular fa-user"></i> 360 pessoas interessadas</p>
-
-                <div class="card-footer">
-                    <span class="preco">R$ 35 <small class="taxa"></small></span>
-                    <div class="acoes">
-                        <button class="btn-detalhes" data-event-id="5">Mais Detalhes</button>
-                        <button class="btn-confirmar">Confirmar Presença</button>
-                    </div>
-                </div>
-            </div>
-        </article>
-
-        <article class="evento-card" data-categoria="gastronomia" data-nome="Brunch no Bougainville" data-id="6">
-            <div class="evento-imagem">
-                <img src="../Imagens/12º imagem card.png" alt="Brunch no Bougainville" />
-                <span class="badge">Restaurante</span>
-            </div>
-            <div class="evento-info">
-                <h3>Brunch no Bougainville</h3>
-                <p class="descricao">Brunch especial com buffet de frios, doces e café da manhã completo.</p>
-                <p class="meta"><i class="fa-regular fa-calendar"></i> Sáb, 8 de Out &nbsp; <i
-                        class="fa-regular fa-clock"></i> 10:00</p>
-                <p class="meta"><i class="fa-solid fa-location-dot"></i> Próximo ao Shopping, Setor Bueno</p>
-                <p class="meta"><i class="fa-regular fa-user"></i> 60 pessoas interessadas</p>
-
-                <div class="card-footer">
-                    <span class="preco">R$ 42 <small class="taxa"></small></span>
-                    <div class="acoes">
-                        <button class="btn-detalhes" data-event-id="6">Mais Detalhes</button>
-                        <button class="btn-confirmar">Confirmar Presença</button>
-                    </div>
-                </div>
-            </div>
-        </article>
     </main>
-
-    <div class="carregar-container">
-        <button id="carregarMais" class="btn-carregar">Carregar mais eventos</button>
-    </div>
-
-    <section class="estatisticas">
-        <div class="item">
-            <i class="fa-solid fa-calendar-check" aria-hidden="true"></i>
-            <p>6+<br><span>Eventos cadastrados</span></p>
-        </div>
-        <div class="item">
-            <i class="fa-solid fa-clock-rotate-left" aria-hidden="true"></i>
-            <p>24/7<br><span>Atualizações constantes</span></p>
-        </div>
-        <div class="item">
-            <i class="fa-solid fa-unlock-keyhole" aria-hidden="true"></i>
-            <p>Grátis<br><span>Acesso às informações</span></p>
-        </div>
-    </section>
 
     <footer>
         <iframe src="/Frontend/footer/footer.html" frameborder="0" scrolling="no" width="100%" height="auto"></iframe>
     </footer>
-
+    <script src="/Frontend/js/loadHeader.js"></script>
     <script src="/Frontend/js/evento.js"></script>
 </body>
 

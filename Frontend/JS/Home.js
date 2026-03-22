@@ -154,6 +154,20 @@ document.addEventListener("DOMContentLoaded", () => {
                 modal.classList.add("active");
             }
 
+            /* ==========================================
+            NOVO: LOGIN REALIZADO
+            ========================================== */
+
+            if (event.data === "LOGIN_SUCCESS") {
+
+                console.log("✅ Login realizado com sucesso");
+
+                modal.classList.remove("active");
+
+                location.reload();
+
+            }
+
         });
 
     }
@@ -171,6 +185,20 @@ window.addEventListener("message", (event) => {
         loginModal.style.display = "flex";
     }
 
+    /* ==========================================
+    NOVO: LOGIN REALIZADO
+    ========================================== */
+
+    if (event.data === "LOGIN_SUCCESS") {
+
+        console.log("✅ Login realizado com sucesso");
+
+        loginModal.style.display = "none";
+
+        location.reload();
+
+    }
+
 });
 
 /* FECHAR MODAL */
@@ -184,6 +212,3 @@ loginModal.addEventListener("click", (e) => {
         loginModal.style.display = "none";
     }
 });
-
-
-

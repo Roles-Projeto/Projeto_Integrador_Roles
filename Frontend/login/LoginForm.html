@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-     <link rel="stylesheet" href="/Frontend/css/login.css">
+    <link rel="stylesheet" href="/Frontend/css/login.css">
 
     <title>Login</title>
 </head>
@@ -53,7 +53,9 @@
 
             <p class="register-link">
                 Não tem conta?
-                <a href="/Frontend/cadastro/cadastro.html">Cadastre-se</a>
+                <a href="../Cadastro/cadastro.html" id="btnCadastrar">
+                    Cadastrar
+                </a>
             </p>
 
         </div>
@@ -87,6 +89,29 @@
 
         });
 
+    </script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+
+            const btnCadastrar =
+                document.getElementById("btnCadastrar");
+
+            if (btnCadastrar) {
+
+                btnCadastrar.addEventListener("click", function (e) {
+
+                    e.preventDefault();
+
+                    // força abrir fora do modal
+                    window.top.location.href =
+                        "../Cadastro/cadastro.html";
+
+                });
+
+            }
+
+        });
     </script>
 
 

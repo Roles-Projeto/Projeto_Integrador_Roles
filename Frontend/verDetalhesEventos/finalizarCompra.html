@@ -1,33 +1,33 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Finalizar Compra - Evento</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="/Frontend/css/finalizarCompra.css">
 </head>
 
 <body>
-    
-    <header>
-        <iframe id="site-header" src="/Frontend/header/header.html" frameborder="0" scrolling="no" width="100%" height="200"
-            style="position: fixed; top: 0; left: 0; z-index: 999999999;" class="header-overlay"></iframe>
-    </header>
 
+    <header>
+        <div id="header-container"></div>
+    </header>
     <main>
         <div class="page-content">
-            
-            <a href="/Frontend/verDetalhesEventos/detalhesEventos.html" class="back-link">← Voltar ao Evento</a>
+
             
             <div class="checkout-container">
-                
+
                 <div class="form-section">
-                    
+
                     <form id="payment-form">
                         <h2 class="section-title">Finalizar Compra</h2>
-                        <p style="font-size: 14px; color: #666; margin-top: -10px;">Preencha seus dados para concluir a compra dos ingressos</p>
+                        <p style="font-size: 14px; color: #666; margin-top: -10px;">Preencha seus dados para concluir a
+                            compra dos ingressos</p>
 
                         <div class="form-group">
                             <h3 class="form-subtitle">Dados Pessoais</h3>
@@ -53,7 +53,7 @@
 
                         <div class="form-group">
                             <h3 class="form-subtitle">Pagamento</h3>
-                            
+
                             <div class="security-info">
                                 <i class="fas fa-lock"></i>
                                 Seus dados estão protegidos com criptografia SSL
@@ -63,12 +63,12 @@
                                 <label for="numero-cartao">Número do Cartão</label>
                                 <input type="text" id="numero-cartao" placeholder="0000 0000 0000 0000" required>
                             </div>
-                            
+
                             <div class="input-group" style="margin-bottom: 10px;">
                                 <label for="nome-cartao">Nome no Cartão</label>
                                 <input type="text" id="nome-cartao" placeholder="Como está nos cartões" required>
                             </div>
-                            
+
                             <div class="validade-cvv-grid">
                                 <div class="input-group">
                                     <label for="validade">Validade</label>
@@ -80,29 +80,31 @@
                                 </div>
                             </div>
                         </div>
-                        
-                        <button type="submit" class="btn-pagar">Pagar R$ 0,00</button> 
+
+                        <button type="submit" class="btn-pagar">Pagar R$ 0,00</button>
                     </form>
                 </div>
 
                 <div class="summary-section">
                     <h2 class="section-title">Resumo do Pedido</h2>
-                    
+
                     <div class="event-details">
-                        <img class="event-image" id="event-image" src="caminho/para/imagem_evento.jpg" alt="Noite da Sanfona">
+                        <img class="event-image" id="event-image" src="caminho/para/imagem_evento.jpg"
+                            alt="Noite da Sanfona">
                         <div class="event-info">
                             <h4 id="event-name">Noite da Sanfona</h4>
                             <div class="event-meta">
                                 <p><i class="fas fa-calendar-alt"></i> <span id="event-date">02/02/2025</span></p>
                                 <p><i class="fas fa-clock"></i> <span id="event-time">21:00</span></p>
-                                <p><i class="fas fa-map-marker-alt"></i> <span id="event-location">Club Latino</span></p>
+                                <p><i class="fas fa-map-marker-alt"></i> <span id="event-location">Club Latino</span>
+                                </p>
                             </div>
                         </div>
                     </div>
-                    
+
                     <div class="ticket-selected">
                         <h4 class="form-subtitle" style="margin-top: 0;">Ingresso Selecionado</h4>
-                        
+
                         <div class="ticket-row" style="background-color: #f8f8f8; padding: 10px; border-radius: 4px;">
                             <span class="ticket-type" id="ticket-type">Ingresso Individual</span>
                             <span class="ticket-price" id="ticket-price-display">R$ 30.00</span>
@@ -132,9 +134,10 @@
                             <span>Taxa de serviço (10%)</span>
                             <span class="price" id="taxa">R$ 3.00</span>
                         </div>
-                        
+
                         <div class="tax-info">
-                            <i class="fas fa-info-circle"></i> A taxa cobre processamento de pagamento, emissão digital e suporte
+                            <i class="fas fa-info-circle"></i> A taxa cobre processamento de pagamento, emissão digital
+                            e suporte
                         </div>
 
                         <div class="price-row total-row">
@@ -143,7 +146,8 @@
                         </div>
 
                         <p class="final-message">
-                            Ao finalizar a compra, você receberá os ingressos por email e poderá acessá-los em seu perfil.
+                            Ao finalizar a compra, você receberá os ingressos por email e poderá acessá-los em seu
+                            perfil.
                         </p>
                     </div>
 
@@ -154,12 +158,14 @@
 
     <footer>
         <footer>
-            <iframe src="/Frontend/footer/footer.html" frameborder="0" scrolling="no" width="100%" height="auto"></iframe>
+            <iframe src="/Frontend/footer/footer.html" frameborder="0" scrolling="no" width="100%"
+                height="auto"></iframe>
         </footer>
     </footer>
-
+    <script src="/Frontend/js/loadHeader.js"></script>
     <script src="/Frontend/js/finalizarCompra.js"></script>
 
-    
+
 </body>
+
 </html>
