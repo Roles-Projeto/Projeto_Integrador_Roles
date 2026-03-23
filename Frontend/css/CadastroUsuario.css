@@ -10,7 +10,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 90vh;
+  margin-top: 2em;
 }
 .erro {
     color: #e63946;

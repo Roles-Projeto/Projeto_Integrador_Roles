@@ -22,7 +22,7 @@ header{
    NAVBAR
 ================================================== */
 
-.navbar{
+.header-main .navbar{
     width: 100%;
     height: 65px;
 
@@ -43,12 +43,12 @@ header{
    LOGO
 ================================================== */
 
-.logo{
+.header-main .logo{
     display: flex;
     align-items: center;
 }
 
-.logo a{
+.header-main .logo a{
     font-size: 2.1em;
     font-weight: 700;
 
@@ -66,7 +66,7 @@ header{
    SEARCH BAR
 ================================================== */
 
-.search-bar{
+.header-main .search-bar{
     display: flex;
     align-items: center;
 
@@ -74,14 +74,14 @@ header{
 
     border-radius: 50px;
 
-    padding: 5px;
+    height: 3em;
 
     width: 600px;
 }
 
 /* input */
 
-.search-bar input{
+.header-main .search-bar input{
     border: none;
 
     background: transparent;
@@ -97,7 +97,7 @@ header{
 
 /* divider */
 
-.divider{
+.header-main .divider{
     width: 1px;
     height: 25px;
     background: #ccc;
@@ -105,7 +105,7 @@ header{
 
 /* botão de busca */
 
-.search-btn{
+.header-main .search-btn{
     background: #f3f3f3;
 
     border: none;
@@ -126,11 +126,11 @@ header{
    CITY DROPDOWN
 ================================================== */
 
-.city-dropdown{
+.header-main .city-dropdown{
     position: relative;
 }
 
-.city-btn{
+.header-main .city-btn{
     display: flex;
     align-items: center;
 
@@ -147,13 +147,13 @@ header{
     font-size: 13px;
 }
 
-.city-btn i{
+.header-main .city-btn i{
     color: #6C1DCE;
 }
 
 /* menu */
 
-.city-menu{
+.header-main .city-menu{
     position: absolute;
 
     top: 100%;
@@ -175,13 +175,13 @@ header{
     box-shadow: 0 5px 15px rgba(0,0,0,0.2);
 }
 
-.city-menu li{
+.header-main .city-menu li{
     padding: 10px 15px;
 
     cursor: pointer;
 }
 
-.city-menu li:hover{
+.header-main .city-menu li:hover{
     background: #f0f0f0;
 }
 
@@ -189,7 +189,7 @@ header{
    RIGHT SECTION
 ================================================== */
 
-.right-section{
+.header-main .right-section{
     display: flex;
     align-items: center;
 
@@ -202,14 +202,14 @@ header{
    BOTÕES - CRIAR EVENTO / INGRESSOS
 ================================================== */
 
-.event-actions{
+.header-main .event-actions{
     display: flex;
     align-items: center;
 
     gap: 25px;
 }
 
-.action-btn{
+.header-main .action-btn{
     background: transparent;
 
     border: none;
@@ -229,7 +229,7 @@ header{
     transition: 0.2s;
 }
 
-.action-btn:hover{
+.header-main .action-btn:hover{
     color: #6C1DCE;
 }
 
@@ -237,12 +237,12 @@ header{
    LOGIN
 ================================================== */
 
-.user-action-btns{
+.header-main .user-action-btns{
     display: flex;
     align-items: center;
 }
 
-.login{
+.header-main .login{
     background: #000;
 
     color: #fff;
@@ -256,7 +256,7 @@ header{
     font-size: 12px;
 }
 
-.login:hover{
+.header-main .login:hover{
     background: #333;
 }
 
@@ -264,14 +264,14 @@ header{
    PROFILE
 ================================================== */
 
-.user-profile-container{
+.header-main .user-profile-container{
     position: relative;
     cursor: pointer;
 }
 
 /* avatar */
 
-.profile-avatar{
+.header-main .profile-avatar{
     width: 35px;
     height: 35px;
 
@@ -284,7 +284,7 @@ header{
     box-shadow: 0 0 0 2px #6C1DCE;
 }
 
-.avatar-img{
+.header-main .avatar-img{
     width: 100%;
     height: 100%;
 
@@ -295,7 +295,7 @@ header{
    DROPDOWN
 ================================================== */
 
-.dropdown-menu{
+.header-main .dropdown-menu{
     position: absolute;
 
     top: 45px;
@@ -319,7 +319,7 @@ header{
     transition: 0.2s;
 }
 
-.user-profile-container.active .dropdown-menu{
+.header-main .user-profile-container.active .dropdown-menu{
     opacity: 1;
     visibility: visible;
 
@@ -328,7 +328,7 @@ header{
 
 /* user info */
 
-.user-info{
+.header-main .user-info{
     display: flex;
     align-items: center;
 
@@ -339,7 +339,7 @@ header{
     border-bottom: 1px solid #eee;
 }
 
-.user-info img{
+.header-main .user-info img{
     width: 40px;
     height: 40px;
 
@@ -348,7 +348,7 @@ header{
     object-fit: cover;
 }
 
-.user-info strong{
+.header-main .user-info strong{
     font-size: 14px;
     color: #333;
 
@@ -362,7 +362,7 @@ header{
     display: block;
 }
 
-.dropdown-menu hr{
+.header-main .dropdown-menu hr{
     border: none;
 
     border-top: 1px solid #eee;
@@ -372,7 +372,7 @@ header{
 
 /* itens */
 
-.dropdown-item{
+.header-main .dropdown-item{
     display: flex;
     align-items: center;
 
@@ -385,13 +385,13 @@ header{
     font-size: 12px;
 }
 
-.dropdown-item i{
+.header-main .dropdown-item i{
     margin-right: 8px;
 
     color: #6C1DCE;
 }
 
-.dropdown-item:hover{
+.header-main .dropdown-item:hover{
     background: #f5f5f5;
 }
 

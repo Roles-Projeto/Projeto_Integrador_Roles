@@ -456,7 +456,7 @@ footer iframe {
 
 .faq {
     background: #f4eef8;
-    padding: 6rem 2rem;
+    padding: 2rem 2rem;
     text-align: center;
 }
 
@@ -472,7 +472,7 @@ footer iframe {
 }
 
 .faq-container {
-    max-width: 45em;
+    max-width: 35em;
     margin: auto;
 }
 
