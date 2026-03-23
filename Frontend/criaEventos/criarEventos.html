@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Cadastro</title>
+
+    <link rel="stylesheet" href="../css/criarEventos.css">
+</head>
+
+<body>
+
+    <header>
+        <div id="header-container"></div>
+    </header>
+
+    <div class="container">
+
+        <h1 id="titulo">Criar Evento</h1>
+
+        <div class="tipo-cadastro">
+            <button id="btnEvento" class="ativo">
+                Criar Evento
+            </button>
+
+            <button id="btnEstabelecimento">
+                Criar Estabelecimento
+            </button>
+        </div>
+
+        <form id="formCadastro">
+
+            <div id="campoCNPJ" style="display:none;">
+
+                <label>
+                    CNPJ *
+                </label>
+
+                <input type="text" id="cnpj" placeholder="00.000.000/0000-00">
+
+                <span id="msgCNPJ"></span>
+
+            </div>
+
+            <section>
+
+                <h2>
+                    Informações básicas
+                </h2>
+
+                <label>
+                    Nome do evento
+                </label>
+
+                <input type="text" id="nomeEvento" maxlength="100">
+
+                <small id="contadorNome">
+                    100 caracteres restantes
+                </small>
+
+                <label>
+                    Imagem de divulgação
+                </label>
+
+                <div class="upload-area" id="uploadArea">
+                    Clique ou arraste a imagem aqui
+
+                    <input type="file" id="imagem" hidden>
+
+                </div>
+
+                <img id="preview" class="preview" style="display:none;">
+
+                <label>
+                    Categoria
+                </label>
+
+                <select>
+
+                    <option>
+                        Selecione
+                    </option>
+
+                    <option>
+                        Festa
+                    </option>
+
+                    <option>
+                        Show
+                    </option>
+
+                    <option>
+                        Esporte
+                    </option>
+
+                    <option>
+                        Outro
+                    </option>
+
+                </select>
+
+            </section>
+
+            <section>
+
+                <h2>
+                    Data e horário
+                </h2>
+
+                <div class="grid-2">
+
+                    <div>
+
+                        <label>
+                            Data de Início
+                        </label>
+
+                        <input type="date" id="dataInicio">
+
+                    </div>
+
+                    <div>
+
+                        <label>
+                            Hora de Início
+                        </label>
+
+                        <input type="time">
+
+                    </div>
+
+                    <div>
+
+                        <label>
+                            Data de Término
+                        </label>
+
+                        <input type="date" id="dataFim">
+
+                    </div>
+
+                    <div>
+
+                        <label>
+                            Hora de Término
+                        </label>
+
+                        <input type="time">
+
+                    </div>
+
+                </div>
+
+                <p>
+                    Seu evento vai durar:
+                    <strong id="duracao">
+                        0 dias
+                    </strong>
+                </p>
+
+            </section>
+
+            <section>
+
+                <h2>
+                    Descrição do evento
+                </h2>
+
+                <textarea placeholder="Conte todos os detalhes do evento"></textarea>
+
+            </section>
+
+            <section>
+
+                <h2>
+                    Local
+                </h2>
+
+                <label>
+                    Nome do Local
+                </label>
+
+                <input type="text">
+
+                <label>
+                    CEP
+                </label>
+
+                <input type="text">
+
+                <label>
+                    Rua
+                </label>
+
+                <input type="text">
+
+                <label>
+                    Número
+                </label>
+
+                <input type="text">
+
+                <label>
+                    Bairro
+                </label>
+
+                <input type="text">
+
+                <label>
+                    Cidade
+                </label>
+
+                <input type="text">
+
+                <label>
+                    Estado
+                </label>
+
+                <input type="text">
+
+            </section>
+
+            <section>
+
+                <h2>
+                    Ingressos
+                </h2>
+
+                <label>
+                    <input type="radio" name="ingresso">
+                    Pago
+                </label>
+
+                <label>
+                    <input type="radio" name="ingresso">
+                    Gratuito
+                </label>
+
+            </section>
+
+            <section>
+
+                <h2>
+                    Sobre o produtor
+                </h2>
+
+                <label>
+                    Nome
+                </label>
+
+                <input type="text" maxlength="60">
+
+                <label>
+                    Descrição
+                </label>
+
+                <textarea></textarea>
+
+            </section>
+
+            <section>
+
+                <h2>
+                    Responsabilidades
+                </h2>
+
+                <label>
+                    <input type="radio" name="visibilidade">
+                    Público
+                </label>
+
+                <label>
+                    <input type="radio" name="visibilidade">
+                    Privado
+                </label>
+
+            </section>
+
+            <div class="botoes">
+
+                <button type="button" class="salvar">
+                    Salvar rascunho
+                </button>
+
+                <button type="button" class="preview-btn">
+                    Pré-visualizar
+                </button>
+
+                <button type="submit" class="publicar">
+                    Publicar
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+     <footer>
+        <iframe src="/Frontend/footer/footer.html" frameborder="0" scrolling="no" width="100%" height="auto"></iframe>
+    </footer>
+
+    <script src="/Frontend/js/loadHeader.js"></script>
+
+    <script src="../js/criarEventos.js"></script>
+
+</body>
+
+</html>

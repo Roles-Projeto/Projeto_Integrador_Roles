@@ -1,0 +1,118 @@
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: #f5f6fa;
+    margin: 0;
+}
+
+.container {
+    max-width: 1000px;
+    margin: 40px auto;
+    background: white;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+.tipo-cadastro {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 25px;
+}
+
+.tipo-cadastro button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    background: #e0e0e0;
+    font-weight: bold;
+}
+
+.tipo-cadastro .ativo {
+    background: #6c2bd9;
+    color: white;
+}
+
+section {
+    margin-top: 35px;
+    padding-top: 20px;
+    border-top: 1px solid #ddd;
+}
+
+label {
+    display: block;
+    margin-top: 15px;
+    font-weight: bold;
+}
+
+input,
+textarea,
+select {
+    width: 100%;
+    padding: 10px;
+    margin-top: 6px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+}
+
+textarea {
+    min-height: 120px;
+}
+
+.upload-area {
+    border: 2px dashed #ccc;
+    padding: 25px;
+    text-align: center;
+    border-radius: 10px;
+    margin-top: 10px;
+    cursor: pointer;
+}
+
+.preview {
+    margin-top: 10px;
+    max-width: 100%;
+}
+
+.grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+}
+
+.botoes {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 30px;
+}
+
+.botoes button {
+    padding: 12px 18px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.salvar {
+    background: #999;
+    color: white;
+}
+
+.preview-btn {
+    background: #1e88e5;
+    color: white;
+}
+
+.publicar {
+    background: #43a047;
+    color: white;
+}
+
+.erro {
+    color: red;
+}
+
+.sucesso {
+    color: green;
+}

@@ -50,7 +50,7 @@
 
             <p class="register-link">
                 Não tem conta?
-                <a href="../Cadastro/cadastro.html" id="btnCadastrar">
+                <a href="../Cadastro/CadastroUsuario.html" id="btnCadastrar">
                     Cadastrar
                 </a>
             </p>
@@ -58,58 +58,10 @@
         </div>
     </div>
 
-    <script>
+    <script src="../js/Login.js"></script>
 
-        const clienteBtn = document.getElementById("cliente-btn");
-        const empresarioBtn = document.getElementById("empresario-btn");
+ 
 
-        const mainText = document.getElementById("main-text");
-        const subText = document.getElementById("sub-text");
-
-        clienteBtn.addEventListener("click", () => {
-
-            clienteBtn.classList.add("active");
-            empresarioBtn.classList.remove("active");
-
-            mainText.textContent = "Encontre os melhores lugares para sair e se divertir";
-            subText.textContent = "Entre rapidamente com";
-
-        });
-
-        empresarioBtn.addEventListener("click", () => {
-
-            empresarioBtn.classList.add("active");
-            clienteBtn.classList.remove("active");
-
-            mainText.textContent = "Gerencie seu estabelecimento e alcance mais clientes";
-            subText.textContent = "Entre como empresário";
-
-        });
-
-    </script>
-
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-
-            const btnCadastrar =
-                document.getElementById("btnCadastrar");
-
-            if (btnCadastrar) {
-
-                btnCadastrar.addEventListener("click", function (e) {
-
-                    e.preventDefault();
-
-                    // força abrir fora do modal
-                    window.top.location.href =
-                        "../Cadastro/cadastro.html";
-
-                });
-
-            }
-
-        });
-    </script>
 
 
 </body>

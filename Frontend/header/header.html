@@ -16,20 +16,13 @@
         <!-- BARRA DE BUSCA -->
         <div class="search-bar">
 
-            <input
-                type="text"
-                id="searchInput"
-                placeholder="Buscar eventos..."
-            />
+            <input type="text" id="searchInput" placeholder="Buscar eventos..." />
 
             <div class="divider"></div>
 
             <div class="city-dropdown">
 
-                <button
-                    class="city-btn"
-                    id="cityBtn"
-                >
+                <button class="city-btn" id="cityBtn">
                     <i class="fas fa-map-marker-alt"></i>
 
                     <span id="selectedCity">
@@ -38,10 +31,7 @@
 
                 </button>
 
-                <ul
-                    class="city-menu"
-                    id="cityMenu"
-                >
+                <ul class="city-menu" id="cityMenu">
                     <li>Goiânia</li>
                     <li>Aparecida de Goiânia</li>
                     <li>Caldas Novas</li>
@@ -49,14 +39,8 @@
 
             </div>
 
-            <button
-                class="search-btn"
-                onclick="buscar()"
-            >
-                <img
-                    src="/Frontend/Imagens/lupa.png"
-                    alt="Buscar"
-                >
+            <button class="search-btn" onclick="buscar()">
+                <img src="/Frontend/Imagens/lupa.png" alt="Buscar">
             </button>
 
         </div>
@@ -67,10 +51,10 @@
             <!-- AÇÕES -->
             <div class="event-actions">
 
-               
-               
+
+
                 <button class="action-btn">
-                  Criar evento
+                    Criar evento
                 </button>
 
                 <button class="action-btn">
@@ -80,35 +64,20 @@
             </div>
 
             <!-- NÃO LOGADO -->
-            <div
-                id="header-nao-logado"
-                class="user-action-btns"
-            >
-                <a
-                    href="/Frontend/login/login.html"
-                    class="login"
-                    id="openLogin"
-                >
+            <div id="header-nao-logado" class="user-action-btns">
+                <a href="/Frontend/login/login.html" class="login" id="openLogin">
                     Entrar
                 </a>
             </div>
 
             <!-- LOGADO -->
-            <div
-                id="header-logado"
-                class="user-profile-container"
-                style="display: none;"
-            >
+            <div id="header-logado" class="user-profile-container" style="display: none;">
 
                 <!-- AVATAR -->
                 <div class="profile-avatar">
 
-                    <img
-                        id="profile-pic-header"
-                        src="https://i.imgur.com/default-placeholder.png"
-                        alt="Foto de Perfil"
-                        class="avatar-img"
-                    >
+                    <img id="profile-pic-header" src="https://i.imgur.com/default-placeholder.png" alt="Foto de Perfil"
+                        class="avatar-img">
 
                 </div>
 
@@ -117,10 +86,7 @@
 
                     <div class="user-info">
 
-                        <img
-                            src="https://i.imgur.com/default-placeholder.png"
-                            alt="Foto de Perfil"
-                        >
+                        <img src="https://i.imgur.com/default-placeholder.png" alt="Foto de Perfil">
 
                         <div>
 
@@ -138,7 +104,7 @@
 
                     <hr>
 
-                    <a href="#" id="minha-conta" class="dropdown-item">
+                    <a href="/Frontend/PerfilUsuario/PerfilUsuario.html" id="minha-conta" class="dropdown-item">
                         <i class="fas fa-user"></i>
                         Minha conta
                     </a>
@@ -148,31 +114,31 @@
                         Favoritos
                     </a>
 
-                    <a href="#" id="criar-eventos" class="dropdown-item">
+                    <a href="../criaEventos/criarEventos.html" id="criar-eventos" class="dropdown-item">
                         <i class="fas fa-calendar-plus"></i>
                         Criar eventos
                     </a>
 
-                    <a href="#" id="cadastrar-estabelecimento" class="dropdown-item">
+                    <a href="../criaEventos/criarEventos.html" id="cadastrar-estabelecimento" class="dropdown-item">
                         <i class="fas fa-store"></i>
                         Cadastrar estabelecimento
                     </a>
 
-                    <a href="#" id="dashboard" class="dropdown-item">
+                    <a href="../dashboardEmpresario/dashboard.html" id="dashboard" class="dropdown-item">
                         <i class="fas fa-chart-line"></i>
                         Dashboard
                     </a>
 
                     <hr>
 
-                    <a href="/Frontend/ajuda/ajuda.html" class="dropdown-item">
+                    <a href="/Frontend/contato/contato.html" class="dropdown-item">
                         <i class="fas fa-headset"></i>
                         Central de ajuda
                     </a>
 
                     <hr>
 
-                    <a href="#" class="dropdown-item logout-btn">
+                    <a href="/Frontend/login/LogoutUsuario.htmls" class="dropdown-item logout-btn">
                         <i class="fas fa-sign-out-alt"></i>
                         Sair
                     </a>
@@ -194,16 +160,10 @@
 </header>
 
 <!-- OVERLAY -->
-<div
-    id="city-overlay"
-    class="overlay"
-></div>
+<div id="city-overlay" class="overlay"></div>
 
 <!-- CARD DE LOCALIZAÇÃO -->
-<div
-    id="city-card"
-    class="city-card"
->
+<div id="city-card" class="city-card">
 
     <div class="card-header">
 
@@ -219,18 +179,11 @@
 
         <i class="fas fa-search"></i>
 
-        <input
-            type="text"
-            id="city-search"
-            placeholder="Onde?"
-        >
+        <input type="text" id="city-search" placeholder="Onde?">
 
     </div>
 
-    <div
-        class="use-location"
-        id="use-location"
-    >
+    <div class="use-location" id="use-location">
 
         <i class="fas fa-location-arrow"></i>
 
@@ -244,10 +197,7 @@
 
     </div>
 
-    <ul
-        class="city-list"
-        id="city-list"
-    >
+    <ul class="city-list" id="city-list">
 
         <li data-city="Goiânia">
             <i class="fas fa-map-marker-alt"></i>

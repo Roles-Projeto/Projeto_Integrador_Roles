@@ -10,11 +10,9 @@ app.use(cors());
 
 // Rotas
 const usuariosRoutes = require("./routes/usuarios");
-const empresariosRoutes = require("./routes/empresarios");
 const authRoutes = require("./routes/auth");
 
 app.use("/usuarios", usuariosRoutes);
-app.use("/empresarios", empresariosRoutes);
 app.use("/", authRoutes);
 
 // Rota inicial

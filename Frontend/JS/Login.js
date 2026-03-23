@@ -12,17 +12,17 @@ const headerIframe = document.getElementById('site-header');
 function enviarLoginParaHeader(name, email, userType, photoUrl) {
     if (headerIframe && headerIframe.contentWindow) {
         headerIframe.contentWindow.postMessage({
-            action: userType === 'empresario' ? 'LOGIN_SUCCESS_EMPRESARIO' : 'LOGIN_SUCCESS',
+            action: 'LOGIN_SUCCESS',
             newName: name,
             newEmail: email,
-            newPicUrl: photoUrl || (userType === 'empresario' ? '../Imagens/Logo Restaurante.avif' : 'https://i.imgur.com/default-placeholder.png'),
+            newPicUrl: photoUrl || 'https://i.imgur.com/default-placeholder.png',
             userType: userType
         }, '*');
         console.log('Mensagem enviada para o iframe: LOGIN_SUCCESS');
     }
 }
 
-// Alterna entre Cliente e Empresário (AGORA PROTEGIDO)
+// Mantido apenas para interface visual (não interfere no backend)
 if (clienteBtn && empresarioBtn) {
 
     clienteBtn.addEventListener("click", () => {
@@ -47,16 +47,17 @@ form.addEventListener("submit", async (e) => {
 
     const email = inputEmail.value.trim();
     const senha = inputPassword.value;
-    let userType = clienteBtn && clienteBtn.classList.contains("active") ? 'usuario' : 'empresario';
+
+    // Agora existe apenas um tipo de usuário
+    let userType = 'usuario';
 
     if (!email || !senha) {
         alert("⚠️ Preencha todos os campos (Email e Senha)!");
         return;
     }
 
-    const endpoint = userType === 'empresario'
-        ? "http://localhost:3000/empresarios/login"
-        : "http://localhost:3000/usuarios/login";
+    // Endpoint único
+    const endpoint = "http://localhost:3000/usuarios/login";
 
     try {
         const response = await fetch(endpoint, {
@@ -71,33 +72,47 @@ form.addEventListener("submit", async (e) => {
         if (response.ok) {
             // Salva dados no localStorage
             localStorage.setItem('userIsLoggedIn', 'true');
-            localStorage.setItem('userType', userType === 'usuario' ? 'cliente' : 'empresario');
+            localStorage.setItem('userType', 'usuario');
 
-            // 🔹 Salva o ID do usuário para usar no perfil
+            // Salva o ID do usuário para usar no perfil
             localStorage.setItem('userId', data.id);
 
-            let name = userType === 'empresario'
-                ? (data.nome_estabelecimento || 'Empresário Rolês')
-                : (data.nome_completo || 'Cliente Rolês');
+            let name = data.nome_completo || 'Cliente Rolês';
 
-            let photoUrl = data.foto || (userType === 'empresario'
-                ? '../Imagens/Logo Restaurante.avif'
-                : 'https://i.imgur.com/default-placeholder.png');
+            let photoUrl = data.foto_perfil || 'https://i.imgur.com/default-placeholder.png';
 
             localStorage.setItem('profileName', name);
             localStorage.setItem('profileEmail', email);
             localStorage.setItem('profilePhotoUrl', photoUrl);
 
             // Atualiza o header
-            enviarLoginParaHeader(name, email, localStorage.getItem('userType'), photoUrl);
+            enviarLoginParaHeader(
+                name,
+                email,
+                localStorage.getItem('userType'),
+                photoUrl
+            );
 
-            // Redireciona para o perfil
-            const redirectUrl = userType === 'empresario'
-                ? "../Perfil_empresario/Perfil_empresario.html"
-                : "../Perfil_usuario/Perfil_usuario.html";
+            // 🔹 Verifica se está dentro de um modal / iframe no home
+            if (window.parent && window.parent !== window) {
 
-            window.location.href = redirectUrl;
+                console.log("Login feito dentro do card do home");
 
+                // avisa o home que o login foi feito
+                window.parent.postMessage(
+                    "LOGIN_SUCCESS",
+                    "*"
+                );
+
+            } else {
+
+                console.log("Login feito na página normal");
+
+                // Redireciona para o perfil
+                window.location.href =
+                    "../index.html";
+
+            }
         } else {
             alert("⚠️ " + (data.erro || "Email ou senha incorretos."));
         }
@@ -128,13 +143,12 @@ if (btnCadastrar) {
 }
 
 
-// 👁️ MOSTRAR / ESCONDER SENHA (AGORA CORRIGIDO)
+// 👁️ MOSTRAR / ESCONDER SENHA
 const togglePassword = document.getElementById("togglePassword");
 const password = document.getElementById("password");
 
 if (togglePassword && password) {
 
-    // mostra/esconde o ícone ao digitar
     password.addEventListener("input", () => {
         if (password.value.length > 0) {
             togglePassword.classList.add("show");
@@ -145,7 +159,6 @@ if (togglePassword && password) {
         }
     });
 
-    // clique no olho
     togglePassword.addEventListener("click", () => {
         if (password.type === "password") {
             password.type = "text";
@@ -156,4 +169,4 @@ if (togglePassword && password) {
         }
     });
 
-} 
+}

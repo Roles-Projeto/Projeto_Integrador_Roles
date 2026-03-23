@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const authController = require("../controllers/authController");
 
+// Login do usuário (único tipo de conta)
 router.post("/usuarios/login", authController.loginUsuario);
-router.post("/empresarios/login", authController.loginEmpresario);
 
 module.exports = router;
