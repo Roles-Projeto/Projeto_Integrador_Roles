@@ -9,7 +9,7 @@ body {
 
 
 /* ======= SEÇÃO TOPO ======= */
-.todos-locais {
+.todos-locais1 {
     text-align: center;
     padding: 60px 20px;
     /* Seu degradê */
@@ -17,25 +17,25 @@ body {
 
 }
 
-.todos-locais h1 {
+.todos-locais1 h1 {
     font-size: 24px;
     font-weight: 380;
     margin-bottom: 8px;
 }
 
-.todos-locais p {
+.todos-locais1 p {
     font-size: 14px; /* Grande */
     opacity: 0.8;
     margin-bottom: 30px;
 }
 
 /* ======= CAMPO DE BUSCA ======= */
-.search-box {
+.search-box1 {
     position: relative;
     display: inline-block;
 }
 
-.search-box .icon {
+.search-box1 .icon {
     position: absolute;
     top: 50%;
     left: 18px;
@@ -45,7 +45,7 @@ body {
     height: 20px;
 }
 
-.search-box input {
+.search-box1 input {
     width: 450px;
     max-width: 90%;
     padding: 12px 18px 12px 45px;
@@ -58,24 +58,24 @@ body {
     transition: 0.3s;
 }
 
-.search-box input:focus {
+.search-box1 input:focus {
     border-color: white;
 }
 
-.search-box input::placeholder {
+.search-box1 input::placeholder {
     color: rgba(255,255,255,0.5);
 }
 
 
 /* NOVO: Container para largura máxima do conteúdo de filtro e cards */
-.content-container {
+.content-container1 {
     max-width: 980px; /* Largura para 3 cards de 300px + 20px de gap */
     margin: 0 auto;
 }
 
 
 /* Barra de filtros - AGORA OCUPA A LARGURA DO content-container */
-.barra-filtros {
+.barra-filtros1 {
     width: 95%; /* Ajuste interno */
     max-width: 980px; /* Limita a largura do filtro */
     margin: 20px auto; 
@@ -90,7 +90,7 @@ body {
 }
 
 /* Lado esquerdo (ícone + texto Filtros) */
-.filtro-esquerda {
+.filtro-esquerda1 {
     display: flex;
     align-items: center;
     gap: 6px;
@@ -102,7 +102,7 @@ body {
     height: 18px;
 }
 
-.filtro-esquerda span {
+.filtro-esquerda1 span {
     font-family: 'Poppins', sans-serif;
     font-weight: 500;
     font-size: 14px; /* Grande */
@@ -110,12 +110,12 @@ body {
 }
 
 /* Lado direito (botões dropdown) */
-.filtro-direita {
+.filtro-direita1 {
     display: flex;
     gap: 10px;
 }
 
-.botao-dropdown {
+.botao-dropdown1 {
     background-color: #f9f9f9;
     border: 1px solid #ddd;
     border-radius: 8px;
@@ -130,11 +130,11 @@ body {
     gap: 4px; 
 }
 
-.botao-dropdown i {
+.botao-dropdown1 i {
     font-size: 9px; 
 }
 
-.botao-dropdown:hover {
+.botao-dropdown1 :hover {
     background-color: #efefef;
 }
 /* Fim da barra de filtros */
@@ -376,6 +376,7 @@ body {
     justify-content: center;
     gap: 30px;
     flex-wrap: wrap;
+    margin-bottom: 2em;
 }
 
 .stat-card {
@@ -417,8 +418,12 @@ body {
 /* 1. Ícones de Local e Tags nos Cards de Estatísticas */
 .stat-card h2 i.fa-solid {
     color: #333; /* Força cor escura */
-    margin-right: 8px;
+    margin: 0;
     font-size: 24px; 
+     display: flex;
+    justify-content: center; /* Centraliza na horizontal */
+    align-items: center;    
+    
 }
 
 /* 2. Ícone de Estrela Sólida nas Avaliações */
