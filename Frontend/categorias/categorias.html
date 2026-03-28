@@ -7,20 +7,19 @@
     <title>Rolês - Categoria</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <link rel="stylesheet" href="/Frontend/css/style.css">
-    <link rel="stylesheet" href="/Frontend/css/categoria.css>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/categoria.css">
 </head>
 
 <body>
-    <header>
-        <iframe id=" site-header" src="/Frontend/header/header.html" frameborder="0" scrolling="no" width="100%"
-        height="200" style="position: fixed; top: 0; left: 0; z-index: 999999999;"></iframe>
+   <header>
+        <div id="header-container"></div>
     </header>
 
     <main>
         <section class="categoria-hero" id="categoria-hero">
             <div class="categoria-header container">
-                <a href="/Frontend/index.html" class="btn-voltar">
+                <a href="../index.html" class="btn-voltar">
                     <i class="fas fa-arrow-left"></i> Voltar
                 </a>
 
@@ -49,7 +48,7 @@
                     <i class="fas fa-music"></i>
                     <h2>Nenhum local encontrado</h2>
                     <p>Ainda não temos locais cadastrados nesta categoria.</p>
-                    <a href="/Frontend/locais/locais.html" class="btn-ver-todos">Ver todos os locais</a>
+                    <a href="../locais/locais.html" class="btn-ver-todos">Ver todos os locais</a>
                 </div>
             </div>
 
@@ -58,7 +57,7 @@
                     <i class="fas fa-calendar-alt"></i>
                     <h2>Nenhum evento encontrado</h2>
                     <p>Ainda não temos eventos cadastrados nesta categoria.</p>
-                    <a href="/Frontend/eventos/eventos.html" class="btn-ver-todos">Ver todos os eventos</a>
+                    <a href="../eventos/eventos.html" class="btn-ver-todos">Ver todos os eventos</a>
                 </div>
             </div>
 
@@ -67,10 +66,12 @@
     </main>
 
     <footer>
-        <iframe src="/Frontend/footer/footer.html" frameborder="0" scrolling="no" width="100%" height="auto"></iframe>
+        <iframe src="../footer/footer.html" frameborder="0" scrolling="no" width="100%" height="auto"></iframe>
     </footer>
 
-    <script src="/Frontend/js/categoria.js"></script>
+    <script src="../js/loadHeader.js"></script>
+
+    <script src="../js/Categoria.js"></script>
 
     </body>
 

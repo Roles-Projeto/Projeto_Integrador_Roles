@@ -21,7 +21,7 @@ body {
     background-color: var(--color-bg);
     color: var(--color-text-light);
     font-family: 'Poppins', sans-serif;
-    line-height: 1.6;
+    
 }
 
 .main-footer {
@@ -47,7 +47,7 @@ body {
 
 
 .column-title {
-    font-size: 1.4rem;
+    font-size: 1.6rem;
     margin-bottom: 1.5rem;
     color: var(--color-text-light);
     font-weight: 600;
@@ -67,7 +67,7 @@ body {
 .footer-column a {
     color: var(--color-text-dimmed);
     text-decoration: none;
-    font-size: 1.2rem;
+    font-size: 1.6rem;
     transition: color 0.3s;
 }
 
@@ -92,7 +92,7 @@ body {
 
 
 .footer-description {
-    font-size: 1.2rem;
+    font-size: 1.6rem;
     color: var(--color-text-dimmed);
     margin-bottom: 2rem;
     max-width: 30rem;
@@ -113,7 +113,7 @@ body {
 }
 
 .footer-contact-info .contact-line {
-    font-size: 1.2rem;
+    font-size: 1.6rem;
     color: var(--color-text-dimmed);
     margin-bottom: 0.8rem;
 }
@@ -121,7 +121,7 @@ body {
 
 .footer-bottom {
     max-width: 120rem;
-    margin: 4rem auto 0;
+    margin: 2rem auto 0;
     text-align: center;
 }
 

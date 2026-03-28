@@ -2,6 +2,8 @@
 // INICIALIZAÇÃO SEGURA DO HEADER
 // ====================================================
 
+"use script"
+
 function initHeader() {
 
     console.log("Header inicializado");
@@ -185,8 +187,7 @@ function alternarEstadoHeader(
 
             } else {
 
-                editProfileLink.href =
-                    '/frontend/perfilUsuario/perfilUsuario.html';
+                editProfileLink.href = '../perfilUsuario/perfilUsuario.html';
 
             }
 
@@ -576,7 +577,7 @@ function setupDropdownNavigation() {
             } else {
 
                 window.location.href =
-                    "/Frontend/perfilUsuario/perfilUsuario.html";
+                    "../perfilUsuario/perfilUsuario.html";
 
             }
 
@@ -594,7 +595,7 @@ function setupDropdownNavigation() {
         favoritos.addEventListener("click", () => {
 
             window.location.href =
-                "/Frontend/favoritos/favoritos.html";
+                "../favoritos/favoritos.html";
 
         });
 
@@ -610,7 +611,7 @@ function setupDropdownNavigation() {
         criarEventos.addEventListener("click", () => {
 
             window.location.href =
-                "/Frontend/eventos/criarEvento.html";
+                "../criarEventos/criarEvento.html";
 
         });
 
@@ -626,7 +627,7 @@ function setupDropdownNavigation() {
         cadastrarEstabelecimento.addEventListener("click", () => {
 
             window.location.href =
-                "/Frontend/cadastroEstabelecimento/cadastro.html";
+                "../criarEventos/criarEventos.html";
 
         });
 
@@ -642,7 +643,7 @@ function setupDropdownNavigation() {
         dashboard.addEventListener("click", () => {
 
             window.location.href =
-                "/Frontend/dashboardEmpresario/dashboard.html";
+                "../dashboardEmpresario/dashboard.html";
 
         });
 
