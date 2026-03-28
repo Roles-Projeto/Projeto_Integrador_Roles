@@ -24,6 +24,7 @@ body {
     justify-content: center;
     color: #fff;
     text-align: center;
+    height: 40em;
 
 }
 
@@ -342,7 +343,7 @@ body {
 .carousel-container {
     width: 100%;
     max-width: 1200px;
-    margin: 80px auto 0;
+    margin: 1.5em auto 0;
     overflow: hidden;
     display: flex;
     justify-content: center;
