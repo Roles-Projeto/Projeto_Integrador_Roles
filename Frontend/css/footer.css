@@ -1,170 +1,153 @@
 /* ==================================================
 ==================== Footer ==========================
 ================================================== */
-
-:root {
-    font-size: 62.5%;
-    --color-bg: #03021A;
-    --color-text-light: #fefefe;
-    --color-text-dimmed: #b3b3b3;
-    --color-highlight: #ffc600;
-    --color-divider: #333333;
+body {
+    margin: 0%;
 }
 
-* {
+.roles-footer-main {
+    --roles-color-bg: #03021A;
+    --roles-color-text-light: #fefefe;
+    --roles-color-text-dimmed: #b3b3b3;
+    --roles-color-highlight: #ffc600;
+    --roles-color-divider: #333333;
+
+    
+    background-color: var(--roles-color-bg);
+    padding: 4rem 2rem 2rem;
+    font-family: 'Poppins', sans-serif;
+    color: var(--roles-color-text-light);
+    font-size: 1.2rem; /* fonte menor */
+    padding-top: 6em;
+}
+
+/* Aplica somente dentro do footer */
+.roles-footer-main * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    font-size: 1.2rem;
 }
 
-body {
-    background-color: var(--color-bg);
-    color: var(--color-text-light);
-    font-family: 'Poppins', sans-serif;
-    
-}
-
-.main-footer {
-    width: 100%;
-    background-color: var(--color-bg);
-    padding: 4rem 2rem 2rem;
-}
-
-.footer-content-wrapper {
+.roles-footer-wrapper {
     max-width: 100rem;
     margin: 0 auto;
     display: flex;
     flex-wrap: wrap;
     gap: 3rem;
     padding-bottom: 2rem;
+    padding-left: 4em;
 }
 
-
-.footer-column {
+.roles-footer-column {
     width: 100%;
     margin-bottom: 3rem;
 }
 
-
-.column-title {
-    font-size: 1.6rem;
+.roles-footer-title {
+    font-size: 1.2rem;
     margin-bottom: 1.5rem;
-    color: var(--color-text-light);
+    color: var(--roles-color-text-light);
     font-weight: 600;
-    
 }
 
-
-.footer-column ul {
+.roles-footer-column ul {
     list-style: none;
+    padding-left: 0; /* remove qualquer indentação */
 }
 
-.footer-column ul li {
+.roles-footer-column ul li {
     margin-bottom: 0.5rem;
 }
 
-
-.footer-column a {
-    color: var(--color-text-dimmed);
+.roles-footer-column a {
+    color: var(--roles-color-text-dimmed);
     text-decoration: none;
-    font-size: 1.6rem;
+    font-size: 1rem;
     transition: color 0.3s;
 }
 
-
-.footer-column a:hover {
-    color: var(--color-highlight);
-    
+.roles-footer-column a:hover {
+    color: var(--roles-color-highlight);
 }
 
-
-.footer-branding {
+.roles-footer-branding {
     flex: 1 1 25rem;
     min-width: 25rem;
 }
 
-.footer-logo {
-    font-size: 2.8rem;
+.roles-footer-logo {
+    font-size: 1.6rem;
     font-weight: 700;
-    color: var(--color-highlight);
+    color: var(--roles-color-highlight);
     margin-bottom: 1rem;
 }
 
-
-.footer-description {
-    font-size: 1.6rem;
-    color: var(--color-text-dimmed);
+.roles-footer-description {
+    font-size: 1.1rem;
+    color: var(--roles-color-text-dimmed);
     margin-bottom: 2rem;
-    max-width: 30rem;
-}
-
-
-.social-links a {
-    font-size: 2.2rem;
-    margin-right: 1.5rem;
-    color: var(--color-text-light);
-    transition: color 0.3s;
-}
-
-
-.social-links a:hover {
-    color: var(--color-highlight);
     
 }
 
-.footer-contact-info .contact-line {
-    font-size: 1.6rem;
-    color: var(--color-text-dimmed);
+.roles-footer-social a {
+    font-size: 1.4rem;
+    margin-right: 1rem;
+    color: var(--roles-color-text-light);
+    transition: color 0.3s;
+}
+
+.roles-footer-social a:hover {
+    color: var(--roles-color-highlight);
+}
+
+.roles-footer-contact .roles-footer-contact-line {
+    font-size: 1rem;
+    color: var(--roles-color-text-dimmed);
     margin-bottom: 0.8rem;
 }
 
-
-.footer-bottom {
-    max-width: 120rem;
-    margin: 2rem auto 0;
+.roles-footer-bottom {
+    max-width: 100rem;
+    margin: 0.6rem auto 0;
     text-align: center;
 }
 
-.footer-divider {
+.roles-footer-divider {
     border: none;
     height: 0.1rem;
-    background-color: var(--color-divider);
+    background-color: var(--roles-color-divider);
     margin-bottom: 2rem;
 }
 
-
-.footer-copyright {
-    font-size: 1.2rem;
-    color: var(--color-text-dimmed);
+.roles-footer-copy {
+    font-size: 1rem;
+    color: var(--roles-color-text-dimmed);
     padding: 1rem 0;
 }
 
-
-/* Responsividade  */
-
-/* Para telas maiores que 550px */
+/* Responsividade */
 @media (min-width: 55rem) {
-    .footer-column:not(.footer-branding) {
+    .roles-footer-column:not(.roles-footer-branding) {
         width: auto;
         flex: 1 1 15rem;
         margin-bottom: 0;
     }
 
-    .footer-branding {
+    .roles-footer-branding {
         flex: 1 1 30rem;
     }
 }
 
-/* Para telas maiores que 990px */
 @media (min-width: 99rem) {
-    .footer-content-wrapper {
+    .roles-footer-wrapper {
         display: grid;
         grid-template-columns: 1.7fr 1fr 1fr 1.3fr;
-        gap: 6rem;
         text-align: left;
+        padding-left: 7em;
     }
 
-    .footer-column {
+    .roles-footer-column {
         margin-bottom: 0;
     }
 }
