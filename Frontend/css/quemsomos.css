@@ -70,7 +70,7 @@ h2 {
     color: #9D9B9B;
 }
 
-p {
+.p1 {
     max-width: 600px;
     /* largura do bloco de texto */
     margin-left: 15%;
@@ -501,9 +501,3 @@ h3 {
     }
 }
 
-
-/* FOOTER */
-footer iframe {
-    min-height: 22rem;
-    display: block;
-}

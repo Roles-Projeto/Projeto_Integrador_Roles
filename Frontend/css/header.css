@@ -197,7 +197,37 @@ header{
 
     margin-left: auto;
 }
+.header-main .right-section {
+    display: flex;
+    align-items: center;
+    gap: 15px; /* espaçamento entre avatar e hamburger */
+}
 
+.hamburger-btn {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 1.5em;
+    color: #6C1DCE;
+    display: flex;
+    align-items: center;
+}
+
+.sidebar {
+    position: fixed;
+    top: 0;
+    right: -250px; /* escondido inicialmente */
+    width: 250px;
+    height: 100%;
+    background: #fff;
+    box-shadow: -2px 0 10px rgba(0,0,0,0.2);
+    transition: 0.3s;
+    z-index: 9999;
+}
+
+body.sidebar-open .sidebar {
+    right: 0;
+}
 /* ==================================================
    BOTÕES - CRIAR EVENTO / INGRESSOS
 ================================================== */
@@ -394,6 +424,7 @@ header{
 .header-main .dropdown-item:hover{
     background: #f5f5f5;
 }
+
 
 /* ==================================================
    OVERLAY E CARD DE CIDADE

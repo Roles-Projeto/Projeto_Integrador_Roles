@@ -1,654 +1,259 @@
-// ====================================================
-// INICIALIZAÇÃO SEGURA DO HEADER
-// ====================================================
-
-"use script"
+"use strict";
 
 function initHeader() {
-
     console.log("Header inicializado");
 
-// Seleciona os containers de menu
-const menuCliente = document.getElementById('menu-cliente');
-const menuEmpresario = document.getElementById('menu-empresario');
+    // -------------------------------
+    // CARREGAR DADOS DO LOCALSTORAGE
+    // -------------------------------
+    function loadPersistentData() {
+        const photoUrl = localStorage.getItem('profilePhotoUrl');
+        const name = localStorage.getItem('profileName');
+        const email = localStorage.getItem('profileEmail');
 
-// ----------------------------------------------------
-// FUNÇÃO: CARREGA DADOS SALVOS DO LOCALSTORAGE
-// ----------------------------------------------------
+        const headerPicElement = document.getElementById('profile-pic-header');
+        const dropdownName = document.querySelector('.dropdown-menu .user-info strong');
+        const dropdownEmail = document.querySelector('.dropdown-menu .user-info span');
 
-function loadPersistentData() {
-
-    const photoUrl = localStorage.getItem('profilePhotoUrl');
-    const name = localStorage.getItem('profileName');
-    const email = localStorage.getItem('profileEmail');
-
-    const headerPicElement =
-        document.getElementById('profile-pic-header');
-
-    const dropdownName =
-        document.querySelector('.dropdown-menu .user-info strong');
-
-    const dropdownEmail =
-        document.querySelector('.dropdown-menu .user-info span');
-
-    if (photoUrl && headerPicElement) {
-        headerPicElement.src = photoUrl;
+        if (photoUrl && headerPicElement) headerPicElement.src = photoUrl;
+        if (name && dropdownName) dropdownName.textContent = name;
+        if (email && dropdownEmail) dropdownEmail.textContent = email;
     }
 
-    if (name && dropdownName) {
-        dropdownName.textContent = name;
+    loadPersistentData();
+
+    // -------------------------------
+    // ESTADO LOGADO / NÃO LOGADO
+    // -------------------------------
+    function alternarEstadoHeader(logado) {
+        const naoLogado = document.getElementById('header-nao-logado');
+        const logadoDiv = document.getElementById('header-logado');
+        const hamburgerMenu = document.getElementById('hamburger-btn'); // correção aqui
+        const userOptions = document.querySelector('.user-options'); // menu que abre com hamburger
+
+        if (!naoLogado || !logadoDiv || !hamburgerMenu) return;
+
+        if (logado) {
+            naoLogado.style.display = 'none';
+            logadoDiv.style.display = 'flex';
+            hamburgerMenu.style.display = 'flex'; // mostra apenas se logado
+
+            // Configura hamburger
+            if (userOptions) {
+                hamburgerMenu.addEventListener("click", (e) => {
+                    e.stopPropagation();
+                    userOptions.classList.toggle("active");
+                    hamburgerMenu.classList.toggle("active");
+                });
+
+                document.addEventListener("click", (e) => {
+                    if (!userOptions.contains(e.target) && e.target !== hamburgerMenu) {
+                        userOptions.classList.remove("active");
+                        hamburgerMenu.classList.remove("active");
+                    }
+                });
+            }
+
+            setupLogoutListener();
+        } else {
+            naoLogado.style.display = 'flex';
+            logadoDiv.style.display = 'none';
+            hamburgerMenu.style.display = 'none'; // esconde se não logado
+        }
     }
 
-    if (email && dropdownEmail) {
-        dropdownEmail.textContent = email;
-    }
+    const isLogged = localStorage.getItem('userIsLoggedIn');
+    alternarEstadoHeader(isLogged === 'true');
 
-}
-
-// ----------------------------------------------------
-// LOGOUT
-// ----------------------------------------------------
-
-function setupLogoutListener() {
-
-    const logoutBtn =
-        document.querySelector('.logout-btn');
-
-    if (logoutBtn &&
-        !logoutBtn.dataset.listenerAdded) {
-
-        logoutBtn.addEventListener(
-            'click',
-            (e) => {
-
+    // -------------------------------
+    // LOGOUT
+    // -------------------------------
+    function setupLogoutListener() {
+        const logoutBtn = document.querySelector('.logout-btn');
+        if (logoutBtn && !logoutBtn.dataset.listenerAdded) {
+            logoutBtn.addEventListener('click', (e) => {
                 e.preventDefault();
-
-                const userType =
-                    localStorage.getItem('userType');
-
-                localStorage.removeItem(
-                    'userIsLoggedIn'
-                );
-
-                localStorage.removeItem(
-                    'userType'
-                );
-
-                localStorage.removeItem(
-                    'profilePhotoUrl'
-                );
-
-                localStorage.removeItem(
-                    'profileName'
-                );
-
-                localStorage.removeItem(
-                    'profileEmail'
-                );
-
-                let logoutPath;
-
-                if (userType === 'empresario') {
-
-                    logoutPath =
-                        '/frontend/login/logoutEmpresario.html';
-
-                } else {
-
-                    logoutPath =
-                        '/frontend/login/logoutUsuario.html';
-
-                }
-
-                alternarEstadoHeader(
-                    false,
-                    'cliente'
-                );
-
-                window.parent.location.href =
-                    logoutPath;
-
-            }
-        );
-
-        logoutBtn.dataset.listenerAdded =
-            'true';
-
+                localStorage.removeItem('userIsLoggedIn');
+                localStorage.removeItem('profilePhotoUrl');
+                localStorage.removeItem('profileName');
+                localStorage.removeItem('profileEmail');
+                alternarEstadoHeader(false);
+                window.location.href = "../login/login.html";
+            });
+            logoutBtn.dataset.listenerAdded = 'true';
+        }
     }
 
-}
-
-// ----------------------------------------------------
-// ESTADO DO HEADER
-// ----------------------------------------------------
-
-function alternarEstadoHeader(
-    logado,
-    userType = 'cliente'
-) {
-
-    const naoLogado =
-        document.getElementById(
-            'header-nao-logado'
-        );
-
-    const logadoDiv =
-        document.getElementById(
-            'header-logado'
-        );
-
-    const editProfileLink =
-        document.getElementById(
-            'edit-profile-link'
-        );
-
-    if (!naoLogado || !logadoDiv)
-        return;
-
-    if (logado) {
-
-        naoLogado.style.display =
-            'none';
-
-        logadoDiv.style.display =
-            'flex';
-
-        if (menuCliente &&
-            menuEmpresario) {
-
-            if (userType ===
-                'empresario') {
-
-                menuCliente.style.display =
-                    'none';
-
-                menuEmpresario.style.display =
-                    'flex';
-
-            } else {
-
-                menuCliente.style.display =
-                    'flex';
-
-                menuEmpresario.style.display =
-                    'none';
-
-            }
-
-        }
-
-        if (editProfileLink) {
-
-            if (userType ===
-                'empresario') {
-
-                editProfileLink.href =
-                    '/frontend/perfilEmpresario/perfilEmpresario.html';
-
-            } else {
-
-                editProfileLink.href = '../perfilUsuario/perfilUsuario.html';
-
-            }
-
-        }
-
-        setupLogoutListener();
-
-    } else {
-
-        naoLogado.style.display =
-            'flex';
-
-        logadoDiv.style.display =
-            'none';
-
-        if (menuCliente &&
-            menuEmpresario) {
-
-            menuCliente.style.display =
-                'flex';
-
-            menuEmpresario.style.display =
-                'none';
-
-        }
-
+    // -------------------------------
+    // DROPDOWN PERFIL
+    // -------------------------------
+    const profileContainer = document.querySelector('.user-profile-container');
+    if (profileContainer) {
+        profileContainer.addEventListener('click', () => {
+            profileContainer.classList.toggle('active');
+        });
     }
 
-}
-
-// ----------------------------------------------------
-// VERIFICA LOGIN
-// ----------------------------------------------------
-
-loadPersistentData();
-
-const isLogged =
-    localStorage.getItem(
-        'userIsLoggedIn'
-    );
-
-const userType =
-    localStorage.getItem(
-        'userType'
-    ) || 'cliente';
-
-if (isLogged === 'true') {
-
-    alternarEstadoHeader(
-        true,
-        userType
-    );
-
-} else {
-
-    alternarEstadoHeader(
-        false,
-        userType
-    );
-
-}
-
-// ----------------------------------------------------
-// DROPDOWN PERFIL
-// ----------------------------------------------------
-
-const profileContainer =
-    document.querySelector(
-        '.user-profile-container'
-    );
-
-if (profileContainer) {
-
-    profileContainer.addEventListener(
-        'click',
-        () => {
-
-            profileContainer.classList.toggle(
-                'active'
-            );
-
-        }
-    );
-
-}
-
-// ----------------------------------------------------
-// BOTÃO LOGIN
-// ----------------------------------------------------
-
-const openLoginBtn =
-    document.getElementById(
-        "openLogin"
-    );
-
-if (openLoginBtn) {
-
-    openLoginBtn.addEventListener(
-        "click",
-        (e) => {
-
+    // -------------------------------
+    // BOTÃO LOGIN (MODAL OU PÁGINA)
+    // -------------------------------
+    const openLoginBtn = document.getElementById("openLogin");
+    if (openLoginBtn) {
+        // remove listeners duplicados
+        openLoginBtn.replaceWith(openLoginBtn.cloneNode(true));
+        const newOpenLoginBtn = document.getElementById("openLogin");
+        newOpenLoginBtn.addEventListener("click", (e) => {
             e.preventDefault();
+            const isHome = window.location.pathname.includes("index.html") || window.location.pathname.endsWith("/");
 
-            window.parent.postMessage(
-                "OPEN_LOGIN_MODAL",
-                "*"
-            );
-
-        }
-    );
-
-}
-
-// ====================================================
-// CARD DE CIDADE
-// ====================================================
-
-const cityBtn =
-    document.querySelector(
-        ".city-btn"
-    );
-
-const cityCard =
-    document.getElementById(
-        "city-card"
-    );
-
-const overlay =
-    document.getElementById(
-        "city-overlay"
-    );
-
-const closeCard =
-    document.getElementById(
-        "close-card"
-    );
-
-const citySearch =
-    document.getElementById(
-        "city-search"
-    );
-
-const useLocation =
-    document.getElementById(
-        "use-location"
-    );
-
-const cityItems =
-    document.querySelectorAll(
-        ".city-list li"
-    );
-
-// ABRIR CARD
-
-if (cityBtn &&
-    cityCard &&
-    overlay) {
-
-    cityBtn.addEventListener(
-        "click",
-        () => {
-
-            cityCard.style.display =
-                "block";
-
-            overlay.style.display =
-                "block";
-
-        }
-    );
-
-}
-
-// FECHAR CARD
-
-function fecharCard() {
-
-    if (cityCard)
-        cityCard.style.display =
-            "none";
-
-    if (overlay)
-        overlay.style.display =
-            "none";
-
-}
-
-if (closeCard)
-    closeCard.addEventListener(
-        "click",
-        fecharCard
-    );
-
-if (overlay)
-    overlay.addEventListener(
-        "click",
-        fecharCard
-    );
-
-// CLICAR NA CIDADE
-
-cityItems.forEach(
-    item => {
-
-        item.addEventListener(
-            "click",
-            () => {
-
-                const cityName =
-                    item.dataset.city;
-
-                if (cityBtn) {
-
-                    cityBtn.innerHTML =
-                        `<i class="fas fa-map-marker-alt"></i> ${cityName}`;
-
-                }
-
-                localStorage.setItem(
-                    "cidade",
-                    cityName
-                );
-
-                fecharCard();
-
+            if (isHome) {
+                // Home -> abre modal
+                window.postMessage("OPEN_LOGIN_MODAL", "*");
+            } else {
+                // Outras páginas -> vai para login.html
+                window.location.href = "../login/login.html";
             }
-        );
-
+        });
     }
-);
 
-// CARREGAR CIDADE SALVA
+    // -------------------------------
+    // CARD DE CIDADE
+    // -------------------------------
+    const cityBtn = document.querySelector(".city-btn");
+    const cityCard = document.getElementById("city-card");
+    const overlay = document.getElementById("city-overlay");
+    const closeCard = document.getElementById("close-card");
+    const citySearch = document.getElementById("city-search");
+    const useLocation = document.getElementById("use-location");
+    const cityItems = document.querySelectorAll(".city-list li");
 
-const savedCity =
-    localStorage.getItem(
-        "cidade"
-    );
-
-if (savedCity &&
-    cityBtn) {
-
-    cityBtn.innerHTML =
-        `<i class="fas fa-map-marker-alt"></i> ${savedCity}`;
-
-}
-
-// BUSCAR CIDADE
-
-if (citySearch) {
-
-    citySearch.addEventListener(
-        "input",
-        () => {
-
-            const value =
-                citySearch.value.toLowerCase();
-
-            cityItems.forEach(
-                item => {
-
-                    const city =
-                        item.dataset.city.toLowerCase();
-
-                    if (
-                        city.includes(
-                            value
-                        )
-                    ) {
-
-                        item.style.display =
-                            "flex";
-
-                    } else {
-
-                        item.style.display =
-                            "none";
-
-                    }
-
-                }
-            );
-
+    function abrirCard() {
+        if (cityCard && overlay) {
+            cityCard.style.display = "block";
+            overlay.style.display = "block";
         }
-    );
+    }
 
-}
+    function fecharCard() {
+        if (cityCard) cityCard.style.display = "none";
+        if (overlay) overlay.style.display = "none";
+    }
 
-// USAR LOCALIZAÇÃO
+    if (cityBtn) cityBtn.addEventListener("click", abrirCard);
+    if (closeCard) closeCard.addEventListener("click", fecharCard);
+    if (overlay) overlay.addEventListener("click", fecharCard);
 
-if (useLocation) {
+    cityItems.forEach(item => {
+        item.addEventListener("click", () => {
+            const cityName = item.dataset.city;
+            if (cityBtn) cityBtn.innerHTML = `<i class="fas fa-map-marker-alt"></i> ${cityName}`;
+            localStorage.setItem("cidade", cityName);
+            fecharCard();
+        });
+    });
 
-    useLocation.addEventListener(
-        "click",
-        () => {
+    const savedCity = localStorage.getItem("cidade");
+    if (savedCity && cityBtn) {
+        cityBtn.innerHTML = `<i class="fas fa-map-marker-alt"></i> ${savedCity}`;
+    }
 
-            if (
-                navigator.geolocation
-            ) {
+    if (citySearch) {
+        citySearch.addEventListener("input", () => {
+            const value = citySearch.value.toLowerCase();
+            cityItems.forEach(item => {
+                const city = item.dataset.city.toLowerCase();
+                item.style.display = city.includes(value) ? "flex" : "none";
+            });
+        });
+    }
 
-                navigator.geolocation.getCurrentPosition(
-                    () => {
-
-                        const cityName =
-                            "Minha localização";
-
-                        if (cityBtn) {
-
-                            cityBtn.innerHTML =
-                                `<i class="fas fa-map-marker-alt"></i> ${cityName}`;
-
-                        }
-
-                        localStorage.setItem(
-                            "cidade",
-                            cityName
-                        );
-
-                        fecharCard();
-
-                    }
-                );
-
+    if (useLocation) {
+        useLocation.addEventListener("click", () => {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(() => {
+                    const cityName = "Minha localização";
+                    if (cityBtn) cityBtn.innerHTML = `<i class="fas fa-map-marker-alt"></i> ${cityName}`;
+                    localStorage.setItem("cidade", cityName);
+                    fecharCard();
+                });
             }
+        });
+    }
 
+    // -------------------------------
+    // GARANTIR QUE O CARD ESTEJA NO BODY
+    // -------------------------------
+    if (cityCard) document.body.appendChild(cityCard);
+    if (overlay) document.body.appendChild(overlay);
+
+    // -------------------------------
+    // REDIRECIONAMENTOS DO DROPDOWN
+    // -------------------------------
+    function setupDropdownNavigation() {
+        const navMap = {
+            "minha-conta": "/frontend/perfil/perfil.html",
+            "favoritos": "../favoritos/favoritos.html",
+            "criar-eventos": "/frontend/criareventos/criareventos.html",
+            "cadastrar-estabelecimento": "/frontend/criareventos/craireventos.html",
+            "dashboard": "/frontend/dashboard/dashboard.html",
+            "contato": "/frontend/contato/contato.html",
+            "logout": "/frontend/login/logout.html"
+        };
+
+        Object.keys(navMap).forEach(id => {
+            const el = document.getElementById(id);
+            if (el) {
+                el.addEventListener("click", () => {
+                    window.location.href = navMap[id];
+                });
+            }
+        });
+
+        // Central de ajuda
+        const ajuda = document.querySelector(".dropdown-item[href*='contato']");
+        if (ajuda) {
+            ajuda.addEventListener("click", () => {
+                window.location.href = "../Contato/contato.html";
+            });
         }
-    );
+    }
 
-}
-
-// GARANTE QUE O CARD FIQUE NO BODY
-
-if (cityCard)
-    document.body.appendChild(
-        cityCard
-    );
-
-if (overlay)
-    document.body.appendChild(
-        overlay
-    );
-
+    setupDropdownNavigation();
 }
 
 // ====================================================
 // EXECUÇÃO SEGURA
 // ====================================================
-
-if (
-    document.readyState ===
-    "loading"
-) {
-
-    document.addEventListener(
-        "DOMContentLoaded",
-        initHeader
-    );
-
+if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initHeader);
 } else {
-
     initHeader();
-
 }
+document.addEventListener("DOMContentLoaded", () => {
+  const hamburgerBtn = document.getElementById("hamburger-btn");
+  const userProfile = document.getElementById("header-logado");
+  
+  // Toggle menu dropdown quando clicar no avatar
+  const profileAvatar = document.querySelector(".profile-avatar");
 
-// ====================================================
-// REDIRECIONAMENTOS DO DROPDOWN
-// ====================================================
+  if (profileAvatar) {
+    profileAvatar.addEventListener("click", () => {
+      userProfile.classList.toggle("active");
+    });
+  }
 
-function setupDropdownNavigation() {
+  // Toggle menu lateral (caso queira abrir um sidebar)
+  if (hamburgerBtn) {
+    hamburgerBtn.addEventListener("click", () => {
+      document.body.classList.toggle("sidebar-open");
+    });
+  }
 
-    const userType =
-        localStorage.getItem("userType");
-
-    /* MINHA CONTA */
-
-    const minhaConta =
-        document.getElementById("minha-conta");
-
-    if (minhaConta) {
-
-        minhaConta.addEventListener("click", () => {
-
-            if (userType === "empresario") {
-
-                window.location.href =
-                    "/Frontend/perfilEmpresario/perfilEmpresario.html";
-
-            } else {
-
-                window.location.href =
-                    "../perfilUsuario/perfilUsuario.html";
-
-            }
-
-        });
-
+  // Fechar menu ao clicar fora
+  document.addEventListener("click", (e) => {
+    if (!userProfile.contains(e.target) && !profileAvatar.contains(e.target)) {
+      userProfile.classList.remove("active");
     }
-
-    /* FAVORITOS */
-
-    const favoritos =
-        document.getElementById("favoritos");
-
-    if (favoritos) {
-
-        favoritos.addEventListener("click", () => {
-
-            window.location.href =
-                "../favoritos/favoritos.html";
-
-        });
-
-    }
-
-    /* CRIAR EVENTOS */
-
-    const criarEventos =
-        document.getElementById("criar-eventos");
-
-    if (criarEventos) {
-
-        criarEventos.addEventListener("click", () => {
-
-            window.location.href =
-                "../criarEventos/criarEvento.html";
-
-        });
-
-    }
-
-    /* CADASTRAR ESTABELECIMENTO */
-
-    const cadastrarEstabelecimento =
-        document.getElementById("cadastrar-estabelecimento");
-
-    if (cadastrarEstabelecimento) {
-
-        cadastrarEstabelecimento.addEventListener("click", () => {
-
-            window.location.href =
-                "../criarEventos/criarEventos.html";
-
-        });
-
-    }
-
-    /* DASHBOARD */
-
-    const dashboard =
-        document.getElementById("dashboard");
-
-    if (dashboard) {
-
-        dashboard.addEventListener("click", () => {
-
-            window.location.href =
-                "../dashboardEmpresario/dashboard.html";
-
-        });
-
-    }
-
-}
-
+  });
+});
 

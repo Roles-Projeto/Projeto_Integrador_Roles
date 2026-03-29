@@ -19,7 +19,7 @@ function carregarHeaderJS() {
 
     const script = document.createElement("script");
 
-    script.src = "js/Header.js";
+    script.src = "/frontend/js/Header.js";
 
     script.defer = true;
 

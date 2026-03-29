@@ -10,7 +10,7 @@
 
         <!-- LOGO -->
         <div class="logo">
-            <a href="/Frontend/index.html">Rolês</a>
+            <a href="../index.html">Rolês</a>
         </div>
 
         <!-- BARRA DE BUSCA -->
@@ -48,6 +48,7 @@
         <!-- LADO DIREITO -->
         <div class="right-section">
 
+
             <!-- AÇÕES -->
             <div class="event-actions">
 
@@ -63,12 +64,18 @@
 
             </div>
 
+
             <!-- NÃO LOGADO -->
             <div id="header-nao-logado" class="user-action-btns">
-                <a href="/Frontend/login/login.html" class="login" id="openLogin">
+                <a href="../login/login.html" class="login" id="openLogin">
                     Entrar
                 </a>
             </div>
+
+            <!-- HAMBURGER -->
+            <button id="hamburger-btn" class="hamburger-btn">
+                <i class="fas fa-bars"></i>
+            </button>
 
             <!-- LOGADO -->
             <div id="header-logado" class="user-profile-container" style="display: none;">
@@ -104,7 +111,7 @@
 
                     <hr>
 
-                    <a href="/Frontend/PerfilUsuario/PerfilUsuario.html" id="minha-conta" class="dropdown-item">
+                    <a href="/Frontend/perfil/perfil.html" id="minha-conta" class="dropdown-item">
                         <i class="fas fa-user"></i>
                         Minha conta
                     </a>
@@ -114,31 +121,32 @@
                         Favoritos
                     </a>
 
-                    <a href="/Frontend/criaEventos/criarEventos.html" id="criar-eventos" class="dropdown-item">
+                    <a href="/Frontend/criareventos/criareventos.html" id="criar-eventos" class="dropdown-item">
                         <i class="fas fa-calendar-plus"></i>
                         Criar eventos
                     </a>
 
-                    <a href="/Frontend/criaEventos/criarEventos.html" id="cadastrar-estabelecimento" class="dropdown-item">
+                    <a href="/Frontend/criareventos/criareventos.html" id="cadastrar-estabelecimento"
+                        class="dropdown-item">
                         <i class="fas fa-store"></i>
                         Cadastrar estabelecimento
                     </a>
 
-                    <a href="../dashboardEmpresario/dashboard.html" id="dashboard" class="dropdown-item">
+                    <a href="/Frontend/dashboard/dashboard.html" id="dashboard" class="dropdown-item">
                         <i class="fas fa-chart-line"></i>
                         Dashboard
                     </a>
 
                     <hr>
 
-                    <a href="/Frontend/contato/contato.html" class="dropdown-item">
+                    <a href="/Frontend/Contato/contato.html" id="contato" class="dropdown-item">
                         <i class="fas fa-headset"></i>
                         Central de ajuda
                     </a>
 
                     <hr>
 
-                    <a href="/Frontend/login/LogoutUsuario.htmls" class="dropdown-item logout-btn">
+                    <a href="/Frontend/login/logout.html" id="logout" class="dropdown-item logout-btn">
                         <i class="fas fa-sign-out-alt"></i>
                         Sair
                     </a>
@@ -218,4 +226,4 @@
 
 </div>
 
-<script src="/Frontend/js/header.js"></script>
+<script src="../js/header.js"></script>

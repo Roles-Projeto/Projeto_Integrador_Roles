@@ -31,7 +31,7 @@ p {
 }
 
 /*  Estilos da Barra de Pesquisa */
-.search-bar {
+.search-bar1 {
     display: flex;
     align-items: center;
     padding: 10px 15px;
@@ -39,10 +39,10 @@ p {
     background-color: rgba(255, 255, 255, 0.2);
     border: 1px solid rgba(255, 255, 255, 0.4);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    margin-left: 60%;
+    
 }
 
-.search-bar input[type="text"] {
+.search-bar1 input[type="text"] {
     flex-grow: 1;
     border: none;
     background: transparent;
@@ -51,12 +51,12 @@ p {
     padding: 0 10px;
 }
 
-.search-bar input[type="text"]:focus {
+.search-bar1 input[type="text"]:focus {
     outline: none;
 }
 
 
-.search-bar input::placeholder {
+.search-bar1 input::placeholder {
     color: rgba(255, 255, 255, 0.8);
     opacity: 1;
     font-style: italic;
@@ -118,7 +118,7 @@ p {
 
 .filtros-direita select:hover,
 .filtros-direita select:focus {
-    background: #c4c2c4;
+    background: #eee3ee;
     border-color: #dddcdc;
     outline: none;
 }
@@ -130,7 +130,10 @@ p {
     background-position: right 10px center;
     background-size: 25px;
     padding-right: 30px;
+    background-color: #fff;
 }
+
+
 
 
 /* Texto “Encontrados X eventos” */
@@ -361,7 +364,6 @@ p {
 /* Estatísticas */
 .estatisticas {
     max-width: 1100px;
-    margin: 30px auto;
     display: flex;
     gap: 22px;
     justify-content: space-between;
@@ -573,19 +575,3 @@ p {
 }
 
 
-/* FOOTER */
-footer iframe {
-    min-height: 22rem;
-    display: block;
-}
-
-
-body > .header-placeholder-fixo {
-    /* Altura exata do header fixo (80px) */
-    height: 80px; 
-    /* Garante que ocupe a largura total */
-    width: 100%;
-    /* Opcional: Garante que ela não tenha margin ou padding */
-    margin: 0;
-    padding: 0;
-}
