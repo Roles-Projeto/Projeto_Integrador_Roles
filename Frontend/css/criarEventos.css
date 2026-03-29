@@ -1,123 +1,1086 @@
+:root {
+    --blue-primary: #00a8ff;
+    --text-dark: #444;
+    --text-light: #888;
+    --bg-gray: #f8f9fa;
+    --border-color: #dce2e6;
+}
+
 body {
-    font-family: Arial, Helvetica, sans-serif;
-    background-color: #f5f6fa;
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    background-color: var(--bg-gray);
+    margin: 0;
+    color: var(--text-dark);
+}
+
+/* Header */
+.main-header {
+    background: white;
+    padding: 20px 40px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.main-header .botao {
+    font-size: 24px;
+    font-weight: 400;
+    color: #555;
     margin: 0;
 }
 
+.main-header .botao strong {
+    font-weight: 700;
+}
+
+/* Container e Card */
 .container {
-    max-width: 1000px;
-    margin: 40px auto;
+    max-width: 950px;
+    margin: 30px auto;
+    padding: 0 20px;
+}
+
+.card {
     background: white;
-    padding: 30px;
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    border-radius: 4px;
+    padding: 40px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
 }
 
-.tipo-cadastro {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 25px;
+/* Títulos */
+.section-title {
+    color: var(--blue-primary);
+    font-size: 22px;
+    margin: 0 0 8px 0;
 }
 
-.tipo-cadastro button {
-    padding: 10px 20px;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    background: #e0e0e0;
-    font-weight: bold;
+.section-subtitle {
+    color: var(--text-light);
+    font-size: 14px;
+    margin-bottom: 30px;
 }
 
-.tipo-cadastro .ativo {
-    background: #6c2bd9;
-    color: white;
-}
-
-section {
-    margin-top: 35px;
-    padding-top: 20px;
-    border-top: 1px solid #ddd;
-}
-
-label {
+/* Inputs e Labels */
+label, .label-heading {
     display: block;
-    margin-top: 15px;
-    font-weight: bold;
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: #555;
 }
 
-input,
-textarea,
-select {
+.required {
+    color: #e74c3c;
+}
+
+input[type="text"], select {
     width: 100%;
-    padding: 10px;
-    margin-top: 6px;
-    border-radius: 8px;
-    border: 1px solid #ccc;
+    padding: 12px;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    font-size: 14px;
+    color: #333;
+    outline: none;
+    box-sizing: border-box;
 }
 
-textarea {
-    min-height: 120px;
+input::placeholder {
+    color: #ccc;
 }
 
-.upload-area {
-    border: 2px dashed #ccc;
-    padding: 25px;
-    text-align: center;
-    border-radius: 10px;
-    margin-top: 10px;
-    cursor: pointer;
+.char-counter {
+    text-align: right;
+    font-size: 12px;
+    color: #aaa;
+    margin-top: 5px;
 }
 
-.preview {
-    margin-top: 10px;
-    max-width: 100%;
+/* Upload Area */
+.upload-container {
+    margin: 25px 0;
 }
 
-.grid-2 {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 15px;
-}
-
-.botoes {
+.upload-content {
     display: flex;
-    justify-content: flex-end;
-    gap: 10px;
+    align-items: center;
+    gap: 30px;
+}
+
+.upload-box {
+    width: 280px;
+    height: 160px;
+    border: 1.5px dashed #ccd1d7;
+    border-radius: 4px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: #fdfdfd;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.upload-box:hover {
+    border-color: var(--blue-primary);
+}
+
+.upload-icon i {
+    font-size: 32px;
+    color: #ccc;
+    margin-bottom: 10px;
+}
+
+.upload-box p {
+    font-size: 13px;
+    color: #666;
+    margin: 0;
+}
+
+.upload-instructions {
+    flex: 1;
+    font-size: 13px;
+    color: #777;
+    line-height: 1.6;
+}
+
+/* Grid Classificação */
+.classification-section {
     margin-top: 30px;
 }
 
-.botoes button {
-    padding: 12px 18px;
-    border: none;
-    border-radius: 8px;
+.row {
+    display: flex;
+    gap: 20px;
+}
+
+.col {
+    flex: 1;
+}
+
+/* Seção 2 - Data e Horário */
+.datetime-container {
+    display: flex;
+    gap: 40px;
+    margin-bottom: 15px;
+}
+
+.datetime-group {
+    display: flex;
+    gap: 15px;
+    flex: 1;
+}
+
+.input-wrapper {
+    flex: 1;
+}
+
+.icon-input {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.icon-input i {
+    position: absolute;
+    left: 12px;
+    color: var(--blue-primary); /* #00a8ff */
+    font-size: 16px;
+}
+
+.icon-input input {
+    padding-left: 40px !important;
+}
+
+.duration-text {
+    font-size: 13px;
+    color: #555;
+    margin-top: 10px;
+}
+
+.duration-text strong {
+    color: var(--blue-primary);
+}
+
+/* Seção 3 - Editor de Texto */
+.editor-container {
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.editor-toolbar {
+    background: #fff;
+    border-bottom: 1px solid var(--border-color);
+    padding: 8px;
+    display: flex;
+    gap: 1px;
+    background-color: #fcfcfc;
+}
+
+.toolbar-group {
+    display: flex;
+    align-items: center;
+    padding: 0 8px;
+    border-right: 1px solid #eee;
+}
+
+.toolbar-group:last-child { border-right: none; }
+
+.toolbar-group button, .toolbar-group select {
+    background: transparent;
+    border: 1px solid transparent;
+    padding: 5px 10px;
     cursor: pointer;
+    color: #555;
+    font-size: 14px;
+    border-radius: 3px;
+}
+
+.toolbar-group button:hover {
+    background-color: #f0f0f0;
+    border-color: #ccc;
+}
+
+.editor-area {
+    width: 100%;
+    min-height: 300px;
+    padding: 20px;
+    border: none;
+    resize: vertical;
+    font-family: inherit;
+    font-size: 15px;
+    outline: none;
+    box-sizing: border-box;
+}
+
+.editor-area::placeholder {
+    color: #bbb;
+}
+
+
+/* Layout de Colunas Específicas */
+.col-3 { flex: 0 0 25%; }
+.col-8 { flex: 0 0 66.6%; }
+.col-9 { flex: 0 0 75%; }
+
+/* Inputs Desabilitados (Cidade/Estado) */
+.input-disabled {
+    background-color: #f2f2f2;
+    border-color: #e0e0e0;
+    cursor: not-allowed;
+    color: #999;
+}
+
+/* Checkbox Normalizado */
+.checkbox-line {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.label-normal {
+    font-weight: 400 !important;
+    margin-bottom: 0 !important;
+    color: #666 !important;
+    cursor: pointer;
+}
+
+/* Ajuste de espaçamento entre linhas do endereço */
+.row {
+    margin-bottom: 15px;
+}
+
+/* Botões de Criar Ingresso */
+.ticket-creation {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.ticket-prompt {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 15px;
+}
+
+.ticket-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+.btn-ticket-action {
+    background: white;
+    border: 1.5px solid var(--blue-primary);
+    color: var(--blue-primary);
+    padding: 12px 25px;
+    border-radius: 25px;
     font-weight: bold;
+    font-size: 13px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: 0.2s;
 }
 
-.salvar {
-    background: #999;
+.btn-ticket-action:hover {
+    background-color: #f0faff;
+}
+
+/* Busca de Ingressos */
+.ticket-search {
+    margin-bottom: 25px;
+    max-width: 300px;
+}
+
+.search-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.search-wrapper i {
+    position: absolute;
+    left: 12px;
+    color: #999;
+    font-size: 14px;
+}
+
+.search-wrapper input {
+    padding-left: 35px !important;
+}
+
+/* Card de Configurações Interno */
+.ticket-config-card {
+    background-color: #fafbfc;
+    border: 1px solid #f0f2f5;
+    border-radius: 8px;
+    padding: 20px;
+}
+
+.ticket-config-card h3 {
+    font-size: 15px;
+    color: #444;
+    margin-bottom: 20px;
+}
+
+.config-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* O Switch (Alternador) */
+.switch-group {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 40px;
+    height: 20px;
+}
+
+.switch input { opacity: 0; width: 0; height: 0; }
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-color: #ccc;
+    transition: .4s;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 14px; width: 14px;
+    left: 3px; bottom: 3px;
+    background-color: white;
+    transition: .4s;
+}
+
+input:checked + .slider { background-color: var(--blue-primary); }
+input:checked + .slider:before { transform: translateX(20px); }
+.slider.round { border-radius: 20px; }
+.slider.round:before { border-radius: 50%; }
+
+.switch-label { font-size: 14px; color: #555; }
+.help-icon { color: #ccc; cursor: pointer; font-size: 14px; }
+
+/* Nomenclatura */
+.nomenclature-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.nomenclature-label { font-size: 14px; font-weight: bold; color: #444; }
+.select-small { width: 150px !important; margin-bottom: 0 !important; }
+
+
+/* Estilo específico para o seletor do produtor */
+.producer-select {
+    width: 300px !important; /* Tamanho menor conforme o print */
+    margin-bottom: 25px;
+}
+
+/* Ajuste para a área de texto da descrição */
+textarea#producer-desc {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    resize: none; /* Geralmente fixo nesse tipo de formulário */
+    font-family: inherit;
+    box-sizing: border-box;
+}
+
+/* Garantindo que o espaçamento do contador de caracteres esteja correto */
+.char-counter {
+    text-align: right;
+    font-size: 12px;
+    color: #aaa;
+    margin-top: 5px;
+}
+
+
+/* Seção de Termos */
+.terms-box {
+    align-items: flex-start !important; /* Alinha o checkbox no topo do texto longo */
+}
+
+.terms-box label {
+    line-height: 1.6;
+    font-size: 13px;
+}
+
+.terms-box a {
+    color: var(--blue-primary);
+    text-decoration: none;
+    font-weight: 600;
+}
+
+/* Rodapé Fixo */
+.publish-footer {
+    position: sticky;
+    bottom: 0;
+    width: 100%;
+    background: white;
+    border-top: 1px solid var(--border-color);
+    padding: 20px 0;
+    box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
+    z-index: 100;
+}
+
+.footer-container {
+    max-width: 950px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+}
+
+/* Visibilidade e Radios */
+.visibility-group {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.radio-group {
+    display: flex;
+    gap: 15px;
+}
+
+.radio-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    cursor: pointer;
+    color: #555;
+}
+
+/* Botões de Ação */
+.action-buttons {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.btn-link {
+    background: none;
+    border: none;
+    color: var(--blue-primary);
+    font-weight: 600;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.btn-outline {
+    background: white;
+    border: 1.5px solid var(--blue-primary);
+    color: var(--blue-primary);
+    padding: 10px 25px;
+    border-radius: 4px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.btn-success {
+    background-color: #5bbd00; /* Verde do print */
+    border: none;
     color: white;
+    padding: 12px 30px;
+    border-radius: 4px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.2s;
 }
 
-.preview-btn {
-    background: #1e88e5;
+.btn-success:hover {
+    background-color: #4da100;
+}
+
+/* --- Novos Estilos para o Seletor de Tipo --- */
+.tipo-cadastro {
+    display: flex;
+    justify-content: center;
+    gap: 0; /* Colados para parecer um switch único */
+    margin-bottom: 30px;
+}
+
+.btn-tipo {
+    padding: 15px 40px;
+    border: 1px solid var(--border-color);
+    background: white;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 14px;
+    color: var(--text-light);
+    transition: 0.3s;
+}
+
+/* Arredonda só as pontas externas */
+#btnEvento { border-radius: 4px 0 0 4px; }
+#btnEstabelecimento { border-radius: 0 4px 4px 0; margin-left: -1px; }
+
+.btn-tipo.ativo {
+    background-color: var(--blue-primary);
     color: white;
+    border-color: var(--blue-primary);
+    z-index: 1;
 }
 
-.publicar {
-    background: #43a047;
-    color: white;
+.btn-tipo:hover:not(.ativo) {
+    background-color: #f0faff;
+}
+/* ============================= */
+/* SISTEMA DE ETAPAS (STEPS) */
+/* ============================= */
+
+.step {
+    display: none;
+    margin-bottom: 80px;
 }
 
-.erro {
+.step.active {
+    display: block;
+}
+.step-navigation {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 30px;
+    margin-bottom: 120px;
+}
+
+.progress-container {
+    width: 100%;
+    height: 6px;
+    background-color: #e9ecef;
+    border-radius: 10px;
+    margin-top: 15px;
+    overflow: hidden;
+}
+
+.progress-bar {
+    height: 100%;
+    width: 0%;
+    background-color: var(--blue-primary);
+    transition: width 0.3s ease;
+}
+
+.step-indicator {
+    font-size: 13px;
+    color: var(--text-light);
+    margin-top: 8px;
+}
+
+/* ============================= */
+/* ETAPA 3 - DATA E HORÁRIO */
+/* ============================= */
+
+.datetime-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.datetime-group {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+/* Wrapper de cada campo */
+.input-wrapper {
+    flex: 1;
+    min-width: 220px;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Label */
+.input-wrapper label {
+    font-size: 14px;
+    font-weight: 500;
+    margin-bottom: 6px;
+}
+
+.input-wrapper span {
     color: red;
 }
 
-.sucesso {
-    color: green;
+/* Container com ícone */
+.icon-input {
+    position: relative;
+    display: flex;
+    align-items: center;
 }
 
-footer iframe {
-    min-height: 22rem;
-    display: block;
+/* Ícone */
+.icon-input i {
+    position: absolute;
+    left: 12px;
+    color: #888;
+    font-size: 16px;
+}
+
+/* Input */
+.icon-input input {
+    width: 100%;
+    padding: 10px 12px 10px 38px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 14px;
+    transition: 0.2s;
+}
+
+/* Hover */
+.icon-input input:hover {
+    border-color: #999;
+}
+
+/* Focus */
+.icon-input input:focus {
+    outline: none;
+    border-color: #6a0dad;
+    box-shadow: 0 0 0 2px rgba(106, 13, 173, 0.1);
+}
+
+/* Texto da duração */
+#duracao {
+    font-size: 14px;
+    color: #444;
+}
+
+
+/* RESPONSIVO */
+
+@media (max-width: 768px) {
+
+    .datetime-group {
+        flex-direction: column;
+    }
+
+}
+
+.ticket-buttons {
+
+    color: white;
+
+    cursor: pointer;
+
+}
+
+
+.switch {
+
+    position: relative;
+
+    display: inline-block;
+
+    width: 40px;
+
+    height: 20px;
+
+}
+
+
+.switch input {
+
+    display: none;
+
+}
+
+
+.slider {
+
+    position: absolute;
+
+    cursor: pointer;
+
+    background: #ccc;
+
+    border-radius: 20px;
+
+    top: 0;
+
+    left: 0;
+
+    right: 0;
+
+    bottom: 0;
+
+}
+
+
+.slider:before {
+
+    content: "";
+
+    position: absolute;
+
+    height: 14px;
+
+    width: 14px;
+
+    left: 3px;
+
+    bottom: 3px;
+
+    background: white;
+
+    border-radius: 50%;
+
+    transition: 0.2s;
+
+}
+
+
+input:checked + .slider {
+
+    background: #6a0dad;
+
+}
+
+
+input:checked + .slider:before {
+
+    transform: translateX(20px);
+
+}
+
+.btn-draft {
+
+    background-color: #f1f1f1;
+
+    color: #333;
+
+    border: 1px solid #ccc;
+
+    padding: 10px 18px;
+
+    border-radius: 8px;
+
+    cursor: pointer;
+
+    font-weight: 500;
+
+    transition: 0.2s;
+
+}
+
+.btn-draft:hover {
+
+    background-color: #e0e0e0;
+
+}
+
+.step-navigation {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    gap: 10px;
+
+    margin-top: 20px;
+
+}
+
+.modal {
+
+    display: none;
+
+    position: fixed;
+
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 100%;
+
+    background-color: rgba(0,0,0,0.5);
+
+    justify-content: center;
+    align-items: center;
+
+}
+
+.modal-content {
+
+    background: white;
+
+    padding: 25px;
+
+    border-radius: 10px;
+
+    width: 400px;
+
+    max-width: 90%;
+
+}
+
+.modal-actions {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    margin-top: 20px;
+
+}
+
+.resumo-card {
+
+    border: 1px solid #ddd;
+
+    border-radius: 10px;
+
+    padding: 15px;
+
+    margin-top: 15px;
+
+}
+
+.resumo-item {
+
+    margin-bottom: 8px;
+
+    font-size: 14px;
+
+}
+
+.ticket-selection {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.btn-ticket-action {
+    background-color: #6c63ff;
+    color: white;
+    border: none;
+    padding: 12px 18px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.btn-ticket-action:hover {
+    background-color: #574fd6;
+}
+
+/* Container dos ingressos */
+
+.ticket-config-card {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* Card do ingresso */
+
+.ticket-item {
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 20px;
+    background: #fff;
+    position: relative;
+}
+
+/* Título */
+
+.ticket-item h4 {
+    margin-bottom: 10px;
+    color: #6c63ff;
+}
+
+/* Inputs */
+
+.ticket-item input,
+.ticket-item textarea,
+.ticket-item select {
+
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+}
+
+/* Linha */
+
+.row {
+    display: flex;
+    gap: 15px;
+}
+
+.col {
+    flex: 1;
+}
+
+/* Botão remover */
+
+.remove-ticket {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+
+    background: red;
+    color: white;
+    border: none;
+    border-radius: 50%;
+
+    width: 28px;
+    height: 28px;
+
+    cursor: pointer;
+}
+
+.remove-ticket:hover {
+    background: darkred;
+}
+
+.help-lote {
+
+    margin-left: 6px;
+    background-color: #eee;
+    border-radius: 50%;
+    padding: 2px 6px;
+    cursor: pointer;
+    font-weight: bold;
+
+}
+
+.ticket-config-card {
+    display: none;
+}
+
+.ingresso-resumo {
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 12px;
+    margin-top: 10px;
+
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+
+    background-color: #fafafa;
+
+}
+
+.ingresso-resumo strong {
+
+    font-weight: 600;
+
+}
+
+.btn-editar,
+.btn-excluir {
+
+    margin-left: 8px;
+
+    padding: 6px 12px;
+
+    border-radius: 6px;
+
+    border: none;
+
+    cursor: pointer;
+
+    font-size: 14px;
+
+    font-weight: 500;
+
+    transition: 0.2s;
+
+}
+
+.btn-editar {
+
+    background-color: #4CAF50;
+    color: white;
+
+}
+
+.btn-editar:hover {
+
+    background-color: #43a047;
+
+}
+
+.btn-excluir {
+
+    background-color: #e53935;
+    color: white;
+
+}
+
+.btn-excluir:hover {
+
+    background-color: #c62828;
+
+}
+
+.btn-excluir {
+
+    background-color: #e53935;
+    color: white;
+
+}
+
+.btn-excluir:hover {
+
+    background-color: #c62828;
+
 }

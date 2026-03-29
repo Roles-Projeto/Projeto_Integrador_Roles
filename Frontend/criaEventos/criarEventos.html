@@ -1,309 +1,483 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-br">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Cadastro</title>
-
+    <title>Criar Evento Presencial</title>
     <link rel="stylesheet" href="../css/criarEventos.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 
 <body>
-
-    <header>
+     <header>
         <div id="header-container"></div>
     </header>
 
-    <div class="container">
 
-        <h1 id="titulo">Criar Evento</h1>
+    <header class="main-header">
+        <h1>Criar <strong>Evento Presencial</strong></h1>
 
-        <div class="tipo-cadastro">
-            <button id="btnEvento" class="ativo">
-                Criar Evento
-            </button>
-
-            <button id="btnEstabelecimento">
-                Criar Estabelecimento
-            </button>
+        <!-- Barra de progresso -->
+        <div class="progress-container">
+            <div class="progress-bar" id="progress-bar"></div>
         </div>
 
-        <form id="formCadastro">
+        <p class="step-indicator" id="step-indicator">
+            Etapa 1 de 7
+        </p>
 
-            <div id="campoCNPJ" style="display:none;">
+    </header>
 
-                <label>
-                    CNPJ *
-                </label>
+    <main class="container">
 
-                <input type="text" id="cnpj" placeholder="00.000.000/0000-00">
+        <!-- ETAPA 1 -->
+        <section class="card step active">
 
-                <span id="msgCNPJ"></span>
+            <h2 class="section-title">1. Informações básicas</h2>
+            <p class="section-subtitle">Adicione as principais informações do evento.</p>
+
+            <div class="input-group">
+                <label for="event-name">Nome do evento <span class="required">*</span></label>
+                <input type="text" id="event-name" placeholder="Nome do evento" maxlength="100">
+                <div class="char-counter"><span id="chars">100</span> caracteres restantes</div>
+            </div>
+
+            <div class="classification-section">
+                <p class="label-heading">Classifique seu evento</p>
+
+                <div class="row">
+
+                    <div class="col">
+                        <label>Assunto <span class="required">*</span></label>
+
+                        <select id="assunto">
+                            <option value="">Selecione um assunto</option>
+                            <option>Festa e Balada</option>
+                            <option>Shows e Música</option>
+                            <option>Gastronomia</option>
+                            <option>Esportes</option>
+                            <option>Cultura e Arte</option>
+                            <option>Cursos e Workshops</option>
+                            <option>Infantil e Família</option>
+                            <option>Tecnologia</option>
+                            <option>Religião e Espiritualidade</option>
+                            <option>Networking e Negócios</option>
+                            <option>Saúde e Bem-estar</option>
+                            <option>Festivais</option>
+
+                        </select>
+
+                    </div>
+
+                    <div class="col">
+                        <label>Categoria (opcional)</label>
+
+                        <select id="categoria">
+                            <option value="">Selecione uma categoria</option>
+                        </select>
+
+                    </div>
+
+                </div>
 
             </div>
 
-            <section>
+        </section>
 
-                <h2>
-                    Informações básicas
-                </h2>
+        <!-- ETAPA 2 -->
+        <section class="card step">
 
-                <label>
-                    Nome do evento
-                </label>
+            <h2 class="section-title">2. Imagem do evento</h2>
 
-                <input type="text" id="nomeEvento" maxlength="100">
+            <div class="upload-container">
+                <label>Imagem de divulgação (opcional)</label>
 
-                <small id="contadorNome">
-                    100 caracteres restantes
-                </small>
+                <div class="upload-content">
 
-                <label>
-                    Imagem de divulgação
-                </label>
+                    <div class="upload-box" id="drop-zone">
 
-                <div class="upload-area" id="uploadArea">
-                    Clique ou arraste a imagem aqui
+                        <div class="upload-icon">
+                            <i class="fa-regular fa-image"></i>
+                        </div>
 
-                    <input type="file" id="imagem" hidden>
-
-                </div>
-
-                <img id="preview" class="preview" style="display:none;">
-
-                <label>
-                    Categoria
-                </label>
-
-                <select>
-
-                    <option>
-                        Selecione
-                    </option>
-
-                    <option>
-                        Festa
-                    </option>
-
-                    <option>
-                        Show
-                    </option>
-
-                    <option>
-                        Esporte
-                    </option>
-
-                    <option>
-                        Outro
-                    </option>
-
-                </select>
-
-            </section>
-
-            <section>
-
-                <h2>
-                    Data e horário
-                </h2>
-
-                <div class="grid-2">
-
-                    <div>
-
-                        <label>
-                            Data de Início
-                        </label>
-
-                        <input type="date" id="dataInicio">
+                        <p>Clique ou arraste a imagem aqui</p>
 
                     </div>
 
-                    <div>
-
-                        <label>
-                            Hora de Início
-                        </label>
-
-                        <input type="time">
-
-                    </div>
-
-                    <div>
-
-                        <label>
-                            Data de Término
-                        </label>
-
-                        <input type="date" id="dataFim">
-
-                    </div>
-
-                    <div>
-
-                        <label>
-                            Hora de Término
-                        </label>
-
-                        <input type="time">
-
+                    <div class="upload-instructions">
+                        <p>
+                            Formatos aceitos: JPEG, GIF ou PNG de até 2MB.
+                            Dimensão recomendada: 1600 x 838 pixels.
+                        </p>
                     </div>
 
                 </div>
+                <p class="warning">
 
-                <p>
-                    Seu evento vai durar:
-                    <strong id="duracao">
-                        0 dias
-                    </strong>
+                    Não é permitido enviar imagens com:
+
+                    - nudez ou conteúdo sexual
+                    - violência
+                    - drogas
+                    - conteúdo ilegal
+                    - violação de direitos autorais
+
                 </p>
 
-            </section>
+            </div>
 
-            <section>
+        </section>
 
-                <h2>
-                    Descrição do evento
-                </h2>
+        <!-- ETAPA 3 -->
+        <section class="card step">
 
-                <textarea placeholder="Conte todos os detalhes do evento"></textarea>
+            <h2 class="section-title">3. Data e horário</h2>
 
-            </section>
+            <div class="datetime-container">
 
-            <section>
+                <div class="datetime-group">
 
-                <h2>
-                    Local
-                </h2>
+                    <div class="input-wrapper">
+                        <label>Data de Início <span>*</span></label>
 
-                <label>
-                    Nome do Local
-                </label>
+                        <div class="icon-input">
+                            <i class="fa-regular fa-calendar-days"></i>
+                            <input type="date" id="start-date" required>
+                        </div>
 
-                <input type="text">
+                    </div>
 
-                <label>
-                    CEP
-                </label>
+                    <div class="input-wrapper">
+                        <label>Hora de Início <span>*</span></label>
 
-                <input type="text">
+                        <div class="icon-input">
+                            <i class="fa-regular fa-clock"></i>
+                            <input type="time" id="start-time" required>
+                        </div>
 
-                <label>
-                    Rua
-                </label>
+                    </div>
 
-                <input type="text">
+                </div>
 
-                <label>
-                    Número
-                </label>
+                <div class="datetime-group">
 
-                <input type="text">
+                    <div class="input-wrapper">
+                        <label>Data de Término <span>*</span></label>
 
-                <label>
-                    Bairro
-                </label>
+                        <div class="icon-input">
+                            <i class="fa-regular fa-calendar-days"></i>
+                            <input type="date" id="end-date" required>
+                        </div>
 
-                <input type="text">
+                    </div>
 
-                <label>
-                    Cidade
-                </label>
+                    <div class="input-wrapper">
+                        <label>Hora de Término <span>*</span></label>
 
-                <input type="text">
+                        <div class="icon-input">
+                            <i class="fa-regular fa-clock"></i>
+                            <input type="time" id="end-time" required>
+                        </div>
 
-                <label>
-                    Estado
-                </label>
+                    </div>
 
-                <input type="text">
-
-            </section>
-
-            <section>
-
-                <h2>
-                    Ingressos
-                </h2>
-
-                <label>
-                    <input type="radio" name="ingresso">
-                    Pago
-                </label>
-
-                <label>
-                    <input type="radio" name="ingresso">
-                    Gratuito
-                </label>
-
-            </section>
-
-            <section>
-
-                <h2>
-                    Sobre o produtor
-                </h2>
-
-                <label>
-                    Nome
-                </label>
-
-                <input type="text" maxlength="60">
-
-                <label>
-                    Descrição
-                </label>
-
-                <textarea></textarea>
-
-            </section>
-
-            <section>
-
-                <h2>
-                    Responsabilidades
-                </h2>
-
-                <label>
-                    <input type="radio" name="visibilidade">
-                    Público
-                </label>
-
-                <label>
-                    <input type="radio" name="visibilidade">
-                    Privado
-                </label>
-
-            </section>
-
-            <div class="botoes">
-
-                <button type="button" class="salvar">
-                    Salvar rascunho
-                </button>
-
-                <button type="button" class="preview-btn">
-                    Pré-visualizar
-                </button>
-
-                <button type="submit" class="publicar">
-                    Publicar
-                </button>
+                </div>
 
             </div>
 
-        </form>
+            <p id="duracao" style="margin-top: 10px; font-weight: 500;"></p>
 
-    </div>
+        </section>
 
-     <footer>
+        <!-- ETAPA 4 -->
+        <section class="card step">
+
+            <h2 class="section-title">4. Descrição do evento</h2>
+
+            <div class="editor-container">
+
+                <textarea id="descricao" class="editor-area" placeholder="Adicione aqui a descrição do seu evento...">
+</textarea>
+
+            </div>
+
+        </section>
+
+        <!-- ETAPA 5 -->
+        <section class="card step">
+
+            <h2 class="section-title">5. Local do evento</h2>
+
+            <div class="input-group">
+                <label>Informe o endereço ou o nome do local do evento <span>*</span></label>
+                <input type="text" id="local-nome" placeholder="Endereço">
+            </div>
+
+            <div class="row">
+
+                <div class="col-3">
+                    <label>CEP</label>
+                    <input type="text" id="cep" placeholder="00000-000">
+                </div>
+
+                <div class="col-9">
+                    <label>Av./Rua <span>*</span></label>
+                    <input type="text" id="rua">
+                </div>
+
+            </div>
+
+            <div class="row">
+
+                <div class="col">
+                    <label>Cidade <span>*</span></label>
+                    <input type="text" id="cidade" disabled>
+                </div>
+
+                <div class="col">
+                    <label>Estado <span>*</span></label>
+                    <input type="text" id="estado" disabled>
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- ETAPA 6 -->
+        <section class="card step">
+
+            <h2 class="section-title">6. Ingressos</h2>
+
+            <div class="ticket-selection">
+
+                <button class="btn-ticket-action" data-tipo="pago">
+                    Criar ingresso pago
+                </button>
+
+                <button class="btn-ticket-action" data-tipo="gratuito">
+                    Criar ingresso gratuito
+                </button>
+
+
+            </div>
+
+            <div class="ticket-config-card">
+
+                <div class="ticket-item">
+
+                    <h4>Criar ingresso pago</h4>
+
+                    <p>
+                        A taxa de serviço é repassada ao comprador,
+                        sendo exibida junto com o valor do ingresso
+                    </p>
+
+                    <h5>Sobre o ingresso</h5>
+
+                    <label>Título do ingresso</label>
+                    <input type="text" id="titulo-ingresso" maxlength="45"
+                        placeholder="Ingresso único, Meia-Entrada, VIP, etc.">
+
+                    <label>Quantidade</label>
+                    <input type="number" id="quantidade-ingresso" placeholder="Ex. 100" min="1">
+
+                    <label>Valor a receber (R$)</label>
+                    <input type="number" id="valor-ingresso" step="0.01" placeholder="0,00">
+
+                    <label>Valor do participante (R$)</label>
+                    <input type="number" id="valor-participante" step="0.01" value="0.00" readonly>
+
+                    <label>
+                        <input type="checkbox">
+                        Criar meia-entrada para este ingresso
+                    </label>
+
+                    <a href="#">
+                        Saiba mais sobre as políticas de meia-entrada
+                    </a>
+
+                    <h5>Quando o ingresso será vendido</h5>
+
+                    <div class="radio-group">
+
+                        <label>
+                            <input type="radio" name="venda" value="por-data" checked>
+
+                            Por data
+                        </label>
+
+                        <label>
+
+                            <input type="radio" name="venda" value="por-lote" id="radio-lote">
+
+                            Por lote
+
+                            <span class="help-lote"
+                                title="A opção 'Por lote' permite vender ingressos em etapas diferentes, como Lote 1, Lote 2 e Lote 3.">
+                                ?
+                            </span>
+
+                        </label>
+
+                    </div>
+
+                    <label>Data de Início das Vendas *</label>
+                    <input type="date" id="data-inicio">
+                    <input type="time" id="hora-inicio">
+
+                    <label>Data de Término das Vendas *</label>
+                    <input type="date" id="data-fim">
+                    <input type="time" id="hora-fim">
+
+                    <label>Quem pode comprar</label>
+
+                    <select id="quem-compra">
+
+                        <option>Para todo o público</option>
+                        <option>Restrito a convidados</option>
+                        <option>Adicionar manualmente</option>
+
+                    </select>
+
+                    <label>Quantidade permitida por compra</label>
+
+                    <input type="number" id="min-compra" placeholder="Mínima" min="1">
+
+                    <input type="number" id="max-compra" placeholder="Máxima" min="1">
+
+                    <label>Descrição do ingresso (opcional)</label>
+
+                    <textarea id="descricao-ingresso" maxlength="100"
+                        placeholder="Informações adicionais ao nome do ingresso.">
+        </textarea>
+
+                    <div class="ticket-actions">
+
+                        <button id="btnSalvarIngresso" class="btn-success">
+                            Salvar ingresso
+                        </button>
+
+                    </div>
+
+                </div>
+
+                <!-- LISTA DOS INGRESSOS CRIADOS -->
+
+                <div class="lista-ingressos">
+
+                    <h3>Ingressos criados</h3>
+
+                </div>
+
+            </div>
+
+            <div class="ticket-config-card"></div>
+
+            <div class="ticket-config-card">
+                <h3>Configurações</h3>
+                <div class="config-row">
+                    <div class="switch-group"> <label class="switch"> <input type="checkbox"> <span
+                                class="slider round"></span> </label> <span class="switch-label">Absorver a taxa de
+                            serviço</span> <i class="fa-regular fa-circle-question help-icon"></i> </div>
+                    <div class="nomenclature-group"> <span class="nomenclature-label">Nomenclatura:</span> <select
+                            class="select-small">
+                            <option>Ingresso</option>
+                            <option>Inscrição</option>
+                            <option>Contribuição</option>
+                        </select> </div>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- ETAPA 7 -->
+        <section class="card step">
+
+            <h2 class="section-title">7. Publicação</h2>
+
+            <div class="input-group">
+
+                <label for="producer-name">
+                    Nome do produtor <span>*</span>
+                </label>
+
+                <input type="text" id="producer-name">
+
+            </div>
+
+            <div class="checkbox-line terms-box">
+
+                <input type="checkbox" id="terms">
+
+                <label for="terms" class="label-normal">
+                    Ao publicar este evento, declaro estar de acordo com os <a href="#">Termos de Uso</a>, <a
+                        href="#">Diretrizes de Comunidade</a> e <a href="#">Regras de meia-entrada</a>, bem como estar
+                    ciente da <a href="#">Política de Privacidade</a> e das obrigações legais aplicáveis, incluindo
+                    regras de acessibilidade previstas na legislação brasileira. </label>
+
+                </label>
+
+            </div>
+
+        </section>
+
+        <!-- MODAL DE CONFIRMAÇÃO -->
+
+        <div id="modalConfirmacao" class="modal">
+
+            <div class="modal-content">
+
+                <h2>
+                    Revisar evento
+                </h2>
+
+                <div id="resumoEvento"></div>
+
+                <div class="modal-actions">
+
+                    <button id="cancelarPublicacao" class="btn-outline">
+
+                        Cancelar
+
+                    </button>
+
+                    <button id="confirmarPublicacao" class="btn-success">
+
+                        Confirmar publicação
+
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- NAVEGAÇÃO ENTRE ETAPAS -->
+        <div class="step-navigation">
+
+            <button id="prevBtn" class="btn-outline">
+                Voltar
+            </button>
+
+            <button id="nextBtn" class="btn-success">
+                Próximo
+            </button>
+
+
+
+        </div>
+
+    </main>
+
+    
+    <footer>
         <iframe src="../footer/footer.html" frameborder="0" scrolling="no" width="100%" height="auto"></iframe>
     </footer>
 
-    <script src="../js/loadHeader.js"></script>
 
+    <script src="../js/loadHeader.js"></script>
     <script src="../js/criarEventos.js"></script>
 
 </body>
