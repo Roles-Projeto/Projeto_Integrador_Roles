@@ -1,11 +1,9 @@
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
 <link rel="stylesheet" href="/Frontend/css/header.css">
 
 <header class="header-main">
 
-    <!-- NAVBAR -->
     <nav class="navbar">
 
         <!-- LOGO -->
@@ -14,141 +12,103 @@
         </div>
 
         <!-- BARRA DE BUSCA -->
-        <div class="search-bar">
+        <div class="search-bar" id="search-bar-wrapper">
 
-            <input type="text" id="searchInput" placeholder="Buscar eventos..." />
+            <input
+                type="text"
+                id="search-input"
+                placeholder="Buscar eventos..."
+                autocomplete="off"
+            />
 
             <div class="divider"></div>
 
             <div class="city-dropdown">
-
                 <button class="city-btn" id="cityBtn">
                     <i class="fas fa-map-marker-alt"></i>
-
-                    <span id="selectedCity">
-                        Minha localização
-                    </span>
-
+                    <span id="selectedCity">Minha localização</span>
                 </button>
-
-                <ul class="city-menu" id="cityMenu">
-                    <li>Goiânia</li>
-                    <li>Aparecida de Goiânia</li>
-                    <li>Caldas Novas</li>
-                </ul>
-
             </div>
 
-            <button class="search-btn" onclick="buscar()">
+            <button class="search-btn" id="btn-buscar">
                 <img src="/Frontend/Imagens/lupa.png" alt="Buscar">
             </button>
+
+            <!-- DROPDOWN DE SUGESTÕES (estilo Indeed) -->
+            <div id="search-suggestions"></div>
 
         </div>
 
         <!-- LADO DIREITO -->
         <div class="right-section">
 
-
-            <!-- AÇÕES -->
             <div class="event-actions">
-
-
-
-                <button class="action-btn">
-                    Criar evento
-                </button>
-
-                <button class="action-btn">
-                    Meus ingressos
-                </button>
-
+                <button class="action-btn">Criar evento</button>
+                <button class="action-btn">Meus ingressos</button>
             </div>
-
 
             <!-- NÃO LOGADO -->
             <div id="header-nao-logado" class="user-action-btns">
-                <a href="../login/login.html" class="login" id="openLogin">
-                    Entrar
-                </a>
+                <a href="../login/login.html" class="login" id="openLogin">Entrar</a>
             </div>
 
-            <!-- HAMBURGER -->
-            <button id="hamburger-btn" class="hamburger-btn">
+            <!-- HAMBURGER (visível só quando logado) -->
+            <button id="hamburger-btn" class="hamburger-btn" style="display:none;">
                 <i class="fas fa-bars"></i>
             </button>
 
             <!-- LOGADO -->
             <div id="header-logado" class="user-profile-container" style="display: none;">
 
-                <!-- AVATAR -->
                 <div class="profile-avatar">
-
-                    <img id="profile-pic-header" src="https://i.imgur.com/default-placeholder.png" alt="Foto de Perfil"
-                        class="avatar-img">
-
+                    <img id="profile-pic-header"
+                         src="https://i.imgur.com/default-placeholder.png"
+                         alt="Foto de Perfil"
+                         class="avatar-img">
                 </div>
 
-                <!-- DROPDOWN -->
                 <div class="dropdown-menu">
 
                     <div class="user-info">
-
                         <img src="https://i.imgur.com/default-placeholder.png" alt="Foto de Perfil">
-
                         <div>
-
-                            <strong id="profile-name-header">
-                                Nome do usuário
-                            </strong>
-
-                            <span id="profile-email-header">
-                                email@email.com
-                            </span>
-
+                            <strong id="profile-name-header">Nome do usuário</strong>
+                            <span id="profile-email-header">email@email.com</span>
                         </div>
-
                     </div>
 
                     <hr>
 
                     <a href="/Frontend/perfil/perfil.html" id="minha-conta" class="dropdown-item">
-                        <i class="fas fa-user"></i>
-                        Minha conta
+                        <i class="fas fa-user"></i> Minha conta
                     </a>
 
                     <a href="#" id="favoritos" class="dropdown-item">
-                        <i class="fas fa-heart"></i>
-                        Favoritos
+                        <i class="fas fa-heart"></i> Favoritos
                     </a>
 
                     <a href="/Frontend/criareventos/criareventos.html" id="criar-eventos" class="dropdown-item">
-                        <i class="fas fa-calendar-plus"></i>
-                        Criar eventos
+                        <i class="fas fa-calendar-plus"></i> Criar eventos
                     </a>
 
-                    <a href="/Frontend/criareventos/criareventos.html" id="cadastrar-estabelecimento"
-                        class="dropdown-item">
-                        <i class="fas fa-store"></i>
-                        Cadastrar estabelecimento
+                    <a href="/Frontend/criareventos/criareventos.html" id="cadastrar-estabelecimento" class="dropdown-item">
+                        <i class="fas fa-store"></i> Cadastrar estabelecimento
                     </a>
 
                     <a href="/Frontend/dashboard/dashboard.html" id="dashboard" class="dropdown-item">
-                        <i class="fas fa-chart-line"></i>
-                        Dashboard
+                        <i class="fas fa-chart-line"></i> Dashboard
                     </a>
 
                     <hr>
 
                     <a href="/Frontend/Contato/contato.html" id="contato" class="dropdown-item">
-                        <i class="fas fa-headset"></i>
-                        Central de ajuda
+                        <i class="fas fa-headset"></i> Central de ajuda
                     </a>
 
                     <hr>
 
                     <a href="/Frontend/login/logout.html" id="logout" class="dropdown-item logout-btn">
-                        <i class="fas fa-sign-out-alt"></i>
-                        Sair
+                        <i class="fas fa-sign-out-alt"></i> Sair
                     </a>
 
                 </div>
@@ -159,69 +119,36 @@
 
     </nav>
 
-    <!-- BARRA GRADIENTE -->
     <div class="bottom-gradient-bar"></div>
-
-    <!-- PLACEHOLDER FIXO -->
     <div class="header-placeholder-fixo"></div>
 
 </header>
 
-<!-- OVERLAY -->
+<!-- OVERLAY DE CIDADE -->
 <div id="city-overlay" class="overlay"></div>
 
 <!-- CARD DE LOCALIZAÇÃO -->
 <div id="city-card" class="city-card">
 
     <div class="card-header">
-
         <h3>Localização</h3>
-
-        <span id="close-card">
-            &times;
-        </span>
-
+        <span id="close-card">&times;</span>
     </div>
 
     <div class="search-box">
-
         <i class="fas fa-search"></i>
-
         <input type="text" id="city-search" placeholder="Onde?">
-
     </div>
 
     <div class="use-location" id="use-location">
-
         <i class="fas fa-location-arrow"></i>
-
-        <div>
-
-            <strong>
-                Usar minha localização atual
-            </strong>
-
-        </div>
-
+        <div><strong>Usar minha localização atual</strong></div>
     </div>
 
     <ul class="city-list" id="city-list">
-
-        <li data-city="Goiânia">
-            <i class="fas fa-map-marker-alt"></i>
-            Goiânia
-        </li>
-
-        <li data-city="Aparecida de Goiânia">
-            <i class="fas fa-map-marker-alt"></i>
-            Aparecida de Goiânia
-        </li>
-
-        <li data-city="Caldas Novas">
-            <i class="fas fa-map-marker-alt"></i>
-            Caldas Novas
-        </li>
-
+        <li data-city="Goiânia"><i class="fas fa-map-marker-alt"></i> Goiânia</li>
+        <li data-city="Aparecida de Goiânia"><i class="fas fa-map-marker-alt"></i> Aparecida de Goiânia</li>
+        <li data-city="Caldas Novas"><i class="fas fa-map-marker-alt"></i> Caldas Novas</li>
     </ul>
 
 </div>

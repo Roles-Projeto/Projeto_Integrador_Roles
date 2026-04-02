@@ -10,8 +10,6 @@
     <link rel="stylesheet" href="css/footer.css">
     <link rel="stylesheet" href="css/header.css">
     <link rel="stylesheet" href="css/style.css">
-
-
 </head>
 
 <body>
@@ -20,6 +18,10 @@
     </header>
 
     <main>
+
+        <!-- ================================================
+             HERO / CAROUSEL
+        ================================================ -->
         <section class="hero-section">
 
             <div class="hero-bg"></div>
@@ -33,7 +35,6 @@
 
                 <div class="carousel-container">
 
-                    <!-- BOTÃO ESQUERDA -->
                     <button class="carousel-btn prev">
                         <i class="fas fa-chevron-left"></i>
                     </button>
@@ -64,7 +65,6 @@
                             </div>
                         </a>
 
-                        <!-- CARD CENTRAL ATIVO -->
                         <a href="eventos/standup-comedy.html" class="carousel-card active">
                             <img src="Imagens/4º imagem cad.png" alt="Stand-up Comedy">
                             <div class="carousel-info">
@@ -99,7 +99,6 @@
 
                     </div>
 
-                    <!-- BOTÃO DIREITA -->
                     <button class="carousel-btn next">
                         <i class="fas fa-chevron-right"></i>
                     </button>
@@ -110,6 +109,9 @@
 
         </section>
 
+        <!-- ================================================
+             CATEGORIAS
+        ================================================ -->
         <section class="section-categorias">
 
             <h2>Explore por categoria</h2>
@@ -129,36 +131,31 @@
                         <span>0 locais</span>
                     </a>
 
-                    <a href="categorias/categorias.html?name=Bar&icon-class=fas%20fa-glass-martini-alt"
-                        class="card-categoria">
+                    <a href="categorias/categorias.html?name=Bar&icon-class=fas%20fa-glass-martini-alt" class="card-categoria">
                         <div class="icon"><i class="fas fa-glass-martini-alt"></i></div>
                         <h3>Bar</h3>
                         <span>0 locais</span>
                     </a>
 
-                    <a href="categorias/categorias.html?name=Restaurante&icon-class=fas%20fa-utensils"
-                        class="card-categoria">
+                    <a href="categorias/categorias.html?name=Restaurante&icon-class=fas%20fa-utensils" class="card-categoria">
                         <div class="icon"><i class="fas fa-utensils"></i></div>
                         <h3>Restaurante</h3>
                         <span>0 locais</span>
                     </a>
 
-                    <a href="categorias/categorias.html?name=Karaoke&icon-class=fas%20fa-microphone"
-                        class="card-categoria">
+                    <a href="categorias/categorias.html?name=Karaoke&icon-class=fas%20fa-microphone" class="card-categoria">
                         <div class="icon"><i class="fas fa-microphone"></i></div>
                         <h3>Karaoke</h3>
                         <span>0 locais</span>
                     </a>
 
-                    <a href="categorias/categorias.html?name=Show&icon-class=fas%20fa-ticket-alt"
-                        class="card-categoria">
+                    <a href="categorias/categorias.html?name=Show&icon-class=fas%20fa-ticket-alt" class="card-categoria">
                         <div class="icon"><i class="fas fa-ticket-alt"></i></div>
                         <h3>Show</h3>
                         <span>0 locais</span>
                     </a>
 
-                    <a href="categorias/categorias.html?name=Eventos&icon-class=fas%20fa-cocktail"
-                        class="card-categoria">
+                    <a href="categorias/categorias.html?name=Eventos&icon-class=fas%20fa-cocktail" class="card-categoria">
                         <div class="icon"><i class="fas fa-cocktail"></i></div>
                         <h3>Eventos</h3>
                         <span>0 locais</span>
@@ -170,8 +167,7 @@
                         <span>0 locais</span>
                     </a>
 
-                    <a href="categorias/categorias.html?name=%2B50%20anos&icon-class=fas%20fa-leaf"
-                        class="card-categoria">
+                    <a href="categorias/categorias.html?name=%2B50%20anos&icon-class=fas%20fa-leaf" class="card-categoria">
                         <div class="icon"><i class="fas fa-leaf"></i></div>
                         <h3>50+</h3>
                         <span>0 locais</span>
@@ -187,6 +183,10 @@
 
         </section>
 
+        <!-- ================================================
+             LOCAIS MAIS POPULARES
+             ↓ Única mudança: data-categoria-card em cada card
+        ================================================ -->
         <section class="section-populares">
             <div class="populares-header container">
                 <h2 class="section-title">Locais Mais Populares</h2>
@@ -195,7 +195,7 @@
 
             <div class="populares-grid container">
 
-                <a href="verDetalhesLocais/verDetalhesLocais.html" class="card-local">
+                <a href="verDetalhesLocais/verDetalhesLocais.html" class="card-local" data-categoria-card="bar">
                     <div class="card-image-wrap">
                         <img src="Imagens/1º imagem cad.png" alt="Pingo Fogo">
                         <span class="tag tag-bar">Bar</span>
@@ -209,9 +209,9 @@
                     </div>
                 </a>
 
-                <a href="verDetalhesLocais/verDetalhesLocais.html" class="card-local">
+                <a href="verDetalhesLocais/verDetalhesLocais.html" class="card-local" data-categoria-card="restaurante">
                     <div class="card-image-wrap">
-                        <img src="Imagens/2º imagem card.png " alt="Kabanas Restaurante">
+                        <img src="Imagens/2º imagem card.png" alt="Kabanas Restaurante">
                         <span class="tag tag-restaurante">Restaurante</span>
                     </div>
                     <div class="card-content">
@@ -223,7 +223,7 @@
                     </div>
                 </a>
 
-                <a href="verDetalhesLocais/verDetalhesLocais.html" class="card-local">
+                <a href="verDetalhesLocais/verDetalhesLocais.html" class="card-local" data-categoria-card="balada">
                     <div class="card-image-wrap">
                         <img src="Imagens/3º imagem card.png" alt="Roxy">
                         <span class="tag tag-balada">Balada</span>
@@ -237,7 +237,7 @@
                     </div>
                 </a>
 
-                <a href="verDetalhesLocais/verDetalhesLocais.html" class="card-local">
+                <a href="verDetalhesLocais/verDetalhesLocais.html" class="card-local" data-categoria-card="stand-up">
                     <div class="card-image-wrap">
                         <img src="Imagens/4º imagem cad.png" alt="Guardian Comedy Club">
                         <span class="tag tag-comedy">Stand-up</span>
@@ -251,7 +251,7 @@
                     </div>
                 </a>
 
-                <a href="verDetalhesLocais/verDetalhesLocais.html" class="card-local">
+                <a href="verDetalhesLocais/verDetalhesLocais.html" class="card-local" data-categoria-card="restaurante">
                     <div class="card-image-wrap">
                         <img src="Imagens/5º imagem cad.png" alt="Pizzaria da 8">
                         <span class="tag tag-restaurante">Restaurante</span>
@@ -265,7 +265,7 @@
                     </div>
                 </a>
 
-                <a href="verDetalhesLocais/verDetalhesLocais.html" class="card-local">
+                <a href="verDetalhesLocais/verDetalhesLocais.html" class="card-local" data-categoria-card="teatro">
                     <div class="card-image-wrap">
                         <img src="Imagens/6º imagem cad.png" alt="Teatro Rio Vermelho">
                         <span class="tag tag-show">Teatro</span>
@@ -284,6 +284,10 @@
             <a href="locais/locais.html" class="btn-ver-todos">Ver Todos os Locais</a>
         </section>
 
+        <!-- ================================================
+             EVENTOS PRÓXIMOS
+             ↓ Única mudança: data-categoria-card em cada card
+        ================================================ -->
         <section class="section-eventos">
             <div class="eventos-header container">
                 <h2 class="section-title">Eventos Próximos</h2>
@@ -292,7 +296,7 @@
 
             <div class="eventos-grid container">
 
-                <a href="verDetalhesEventos/detalhesEventos.html" class="card-evento">
+                <a href="verDetalhesEventos/detalhesEventos.html" class="card-evento" data-categoria-card="música">
                     <div class="evento-imagem-wrap">
                         <img src="Imagens/7º imagem card.png" alt="Festival de Jazz ao Ar Livre">
                         <span class="tag-evento tag-musica">Música</span>
@@ -306,7 +310,7 @@
                     </div>
                 </a>
 
-                <a href="verDetalhesEventos/detalhesEventos.html" class="card-evento">
+                <a href="verDetalhesEventos/detalhesEventos.html" class="card-evento" data-categoria-card="happy hour">
                     <div class="evento-imagem-wrap">
                         <img src="Imagens/8º imagem card.png" alt="Chopada da T-63">
                         <span class="tag-evento tag-happy-hour">Happy Hour</span>
@@ -320,7 +324,7 @@
                     </div>
                 </a>
 
-                <a href="verDetalhesEventos/detalhesEventos.html" class="card-evento">
+                <a href="verDetalhesEventos/detalhesEventos.html" class="card-evento" data-categoria-card="dança">
                     <div class="evento-imagem-wrap">
                         <img src="Imagens/9º imagem card.png" alt="Salsa e Bachata Night">
                         <span class="tag-evento tag-danca">Dança</span>
@@ -334,7 +338,7 @@
                     </div>
                 </a>
 
-                <a href="verDetalhesEventos/detalhesEventos.html" class="card-evento">
+                <a href="verDetalhesEventos/detalhesEventos.html" class="card-evento" data-categoria-card="restaurante">
                     <div class="evento-imagem-wrap">
                         <img src="Imagens/10º imagem card.png" alt="Vinhos do Cerrado">
                         <span class="tag-evento tag-restaurante">Restaurante</span>
@@ -348,7 +352,7 @@
                     </div>
                 </a>
 
-                <a href="verDetalhesEventos/detalhesEventos.html" class="card-evento">
+                <a href="verDetalhesEventos/detalhesEventos.html" class="card-evento" data-categoria-card="música">
                     <div class="evento-imagem-wrap">
                         <img src="Imagens/11º imagem card.png" alt="Rock no Low Ridez">
                         <span class="tag-evento tag-musica">Música</span>
@@ -362,7 +366,7 @@
                     </div>
                 </a>
 
-                <a href="verDetalhesEventos/detalhesEventos.html" class="card-evento">
+                <a href="verDetalhesEventos/detalhesEventos.html" class="card-evento" data-categoria-card="restaurante">
                     <div class="evento-imagem-wrap">
                         <img src="Imagens/12º imagem card.png" alt="Brunch no Bougainville">
                         <span class="tag-evento tag-brunch">Restaurante</span>
@@ -372,8 +376,7 @@
                         <div class="evento-data-local">
                             <p><i class="fas fa-calendar-alt"></i> Sáb, 8 de Out - 10:00</p>
                         </div>
-                        <p class="evento-local"><i class="fas fa-map-marker-alt"></i> Próximo ao Shopping, Setor Bueno
-                        </p>
+                        <p class="evento-local"><i class="fas fa-map-marker-alt"></i> Próximo ao Shopping, Setor Bueno</p>
                     </div>
                 </a>
 
@@ -382,6 +385,9 @@
             <a href="eventos/eventos.html" class="btn-ver-todos">Ver Todos os Eventos</a>
         </section>
 
+        <!-- ================================================
+             FAQ
+        ================================================ -->
         <section class="faq">
 
             <div class="faq-header">
@@ -408,7 +414,6 @@
                         Posso cancelar minha compra?
                         <span class="faq-arrow">›</span>
                     </button>
-
                     <div class="faq-answer">
                         <p>O cancelamento depende das regras do organizador do evento e da política informada na página
                             do evento.</p>
@@ -420,7 +425,6 @@
                         Como faço para cadastrar meu estabelecimento?
                         <span class="faq-arrow">›</span>
                     </button>
-
                     <div class="faq-answer">
                         <p>Você pode cadastrar seu estabelecimento na área de parceiros da plataforma e começar a
                             divulgar seus eventos.</p>
@@ -432,7 +436,6 @@
                         Quais são as taxas cobradas?
                         <span class="faq-arrow">›</span>
                     </button>
-
                     <div class="faq-answer">
                         <p>As taxas variam conforme o tipo de evento e o serviço utilizado dentro da plataforma.</p>
                     </div>
@@ -443,7 +446,6 @@
                         Posso transferir meu ingresso para outra pessoa?
                         <span class="faq-arrow">›</span>
                     </button>
-
                     <div class="faq-answer">
                         <p>Alguns eventos permitem transferência de ingresso diretamente dentro da plataforma.</p>
                     </div>
@@ -454,7 +456,6 @@
                         Os eventos são apenas em Goiânia?
                         <span class="faq-arrow">›</span>
                     </button>
-
                     <div class="faq-answer">
                         <p>Não. A plataforma pode incluir eventos em diferentes cidades conforme novos parceiros são
                             cadastrados.</p>
@@ -470,33 +471,24 @@
 
         </section>
 
-        <!-- ==================================================
-==================== MODAL LOGIN ====================
-================================================== -->
-
+        <!-- ================================================
+             MODAL LOGIN
+        ================================================ -->
         <div class="login-modal" id="loginModal">
-
             <div class="login-modal-content">
-
                 <span class="close-login" id="closeLogin">&times;</span>
-
                 <iframe src="login/loginForm.html" frameborder="0" scrolling="no" class="login-iframe"></iframe>
-
             </div>
-
         </div>
-
-
 
     </main>
 
-    <footer>
-    
+    <footer></footer>
 
     <script src="js/footer.js" defer></script>
     <script src="js/loadHeader.js"></script>
     <script src="js/home.js"></script>
-
+    <script src="js/filtrohome.js"></script>  <!-- ← NOVO: filtra cards na página -->
 
 </body>
 

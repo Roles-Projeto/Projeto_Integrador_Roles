@@ -1,137 +1,229 @@
+"use strict";
 
-// Função para coletar todos os dados de um card específico
-function coletarDadosDoCard(cardElement) {
-    const nomeElement = cardElement.querySelector('h3');
-    let nomeTexto = nomeElement.textContent;
-    let precoTexto = cardElement.querySelector('.preco').textContent.trim();
+// ============================================================
+// js/locais.js
+// Filtro em tempo real integrado ao header.js
+// Filtra os .card por nome, local, descrição, tags e categoria
+// Sincronizado com o evento roles:filtrar do header
+// ============================================================
 
-    // Limpa o nome removendo a tag de preço
-    nomeTexto = nomeTexto.replace(precoTexto, '').trim();
+(function () {
 
-    const categoria = cardElement.querySelector('.categoria').textContent.trim();
-    const local = cardElement.querySelector('.local').textContent.trim();
-    const descricao = cardElement.querySelector('.descricao').textContent.trim();
-    const horario = cardElement.querySelector('.info p:nth-child(1)').textContent.replace(/(\s*clock\s*)|( Verificar Agenda)/, '').trim();
-    const telefone = cardElement.querySelector('.info p:nth-child(2)').textContent.replace(/(\s*phone\s*)/, '').trim();
-    const nota = cardElement.querySelector('.nota').textContent.trim();
-    const avaliacoes = cardElement.querySelector('.avaliacoes').textContent.replace(/[^\d\s\w]/g, '').trim();
-    const imagem = cardElement.querySelector('.card-img img').getAttribute('src');
+    // ----------------------------------------------------------
+    // NORMALIZA (remove acentos, minúsculas)
+    // ----------------------------------------------------------
+    function norm(s) {
+        return (s || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+    }
 
-    // Coletar todas as tags
-    const tags = Array.from(cardElement.querySelectorAll('.tags span'))
-        .map(span => span.textContent.trim())
-        .join(', ');
+    // ----------------------------------------------------------
+    // ESTADO ATUAL
+    // ----------------------------------------------------------
+    let termoAtual     = '';
+    let categoriaAtual = 'todos';
 
-    return {
-        nome: nomeTexto, // Corrigido
-        preco: precoTexto, // Corrigido
-        categoria,
-        local,
-        descricao,
-        horario,
-        telefone,
-        nota,
-        avaliacoes,
-        imagem,
-        tags
-    };
-}
+    // ----------------------------------------------------------
+    // TEXTO PESQUISÁVEL DE CADA CARD
+    // ----------------------------------------------------------
+    function textoDoCard(card) {
+        const nome      = card.querySelector('h3')?.textContent          || '';
+        const local     = card.querySelector('.local')?.textContent      || '';
+        const descricao = card.querySelector('.descricao')?.textContent  || '';
+        const tags      = card.querySelector('.tags')?.textContent       || '';
+        const categoria = card.getAttribute('data-categoria-card')       || '';
+        return norm(`${nome} ${local} ${descricao} ${tags} ${categoria}`);
+    }
 
-// FUNÇÃO PRINCIPAL: Adiciona o evento de clique aos botões "Ver Detalhes"
-function adicionarListenersDetalhes() {
-    const botoesDetalhes = document.querySelectorAll('.detalhes');
+    // ----------------------------------------------------------
+    // APLICA FILTRO (texto + categoria)
+    // ----------------------------------------------------------
+    function aplicarFiltro() {
+        const cards  = document.querySelectorAll('.card');
+        const tNorm  = norm(termoAtual);
+        const cNorm  = norm(categoriaAtual);
+        let contador = 0;
 
-    botoesDetalhes.forEach(button => {
-        button.addEventListener('click', (e) => {
-            const card = e.target.closest('.card');
-            if (card) {
-                const localData = coletarDadosDoCard(card);
+        cards.forEach(card => {
+            const texto   = textoDoCard(card);
+            const catCard = norm(card.getAttribute('data-categoria-card') || '');
 
-                // 1. Salva os dados no LocalStorage
-                localStorage.setItem('localDetalhes', JSON.stringify(localData));
+            const bateTexto = tNorm === '' || texto.includes(tNorm);
+            const bateCat   = cNorm === 'todos' || catCard === cNorm;
 
-                // 2. Redireciona para a página de detalhes
-                window.location.href = '/frontend/verDetalhesLocais/verDetalhesLocais.html';
+            if (bateTexto && bateCat) {
+                card.style.display = '';
+                contador++;
             } else {
-                console.error('Card pai não encontrado.');
+                card.style.display = 'none';
             }
         });
-    });
-}
 
-// Função de filtro por CATEGORIA E TEXTO (agora unificada)
-function filtrarLocais(categoria) {
-    const cards = document.querySelectorAll('.card');
-    let contador = 0;
-    // Pega o valor do input de busca, garante que está em minúsculas e sem espaços extras
-    const textoBusca = document.getElementById('search-input').value.toLowerCase().trim();
+        // Atualiza contador
+        const contadorEl = document.getElementById('contador-locais');
+        if (contadorEl) contadorEl.textContent = contador;
 
-    cards.forEach(card => {
-        const categoriaCard = card.getAttribute('data-categoria-card');
+        // Mensagem de nenhum resultado
+        atualizarMensagemVazia(contador);
+    }
 
-        // Coleta todos os textos relevantes para a busca
-        const nomeCard = card.querySelector('h3').textContent.toLowerCase();
-        const localizacaoCard = card.querySelector('.local').textContent.toLowerCase();
-        const tagsCard = card.querySelector('.tags').textContent.toLowerCase();
+    // ----------------------------------------------------------
+    // MENSAGEM "NENHUM RESULTADO"
+    // ----------------------------------------------------------
+    function atualizarMensagemVazia(total) {
+        const ID  = 'locais-sem-resultado';
+        let msg   = document.getElementById(ID);
 
-        // 1. Filtro por Categoria (selecionada no botão)
-        const passaPelaCategoria = (categoria === 'todos' || categoriaCard === categoria);
-
-        // 2. Filtro por Texto (digitado na busca)
-        const passaPeloTexto = (
-            nomeCard.includes(textoBusca) || // Busca no nome
-            localizacaoCard.includes(textoBusca) || // Busca na localização
-            tagsCard.includes(textoBusca) // Busca nas tags
-        );
-
-
-        if (passaPelaCategoria && passaPeloTexto) {
-            card.style.display = 'flex';
-            contador++;
+        if (total === 0 && termoAtual !== '') {
+            if (!msg) {
+                msg = document.createElement('div');
+                msg.id = ID;
+                msg.style.cssText = `
+                    text-align: center;
+                    padding: 50px 20px;
+                    color: #888;
+                    font-family: 'Poppins', sans-serif;
+                    width: 100%;
+                `;
+                msg.innerHTML = `
+                    <i class="fas fa-search" style="font-size:2.5rem;color:#ccc;margin-bottom:16px;display:block;"></i>
+                    <p style="font-size:1.1rem;font-weight:600;color:#444;margin:0 0 8px;">
+                        Nenhum local encontrado
+                    </p>
+                    <p style="font-size:0.9rem;margin:0;">
+                        Tente buscar por outro nome, categoria ou bairro.
+                    </p>
+                `;
+                document.getElementById('cards-container-locais')?.after(msg);
+            }
         } else {
-            card.style.display = 'none';
+            msg?.remove();
         }
+    }
+
+    // ----------------------------------------------------------
+    // BUSCAS RECENTES — mesma chave do header
+    // ----------------------------------------------------------
+    const CHAVE_RECENTES = 'buscasRecentes';
+    const MAX_RECENTES   = 5;
+
+    function getRecentes() {
+        try { return JSON.parse(localStorage.getItem(CHAVE_RECENTES)) || []; } catch { return []; }
+    }
+
+    function salvarRecente(termo) {
+        if (!termo.trim()) return;
+        let r = getRecentes().filter(x => norm(x) !== norm(termo));
+        r.unshift(termo.trim());
+        localStorage.setItem(CHAVE_RECENTES, JSON.stringify(r.slice(0, MAX_RECENTES)));
+    }
+
+    // ----------------------------------------------------------
+    // COLETA DADOS DO CARD PARA DETALHES
+    // ----------------------------------------------------------
+    function coletarDadosDoCard(card) {
+        return {
+            nome      : card.querySelector('h3')?.textContent.replace(/\$+/g, '').trim() || '',
+            local     : card.querySelector('.local')?.textContent.trim()                  || '',
+            descricao : card.querySelector('.descricao')?.textContent.trim()              || '',
+            tags      : card.querySelector('.tags')?.textContent.trim()                   || '',
+            imagem    : card.querySelector('img')?.src                                    || '',
+            categoria : card.getAttribute('data-categoria-card')                          || '',
+            nota      : card.querySelector('.nota')?.textContent.trim()                   || '',
+            horario   : card.querySelector('.info p:first-child')?.textContent.trim()     || '',
+            telefone  : card.querySelector('.info p:last-child')?.textContent.trim()      || '',
+            avaliacoes: card.querySelector('.avaliacoes')?.textContent.trim()             || '',
+        };
+    }
+
+    // ----------------------------------------------------------
+    // OUVE O EVENTO DO HEADER → roles:filtrar
+    // ----------------------------------------------------------
+    window.addEventListener('roles:filtrar', (e) => {
+        const termo      = e.detail?.termo ?? '';
+        const inputLocal = document.getElementById('search-input');
+
+        // Sincroniza o input local com o que veio do header
+        if (inputLocal && document.activeElement !== inputLocal) {
+            inputLocal.value = termo;
+        }
+
+        termoAtual = termo;
+        aplicarFiltro();
     });
-    document.getElementById('contador-locais').textContent = contador;
-}
 
-// Função unificada para aplicar os dois filtros: Categoria e Busca
-function aplicarFiltros() {
-    // Pega a categoria ativa no momento (usa 'todos' como padrão se nenhuma estiver ativa)
-    const categoriaAtiva = document.querySelector('.opçoes-abaixo.ativo')?.getAttribute('data-categoria') || 'todos';
-    filtrarLocais(categoriaAtiva);
-}
+    // ----------------------------------------------------------
+    // INICIALIZAÇÃO
+    // ----------------------------------------------------------
+    document.addEventListener('DOMContentLoaded', () => {
 
+        // ---- Input local da página ----
+        const inputLocal = document.getElementById('search-input');
 
-// Execução: Garante que os listeners sejam adicionados após o carregamento do DOM
-document.addEventListener('DOMContentLoaded', () => {
-    // Inicializa o Feather Icons (Garante que o ícone de busca apareça)
-    feather.replace();
+        // Verifica se veio busca salva do header (redirect de outra página)
+        const filtrosSalvos = localStorage.getItem('filtrosRoles');
+        if (filtrosSalvos) {
+            try {
+                const { termo } = JSON.parse(filtrosSalvos);
+                if (termo && inputLocal) {
+                    inputLocal.value = termo;
+                    termoAtual       = termo;
+                }
+            } catch (_) {}
+            localStorage.removeItem('filtrosRoles');
+        }
 
-    // Adiciona o listener para os botões de CATEGORIA (filtro)
-    const botoesCategoria = document.getElementById('botoes-categoria-locais');
-    if (botoesCategoria) {
-        botoesCategoria.addEventListener('click', (e) => {
-            if (e.target.classList.contains('opçoes-abaixo')) {
-                // Remove 'ativo' de todos e adiciona ao clicado
-                document.querySelectorAll('.opçoes-abaixo').forEach(btn => btn.classList.remove('ativo'));
-                e.target.classList.add('ativo');
+        if (inputLocal) {
+            // Filtra em tempo real enquanto digita
+            inputLocal.addEventListener('input', () => {
+                termoAtual = inputLocal.value.trim();
+                aplicarFiltro();
+            });
 
-                aplicarFiltros(); // Aplica o filtro de categoria E o de texto
-            }
-        });
-    }
+            // Enter salva nos recentes
+            inputLocal.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' && termoAtual.trim()) {
+                    salvarRecente(termoAtual.trim());
+                }
+            });
+        }
 
-    // Adiciona o listener para o campo de BUSCA (Onde você digitou o texto)
-    const searchInput = document.getElementById('search-input');
-    if (searchInput) {
-        searchInput.addEventListener('input', aplicarFiltros); // Chama a função a cada input
-    }
+        // ---- Botões de categoria ----
+        const botoesCategoria = document.getElementById('botoes-categoria-locais');
+        if (botoesCategoria) {
+            botoesCategoria.addEventListener('click', (e) => {
+                const botao = e.target.closest('.opçoes-abaixo');
+                if (!botao) return;
 
+                document.querySelectorAll('.opçoes-abaixo')
+                    .forEach(b => b.classList.remove('ativo'));
+                botao.classList.add('ativo');
 
-    // Adiciona a funcionalidade de "Ver Detalhes"
-    adicionarListenersDetalhes();
+                categoriaAtual = botao.getAttribute('data-categoria') || 'todos';
+                aplicarFiltro();
+            });
+        }
 
-    // Inicializa a exibição (Mostra todos os locais ao carregar)
-    aplicarFiltros();
-});
+        // ---- Clique no botão "Ver Detalhes" ----
+        const container = document.getElementById('cards-container-locais');
+        if (container) {
+            container.addEventListener('click', (e) => {
+                const botao = e.target.closest('.detalhes');
+                if (!botao) return;
+
+                const card = botao.closest('.card');
+                if (!card) return;
+
+                const dados = coletarDadosDoCard(card);
+                localStorage.setItem('localDetalhes', JSON.stringify(dados));
+                window.location.href = '/frontend/verDetalhesLocais/verDetalhesLocais.html';
+            });
+        }
+
+        // ---- Aplica filtro inicial ----
+        aplicarFiltro();
+
+        // ---- Inicializa feather icons ----
+        if (typeof feather !== 'undefined') feather.replace();
+    });
+
+})();

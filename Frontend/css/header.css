@@ -1,40 +1,22 @@
 /* ==================================================
-   RESET E CONFIGURAÇÕES GERAIS
+   RESET E BASE
 ================================================== */
+.header-main * { box-sizing: border-box; }
 
-.header-main *{
-    box-sizing: border-box;
-}
-
-body{
-    font-family: 'Poppins', sans-serif;
-    margin: 0;
-    padding: 0;
-}
-
-header{
-    margin: 0;
-    padding: 0;
-    z-index: 100;
-}
+body { font-family: 'Poppins', sans-serif; margin: 0; padding: 0; }
+header { margin: 0; padding: 0; z-index: 100; }
 
 /* ==================================================
    NAVBAR
 ================================================== */
-
-.header-main .navbar{
+.header-main .navbar {
     width: 100%;
     height: 65px;
-
     display: flex;
     align-items: center;
-
     padding: 0 20px;
-
     background: #fff;
-
     box-shadow: 0 1px 0 rgba(0,0,0,0.05);
-
     position: relative;
     z-index: 1000;
 }
@@ -42,167 +24,328 @@ header{
 /* ==================================================
    LOGO
 ================================================== */
-
-.header-main .logo{
-    display: flex;
-    align-items: center;
-}
-
-.header-main .logo a{
+.header-main .logo a {
     font-size: 2.1em;
     font-weight: 700;
-
     text-decoration: none;
-
-    background: linear-gradient(to right,#131314,#6C1DCE);
-
+    background: linear-gradient(to right, #131314, #6C1DCE);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-
     margin-right: 20px;
 }
 
 /* ==================================================
    SEARCH BAR
 ================================================== */
-
-.header-main .search-bar{
+.header-main .search-bar {
     display: flex;
     align-items: center;
-
     background: #f3f3f3;
-
     border-radius: 50px;
-
     height: 3em;
-
     width: 600px;
+    position: relative;        /* âncora do dropdown */
+    transition: box-shadow 0.2s;
 }
 
-/* input */
+.header-main .search-bar:focus-within {
+    box-shadow: 0 0 0 2px #6C1DCE44;
+    background: #fff;
+    border: 1.5px solid #6C1DCE55;
+}
 
-.header-main .search-bar input{
+.header-main .search-bar input {
     border: none;
-
     background: transparent;
-
-    padding: 10px;
-
+    padding: 10px 10px 10px 16px;
     outline: none;
-
     flex: 1;
-
     font-size: 14px;
+    font-family: 'Poppins', sans-serif;
+    color: #1a1a1a;
 }
 
-/* divider */
+.header-main .search-bar input::placeholder { color: #aaa; }
 
-.header-main .divider{
-    width: 1px;
-    height: 25px;
-    background: #ccc;
-}
+.header-main .divider { width: 1px; height: 25px; background: #ccc; flex-shrink: 0; }
 
-/* botão de busca */
-
-.header-main .search-btn{
-    background: #f3f3f3;
-
+.header-main .search-btn {
+    background: transparent;
     border: none;
-
     border-radius: 50%;
-
-    width: 35px;
-    height: 35px;
-
+    width: 38px;
+    height: 38px;
     cursor: pointer;
-
     display: flex;
     align-items: center;
     justify-content: center;
+    margin-right: 4px;
+    flex-shrink: 0;
+    transition: background 0.15s;
 }
+.header-main .search-btn:hover { background: #ebebeb; }
+.header-main .search-btn img { width: 18px; height: 18px; }
 
 /* ==================================================
-   CITY DROPDOWN
+   CITY BUTTON
 ================================================== */
+.header-main .city-dropdown { position: relative; }
 
-.header-main .city-dropdown{
-    position: relative;
-}
-
-.header-main .city-btn{
+.header-main .city-btn {
     display: flex;
     align-items: center;
-
     gap: 5px;
-
     background: transparent;
-
     border: none;
-
     padding: 8px 12px;
-
     cursor: pointer;
-
     font-size: 13px;
+    font-family: 'Poppins', sans-serif;
+    white-space: nowrap;
+    color: #333;
 }
+.header-main .city-btn i { color: #6C1DCE; }
 
-.header-main .city-btn i{
-    color: #6C1DCE;
-}
-
-/* menu */
-
-.header-main .city-menu{
+/* ==================================================
+   DROPDOWN DE BUSCA — ESTILO INDEED
+================================================== */
+#search-suggestions {
     position: absolute;
-
-    top: 100%;
+    top: calc(100% + 6px);
     left: 0;
+    width: 100%;
+    min-width: 360px;
 
-    background: white;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.13), 0 1px 4px rgba(0,0,0,0.08);
+    border: 1px solid #ececec;
 
+    z-index: 99999;
+    overflow: hidden;
+
+    /* oculto por padrão */
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-4px);
+    transition: opacity 0.16s ease, transform 0.16s ease, visibility 0s linear 0.16s;
+}
+
+#search-suggestions.active {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+    transition: opacity 0.16s ease, transform 0.16s ease;
+}
+
+/* Título de seção */
+.sug-section-title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 16px 6px;
+}
+.sug-section-title span {
+    font-size: 11px;
+    font-weight: 600;
+    color: #888;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+/* Lista */
+.sug-list {
     list-style: none;
-
-    padding: 10px 0;
     margin: 0;
-
-    border-radius: 8px;
-
-    min-width: 180px;
-
-    display: none;
-
-    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    padding: 0 0 4px;
 }
 
-.header-main .city-menu li{
-    padding: 10px 15px;
-
+/* Item genérico */
+.sug-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 16px;
     cursor: pointer;
+    transition: background 0.12s;
+    gap: 10px;
+}
+.sug-item:hover { background: #f7f4ff; }
+
+.sug-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex: 1;
+    min-width: 0;
 }
 
-.header-main .city-menu li:hover{
-    background: #f0f0f0;
+/* ---- Item recente ---- */
+.sug-icon-recente {
+    font-size: 14px;
+    color: #aaa;
+    width: 16px;
+    text-align: center;
+    flex-shrink: 0;
 }
+
+.sug-texto {
+    font-size: 14px;
+    color: #222;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.sug-remover {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #bbb;
+    font-size: 13px;
+    padding: 4px 6px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.12s, color 0.12s;
+    flex-shrink: 0;
+}
+.sug-remover:hover { background: #f0ebff; color: #6C1DCE; }
+
+/* ---- Item evento/sugestão ---- */
+.sug-icon-evento {
+    width: 34px;
+    height: 34px;
+    min-width: 34px;
+    background: #f0ebff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+.sug-icon-evento i { color: #6C1DCE; font-size: 13px; }
+
+.sug-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+    flex: 1;
+}
+
+.sug-nome {
+    font-size: 13px;
+    font-weight: 500;
+    color: #1a1a1a;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Destaque do texto buscado */
+.sug-nome mark {
+    background: none;
+    color: #6C1DCE;
+    font-weight: 700;
+}
+
+.sug-meta {
+    font-size: 11px;
+    color: #999;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.sug-meta i { font-size: 10px; color: #6C1DCE; }
+
+.sug-badge {
+    background: #f0ebff;
+    color: #6C1DCE;
+    padding: 1px 7px;
+    border-radius: 20px;
+    font-size: 10px;
+    font-weight: 600;
+}
+
+/* Seta de completar busca */
+.sug-completar {
+    font-size: 12px;
+    color: #ccc;
+    flex-shrink: 0;
+    padding: 6px;
+    border-radius: 50%;
+    transition: background 0.12s, color 0.12s;
+    transform: rotate(0deg);
+}
+.sug-item:hover .sug-completar { color: #6C1DCE; background: #f0ebff; }
+
+/* ---- Rodapé "Buscar por X" ---- */
+.sug-rodape {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 16px 12px;
+    border-top: 1px solid #f0f0f0;
+    cursor: pointer;
+    font-size: 13px;
+    color: #444;
+    transition: background 0.12s;
+}
+.sug-rodape:hover { background: #f7f4ff; }
+.sug-rodape i { color: #6C1DCE; font-size: 13px; }
+.sug-rodape strong { color: #1a1a1a; }
 
 /* ==================================================
    RIGHT SECTION
 ================================================== */
-
-.header-main .right-section{
-    display: flex;
-    align-items: center;
-
-    gap: 25px;
-
-    margin-left: auto;
-}
 .header-main .right-section {
     display: flex;
     align-items: center;
-    gap: 15px; /* espaçamento entre avatar e hamburger */
+    gap: 15px;
+    margin-left: auto;
 }
 
+/* ==================================================
+   BOTÕES AÇÃO
+================================================== */
+.header-main .event-actions { display: flex; align-items: center; gap: 25px; }
+
+.header-main .action-btn {
+    background: transparent;
+    border: none;
+    font-size: 14px;
+    font-weight: 500;
+    color: #4b5563;
+    cursor: pointer;
+    font-family: 'Poppins', sans-serif;
+    transition: color 0.2s;
+}
+.header-main .action-btn:hover { color: #6C1DCE; }
+
+/* ==================================================
+   LOGIN
+================================================== */
+.header-main .user-action-btns { display: flex; align-items: center; }
+
+.header-main .login {
+    background: #000;
+    color: #fff;
+    padding: 8px 15px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-size: 12px;
+    transition: background 0.2s;
+}
+.header-main .login:hover { background: #333; }
+
+/* ==================================================
+   HAMBURGER
+================================================== */
 .hamburger-btn {
     background: transparent;
     border: none;
@@ -213,423 +356,125 @@ header{
     align-items: center;
 }
 
-.sidebar {
-    position: fixed;
-    top: 0;
-    right: -250px; /* escondido inicialmente */
-    width: 250px;
-    height: 100%;
-    background: #fff;
-    box-shadow: -2px 0 10px rgba(0,0,0,0.2);
-    transition: 0.3s;
-    z-index: 9999;
-}
-
-body.sidebar-open .sidebar {
-    right: 0;
-}
 /* ==================================================
-   BOTÕES - CRIAR EVENTO / INGRESSOS
+   PERFIL / AVATAR
 ================================================== */
+.header-main .user-profile-container { position: relative; cursor: pointer; }
 
-.header-main .event-actions{
-    display: flex;
-    align-items: center;
-
-    gap: 25px;
-}
-
-.header-main .action-btn{
-    background: transparent;
-
-    border: none;
-
-    font-size: 14px;
-    font-weight: 500;
-
-    color: #4b5563;
-
-    cursor: pointer;
-
-    display: flex;
-    align-items: center;
-
-    gap: 8px;
-
-    transition: 0.2s;
-}
-
-.header-main .action-btn:hover{
-    color: #6C1DCE;
-}
-
-/* ==================================================
-   LOGIN
-================================================== */
-
-.header-main .user-action-btns{
-    display: flex;
-    align-items: center;
-}
-
-.header-main .login{
-    background: #000;
-
-    color: #fff;
-
-    padding: 8px 15px;
-
-    border-radius: 6px;
-
-    text-decoration: none;
-
-    font-size: 12px;
-}
-
-.header-main .login:hover{
-    background: #333;
-}
-
-/* ==================================================
-   PROFILE
-================================================== */
-
-.header-main .user-profile-container{
-    position: relative;
-    cursor: pointer;
-}
-
-/* avatar */
-
-.header-main .profile-avatar{
+.header-main .profile-avatar {
     width: 35px;
     height: 35px;
-
     border-radius: 50%;
-
     overflow: hidden;
-
     border: 2px solid #fff;
-
     box-shadow: 0 0 0 2px #6C1DCE;
 }
-
-.header-main .avatar-img{
-    width: 100%;
-    height: 100%;
-
-    object-fit: cover;
-}
+.header-main .avatar-img { width: 100%; height: 100%; object-fit: cover; }
 
 /* ==================================================
-   DROPDOWN
+   DROPDOWN DE PERFIL
 ================================================== */
-
-.header-main .dropdown-menu{
+.header-main .dropdown-menu {
     position: absolute;
-
     top: 45px;
     right: 0;
-
     width: 260px;
-
     background: #fff;
-
     border-radius: 8px;
-
     box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-
     z-index: 2000;
-
     opacity: 0;
     visibility: hidden;
-
     transform: translateY(-10px);
-
     transition: 0.2s;
 }
-
-.header-main .user-profile-container.active .dropdown-menu{
+.header-main .user-profile-container.active .dropdown-menu {
     opacity: 1;
     visibility: visible;
-
     transform: translateY(0);
 }
 
-/* user info */
-
-.header-main .user-info{
+.header-main .user-info {
     display: flex;
     align-items: center;
-
     gap: 10px;
-
     padding: 12px 15px;
-
-    border-bottom: 1px solid #eee;
 }
+.header-main .user-info img { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; }
+.header-main .user-info strong { font-size: 14px; color: #333; display: block; }
+.user-info span { font-size: 10px; color: #888; display: block; }
 
-.header-main .user-info img{
-    width: 40px;
-    height: 40px;
+.header-main .dropdown-menu hr { border: none; border-top: 1px solid #eee; margin: 5px 0; }
 
-    border-radius: 50%;
-
-    object-fit: cover;
-}
-
-.header-main .user-info strong{
-    font-size: 14px;
-    color: #333;
-
-    display: block;
-}
-
-.user-info span{
-    font-size: 10px;
-    color: #888;
-
-    display: block;
-}
-
-.header-main .dropdown-menu hr{
-    border: none;
-
-    border-top: 1px solid #eee;
-
-    margin: 5px 0;
-}
-
-/* itens */
-
-.header-main .dropdown-item{
+.header-main .dropdown-item {
     display: flex;
     align-items: center;
-
     padding: 10px 15px;
-
     text-decoration: none;
-
     color: #333;
-
     font-size: 12px;
+    transition: background 0.15s;
 }
-
-.header-main .dropdown-item i{
-    margin-right: 8px;
-
-    color: #6C1DCE;
-}
-
-.header-main .dropdown-item:hover{
-    background: #f5f5f5;
-}
-
+.header-main .dropdown-item i { margin-right: 8px; color: #6C1DCE; }
+.header-main .dropdown-item:hover { background: #f5f5f5; }
 
 /* ==================================================
    OVERLAY E CARD DE CIDADE
 ================================================== */
-
-/* ==================================================
-================ CARD DE LOCALIZAÇÃO =================
-================================================== */
-
 .overlay {
-
     position: fixed;
-
-    top: 0;
-    left: 0;
-
-    width: 100vw;
-    height: 100vh;
-
+    top: 0; left: 0;
+    width: 100vw; height: 100vh;
     background: rgba(0,0,0,0.45);
-
     display: none;
-
     z-index: 999998;
 }
 
 .city-card {
-
     position: fixed;
-
-    top: 50%;
-    left: 50%;
-
+    top: 50%; left: 50%;
     transform: translate(-50%, -50%);
-
     width: 420px;
-
     background: white;
-
     border-radius: 14px;
-
     padding: 20px;
-
     display: none;
-
     z-index: 999999;
-
-    isolation: isolate;
 }
 
-/* Header */
-
-.card-header {
-
-    display: flex;
-
-    justify-content: space-between;
-
-    align-items: center;
-
-    margin-bottom: 15px;
-}
-
-.card-header h3 {
-
-    margin: 0;
-
-    font-size: 18px;
-}
-
-.card-header span {
-
-    font-size: 22px;
-
-    cursor: pointer;
-}
-
-/* Busca */
+.card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
+.card-header h3 { margin: 0; font-size: 18px; }
+.card-header span { font-size: 22px; cursor: pointer; }
 
 .search-box {
-
-    display: flex;
-
-    align-items: center;
-
-    background: #f5f5f5;
-
-    padding: 10px;
-
-    border-radius: 8px;
-
-    margin-bottom: 15px;
+    display: flex; align-items: center;
+    background: #f5f5f5; padding: 10px;
+    border-radius: 8px; margin-bottom: 15px;
 }
-
-.search-box i {
-
-    color: #999;
-
-    margin-right: 8px;
-}
-
-.search-box input {
-
-    border: none;
-
-    background: transparent;
-
-    outline: none;
-
-    width: 100%;
-}
-
-/* Usar localização */
+.search-box i { color: #999; margin-right: 8px; }
+.search-box input { border: none; background: transparent; outline: none; width: 100%; font-family: 'Poppins', sans-serif; }
 
 .use-location {
-
-    display: flex;
-
-    align-items: center;
-
-    gap: 10px;
-
-    padding: 12px;
-
-    border-radius: 8px;
-
-    cursor: pointer;
-
-    margin-bottom: 15px;
-
-    transition: 0.2s;
+    display: flex; align-items: center; gap: 10px;
+    padding: 12px; border-radius: 8px; cursor: pointer;
+    margin-bottom: 15px; transition: background 0.2s;
 }
+.use-location:hover { background: #f0f0f0; }
+.use-location i { color: #6C1DCE; font-size: 18px; }
 
-.use-location:hover {
-
-    background: #f0f0f0;
-}
-
-.use-location i {
-
-    color: #6C1DCE;
-
-    font-size: 18px;
-}
-
-.use-location span {
-
-    font-size: 12px;
-
-    color: #666;
-}
-
-/* Lista */
-
-.city-list {
-
-    list-style: none;
-
-    padding: 0;
-
-    max-height: 260px;
-
-    overflow-y: auto;
-}
-
+.city-list { list-style: none; padding: 0; max-height: 260px; overflow-y: auto; }
 .city-list li {
-
-    display: flex;
-
-    align-items: center;
-
-    gap: 10px;
-
-    padding: 12px;
-
-    cursor: pointer;
-
-    border-radius: 8px;
-
-    transition: 0.2s;
+    display: flex; align-items: center; gap: 10px;
+    padding: 12px; cursor: pointer; border-radius: 8px; transition: background 0.2s;
 }
+.city-list li:hover { background: #f5f5f5; }
+.city-list i { color: #6C1DCE; }
 
-.city-list li:hover {
-
-    background: #f5f5f5;
-}
-
-.city-list i {
-
-    color: #6C1DCE;
-}
 /* ==================================================
    BARRA GRADIENTE
 ================================================== */
-
-.bottom-gradient-bar{
+.bottom-gradient-bar {
     height: 5px;
-
     width: 100%;
-
-    background: linear-gradient(
-        to right,
-        #131314 0%,
-        #e9e5f5 50%,
-        #6C1DCE 100%
-    );
+    background: linear-gradient(to right, #131314 0%, #e9e5f5 50%, #6C1DCE 100%);
 }
-
