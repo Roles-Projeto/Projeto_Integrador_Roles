@@ -5,15 +5,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Criar Evento Presencial</title>
+    <link rel="stylesheet" href="../css/criarEventos.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="../css/footer.css">
-    <link rel="stylesheet" href="../css/criareventos.css">
 </head>
 
 <body>
-    <header>
+     <header>
         <div id="header-container"></div>
     </header>
+
 
     <header class="main-header">
         <h1>Criar <strong>Evento Presencial</strong></h1>
@@ -259,16 +260,14 @@
                     Criar ingresso gratuito
                 </button>
 
+
             </div>
 
-            <!-- FORMULÁRIO PAGO -->
-            <div class="ticket-config-card" id="form-ingresso-pago" style="display: none;">
+            <div class="ticket-config-card">
 
                 <div class="ticket-item">
-
-                    <button id="btnFecharFormulario" type="button">
-                        ✖
-                    </button>
+                    <button class="remove-ticket"><img src="/Frontend/Imagens/botao-excluir.png" alt=""></button>
+                    
 
                     <h4>Criar ingresso pago</h4>
 
@@ -307,6 +306,7 @@
 
                         <label>
                             <input type="radio" name="venda" value="por-data" checked>
+
                             Por data
                         </label>
 
@@ -353,7 +353,7 @@
 
                     <textarea id="descricao-ingresso" maxlength="100"
                         placeholder="Informações adicionais ao nome do ingresso.">
-            </textarea>
+        </textarea>
 
                     <div class="ticket-actions">
 
@@ -365,143 +365,31 @@
 
                 </div>
 
-            </div>
+                <!-- LISTA DOS INGRESSOS CRIADOS -->
 
-            <!-- FORMULÁRIO GRATUITO -->
-            <div class="ticket-config-card" id="form-ingresso-gratuito" style="display: none;">
+                <div class="lista-ingressos">
 
-                <div class="header-form-ingresso">
-
-                    <h4>Criar ingresso gratuito</h4>
-
-                    <button type="button" id="btnFecharGratis">
-                        ✖
-                    </button>
-
-                </div>
-
-                <h5>Sobre o ingresso</h5>
-
-                <label>Título do ingresso</label>
-                <input type="text" id="titulo-gratuito" maxlength="45"
-                    placeholder="Ingresso único, Meia-Entrada, VIP, etc.">
-
-                <label>Quantidade</label>
-                <input type="number" id="quantidade-gratuito" min="1" placeholder="Ex. 100">
-
-                <label>Valor a receber</label>
-                <input type="text" value="Grátis" readonly>
-
-                <h5>Quando o ingresso será vendido</h5>
-
-                <div class="radio-group">
-
-                    <label>
-                        <input type="radio" name="venda-gratuito" value="por-data" checked>
-                        Por data
-                    </label>
-
-                    <label>
-
-                        <input type="radio" name="venda-gratuito" value="por-lote" id="radio-lote-gratuito">
-
-                        Por lote
-
-                    </label>
-
-                </div>
-
-                <label>Data de Início das Vendas *</label>
-
-                <input type="date" id="data-inicio-gratuito">
-
-                <input type="time" id="hora-inicio-gratuito">
-
-                <label>Data de Término das Vendas *</label>
-
-                <input type="date" id="data-fim-gratuito">
-
-                <input type="time" id="hora-fim-gratuito">
-
-                <label>Quem pode comprar</label>
-
-                <select id="quem-compra-gratuito">
-
-                    <option>Para todo o público</option>
-                    <option>Restrito a convidados</option>
-                    <option>Adicionar manualmente</option>
-
-                </select>
-
-                <label>Quantidade permitida por compra</label>
-
-                <input type="number" id="min-compra-gratuito" placeholder="Mínima" min="1">
-
-                <input type="number" id="max-compra-gratuito" placeholder="Máxima" min="1">
-
-                <label>Descrição do ingresso (opcional)</label>
-
-                <textarea id="descricao-gratuito" maxlength="100"
-                    placeholder="Informações adicionais ao nome do ingresso.">
-        </textarea>
-
-                <div class="ticket-actions">
-
-                    <button id="btnSalvarGratuito" class="btn-success">
-                        Salvar ingresso
-                    </button>
+                    <h3>Ingressos criados</h3>
 
                 </div>
 
             </div>
 
-            <!-- LISTA DOS INGRESSOS CRIADOS (AGORA FORA DOS FORMULÁRIOS) -->
-            <div class="lista-ingressos">
+            <div class="ticket-config-card"></div>
 
-                <h3>Ingressos criados</h3>
-
-            </div>
-
-            <!-- CONFIGURAÇÕES -->
-            <div class="ticket-config-card" id="configuracoes-ingresso">
-
+            <div class="ticket-config-card">
                 <h3>Configurações</h3>
-
                 <div class="config-row">
-
-                    <div class="switch-group">
-
-                        <label class="switch">
-                            <input type="checkbox">
-                            <span class="slider round"></span>
-                        </label>
-
-                        <span class="switch-label">
-                            Absorver a taxa de serviço
-                        </span>
-
-                        <i class="fa-regular fa-circle-question help-icon"></i>
-
-                    </div>
-
-                    <div class="nomenclature-group">
-
-                        <span class="nomenclature-label">
-                            Nomenclatura:
-                        </span>
-
-                        <select class="select-small">
-
+                    <div class="switch-group"> <label class="switch"> <input type="checkbox"> <span
+                                class="slider round"></span> </label> <span class="switch-label">Absorver a taxa de
+                            serviço</span> <i class="fa-regular fa-circle-question help-icon"></i> </div>
+                    <div class="nomenclature-group"> <span class="nomenclature-label">Nomenclatura:</span> <select
+                            class="select-small">
                             <option>Ingresso</option>
                             <option>Inscrição</option>
                             <option>Contribuição</option>
-
-                        </select>
-
-                    </div>
-
+                        </select> </div>
                 </div>
-
             </div>
 
         </section>
@@ -572,12 +460,12 @@
         <!-- NAVEGAÇÃO ENTRE ETAPAS -->
         <div class="step-navigation">
 
-            <button id="prevBtn" class="btn-outline">
+            <button id="prevBtn" class="btn-success">
                 Voltar
             </button>
 
             <button id="nextBtn" class="btn-success">
-                Próximo
+                
             </button>
 
 
@@ -586,14 +474,13 @@
 
     </main>
 
+    
+  <script src="../js/footer.js" defer></script>
 
 
-
+    <script src="../js/loadHeader.js"></script>
+    <script src="../js/criarEventos.js"></script>
 
 </body>
-<script src="../js/footer.js" defer></script>
-<script src="../js/loadHeader.js"></script>
-
-<script src="../js/criareventos.js"></script>
 
 </html>

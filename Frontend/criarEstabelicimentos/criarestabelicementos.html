@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Criar Estabelecimento</title>
+    <link rel="stylesheet" href="../css/criarestabelicementos.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="../css/footer.css">
+</head>
+
+<body>
+
+    <header>
+        <div id="header-container"></div>
+    </header>
+
+    <header class="main-header">
+        <h1>Criar <strong>Estabelecimento</strong></h1>
+
+        <!-- Barra de progresso -->
+        <div class="progress-container">
+            <div class="progress-bar" id="progress-bar"></div>
+        </div>
+
+        <p class="step-indicator" id="step-indicator">
+            Etapa 1 de 7
+        </p>
+    </header>
+
+    <main class="container">
+
+        <!-- ETAPA 1 -->
+        <section class="card step active">
+
+            <h2 class="section-title">1. Informações básicas</h2>
+            <p class="section-subtitle">Adicione as principais informações do estabelecimento.</p>
+
+            <div class="input-group">
+                <label for="estab-name">Nome do estabelecimento <span class="required">*</span></label>
+                <input type="text" id="estab-name" placeholder="Nome do estabelecimento" maxlength="100">
+                <div class="char-counter"><span id="chars">100</span> caracteres restantes</div>
+            </div>
+
+            <div class="classification-section">
+                <p class="label-heading">Classifique seu estabelecimento</p>
+
+                <div class="row">
+
+                    <div class="col">
+                        <label>Tipo <span class="required">*</span></label>
+                        <select id="tipo">
+                            <option value="">Selecione um tipo</option>
+                            <option>Restaurante</option>
+                            <option>Bar e Boteco</option>
+                            <option>Café e Cafeteria</option>
+                            <option>Lanchonete e Fast Food</option>
+                            <option>Pizzaria</option>
+                            <option>Churrascaria</option>
+                            <option>Doceria e Confeitaria</option>
+                            <option>Padaria</option>
+                            <option>Sorveteria</option>
+                            <option>Sushi e Japonês</option>
+                            <option>Food Truck</option>
+                            <option>Bistrô</option>
+                            <option>Pub</option>
+                            <option>Enoteca</option>
+                            <option>Hamburgueria</option>
+                        </select>
+                    </div>
+
+                    <div class="col">
+                        <label>Especialidade (opcional)</label>
+                        <select id="especialidade">
+                            <option value="">Selecione uma especialidade</option>
+                        </select>
+                    </div>
+
+                </div>
+
+                <div class="row" style="margin-top: 15px;">
+                    <div class="col">
+                        <label>Faixa de preço <span class="required">*</span></label>
+                        <select id="faixa-preco">
+                            <option value="">Selecione uma faixa</option>
+                            <option value="economico">$ — Econômico (até R$ 30)</option>
+                            <option value="moderado">$$ — Moderado (R$ 30 a R$ 80)</option>
+                            <option value="sofisticado">$$$ — Sofisticado (R$ 80 a R$ 150)</option>
+                            <option value="luxo">$$$$ — Luxo (acima de R$ 150)</option>
+                        </select>
+                    </div>
+
+                    <div class="col">
+                        <label>Capacidade de pessoas</label>
+                        <input type="number" id="capacidade" placeholder="Ex. 50" min="1">
+                    </div>
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- ETAPA 2 -->
+        <section class="card step">
+
+            <h2 class="section-title">2. Imagens do estabelecimento</h2>
+
+            <div class="upload-container">
+                <label>Logo do estabelecimento (opcional)</label>
+
+                <div class="upload-content">
+                    <div class="upload-box" id="drop-zone-logo">
+                        <div class="upload-icon">
+                            <i class="fa-regular fa-image"></i>
+                        </div>
+                        <p>Clique ou arraste o logo aqui</p>
+                    </div>
+
+                    <div class="upload-instructions">
+                        <p>
+                            Formatos aceitos: JPEG, GIF ou PNG de até 2MB.<br>
+                            Dimensão recomendada: 400 x 400 pixels (quadrado).
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="upload-container" style="margin-top: 30px;">
+                <label>Foto de capa do estabelecimento (opcional)</label>
+
+                <div class="upload-content">
+                    <div class="upload-box" id="drop-zone-capa">
+                        <div class="upload-icon">
+                            <i class="fa-regular fa-image"></i>
+                        </div>
+                        <p>Clique ou arraste a imagem de capa aqui</p>
+                    </div>
+
+                    <div class="upload-instructions">
+                        <p>
+                            Formatos aceitos: JPEG, GIF ou PNG de até 2MB.<br>
+                            Dimensão recomendada: 1600 x 838 pixels.
+                        </p>
+                    </div>
+                </div>
+
+                <p class="warning">
+                    Não é permitido enviar imagens com:
+                    - nudez ou conteúdo sexual
+                    - violência
+                    - drogas
+                    - conteúdo ilegal
+                    - violação de direitos autorais
+                </p>
+            </div>
+
+        </section>
+
+        <!-- ETAPA 3 -->
+        <section class="card step">
+
+            <h2 class="section-title">3. Horário de funcionamento</h2>
+            <p class="section-subtitle">Informe os dias e horários em que o estabelecimento funciona.</p>
+
+            <div class="horario-container" id="horarios-container">
+
+                <div class="horario-dia-row" data-dia="Segunda-feira">
+                    <div class="dia-toggle">
+                        <label class="switch">
+                            <input type="checkbox" class="dia-check" checked>
+                            <span class="slider round"></span>
+                        </label>
+                        <span class="dia-nome">Segunda-feira</span>
+                    </div>
+                    <div class="horario-inputs">
+                        <div class="icon-input">
+                            <i class="fa-regular fa-clock"></i>
+                            <input type="time" class="hora-abertura" value="08:00">
+                        </div>
+                        <span class="separador-horario">até</span>
+                        <div class="icon-input">
+                            <i class="fa-regular fa-clock"></i>
+                            <input type="time" class="hora-fechamento" value="22:00">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="horario-dia-row" data-dia="Terça-feira">
+                    <div class="dia-toggle">
+                        <label class="switch">
+                            <input type="checkbox" class="dia-check" checked>
+                            <span class="slider round"></span>
+                        </label>
+                        <span class="dia-nome">Terça-feira</span>
+                    </div>
+                    <div class="horario-inputs">
+                        <div class="icon-input">
+                            <i class="fa-regular fa-clock"></i>
+                            <input type="time" class="hora-abertura" value="08:00">
+                        </div>
+                        <span class="separador-horario">até</span>
+                        <div class="icon-input">
+                            <i class="fa-regular fa-clock"></i>
+                            <input type="time" class="hora-fechamento" value="22:00">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="horario-dia-row" data-dia="Quarta-feira">
+                    <div class="dia-toggle">
+                        <label class="switch">
+                            <input type="checkbox" class="dia-check" checked>
+                            <span class="slider round"></span>
+                        </label>
+                        <span class="dia-nome">Quarta-feira</span>
+                    </div>
+                    <div class="horario-inputs">
+                        <div class="icon-input">
+                            <i class="fa-regular fa-clock"></i>
+                            <input type="time" class="hora-abertura" value="08:00">
+                        </div>
+                        <span class="separador-horario">até</span>
+                        <div class="icon-input">
+                            <i class="fa-regular fa-clock"></i>
+                            <input type="time" class="hora-fechamento" value="22:00">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="horario-dia-row" data-dia="Quinta-feira">
+                    <div class="dia-toggle">
+                        <label class="switch">
+                            <input type="checkbox" class="dia-check" checked>
+                            <span class="slider round"></span>
+                        </label>
+                        <span class="dia-nome">Quinta-feira</span>
+                    </div>
+                    <div class="horario-inputs">
+                        <div class="icon-input">
+                            <i class="fa-regular fa-clock"></i>
+                            <input type="time" class="hora-abertura" value="08:00">
+                        </div>
+                        <span class="separador-horario">até</span>
+                        <div class="icon-input">
+                            <i class="fa-regular fa-clock"></i>
+                            <input type="time" class="hora-fechamento" value="22:00">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="horario-dia-row" data-dia="Sexta-feira">
+                    <div class="dia-toggle">
+                        <label class="switch">
+                            <input type="checkbox" class="dia-check" checked>
+                            <span class="slider round"></span>
+                        </label>
+                        <span class="dia-nome">Sexta-feira</span>
+                    </div>
+                    <div class="horario-inputs">
+                        <div class="icon-input">
+                            <i class="fa-regular fa-clock"></i>
+                            <input type="time" class="hora-abertura" value="08:00">
+                        </div>
+                        <span class="separador-horario">até</span>
+                        <div class="icon-input">
+                            <i class="fa-regular fa-clock"></i>
+                            <input type="time" class="hora-fechamento" value="23:00">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="horario-dia-row" data-dia="Sábado">
+                    <div class="dia-toggle">
+                        <label class="switch">
+                            <input type="checkbox" class="dia-check" checked>
+                            <span class="slider round"></span>
+                        </label>
+                        <span class="dia-nome">Sábado</span>
+                    </div>
+                    <div class="horario-inputs">
+                        <div class="icon-input">
+                            <i class="fa-regular fa-clock"></i>
+                            <input type="time" class="hora-abertura" value="09:00">
+                        </div>
+                        <span class="separador-horario">até</span>
+                        <div class="icon-input">
+                            <i class="fa-regular fa-clock"></i>
+                            <input type="time" class="hora-fechamento" value="23:00">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="horario-dia-row" data-dia="Domingo">
+                    <div class="dia-toggle">
+                        <label class="switch">
+                            <input type="checkbox" class="dia-check">
+                            <span class="slider round"></span>
+                        </label>
+                        <span class="dia-nome">Domingo</span>
+                    </div>
+                    <div class="horario-inputs horario-fechado">
+                        <span class="fechado-label">Fechado</span>
+                    </div>
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- ETAPA 4 -->
+        <section class="card step">
+
+            <h2 class="section-title">4. Descrição do estabelecimento</h2>
+
+            <div class="editor-container">
+                <textarea id="descricao" class="editor-area"
+                    placeholder="Descreva seu estabelecimento: história, diferenciais, ambiente, culinária..."></textarea>
+            </div>
+
+            <div class="features-section" style="margin-top: 30px;">
+                <p class="label-heading">Comodidades e diferenciais</p>
+                <div class="features-grid">
+                    <label class="feature-check"><input type="checkbox" id="feat-wifi"> <i class="fa-solid fa-wifi"></i> Wi-Fi</label>
+                    <label class="feature-check"><input type="checkbox" id="feat-estacionamento"> <i class="fa-solid fa-square-parking"></i> Estacionamento</label>
+                    <label class="feature-check"><input type="checkbox" id="feat-acessibilidade"> <i class="fa-solid fa-wheelchair"></i> Acessibilidade</label>
+                    <label class="feature-check"><input type="checkbox" id="feat-reserva"> <i class="fa-solid fa-calendar-check"></i> Aceita reservas</label>
+                    <label class="feature-check"><input type="checkbox" id="feat-delivery"> <i class="fa-solid fa-motorcycle"></i> Delivery</label>
+                    <label class="feature-check"><input type="checkbox" id="feat-pagamento-digital"> <i class="fa-solid fa-credit-card"></i> Pagamento digital</label>
+                    <label class="feature-check"><input type="checkbox" id="feat-ar-condicionado"> <i class="fa-solid fa-snowflake"></i> Ar-condicionado</label>
+                    <label class="feature-check"><input type="checkbox" id="feat-pet"> <i class="fa-solid fa-paw"></i> Pet friendly</label>
+                    <label class="feature-check"><input type="checkbox" id="feat-ao-vivo"> <i class="fa-solid fa-music"></i> Música ao vivo</label>
+                    <label class="feature-check"><input type="checkbox" id="feat-area-externa"> <i class="fa-solid fa-umbrella-beach"></i> Área externa</label>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- ETAPA 5 -->
+        <section class="card step">
+
+            <h2 class="section-title">5. Localização</h2>
+
+            <div class="input-group">
+                <label>Informe o endereço ou o nome do local do estabelecimento <span>*</span></label>
+                <input type="text" id="local-nome" placeholder="Ex: Restaurante Central">
+            </div>
+
+            <div class="row">
+                <div class="col-3">
+                    <label>CEP</label>
+                    <input type="text" id="cep" placeholder="00000-000">
+                </div>
+                <div class="col-9">
+                    <label>Av./Rua <span>*</span></label>
+                    <input type="text" id="rua">
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col">
+                    <label>Número</label>
+                    <input type="text" id="numero" placeholder="Ex: 123">
+                </div>
+                <div class="col">
+                    <label>Complemento</label>
+                    <input type="text" id="complemento" placeholder="Ex: Sala 2, Bloco B">
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col">
+                    <label>Bairro</label>
+                    <input type="text" id="bairro">
+                </div>
+                <div class="col">
+                    <label>Cidade <span>*</span></label>
+                    <input type="text" id="cidade" disabled>
+                </div>
+                <div class="col">
+                    <label>Estado <span>*</span></label>
+                    <input type="text" id="estado" disabled>
+                </div>
+            </div>
+
+            <div class="input-group" style="margin-top: 15px;">
+                <label>Telefone de contato</label>
+                <input type="text" id="telefone" placeholder="(00) 00000-0000" maxlength="15">
+            </div>
+
+            <div class="input-group" style="margin-top: 15px;">
+                <label>Site ou rede social (opcional)</label>
+                <input type="text" id="website" placeholder="https://">
+            </div>
+
+        </section>
+
+        <!-- ETAPA 6 -->
+        <section class="card step">
+
+            <h2 class="section-title">6. Pratos em destaque</h2>
+
+            <div class="ticket-selection">
+                <button class="btn-ticket-action" data-tipo="destaque">
+                    <i class="fa-solid fa-star"></i> Adicionar prato destaque
+                </button>
+                <button class="btn-ticket-action" data-tipo="promocao">
+                    <i class="fa-solid fa-tag"></i> cionar promoção
+                </button>
+            </div>
+
+            <div class="ticket-config-card">
+
+                <div class="lista-pratos">
+                    <h3>Pratos cadastrados</h3>
+                </div>
+
+            </div>
+
+            <div class="ticket-config-card"></div>
+
+            <div class="ticket-config-card config-card-visible">
+                <h3>Configurações do cardápio</h3>
+                <div class="config-row">
+                    <div class="switch-group">
+                        <label class="switch">
+                            <input type="checkbox" id="exibir-precos">
+                            <span class="slider round"></span>
+                        </label>
+                        <span class="switch-label">Exibir preços no perfil</span>
+                        <i class="fa-regular fa-circle-question help-icon"></i>
+                    </div>
+                    <div class="nomenclature-group">
+                        <span class="nomenclature-label">Moeda:</span>
+                        <select class="select-small">
+                            <option>R$ (BRL)</option>
+                            <option>$ (USD)</option>
+                            <option>€ (EUR)</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- ETAPA 7 -->
+        <section class="card step">
+
+            <h2 class="section-title">7. Publicação</h2>
+
+            <div class="input-group">
+                <label for="owner-name">Nome do responsável <span>*</span></label>
+                <input type="text" id="owner-name" placeholder="Nome completo">
+            </div>
+
+            <div class="input-group" style="margin-top: 15px;">
+                <label for="cnpj">CNPJ do estabelecimento (opcional)</label>
+                <input type="text" id="cnpj" placeholder="00.000.000/0000-00" maxlength="18">
+            </div>
+
+            <div class="visibility-group" style="margin-top: 20px;">
+                <p class="label-heading">Visibilidade do perfil</p>
+                <div class="radio-group">
+                    <label class="radio-label">
+                        <input type="radio" name="visibilidade" value="publico" checked>
+                        Público
+                    </label>
+                    <label class="radio-label">
+                        <input type="radio" name="visibilidade" value="privado">
+                        Privado (somente por link)
+                    </label>
+                </div>
+            </div>
+
+            <div class="checkbox-line terms-box" style="margin-top: 25px;">
+                <input type="checkbox" id="terms">
+                <label for="terms" class="label-normal">
+                    Ao publicar este estabelecimento, declaro estar de acordo com os
+                    <a href="#">Termos de Uso</a>,
+                    <a href="#">Diretrizes de Comunidade</a> e
+                    <a href="#">Políticas de Conteúdo</a>, bem como estar ciente da
+                    <a href="#">Política de Privacidade</a> e das obrigações legais aplicáveis,
+                    incluindo legislação sanitária e de acessibilidade vigentes.
+                </label>
+            </div>
+
+        </section>
+
+        <!-- MODAL DE CONFIRMAÇÃO -->
+        <div id="modalConfirmacao" class="modal">
+            <div class="modal-content">
+                <h2>Revisar estabelecimento</h2>
+                <div id="resumoEstabelecimento"></div>
+                <div class="modal-actions">
+                    <button id="cancelarPublicacao" class="btn-outline">Cancelar</button>
+                    <button id="confirmarPublicacao" class="btn-primary">Confirmar publicação</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- NAVEGAÇÃO ENTRE ETAPAS -->
+        <div class="step-navigation">
+            <button id="prevBtn" class="btn-success">Voltar</button>
+            <button id="nextBtn" class="btn-success"></button>
+        </div>
+
+    </main>
+
+<script src="../js/footer.js" defer></script>
+
+    <script src="../js/loadHeader.js"></script>
+    <script src="../JS/criarestabelicementos.js"></script>
+
+</body>
+
+</html>
