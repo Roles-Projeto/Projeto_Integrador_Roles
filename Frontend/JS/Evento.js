@@ -1,136 +1,140 @@
+// Frontend/js/evento.js
+const API_URL = "http://localhost:3000/eventos";
 
-document.addEventListener('DOMContentLoaded', () => {
-    // --- 1. Lógica para transformar botões 'Mais Detalhes' em links ---
-    const detalheButtons = document.querySelectorAll('.btn-detalhes');
+document.addEventListener("DOMContentLoaded", async () => {
 
-    detalheButtons.forEach(button => {
-        const eventId = button.getAttribute('data-event-id');
+  const container = document.getElementById("eventosContainer");
 
-        if (eventId) {
-            const linkDetalhes = document.createElement('a');
+  // -------------------------------------------------------
+  // CARREGAR EVENTOS
+  // -------------------------------------------------------
+  async function carregarEventos() {
+    try {
+      const res  = await fetch(API_URL);
+      const data = await res.json();
 
-            // IMPORTANTE: Este é o link de destino correto
-            linkDetalhes.href = `../verDetalhesEventos/detalhesEventos.html?id=${eventId}`;
+      document.querySelectorAll(".evento-card").forEach(c => c.remove());
 
-            // Copia as classes e o texto do botão original para manter o estilo
-            linkDetalhes.className = button.className;
-            linkDetalhes.textContent = button.textContent;
-            linkDetalhes.setAttribute('role', 'button');
-
-            // Substitui o botão pelo novo link
-            button.parentNode.replaceChild(linkDetalhes, button);
-        }
-    });
-
-    // --- CORREÇÃO: Lógica para transformar botões 'Confirmar Presença' em links ---
-    const confirmarButtons = document.querySelectorAll('.btn-confirmar');
-
-    confirmarButtons.forEach(button => {
-        const linkConfirmar = document.createElement('a');
-
-        // IMPORTANTE: Este é o link de destino correto para a página de confirmação
-        linkConfirmar.href = `../verDetalhesEventos/presencaConfirmada.html`;
-
-        // Copia as classes e o texto do botão original para manter o estilo
-        linkConfirmar.className = button.className;
-        linkConfirmar.textContent = button.textContent;
-        linkConfirmar.setAttribute('role', 'button');
-
-        // Substitui o botão pelo novo link
-        button.parentNode.replaceChild(linkConfirmar, button);
-    });
-    // --- FIM DA CORREÇÃO ---
-
-
-    /* ==================================================
-    // --- 2. LÓGICA DE EVENTOS (Filtros e Contador) ---
-    // Funções reestruturadas para funcionar em conjunto
-    ================================================== */
-    const searchInput = document.getElementById('searchInput');
-    const eventosContainer = document.getElementById('eventosContainer');
-    const pillsContainer = document.getElementById('pillsContainer');
-
-    // Função para obter o estado atual dos filtros
-    function getEstadoFiltros() {
-        // Obtém a categoria ativa (pill com a classe 'active')
-        const categoriaAtiva = document.querySelector('.pill.active')?.getAttribute('data-cat') || 'todas';
-        // Obtém o termo de busca atual, normaliza e remove espaços
-        const termoBusca = (searchInput?.value || '').toLowerCase().trim();
-        return { categoriaAtiva, termoBusca };
-    }
-
-    // Função auxiliar para busca de texto
-    function nomeBusca(termo, nome, descricao) {
-        if (termo === '') return true; // Se a busca está vazia, considera que corresponde a tudo
-        return nome.includes(termo) || descricao.includes(termo);
-    }
-
-    // Função para aplicar os filtros de Categoria E Busca
-    function aplicarFiltros() {
-        const { categoriaAtiva, termoBusca } = getEstadoFiltros();
-        const cards = document.querySelectorAll('.evento-card');
-
-        cards.forEach(card => {
-            const cardCat = (card.getAttribute('data-categoria') || '').toLowerCase();
-            const nomeEvento = card.querySelector('h3').textContent.toLowerCase();
-            const descricaoEvento = card.querySelector('.descricao').textContent.toLowerCase();
-
-            // 1. Verifica se corresponde à busca de texto
-            const correspondeAoTexto = nomeBusca(termoBusca, nomeEvento, descricaoEvento);
-
-            // 2. Verifica se corresponde à categoria
-            const correspondeACategoria = (categoriaAtiva === 'todas' || cardCat === categoriaAtiva);
-
-            // O cartão é exibido SE: (Corresponder ao texto) E (Corresponder à categoria ativa)
-            card.style.display = (correspondeAoTexto && correspondeACategoria) ? 'flex' : 'none';
-        });
-
+      if (data.length === 0) {
+        container.insertAdjacentHTML("afterbegin",
+          `<p style="text-align:center;padding:40px;color:#888;">Nenhum evento encontrado.</p>`);
         atualizarContador();
+        return;
+      }
+
+      data.forEach(evento => {
+        const carregarBtn = document.querySelector(".carregar-container");
+        container.insertBefore(criarCard(evento), carregarBtn);
+      });
+
+      atualizarContador();
+      aplicarFiltros();
+
+    } catch (err) {
+      console.error("Erro ao carregar eventos:", err);
+      container.insertAdjacentHTML("afterbegin",
+        `<p style="text-align:center;padding:40px;color:red;">Erro ao carregar eventos. Verifique o servidor.</p>`);
     }
+  }
 
-    // Função para atualizar o contador de eventos visíveis
-    function atualizarContador() {
-        // Conta quantos cards estão com display: flex (visíveis)
-        const eventosVisiveis = document.querySelectorAll('.evento-card[style*="flex"]').length;
-        document.getElementById('qtdEventos').textContent = eventosVisiveis;
+  // -------------------------------------------------------
+  // CRIAR CARD
+  // -------------------------------------------------------
+  function criarCard(evento) {
+    const article = document.createElement("article");
+    article.classList.add("evento-card");
+    article.setAttribute("data-categoria", (evento.assunto || "").toLowerCase());
+    article.setAttribute("data-nome", evento.nome);
+    article.setAttribute("data-id", evento.id);
 
-        // Caso especial: Se a busca está vazia e estamos no filtro "Todos", mostra o total
-        if (eventosVisiveis === 0 && searchInput.value.trim() === '') {
-            document.getElementById('qtdEventos').textContent = document.querySelectorAll('.evento-card').length;
-        }
-    }
+    const dataFormatada = formatarData(evento.data_inicio);
+    const preco = evento.preco_minimo > 0
+      ? `R$ ${parseFloat(evento.preco_minimo).toFixed(2)}`
+      : "Gratuito";
 
-    // --- Listeners de Eventos ---
+    // Remova o "º" e o espaço, deixando exatamente como o nome do arquivo na pasta
+const imagemSrc = evento.imagem || evento.imagem_url || "../imagens/jazz.png";
 
-    // 1. Inicializa o contador e aplica filtros na carga
-    aplicarFiltros();
+    article.innerHTML = `
+      <div class="evento-imagem">
+        <img src="${imagemSrc}" alt="${evento.nome}" />
+        <span class="badge">${evento.assunto || "Evento"}</span>
+      </div>
+      <div class="evento-info">
+        <h3>${evento.nome}</h3>
+        <p class="descricao">${evento.descricao || ""}</p>
+        <p class="meta"><i class="fa-regular fa-calendar"></i> ${dataFormatada}</p>
+        <p class="meta"><i class="fa-solid fa-location-dot"></i>
+          ${evento.local_nome || ""} ${evento.cidade ? "- " + evento.cidade : ""}
+        </p>
+        <p class="meta"><i class="fa-regular fa-user"></i> 0 pessoas interessadas</p>
+        <div class="card-footer">
+          <span class="preco">${preco}</span>
+          <div class="acoes">
+            <a href="../verDetalhesEventos/detalhesEventos.html?id=${evento.id}"
+               class="btn-detalhes" role="button">Mais Detalhes</a>
+            <a href="../verDetalhesEventos/presencaConfirmada.html"
+               class="btn-confirmar" role="button">Confirmar Presença</a>
+          </div>
+        </div>
+      </div>
+    `;
 
-    // 2. Listener para o campo de busca (Keyup)
-    if (searchInput) {
-        searchInput.addEventListener('keyup', (e) => {
-            // Ao digitar, aplica os filtros de texto E de categoria
-            aplicarFiltros();
-        });
-    }
+    return article;
+  }
 
-    // 3. Listener de clique para os filtros de "Pills"
-    if (pillsContainer) {
-        pillsContainer.addEventListener('click', (e) => {
-            if (!e.target.matches('.pill')) return;
+  // -------------------------------------------------------
+  // FORMATAR DATA
+  // -------------------------------------------------------
+  function formatarData(dataStr) {
+    if (!dataStr) return "-";
+    const d = new Date(dataStr);
+    const dias  = ["Dom","Seg","Ter","Qua","Qui","Sex","Sáb"];
+    const meses = ["Jan","Fev","Mar","Abr","Mai","Jun","Jul","Ago","Set","Out","Nov","Dez"];
+    return `${dias[d.getDay()]}, ${d.getDate()} de ${meses[d.getMonth()]} &nbsp;<i class="fa-regular fa-clock"></i> ${d.toTimeString().slice(0,5)}`;
+  }
 
-            // Remove a classe 'active' de todas as pills e adiciona à clicada
-            document.querySelectorAll('.pill').forEach(p => p.classList.remove('active'));
-            e.target.classList.add('active');
+  // -------------------------------------------------------
+  // FILTROS
+  // -------------------------------------------------------
+  const searchInput    = document.getElementById("searchInput");
+  const pillsContainer = document.getElementById("pillsContainer");
 
-            // Ao clicar na pill, aplica os filtros de categoria E de texto
-            aplicarFiltros();
-        });
-    }
+  function aplicarFiltros() {
+    const categoriaAtiva = document.querySelector(".pill.active")?.getAttribute("data-cat") || "todas";
+    const termoBusca     = (searchInput?.value || "").toLowerCase().trim();
 
-    // 4. MutationObserver para o contador (monitora mudanças nos estilos dos cartões)
-    if (eventosContainer) {
-        const observer = new MutationObserver(() => aplicarFiltros());
-        // Observa mudanças de estilo (display: flex/none) nos elementos filhos
-        observer.observe(eventosContainer, { childList: true, subtree: true, attributes: true, attributeFilter: ['style'] });
-    }
+    document.querySelectorAll(".evento-card").forEach(card => {
+      const cat  = (card.getAttribute("data-categoria") || "").toLowerCase();
+      const nome = card.querySelector("h3")?.textContent.toLowerCase() || "";
+      const desc = card.querySelector(".descricao")?.textContent.toLowerCase() || "";
+      const textoOk     = termoBusca === "" || nome.includes(termoBusca) || desc.includes(termoBusca);
+      const categoriaOk = categoriaAtiva === "todas" || cat.includes(categoriaAtiva);
+      card.style.display = textoOk && categoriaOk ? "flex" : "none";
+    });
+
+    atualizarContador();
+  }
+
+  function atualizarContador() {
+    const visiveis = document.querySelectorAll('.evento-card[style*="flex"]').length;
+    const el = document.getElementById("qtdEventos");
+    if (el) el.textContent = visiveis || document.querySelectorAll(".evento-card").length;
+  }
+
+  if (searchInput) searchInput.addEventListener("keyup", aplicarFiltros);
+
+  if (pillsContainer) {
+    pillsContainer.addEventListener("click", (e) => {
+      if (!e.target.matches(".pill")) return;
+      document.querySelectorAll(".pill").forEach(p => p.classList.remove("active"));
+      e.target.classList.add("active");
+      aplicarFiltros();
+    });
+  }
+
+  // -------------------------------------------------------
+  // INICIAR
+  // -------------------------------------------------------
+  await carregarEventos();
 });
