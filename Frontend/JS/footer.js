@@ -17,8 +17,8 @@ document.addEventListener("DOMContentLoaded", function () {
             <div class="roles-footer-column">
                 <h4 class="roles-footer-title">Explore</h4>
                 <ul>
-                <li><a href="../locais/locais.html">Todos os Locais</a></li>
-                <li><a href="../eventos/eventos.html">Todos os Eventos</a></li>
+                <li><a href="../frontend/locais/locais.html">Todos os Locais</a></li>
+                <li><a href="../frontend/eventos/eventos.html">Todos os Eventos</a></li>
                 <li><a href="#">Baixar App</a></li>
             </ul>
             </div>
@@ -26,11 +26,11 @@ document.addEventListener("DOMContentLoaded", function () {
             <div class="roles-footer-column">
                 <h4 class="roles-footer-title">Empresa</h4>
                 <ul>
-                <li><a href="../quemSomos/quemsomos.html">Quem somos</a></li>
-                <li><a href="../Contato/contato.html">Contato</a></li>
-                <li><a href="../Cadastro/cadastro.html">Cadastrar Local</a></li>
-                <li><a href="../empresario/empresario.html">Para empresas</a></li>
-                <li><a href="../termodeuso/termodeuso.html">Termo de Uso</a></li>
+                <li><a href="../frontend/quemSomos/quemsomos.html">Quem somos</a></li>
+                <li><a href="../frontend/Contato/contato.html">Contato</a></li>
+                <li><a href="../frontend/Cadastro/cadastro.html">Cadastrar Local</a></li>
+                <li><a href="../frontend/empresario/empresario.html">Para empresas</a></li>
+                <li><a href="../frontend/termodeuso/termodeuso.html">Termo de Uso</a></li>
             </ul>
             </div>
 

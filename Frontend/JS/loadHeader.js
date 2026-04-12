@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
 
-    fetch("/Frontend/header/header.html")
+    fetch("/frontend/header/header.html") // ✅ corrigido
         .then(response => response.text())
         .then(data => {
 
@@ -19,9 +19,7 @@ function carregarHeaderJS() {
 
     const script = document.createElement("script");
 
-    script.src = "../JS/Header.js";
-
-    script.defer = true;
+    script.src = "js/header.js"; // ✅ corrigido
 
     document.body.appendChild(script);
 
