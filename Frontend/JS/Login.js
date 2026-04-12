@@ -136,7 +136,7 @@ if (btnCadastrar) {
 
         e.preventDefault();
 
-        window.parent.location.href = "../cadastro/CadastroUsuario.html";
+        window.parent.location.href = "../cadastro/Cadastro.html";
 
     });
 

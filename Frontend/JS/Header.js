@@ -224,12 +224,12 @@ if (useLocation) {
     // REDIRECIONAMENTOS DO DROPDOWN DE PERFIL
     // ----------------------------------------------------------
     const navMap = {
-        'minha-conta'              : '/Frontend/perfil/perfil.html',
+        'minha-conta'              : '../perfil/perfil.html',
         'favoritos'                : '../favoritos/favoritos.html',
-        'criar-eventos'            : '/Frontend/criareventos/criareventos.html',
-        'cadastrar-estabelecimento': '/Frontend/criareventos/criareventos.html',
-        'dashboard'                : '/Frontend/dashboard/dashboard.html',
-        'contato'                  : '/Frontend/Contato/contato.html',
+        'criar-eventos'            : '../criareventos/criareventos.html',
+        'cadastrar-estabelecimento': '../criareventos/criareventos.html',
+        'dashboard'                : '../dashboard/dashboard.html',
+        'contato'                  : '../Contato/contato.html',
     };
     Object.entries(navMap).forEach(([id, href]) => {
         document.getElementById(id)?.addEventListener('click', (e) => {
@@ -493,7 +493,7 @@ if (useLocation) {
             dispararFiltroDireto(termo);
         } else {
             // Outra página: vai para a home com o filtro salvo
-            window.location.href = '/Frontend/index.html';
+            window.location.href = '../index.html';
         }
     }
 
