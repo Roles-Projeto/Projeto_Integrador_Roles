@@ -141,13 +141,81 @@ function initHeader() {
         });
     });
 
-    useLocation?.addEventListener('click', () => {
-        if (!navigator.geolocation) return;
+   // USAR LOCALIZAÇÃO
+if (useLocation) {
+    useLocation.addEventListener("click", () => {
+
+        if (!navigator.geolocation) {
+            alert("Geolocalização não suportada pelo seu navegador.");
+            return;
+        }
+
+        // Feedback visual enquanto busca
+        if (cityBtn) {
+            cityBtn.innerHTML = `<i class="fas fa-spinner fa-spin"></i> Buscando...`;
+        }
+
         navigator.geolocation.getCurrentPosition(
-            () => selecionarCidade('Minha localização'),
-            () => selecionarCidade('Minha localização')
+            async (position) => {
+                const { latitude, longitude } = position.coords;
+
+                try {
+                    const response = await fetch(
+                        `https://nominatim.openstreetmap.org/reverse?lat=${latitude}&lon=${longitude}&format=json&accept-language=pt-BR`,
+                        {
+                            headers: {
+                                // Nominatim exige um User-Agent identificando sua aplicação
+                                "Accept": "application/json"
+                            }
+                        }
+                    );
+
+                    const data = await response.json();
+
+                    // Pega cidade, município ou estado — o que estiver disponível
+                    const cityName =
+                        data.address?.city ||
+                        data.address?.town ||
+                        data.address?.village ||
+                        data.address?.municipality ||
+                        data.address?.state ||
+                        "Localização atual";
+
+                    if (cityBtn) {
+                        cityBtn.innerHTML = `<i class="fas fa-map-marker-alt"></i> ${cityName}`;
+                    }
+
+                    localStorage.setItem("cidade", cityName);
+                    fecharCard();
+
+                } catch (error) {
+                    console.error("Erro ao buscar cidade:", error);
+
+                    if (cityBtn) {
+                        cityBtn.innerHTML = `<i class="fas fa-map-marker-alt"></i> Minha localização`;
+                    }
+
+                    localStorage.setItem("cidade", "Minha localização");
+                    fecharCard();
+                }
+            },
+            (error) => {
+                // Usuário negou permissão ou ocorreu erro
+                console.warn("Geolocalização negada:", error.message);
+
+                if (cityBtn) {
+                    cityBtn.innerHTML = `<i class="fas fa-map-marker-alt"></i> Localização`;
+                }
+
+                alert("Permita o acesso à localização para usar essa função.");
+            },
+            {
+                timeout: 10000,        // 10 segundos máx.
+                maximumAge: 300000     // Aceita cache de até 5 minutos
+            }
         );
     });
+}
 
     if (cityCard) document.body.appendChild(cityCard);
     if (overlay)  document.body.appendChild(overlay);
