@@ -2,12 +2,16 @@
 
 // ============================================================
 // js/locais.js
-// Filtro em tempo real integrado ao header.js
-// Filtra os .card por nome, local, descrição, tags e categoria
-// Sincronizado com o evento roles:filtrar do header
+// Carrega estabelecimentos fixos (HTML) + dinâmicos (localStorage)
+// Filtra por nome, local, descrição, tags e categoria
 // ============================================================
 
 (function () {
+
+    // ----------------------------------------------------------
+    // CHAVE DO "BANCO" de estabelecimentos
+    // ----------------------------------------------------------
+    const CHAVE_ESTAB = "roles_estabelecimentos";
 
     // ----------------------------------------------------------
     // NORMALIZA (remove acentos, minúsculas)
@@ -21,6 +25,91 @@
     // ----------------------------------------------------------
     let termoAtual     = '';
     let categoriaAtual = 'todos';
+
+    // ----------------------------------------------------------
+    // MONTA O HTML DE UM CARD DINÂMICO (vindo do localStorage)
+    // ----------------------------------------------------------
+    function criarCardDinamico(estab) {
+        // Horário do primeiro dia aberto
+        let horarioDisplay = "Verificar agenda";
+        const diaAberto = estab.horarios?.find(h => h.aberto && h.abertura && h.fechamento);
+        if (diaAberto) {
+            horarioDisplay = `${diaAberto.abertura} – ${diaAberto.fechamento}`;
+        }
+
+        // Imagem de capa ou logo (fallback para placeholder)
+        const imgSrc = estab.imgCapa || estab.imgLogo || "../Imagens/placeholder.png";
+
+        // Categoria para label do badge
+        const categoriaLabel = estab.tipo || estab.categoriaCard || "Local";
+
+        // Endereço resumido
+        const enderecoDisplay = estab.endereco || estab.cidade || "Goiânia";
+
+        // Tags (comodidades, até 3)
+        const tags = (estab.comodidades || []).slice(0, 3);
+        const tagsHTML = tags.length > 0
+            ? tags.map(t => `<span>${t}</span>`).join("")
+            : `<span>${categoriaLabel}</span>`;
+
+        const div = document.createElement("div");
+        div.classList.add("card", "card-dinamico");
+        div.setAttribute("data-categoria-card", estab.categoriaCard || "restaurantes");
+        div.setAttribute("data-estab-id", estab.id);
+
+        div.innerHTML = `
+            <div class="card-img">
+                <img src="${imgSrc}" alt="${estab.nome}" onerror="this.src='../Imagens/placeholder.png'">
+                <span class="categoria">${categoriaLabel}</span>
+                <span class="nota">🆕 Novo</span>
+            </div>
+            <div class="card-content">
+                <h3>${estab.nome} <span class="preco">${estab.faixaPrecoSimbolo || "$"}</span></h3>
+                <p class="local"><i class="fa-solid fa-location-dot"></i> ${enderecoDisplay}</p>
+                <p class="descricao">${estab.descricao ? estab.descricao.substring(0, 100) + (estab.descricao.length > 100 ? "..." : "") : "Novo estabelecimento cadastrado."}</p>
+                <div class="info">
+                    <p><i class="fa-regular fa-clock"></i> ${horarioDisplay}</p>
+                    <p><i class="fa-solid fa-phone"></i> ${estab.telefone || "Não informado"}</p>
+                </div>
+                <div class="tags">${tagsHTML}</div>
+                <div class="footer">
+                    <p class="avaliacoes"><i class="fa-solid fa-star"></i> Novo cadastro</p>
+                    <button class="detalhes">Ver Detalhes</button>
+                </div>
+            </div>
+        `;
+
+        return div;
+    }
+
+    // ----------------------------------------------------------
+    // CARREGA ESTABELECIMENTOS DO localStorage E INJETA NO DOM
+    // ----------------------------------------------------------
+    function carregarEstabelecimentosDinamicos() {
+        const container = document.getElementById("cards-container-locais");
+        if (!container) return;
+
+        // Remove cards dinâmicos antigos (evita duplicar ao recarregar)
+        container.querySelectorAll(".card-dinamico").forEach(c => c.remove());
+
+        let lista = [];
+        try {
+            lista = JSON.parse(localStorage.getItem(CHAVE_ESTAB)) || [];
+        } catch (_) {
+            lista = [];
+        }
+
+        // Filtra só os públicos
+        const publicos = lista.filter(e => e.visibilidade !== "privado");
+
+        publicos.forEach(estab => {
+            const card = criarCardDinamico(estab);
+            container.appendChild(card);
+        });
+
+        // Re-aplica filtro para contar corretamente
+        aplicarFiltro();
+    }
 
     // ----------------------------------------------------------
     // TEXTO PESQUISÁVEL DE CADA CARD
@@ -58,11 +147,9 @@
             }
         });
 
-        // Atualiza contador
         const contadorEl = document.getElementById('contador-locais');
         if (contadorEl) contadorEl.textContent = contador;
 
-        // Mensagem de nenhum resultado
         atualizarMensagemVazia(contador);
     }
 
@@ -70,19 +157,16 @@
     // MENSAGEM "NENHUM RESULTADO"
     // ----------------------------------------------------------
     function atualizarMensagemVazia(total) {
-        const ID  = 'locais-sem-resultado';
-        let msg   = document.getElementById(ID);
+        const ID = 'locais-sem-resultado';
+        let msg  = document.getElementById(ID);
 
-        if (total === 0 && termoAtual !== '') {
+        if (total === 0) {
             if (!msg) {
                 msg = document.createElement('div');
                 msg.id = ID;
                 msg.style.cssText = `
-                    text-align: center;
-                    padding: 50px 20px;
-                    color: #888;
-                    font-family: 'Poppins', sans-serif;
-                    width: 100%;
+                    text-align:center; padding:50px 20px;
+                    color:#888; font-family:'Poppins',sans-serif; width:100%;
                 `;
                 msg.innerHTML = `
                     <i class="fas fa-search" style="font-size:2.5rem;color:#ccc;margin-bottom:16px;display:block;"></i>
@@ -101,7 +185,7 @@
     }
 
     // ----------------------------------------------------------
-    // BUSCAS RECENTES — mesma chave do header
+    // BUSCAS RECENTES
     // ----------------------------------------------------------
     const CHAVE_RECENTES = 'buscasRecentes';
     const MAX_RECENTES   = 5;
@@ -121,17 +205,28 @@
     // COLETA DADOS DO CARD PARA DETALHES
     // ----------------------------------------------------------
     function coletarDadosDoCard(card) {
+        // Se for card dinâmico, pega do localStorage pelo id
+        const estabId = card.getAttribute("data-estab-id");
+        if (estabId) {
+            try {
+                const lista = JSON.parse(localStorage.getItem(CHAVE_ESTAB)) || [];
+                const estab = lista.find(e => String(e.id) === String(estabId));
+                if (estab) return estab;
+            } catch (_) {}
+        }
+
+        // Fallback: coleta do DOM (cards fixos do HTML)
         return {
-            nome      : card.querySelector('h3')?.textContent.replace(/\$+/g, '').trim() || '',
-            local     : card.querySelector('.local')?.textContent.trim()                  || '',
-            descricao : card.querySelector('.descricao')?.textContent.trim()              || '',
-            tags      : card.querySelector('.tags')?.textContent.trim()                   || '',
-            imagem    : card.querySelector('img')?.src                                    || '',
-            categoria : card.getAttribute('data-categoria-card')                          || '',
-            nota      : card.querySelector('.nota')?.textContent.trim()                   || '',
-            horario   : card.querySelector('.info p:first-child')?.textContent.trim()     || '',
-            telefone  : card.querySelector('.info p:last-child')?.textContent.trim()      || '',
-            avaliacoes: card.querySelector('.avaliacoes')?.textContent.trim()             || '',
+            nome      : card.querySelector('h3')?.textContent.replace(/\$+/g,'').trim() || '',
+            local     : card.querySelector('.local')?.textContent.trim()                 || '',
+            descricao : card.querySelector('.descricao')?.textContent.trim()             || '',
+            tags      : card.querySelector('.tags')?.textContent.trim()                  || '',
+            imgCapa   : card.querySelector('img')?.src                                   || '',
+            categoriaCard: card.getAttribute('data-categoria-card')                      || '',
+            nota      : card.querySelector('.nota')?.textContent.trim()                  || '',
+            horarios  : [{ aberto: true, abertura: card.querySelector('.info p:first-child')?.textContent.replace(/[^0-9:–]/g,'').trim() || '' }],
+            telefone  : card.querySelector('.info p:last-child')?.textContent.trim()     || '',
+            avaliacoes: card.querySelector('.avaliacoes')?.textContent.trim()            || '',
         };
     }
 
@@ -142,7 +237,6 @@
         const termo      = e.detail?.termo ?? '';
         const inputLocal = document.getElementById('search-input');
 
-        // Sincroniza o input local com o que veio do header
         if (inputLocal && document.activeElement !== inputLocal) {
             inputLocal.value = termo;
         }
@@ -156,10 +250,13 @@
     // ----------------------------------------------------------
     document.addEventListener('DOMContentLoaded', () => {
 
+        // ---- Carrega estabelecimentos salvos ----
+        carregarEstabelecimentosDinamicos();
+
         // ---- Input local da página ----
         const inputLocal = document.getElementById('search-input');
 
-        // Verifica se veio busca salva do header (redirect de outra página)
+        // Verifica se veio busca salva do header
         const filtrosSalvos = localStorage.getItem('filtrosRoles');
         if (filtrosSalvos) {
             try {
@@ -173,13 +270,11 @@
         }
 
         if (inputLocal) {
-            // Filtra em tempo real enquanto digita
             inputLocal.addEventListener('input', () => {
                 termoAtual = inputLocal.value.trim();
                 aplicarFiltro();
             });
 
-            // Enter salva nos recentes
             inputLocal.addEventListener('keydown', (e) => {
                 if (e.key === 'Enter' && termoAtual.trim()) {
                     salvarRecente(termoAtual.trim());
@@ -203,7 +298,7 @@
             });
         }
 
-        // ---- Clique no botão "Ver Detalhes" ----
+        // ---- Clique em "Ver Detalhes" ----
         const container = document.getElementById('cards-container-locais');
         if (container) {
             container.addEventListener('click', (e) => {
@@ -222,7 +317,7 @@
         // ---- Aplica filtro inicial ----
         aplicarFiltro();
 
-        // ---- Inicializa feather icons ----
+        // ---- Feather icons ----
         if (typeof feather !== 'undefined') feather.replace();
     });
 

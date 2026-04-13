@@ -1,3 +1,5 @@
+"use strict";
+
 // ====================================================
 // VARIÁVEIS GLOBAIS
 // ====================================================
@@ -97,7 +99,6 @@ function salvarRascunho() {
         }
     });
     localStorage.setItem("rascunhoEstabelecimento", JSON.stringify(dados));
-    console.log("Rascunho salvo automaticamente");
 }
 
 setInterval(salvarRascunho, 5000);
@@ -118,7 +119,6 @@ function carregarRascunho() {
             input.value = dados[id];
         }
     });
-    console.log("Rascunho carregado");
 }
 
 window.addEventListener("load", carregarRascunho);
@@ -139,20 +139,19 @@ function mostrarResumo() {
     const responsavel = document.getElementById("owner-name")?.value || "-";
     const descricao = document.getElementById("descricao")?.value || "-";
 
-    // Localização
     const localNome = document.getElementById("local-nome")?.value || "";
     const rua = document.getElementById("rua")?.value || "";
     const numero = document.getElementById("numero")?.value || "";
     const cidade = document.getElementById("cidade")?.value || "";
     const estado = document.getElementById("estado")?.value || "";
     const telefone = document.getElementById("telefone")?.value || "";
+    const bairro = document.getElementById("bairro")?.value || "";
 
     let local = "-";
     if (rua || localNome || cidade) {
         local = `${localNome}<br>${rua}${numero ? ", " + numero : ""}<br>${cidade}${estado ? " - " + estado : ""}`;
     }
 
-    // Horários
     let horariosHTML = "<ul>";
     document.querySelectorAll(".horario-dia-row").forEach(row => {
         const dia = row.dataset.dia;
@@ -168,7 +167,6 @@ function mostrarResumo() {
     });
     horariosHTML += "</ul>";
 
-    // Pratos
     let pratosHTML = "Nenhum prato cadastrado";
     if (listaPratos.length > 0) {
         pratosHTML = "<ul>";
@@ -180,14 +178,10 @@ function mostrarResumo() {
         pratosHTML += "</ul>";
     }
 
-    // Comodidades
     const features = [];
     document.querySelectorAll(".feature-check input:checked").forEach(feat => {
         const label = feat.closest("label");
-        if (label) {
-            const texto = label.innerText.trim();
-            features.push(texto);
-        }
+        if (label) features.push(label.innerText.trim());
     });
     const comodidades = features.length > 0 ? features.join(", ") : "Nenhuma selecionada";
 
@@ -229,15 +223,143 @@ cancelarBtn.addEventListener("click", () => {
 });
 
 // ====================================================
-// CONFIRMAR PUBLICAÇÃO
+// CONFIRMAR PUBLICAÇÃO — SALVA NO "BANCO" (localStorage)
 // ====================================================
 
 confirmarBtn.addEventListener("click", () => {
-    alert("Estabelecimento publicado com sucesso!");
+    // Coleta todos os dados do formulário
+    const nome         = document.getElementById("estab-name")?.value?.trim() || "";
+    const tipo         = document.getElementById("tipo")?.value || "";
+    const especialidade= document.getElementById("especialidade")?.value || "";
+    const faixaPreco   = document.getElementById("faixa-preco")?.value || "";
+    const capacidade   = document.getElementById("capacidade")?.value || "";
+    const descricao    = document.getElementById("descricao")?.value || "";
+    const localNome    = document.getElementById("local-nome")?.value || "";
+    const cep          = document.getElementById("cep")?.value || "";
+    const rua          = document.getElementById("rua")?.value || "";
+    const numero       = document.getElementById("numero")?.value || "";
+    const complemento  = document.getElementById("complemento")?.value || "";
+    const bairro       = document.getElementById("bairro")?.value || "";
+    const cidade       = document.getElementById("cidade")?.value || "";
+    const estado       = document.getElementById("estado")?.value || "";
+    const telefone     = document.getElementById("telefone")?.value || "";
+    const website      = document.getElementById("website")?.value || "";
+    const responsavel  = document.getElementById("owner-name")?.value || "";
+    const cnpj         = document.getElementById("cnpj")?.value || "";
+    const visibilidade = document.querySelector('input[name="visibilidade"]:checked')?.value || "publico";
+
+    // Horários
+    const horarios = [];
+    document.querySelectorAll(".horario-dia-row").forEach(row => {
+        const dia       = row.dataset.dia;
+        const check     = row.querySelector(".dia-check");
+        const abertura  = row.querySelector(".hora-abertura")?.value || "";
+        const fechamento= row.querySelector(".hora-fechamento")?.value || "";
+        horarios.push({
+            dia,
+            aberto: check?.checked || false,
+            abertura,
+            fechamento
+        });
+    });
+
+    // Comodidades
+    const comodidades = [];
+    document.querySelectorAll(".feature-check input:checked").forEach(feat => {
+        const label = feat.closest("label");
+        if (label) comodidades.push(label.innerText.trim());
+    });
+
+    // Imagens (base64 guardadas no preview)
+    const imgLogo = document.querySelector("#drop-zone-logo img")?.src || "";
+    const imgCapa = document.querySelector("#drop-zone-capa img")?.src || "";
+
+    // Mapeia faixa de preço para símbolo $
+    const mapaPreco = {
+        "economico": "$",
+        "moderado": "$$",
+        "sofisticado": "$$$",
+        "luxo": "$$$$"
+    };
+
+    // Monta objeto do estabelecimento
+    const estabelecimento = {
+        id          : Date.now(),                          // ID único
+        nome,
+        tipo,
+        especialidade,
+        faixaPreco,
+        faixaPrecoSimbolo: mapaPreco[faixaPreco] || "$",
+        capacidade,
+        descricao,
+        localNome,
+        cep, rua, numero, complemento,
+        bairro, cidade, estado,
+        endereco    : `${bairro ? bairro + ", " : ""}${cidade}${estado ? " - " + estado : ""}`,
+        telefone,
+        website,
+        responsavel,
+        cnpj,
+        visibilidade,
+        horarios,
+        comodidades,
+        pratos      : [...listaPratos],
+        imgLogo,
+        imgCapa,
+        nota        : "Novo",                             // Sem avaliações ainda
+        avaliacoes  : 0,
+        criadoEm    : new Date().toISOString(),
+
+        // Campo usado pelo filtro de categoria na página locais.js
+        // Mapeia tipo do formulário → categoria do card
+        categoriaCard: mapearCategoria(tipo)
+    };
+
+    // ---- Salva na "tabela" de estabelecimentos ----
+    const CHAVE = "roles_estabelecimentos";
+    let lista = [];
+    try {
+        lista = JSON.parse(localStorage.getItem(CHAVE)) || [];
+    } catch (_) {
+        lista = [];
+    }
+    lista.push(estabelecimento);
+    localStorage.setItem(CHAVE, JSON.stringify(lista));
+
+    // Limpa rascunho
     localStorage.removeItem("rascunhoEstabelecimento");
     modal.style.display = "none";
     stepNavigation.style.display = "flex";
+
+    // Feedback e redireciona para locais
+    alert(`✅ "${nome}" publicado com sucesso! Ele já aparece na página de Locais.`);
+    window.location.href = "../locais/locais.html";
 });
+
+// ====================================================
+// MAPEIA TIPO DO FORM → CATEGORIA DO CARD (locais.js)
+// ====================================================
+
+function mapearCategoria(tipo) {
+    const mapa = {
+        "Restaurante"             : "restaurantes",
+        "Bar e Boteco"            : "bares",
+        "Café e Cafeteria"        : "bares",
+        "Lanchonete e Fast Food"  : "restaurantes",
+        "Pizzaria"                : "restaurantes",
+        "Churrascaria"            : "restaurantes",
+        "Doceria e Confeitaria"   : "restaurantes",
+        "Padaria"                 : "restaurantes",
+        "Sorveteria"              : "restaurantes",
+        "Sushi e Japonês"         : "restaurantes",
+        "Food Truck"              : "restaurantes",
+        "Bistrô"                  : "restaurantes",
+        "Pub"                     : "bares",
+        "Enoteca"                 : "bares",
+        "Hamburgueria"            : "restaurantes",
+    };
+    return mapa[tipo] || "restaurantes";
+}
 
 // ====================================================
 // INICIALIZAÇÃO
@@ -246,7 +368,7 @@ confirmarBtn.addEventListener("click", () => {
 showStep(currentStep);
 
 // ====================================================
-// ESPECIALIDADES POR TIPO DE ESTABELECIMENTO
+// ESPECIALIDADES POR TIPO
 // ====================================================
 
 const especialidadesPorTipo = {
@@ -280,7 +402,7 @@ tipoSelect.addEventListener("change", () => {
 });
 
 // ====================================================
-// CONTADOR DE CARACTERES - NOME DO ESTABELECIMENTO
+// CONTADOR DE CARACTERES
 // ====================================================
 
 const estabNameInput = document.getElementById("estab-name");
@@ -288,13 +410,12 @@ const charsSpan = document.getElementById("chars");
 
 if (estabNameInput && charsSpan) {
     estabNameInput.addEventListener("input", () => {
-        const restantes = 100 - estabNameInput.value.length;
-        charsSpan.textContent = restantes;
+        charsSpan.textContent = 100 - estabNameInput.value.length;
     });
 }
 
 // ====================================================
-// MÁSCARA DE TELEFONE
+// MÁSCARA TELEFONE
 // ====================================================
 
 const telefoneInput = document.getElementById("telefone");
@@ -302,19 +423,15 @@ if (telefoneInput) {
     telefoneInput.addEventListener("input", () => {
         let v = telefoneInput.value.replace(/\D/g, "");
         if (v.length > 11) v = v.slice(0, 11);
-        if (v.length > 6) {
-            v = `(${v.slice(0, 2)}) ${v.slice(2, 7)}-${v.slice(7)}`;
-        } else if (v.length > 2) {
-            v = `(${v.slice(0, 2)}) ${v.slice(2)}`;
-        } else if (v.length > 0) {
-            v = `(${v}`;
-        }
+        if (v.length > 6)      v = `(${v.slice(0,2)}) ${v.slice(2,7)}-${v.slice(7)}`;
+        else if (v.length > 2) v = `(${v.slice(0,2)}) ${v.slice(2)}`;
+        else if (v.length > 0) v = `(${v}`;
         telefoneInput.value = v;
     });
 }
 
 // ====================================================
-// MÁSCARA DE CNPJ
+// MÁSCARA CNPJ
 // ====================================================
 
 const cnpjInput = document.getElementById("cnpj");
@@ -322,16 +439,16 @@ if (cnpjInput) {
     cnpjInput.addEventListener("input", () => {
         let v = cnpjInput.value.replace(/\D/g, "");
         if (v.length > 14) v = v.slice(0, 14);
-        v = v.replace(/^(\d{2})(\d)/, "$1.$2");
+        v = v.replace(/^(\d{2})(\d)/,         "$1.$2");
         v = v.replace(/^(\d{2})\.(\d{3})(\d)/, "$1.$2.$3");
-        v = v.replace(/\.(\d{3})(\d)/, ".$1/$2");
-        v = v.replace(/(\d{4})(\d)/, "$1-$2");
+        v = v.replace(/\.(\d{3})(\d)/,         ".$1/$2");
+        v = v.replace(/(\d{4})(\d)/,           "$1-$2");
         cnpjInput.value = v;
     });
 }
 
 // ====================================================
-// HORÁRIO DE FUNCIONAMENTO — TOGGLE DIA
+// HORÁRIO — TOGGLE DIA
 // ====================================================
 
 document.querySelectorAll(".dia-check").forEach(check => {
@@ -360,7 +477,7 @@ document.querySelectorAll(".dia-check").forEach(check => {
 });
 
 // ====================================================
-// UPLOAD DE LOGO
+// UPLOAD LOGO
 // ====================================================
 
 const dropZoneLogo = document.getElementById("drop-zone-logo");
@@ -371,28 +488,13 @@ fileInputLogo.style.display = "none";
 document.body.appendChild(fileInputLogo);
 
 dropZoneLogo.addEventListener("click", () => fileInputLogo.click());
-
-fileInputLogo.addEventListener("change", (e) => {
-    processarImagem(e.target.files[0], dropZoneLogo);
-});
-
-dropZoneLogo.addEventListener("dragover", (e) => {
-    e.preventDefault();
-    dropZoneLogo.style.borderColor = "#7c3aed";
-});
-
-dropZoneLogo.addEventListener("dragleave", () => {
-    dropZoneLogo.style.borderColor = "";
-});
-
-dropZoneLogo.addEventListener("drop", (e) => {
-    e.preventDefault();
-    dropZoneLogo.style.borderColor = "";
-    processarImagem(e.dataTransfer.files[0], dropZoneLogo);
-});
+fileInputLogo.addEventListener("change", (e) => processarImagem(e.target.files[0], dropZoneLogo));
+dropZoneLogo.addEventListener("dragover", (e) => { e.preventDefault(); dropZoneLogo.style.borderColor = "#7c3aed"; });
+dropZoneLogo.addEventListener("dragleave", () => { dropZoneLogo.style.borderColor = ""; });
+dropZoneLogo.addEventListener("drop", (e) => { e.preventDefault(); dropZoneLogo.style.borderColor = ""; processarImagem(e.dataTransfer.files[0], dropZoneLogo); });
 
 // ====================================================
-// UPLOAD DE CAPA
+// UPLOAD CAPA
 // ====================================================
 
 const dropZoneCapa = document.getElementById("drop-zone-capa");
@@ -403,105 +505,59 @@ fileInputCapa.style.display = "none";
 document.body.appendChild(fileInputCapa);
 
 dropZoneCapa.addEventListener("click", () => fileInputCapa.click());
-
-fileInputCapa.addEventListener("change", (e) => {
-    processarImagem(e.target.files[0], dropZoneCapa);
-});
-
-dropZoneCapa.addEventListener("dragover", (e) => {
-    e.preventDefault();
-    dropZoneCapa.style.borderColor = "#7c3aed";
-});
-
-dropZoneCapa.addEventListener("dragleave", () => {
-    dropZoneCapa.style.borderColor = "";
-});
-
-dropZoneCapa.addEventListener("drop", (e) => {
-    e.preventDefault();
-    dropZoneCapa.style.borderColor = "";
-    processarImagem(e.dataTransfer.files[0], dropZoneCapa);
-});
+fileInputCapa.addEventListener("change", (e) => processarImagem(e.target.files[0], dropZoneCapa));
+dropZoneCapa.addEventListener("dragover", (e) => { e.preventDefault(); dropZoneCapa.style.borderColor = "#7c3aed"; });
+dropZoneCapa.addEventListener("dragleave", () => { dropZoneCapa.style.borderColor = ""; });
+dropZoneCapa.addEventListener("drop", (e) => { e.preventDefault(); dropZoneCapa.style.borderColor = ""; processarImagem(e.dataTransfer.files[0], dropZoneCapa); });
 
 // ====================================================
-// PROCESSAR IMAGEM (LOGO E CAPA)
+// PROCESSAR IMAGEM
 // ====================================================
 
 function processarImagem(file, dropZone) {
     if (!file) return;
     const tiposPermitidos = ["image/jpeg", "image/png", "image/gif"];
-    if (!tiposPermitidos.includes(file.type)) {
-        alert("Formato inválido. Use JPEG, PNG ou GIF.");
-        return;
-    }
-    if (file.size > 2 * 1024 * 1024) {
-        alert("Imagem muito grande. Máximo 2MB.");
-        return;
-    }
-    mostrarPreview(file, dropZone);
-}
-
-function mostrarPreview(file, dropZone) {
+    if (!tiposPermitidos.includes(file.type)) { alert("Formato inválido. Use JPEG, PNG ou GIF."); return; }
+    if (file.size > 2 * 1024 * 1024) { alert("Imagem muito grande. Máximo 2MB."); return; }
     const reader = new FileReader();
-    reader.onload = function (e) {
-        dropZone.innerHTML = `
-            <img src="${e.target.result}"
-                 style="width:100%;height:100%;object-fit:cover;border-radius:4px;">
-        `;
+    reader.onload = (e) => {
+        dropZone.innerHTML = `<img src="${e.target.result}" style="width:100%;height:100%;object-fit:cover;border-radius:4px;">`;
     };
     reader.readAsDataURL(file);
 }
 
 // ====================================================
-// BUSCA DE CEP
+// CEP
 // ====================================================
 
-const cepInput = document.getElementById("cep");
-const ruaInput = document.getElementById("rua");
+const cepInput    = document.getElementById("cep");
+const ruaInput    = document.getElementById("rua");
 const cidadeInput = document.getElementById("cidade");
 const estadoInput = document.getElementById("estado");
 const bairroInput = document.getElementById("bairro");
 
 if (cepInput) {
     cepInput.addEventListener("input", () => {
-        let valor = cepInput.value.replace(/\D/g, "");
-        if (valor.length > 5) {
-            valor = valor.slice(0, 5) + "-" + valor.slice(5, 8);
-        }
-        cepInput.value = valor;
+        let v = cepInput.value.replace(/\D/g, "");
+        if (v.length > 5) v = v.slice(0, 5) + "-" + v.slice(5, 8);
+        cepInput.value = v;
     });
 
     cepInput.addEventListener("blur", async () => {
         const cep = cepInput.value.replace(/\D/g, "");
         if (cep.length !== 8) return;
         try {
-            const response = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
-            const data = await response.json();
-            if (data.erro) {
-                alert("CEP não encontrado");
-                limparEndereco();
-                return;
-            }
-            preencherEndereco(data);
-        } catch (error) {
+            const res = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
+            const data = await res.json();
+            if (data.erro) { alert("CEP não encontrado"); return; }
+            if (ruaInput)    ruaInput.value    = data.logradouro || "";
+            if (cidadeInput) cidadeInput.value = data.localidade || "";
+            if (estadoInput) estadoInput.value = data.uf         || "";
+            if (bairroInput) bairroInput.value = data.bairro     || "";
+        } catch (e) {
             alert("Erro ao buscar CEP");
-            console.error(error);
         }
     });
-}
-
-function preencherEndereco(data) {
-    if (ruaInput) ruaInput.value = data.logradouro || "";
-    if (cidadeInput) cidadeInput.value = data.localidade || "";
-    if (estadoInput) estadoInput.value = data.uf || "";
-    if (bairroInput) bairroInput.value = data.bairro || "";
-}
-
-function limparEndereco() {
-    if (ruaInput) ruaInput.value = "";
-    if (cidadeInput) cidadeInput.value = "";
-    if (estadoInput) estadoInput.value = "";
-    if (bairroInput) bairroInput.value = "";
 }
 
 // ====================================================
@@ -509,26 +565,19 @@ function limparEndereco() {
 // ====================================================
 
 const ticketConfigCard = document.querySelector(".ticket-config-card");
-const listaContainer = document.querySelector(".lista-pratos");
-const listaPratos = [];
+const listaContainer   = document.querySelector(".lista-pratos");
+const listaPratos      = [];
 let pratoEditandoIndex = null;
 
-// Botões "Adicionar prato destaque" e "Adicionar promoção"
 document.querySelectorAll(".btn-ticket-action").forEach(btn => {
     btn.addEventListener("click", () => {
         const tipo = btn.dataset.tipo;
-
         const existente = ticketConfigCard.querySelector(".ticket-item");
         if (existente) existente.remove();
-
         ticketConfigCard.style.display = "flex";
         criarFormPrato(tipo);
     });
 });
-
-// ====================================================
-// CRIAR FORMULÁRIO DE PRATO (DESTAQUE OU PROMOÇÃO)
-// ====================================================
 
 function criarFormPrato(tipo) {
     const ticketItem = document.createElement("div");
@@ -536,8 +585,7 @@ function criarFormPrato(tipo) {
     ticketItem.dataset.tipo = tipo;
 
     const tituloForm = tipo === "destaque" ? "⭐ Adicionar prato destaque" : "🏷️ Adicionar promoção";
-
-    const descForm = tipo === "destaque"
+    const descForm   = tipo === "destaque"
         ? `<p>Destaque os pratos mais populares ou especiais do seu estabelecimento.</p>`
         : `<p>Cadastre uma promoção especial — combo, desconto, happy hour, etc.</p>`;
 
@@ -547,9 +595,9 @@ function criarFormPrato(tipo) {
         <label>Preço promocional (R$)</label>
         <input type="number" step="0.01" placeholder="0,00" class="preco-promo">
         <label>Período da promoção</label>
-        <div style="display:flex; gap:12px; flex-wrap:wrap;">
-            <input type="datetime-local" class="promo-inicio" style="flex:1; min-width:180px;">
-            <input type="datetime-local" class="promo-fim" style="flex:1; min-width:180px;">
+        <div style="display:flex;gap:12px;flex-wrap:wrap;">
+            <input type="datetime-local" class="promo-inicio" style="flex:1;min-width:180px;">
+            <input type="datetime-local" class="promo-fim" style="flex:1;min-width:180px;">
         </div>
     ` : `
         <label>Preço (R$)</label>
@@ -558,61 +606,40 @@ function criarFormPrato(tipo) {
 
     ticketItem.innerHTML = `
         <button class="remove-ticket" type="button">
-            <img src="/frontend/imagens/fechar.png" alt="Fechar" style="width: 16px; height: 16px;">
+            <img src="/frontend/imagens/fechar.png" alt="Fechar" style="width:16px;height:16px;">
         </button>
-
         <h4>${tituloForm}</h4>
         ${descForm}
-
         <label>Nome do prato / item <span style="color:red">*</span></label>
-        <input type="text" class="titulo-prato" maxlength="60"
-               placeholder="Ex: Risoto de camarão, Combo família, etc.">
-
+        <input type="text" class="titulo-prato" maxlength="60" placeholder="Ex: Risoto de camarão, Combo família...">
         <label>Categoria</label>
         <select class="categoria-prato">
             <option value="">Selecione uma categoria</option>
-            <option>Entrada</option>
-            <option>Prato Principal</option>
-            <option>Acompanhamento</option>
-            <option>Sobremesa</option>
-            <option>Bebida</option>
-            <option>Petisco</option>
-            <option>Combo / Promoção</option>
-            <option>Vegano / Vegetariano</option>
-            <option>Sem glúten</option>
-            <option>Especial do dia</option>
+            <option>Entrada</option><option>Prato Principal</option>
+            <option>Acompanhamento</option><option>Sobremesa</option>
+            <option>Bebida</option><option>Petisco</option>
+            <option>Combo / Promoção</option><option>Vegano / Vegetariano</option>
+            <option>Sem glúten</option><option>Especial do dia</option>
         </select>
-
         ${camposPromocao}
-
         <label>Descrição do prato (opcional)</label>
-        <textarea class="descricao-prato" maxlength="150"
-                  placeholder="Ingredientes, modo de preparo, diferenciais..."></textarea>
-
+        <textarea class="descricao-prato" maxlength="150" placeholder="Ingredientes, modo de preparo..."></textarea>
         <div class="ticket-actions">
             <button class="btnSalvarPrato btn-primary" type="button">Salvar prato</button>
         </div>
     `;
 
-    // --- Botão Remover (X) ---
     ticketItem.querySelector(".remove-ticket").addEventListener("click", () => {
         ticketItem.remove();
         pratoEditandoIndex = null;
-        if (listaPratos.length === 0) {
-            ticketConfigCard.style.display = "none";
-        }
+        if (listaPratos.length === 0) ticketConfigCard.style.display = "none";
     });
 
-    // --- Botão Salvar prato ---
     ticketItem.querySelector(".btnSalvarPrato").addEventListener("click", () => {
         const titulo = ticketItem.querySelector(".titulo-prato").value.trim();
-        if (!titulo) {
-            alert("Informe o nome do prato.");
-            return;
-        }
+        if (!titulo) { alert("Informe o nome do prato."); return; }
 
         const categoria = ticketItem.querySelector(".categoria-prato").value || "-";
-
         let preco = "";
         if (tipo === "destaque") {
             preco = ticketItem.querySelector(".preco-destaque")?.value || "";
@@ -623,7 +650,6 @@ function criarFormPrato(tipo) {
         }
 
         const prato = { titulo, categoria, preco, tipo };
-
         if (pratoEditandoIndex !== null) {
             listaPratos[pratoEditandoIndex] = prato;
             pratoEditandoIndex = null;
@@ -638,30 +664,20 @@ function criarFormPrato(tipo) {
     ticketConfigCard.insertBefore(ticketItem, listaContainer);
 }
 
-// ====================================================
-// RENDERIZAR LISTA DE PRATOS SALVOS
-// ====================================================
-
 function renderizarPratos() {
     listaContainer.innerHTML = "";
-
     if (listaPratos.length === 0) {
-        if (!ticketConfigCard.querySelector(".ticket-item")) {
-            ticketConfigCard.style.display = "none";
-        }
+        if (!ticketConfigCard.querySelector(".ticket-item")) ticketConfigCard.style.display = "none";
         return;
     }
 
     listaContainer.innerHTML = "<h3>Pratos cadastrados</h3>";
-
     listaPratos.forEach((prato, index) => {
         const item = document.createElement("div");
         item.classList.add("prato-resumo");
-
         const valorDisplay = prato.preco ? `R$ ${prato.preco}` : "Sem preço";
-        const badgeClass = prato.tipo === "destaque" ? "badge-destaque" : "badge-promocao";
-        const badgeLabel = prato.tipo === "destaque" ? "⭐ Destaque" : "🏷️ Promoção";
-
+        const badgeClass   = prato.tipo === "destaque" ? "badge-destaque" : "badge-promocao";
+        const badgeLabel   = prato.tipo === "destaque" ? "⭐ Destaque" : "🏷️ Promoção";
         item.innerHTML = `
             <div>
                 <strong>${prato.titulo}</strong>
@@ -673,31 +689,21 @@ function renderizarPratos() {
                 <button class="btn-excluir" onclick="excluirPrato(${index})">Excluir</button>
             </div>
         `;
-
         listaContainer.appendChild(item);
     });
-
     ticketConfigCard.style.display = "flex";
 }
-
-// ====================================================
-// EDITAR PRATO
-// ====================================================
 
 function editarPrato(index) {
     pratoEditandoIndex = index;
     const prato = listaPratos[index];
-
     const existente = ticketConfigCard.querySelector(".ticket-item");
     if (existente) existente.remove();
-
     ticketConfigCard.style.display = "flex";
     criarFormPrato(prato.tipo);
-
     const form = ticketConfigCard.querySelector(".ticket-item");
-    form.querySelector(".titulo-prato").value = prato.titulo;
+    form.querySelector(".titulo-prato").value    = prato.titulo;
     form.querySelector(".categoria-prato").value = prato.categoria !== "-" ? prato.categoria : "";
-
     if (prato.tipo === "destaque") {
         const precoField = form.querySelector(".preco-destaque");
         if (precoField && prato.preco) precoField.value = prato.preco;
@@ -706,10 +712,6 @@ function editarPrato(index) {
         if (precoPromo && prato.preco) precoPromo.value = prato.preco;
     }
 }
-
-// ====================================================
-// EXCLUIR PRATO
-// ====================================================
 
 function excluirPrato(index) {
     listaPratos.splice(index, 1);
