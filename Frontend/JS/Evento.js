@@ -71,9 +71,9 @@ const imagemSrc = evento.imagem || evento.imagem_url || "../imagens/jazz.png";
         <div class="card-footer">
           <span class="preco">${preco}</span>
           <div class="acoes">
-            <a href="../verDetalhesEventos/detalhesEventos.html?id=${evento.id}"
+            <a href="../detalheseventos/detalhesevento.html?id=${evento.id}"
                class="btn-detalhes" role="button">Mais Detalhes</a>
-            <a href="../verDetalhesEventos/presencaConfirmada.html"
+            <a href="../detalheseventos/presencaconfirmada.html"
                class="btn-confirmar" role="button">Confirmar Presença</a>
           </div>
         </div>
