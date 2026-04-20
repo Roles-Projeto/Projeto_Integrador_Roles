@@ -28,8 +28,8 @@ exports.criarEvento = (req, res) => {
     if (!ingressos || ingressos.length === 0)
       return res.status(201).json({ mensagem: "Evento criado com sucesso!", eventoId });
 
-    const sqlIng = `INSERT INTO ingressos (evento_id, titulo, tipo, valor, quantidade) VALUES ?`;
-    const vals = ingressos.map(i => [eventoId, i.titulo, i.tipo, i.tipo==="pago" ? parseFloat(i.valor)||0 : 0, parseInt(i.quantidade)||0]);
+    const sqlIng = `INSERT INTO ingressos (evento_id, titulo, tipo, valor, quantidade_total) VALUES ?`;
+    const vals = ingressos.map(i => [eventoId, i.titulo, i.tipo, i.tipo==="pago" ? parseFloat(i.valor)||0 : 0, parseInt(i.quantidade_total)||1]);
 
     connection.query(sqlIng, [vals], (errIng) => {
       if (errIng) return res.status(500).json({ erro: "Evento salvo, mas erro ao salvar ingressos.", detalhes: errIng.message });

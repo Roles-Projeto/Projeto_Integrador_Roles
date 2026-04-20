@@ -78,8 +78,8 @@ function validarEtapa(index) {
     if (index === 2) {
         const dataInicio = document.getElementById("start-date")?.value;
         const horaInicio = document.getElementById("start-time")?.value;
-        const dataFim    = document.getElementById("end-date")?.value;
-        const horaFim    = document.getElementById("end-time")?.value;
+        const dataFim = document.getElementById("end-date")?.value;
+        const horaFim = document.getElementById("end-time")?.value;
 
         if (!dataInicio || !horaInicio) {
             alert("Informe a data e hora de início.");
@@ -91,8 +91,8 @@ function validarEtapa(index) {
         }
 
         const inicio = new Date(`${dataInicio}T${horaInicio}`);
-        const fim    = new Date(`${dataFim}T${horaFim}`);
-        const agora  = new Date();
+        const fim = new Date(`${dataFim}T${horaFim}`);
+        const agora = new Date();
 
         if (inicio < agora) {
             alert("A data de início não pode ser no passado.");
@@ -107,7 +107,7 @@ function validarEtapa(index) {
     // Etapa 7 — Nome do produtor e termos
     if (index === 6) {
         const produtor = document.getElementById("producer-name")?.value?.trim();
-        const termos   = document.getElementById("terms")?.checked;
+        const termos = document.getElementById("terms")?.checked;
 
         if (!produtor) {
             alert("Informe o nome do produtor.");
@@ -191,16 +191,16 @@ const stepNavigation = document.querySelector(".step-navigation");
 function mostrarResumo() {
     stepNavigation.style.display = "none";
 
-    const nome      = document.getElementById("event-name")?.value || "-";
-    const produtor  = document.getElementById("producer-name")?.value || "-";
+    const nome = document.getElementById("event-name")?.value || "-";
+    const produtor = document.getElementById("producer-name")?.value || "-";
     const dataInicio = document.getElementById("start-date")?.value || "-";
     const horaInicio = document.getElementById("start-time")?.value || "-";
-    const dataFim    = document.getElementById("end-date")?.value || "-";
-    const horaFim    = document.getElementById("end-time")?.value || "-";
-    const nomeLocal  = document.getElementById("local-nome")?.value || "";
-    const rua        = document.getElementById("rua")?.value || "";
-    const cidade     = document.getElementById("cidade")?.value || "";
-    const estado     = document.getElementById("estado")?.value || "";
+    const dataFim = document.getElementById("end-date")?.value || "-";
+    const horaFim = document.getElementById("end-time")?.value || "-";
+    const nomeLocal = document.getElementById("local-nome")?.value || "";
+    const rua = document.getElementById("rua")?.value || "";
+    const cidade = document.getElementById("cidade")?.value || "";
+    const estado = document.getElementById("estado")?.value || "";
 
     let local = "-";
     if (nomeLocal || rua || cidade) {
@@ -248,8 +248,8 @@ cancelarBtn.addEventListener("click", () => {
 confirmarBtn.addEventListener("click", async () => {
     const dataInicio = document.getElementById("start-date")?.value;
     const horaInicio = document.getElementById("start-time")?.value;
-    const dataFim    = document.getElementById("end-date")?.value;
-    const horaFim    = document.getElementById("end-time")?.value;
+    const dataFim = document.getElementById("end-date")?.value;
+    const horaFim = document.getElementById("end-time")?.value;
 
     // Converte imagem para base64
     let imagemBase64 = null;
@@ -262,34 +262,39 @@ confirmarBtn.addEventListener("click", async () => {
     }
 
     const evento = {
-        nome:          document.getElementById("event-name")?.value?.trim(),
-        assunto:       document.getElementById("assunto")?.value,
-        categoria:     document.getElementById("categoria")?.value,
-        imagem:        imagemBase64,
-        data_inicio:   dataInicio && horaInicio ? `${dataInicio} ${horaInicio}:00` : null,
-        data_fim:      dataFim    && horaFim    ? `${dataFim} ${horaFim}:00`       : null,
-        descricao:     document.getElementById("descricao")?.value?.trim(),
-        local_nome:    document.getElementById("local-nome")?.value?.trim(),
-        cep:           document.getElementById("cep")?.value?.trim(),
-        rua:           document.getElementById("rua")?.value?.trim(),
-        cidade:        document.getElementById("cidade")?.value?.trim(),
-        estado:        document.getElementById("estado")?.value?.trim(),
+        nome: document.getElementById("event-name")?.value?.trim(),
+        assunto: document.getElementById("assunto")?.value,
+        categoria: document.getElementById("categoria")?.value,
+        imagem: imagemBase64,
+        data_inicio: dataInicio && horaInicio ? `${dataInicio} ${horaInicio}:00` : null,
+        data_fim: dataFim && horaFim ? `${dataFim} ${horaFim}:00` : null,
+        descricao: document.getElementById("descricao")?.value?.trim(),
+        local_nome: document.getElementById("local-nome")?.value?.trim(),
+        cep: document.getElementById("cep")?.value?.trim(),
+        rua: document.getElementById("rua")?.value?.trim(),
+        cidade: document.getElementById("cidade")?.value?.trim(),
+        estado: document.getElementById("estado")?.value?.trim(),
         nome_produtor: document.getElementById("producer-name")?.value?.trim(),
-        ingressos:     listaIngressos,
+        ingressos: listaIngressos,
     };
+
 
     confirmarBtn.disabled = true;
     confirmarBtn.textContent = "Publicando...";
 
     try {
         const response = await fetch(API_URL, {
-            method:  "POST",
+            method: "POST",
             headers: { "Content-Type": "application/json" },
-            body:    JSON.stringify(evento),
+            body: JSON.stringify(evento),
         });
 
         const data = await response.json();
-        if (!response.ok) throw new Error(data.erro || "Erro ao publicar evento.");
+
+        if (!response.ok) {
+            console.error("DETALHES DO ERRO:", data);
+            throw new Error(data.erro + " | " + (data.detalhes || ""));
+        }
 
         alert("✅ Evento publicado com sucesso!");
         localStorage.removeItem("rascunhoEvento");
@@ -300,7 +305,7 @@ confirmarBtn.addEventListener("click", async () => {
         }, 500);
 
     } catch (err) {
-        console.error(err);
+        console.error("ERRO COMPLETO:", err);
         alert("❌ Erro ao publicar: " + err.message);
     } finally {
         confirmarBtn.disabled = false;
@@ -317,21 +322,21 @@ showStep(currentStep);
 // CATEGORIAS POR ASSUNTO
 // ====================================================
 const categoriasPorAssunto = {
-    "Festa e Balada":        ["Aniversário", "Formatura", "Open Bar", "Festa Universitária", "Baile", "After", "Happy Hour"],
-    "Shows e Música":        ["Sertanejo", "Funk", "Pagode", "Rock", "Eletrônica", "Rap / Trap", "DJ"],
-    "Gastronomia":           ["Festival gastronômico", "Rodízio", "Degustação", "Churrasco", "Food Truck"],
-    "Esportes":              ["Futebol", "Corrida", "Treino funcional", "Campeonato", "Torneio"],
-    "Cultura e Arte":        ["Teatro", "Cinema", "Exposição", "Stand-up", "Dança"],
-    "Cursos e Workshops":    ["Curso", "Workshop", "Palestra", "Oficina", "Mentoria"],
-    "Infantil e Família":    ["Festa infantil", "Parque", "Teatro infantil", "Brincadeiras"],
-    "Tecnologia":            ["Hackathon", "Meetup", "Conferência", "Workshop Tech"],
+    "Festa e Balada": ["Aniversário", "Formatura", "Open Bar", "Festa Universitária", "Baile", "After", "Happy Hour",],
+    "Shows e Música": ["Sertanejo", "Funk", "Pagode", "Rock", "Eletrônica", "Rap / Trap", "DJ", "K-pop"],
+    "Gastronomia": ["Festival gastronômico", "Rodízio", "Degustação", "Churrasco", "Food Truck"],
+    "Esportes": ["Futebol", "Corrida", "Treino funcional", "Campeonato", "Torneio"],
+    "Cultura e Arte": ["Teatro", "Cinema", "Exposição", "Stand-up", "Dança"],
+    "Cursos e Workshops": ["Curso", "Workshop", "Palestra", "Oficina", "Mentoria"],
+    "Infantil e Família": ["Festa infantil", "Parque", "Teatro infantil", "Brincadeiras"],
+    "Tecnologia": ["Hackathon", "Meetup", "Conferência", "Workshop Tech"],
     "Religião e Espiritualidade": ["Culto", "Retiro", "Congresso", "Meditação"],
     "Networking e Negócios": ["Networking", "Palestra", "Summit", "Feira"],
-    "Saúde e Bem-estar":     ["Yoga", "Meditação", "Corrida", "Palestra de saúde"],
-    "Festivais":             ["Festival de música", "Festival gastronômico", "Festival cultural"],
+    "Saúde e Bem-estar": ["Yoga", "Meditação", "Corrida", "Palestra de saúde"],
+    "Festivais": ["Festival de música", "Festival gastronômico", "Festival cultural"],
 };
 
-const assuntoSelect  = document.getElementById("assunto");
+const assuntoSelect = document.getElementById("assunto");
 const categoriaSelect = document.getElementById("categoria");
 
 assuntoSelect.addEventListener("change", () => {
@@ -408,8 +413,8 @@ function processarImagem(file) {
 // ====================================================
 // BUSCA DE CEP
 // ====================================================
-const cepInput    = document.getElementById("cep");
-const ruaInput    = document.getElementById("rua");
+const cepInput = document.getElementById("cep");
+const ruaInput = document.getElementById("rua");
 const cidadeInput = document.getElementById("cidade");
 const estadoInput = document.getElementById("estado");
 
@@ -426,7 +431,7 @@ cepInput.addEventListener("blur", async () => {
         const response = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
         const data = await response.json();
         if (data.erro) { alert("CEP não encontrado"); limparEndereco(); return; }
-        ruaInput.value    = data.logradouro || "";
+        ruaInput.value = data.logradouro || "";
         cidadeInput.value = data.localidade || "";
         estadoInput.value = data.uf || "";
     } catch (error) {
@@ -444,8 +449,8 @@ function limparEndereco() {
 // INGRESSOS
 // ====================================================
 const ticketConfigCard = document.querySelector(".ticket-config-card");
-const listaContainer   = document.querySelector(".lista-ingressos");
-const listaIngressos   = [];
+const listaContainer = document.querySelector(".lista-ingressos");
+const listaIngressos = [];
 let ingressoEditandoIndex = null;
 
 document.querySelectorAll(".btn-ticket-action").forEach(btn => {
@@ -464,7 +469,7 @@ function criarFormIngresso(tipo) {
     ticketItem.dataset.tipo = tipo;
 
     const tituloForm = tipo === "pago" ? "Criar ingresso pago" : "Criar ingresso gratuito";
-    const descTaxa   = tipo === "pago"
+    const descTaxa = tipo === "pago"
         ? `<p>A taxa de serviço é repassada ao comprador, sendo exibida junto com o valor do ingresso</p>`
         : `<p>Este ingresso é gratuito. Nenhum valor será cobrado do participante.</p>`;
     const camposValor = tipo === "pago" ? `
@@ -525,7 +530,7 @@ function criarFormIngresso(tipo) {
     `;
 
     if (tipo === "pago") {
-        const valorIngresso    = ticketItem.querySelector(".valor-ingresso");
+        const valorIngresso = ticketItem.querySelector(".valor-ingresso");
         const valorParticipante = ticketItem.querySelector(".valor-participante");
         valorIngresso.addEventListener("input", () => {
             const valor = parseFloat(valorIngresso.value);
@@ -548,22 +553,33 @@ function criarFormIngresso(tipo) {
 
     ticketItem.querySelector(".btnSalvarIngresso").addEventListener("click", () => {
         const titulo = ticketItem.querySelector(".titulo-ingresso").value.trim();
-        if (!titulo) { alert("Informe o título do ingresso."); return; }
+        const quantidade = ticketItem.querySelector(".quantidade-ingresso").value;
 
-        let valor = "Gratuito";
+        if (!titulo) {
+            alert("Informe o título do ingresso.");
+            return;
+        }
+
+        if (!quantidade || quantidade <= 0) {
+            alert("Informe a quantidade.");
+            return;
+        }
+
+        let valor = 0;
+
         if (tipo === "pago") {
-            const valorCampo = ticketItem.querySelector(".valor-ingresso")?.value;
-            valor = valorCampo && valorCampo !== "" ? parseFloat(valorCampo).toFixed(2) : "0.00";
+            const valorCampo = ticketItem.querySelector(".valor-ingresso").value;
+            valor = valorCampo ? parseFloat(valorCampo).toFixed(2) : "0.00";
         }
 
-        const ingresso = { titulo, valor, tipo };
-        if (ingressoEditandoIndex !== null) {
-            listaIngressos[ingressoEditandoIndex] = ingresso;
-            ingressoEditandoIndex = null;
-        } else {
-            listaIngressos.push(ingresso);
-        }
+        const ingresso = {
+            titulo,
+            valor,
+            tipo,
+            quantidade_total: quantidade
+        };
 
+        listaIngressos.push(ingresso);
         renderizarIngressos();
         ticketItem.remove();
     });
@@ -609,9 +625,9 @@ function editarIngresso(index) {
     const form = ticketConfigCard.querySelector(".ticket-item");
     form.querySelector(".titulo-ingresso").value = ingresso.titulo;
     if (ingresso.tipo === "pago") {
-        const valorIngresso    = form.querySelector(".valor-ingresso");
+        const valorIngresso = form.querySelector(".valor-ingresso");
         const valorParticipante = form.querySelector(".valor-participante");
-        valorIngresso.value    = ingresso.valor;
+        valorIngresso.value = ingresso.valor;
         valorParticipante.value = (parseFloat(ingresso.valor) * 1.10).toFixed(2);
     }
 }

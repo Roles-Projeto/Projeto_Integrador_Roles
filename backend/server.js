@@ -23,6 +23,7 @@ app.get("/", (req, res) => {
   res.send("Servidor rodando! 🚀");
 });
 
+
 // Iniciar servidor
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
