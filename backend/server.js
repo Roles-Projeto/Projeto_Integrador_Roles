@@ -11,7 +11,7 @@ app.use(express.json({ limit: "10mb" }));
 app.use(cors());
 
 // 🔥 SERVIR FRONTEND
-app.use(express.static(path.join(__dirname, "../Frontend")));
+app.use(express.static(path.join(__dirname, "../Frontend/index.html")));
 
 // Rotas
 const usuariosRoutes = require("./routes/usuarios");
