@@ -10,13 +10,15 @@ const app = express();
 app.use(express.json({ limit: "10mb" }));
 app.use(cors());
 
-// CAMINHO DO FRONTEND
-const frontendPath = path.join(__dirname, "..", "Frontend");
+// CAMINHO ABSOLUTO DO FRONTEND
+const frontendPath = path.resolve(__dirname, "..", "Frontend");
 
-// SERVIR ARQUIVOS ESTÁTICOS
+console.log("Frontend path:", frontendPath);
+
+// SERVIR ARQUIVOS
 app.use(express.static(frontendPath));
 
-// Rotas
+// ROTAS
 const usuariosRoutes = require("./routes/usuarios");
 const authRoutes = require("./routes/auth");
 const eventosRoutes = require("./routes/eventos");
@@ -25,12 +27,12 @@ app.use("/usuarios", usuariosRoutes);
 app.use("/eventos", eventosRoutes);
 app.use("/", authRoutes);
 
-// Rota principal
+// INDEX
 app.get("/", (req, res) => {
-  res.sendFile(path.join(frontendPath, "index.html"));
+  res.sendFile(path.resolve(frontendPath, "index.html"));
 });
 
-// Teste conexão banco
+// TESTE BANCO
 db.getConnection?.((err, connection) => {
   if (err) {
     console.error("❌ Erro no banco:", err);
