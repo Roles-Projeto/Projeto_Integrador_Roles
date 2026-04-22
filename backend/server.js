@@ -10,12 +10,12 @@ const app = express();
 app.use(express.json({ limit: "10mb" }));
 app.use(cors());
 
-// CAMINHO ABSOLUTO DO FRONTEND
-const frontendPath = path.resolve(__dirname, "..", "Frontend");
+// 🔥 CAMINHO CORRETO DO FRONTEND
+const frontendPath = path.join(process.cwd(), "Frontend");
 
-console.log("Frontend path:", frontendPath);
+console.log("Caminho do frontend:", frontendPath);
 
-// SERVIR ARQUIVOS
+// SERVIR ARQUIVOS ESTÁTICOS
 app.use(express.static(frontendPath));
 
 // ROTAS
@@ -27,9 +27,9 @@ app.use("/usuarios", usuariosRoutes);
 app.use("/eventos", eventosRoutes);
 app.use("/", authRoutes);
 
-// INDEX
+// ROTA PRINCIPAL
 app.get("/", (req, res) => {
-  res.sendFile(path.resolve(frontendPath, "index.html"));
+  res.sendFile(path.join(frontendPath, "index.html"));
 });
 
 // TESTE BANCO
@@ -42,7 +42,7 @@ db.getConnection?.((err, connection) => {
   }
 });
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 10000;
 
 app.listen(PORT, () => {
   console.log(`🌐 Servidor rodando na porta ${PORT}`);
