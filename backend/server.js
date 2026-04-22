@@ -10,8 +10,11 @@ const app = express();
 app.use(express.json({ limit: "10mb" }));
 app.use(cors());
 
-// 🔥 SERVIR FRONTEND
-app.use(express.static(path.join(__dirname, "../Frontend/index.html")));
+// CAMINHO DO FRONTEND
+const frontendPath = path.join(__dirname, "..", "Frontend");
+
+// SERVIR ARQUIVOS ESTÁTICOS
+app.use(express.static(frontendPath));
 
 // Rotas
 const usuariosRoutes = require("./routes/usuarios");
@@ -24,7 +27,7 @@ app.use("/", authRoutes);
 
 // Rota principal
 app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "../Frontend/index.html"));
+  res.sendFile(path.join(frontendPath, "index.html"));
 });
 
 // Teste conexão banco
