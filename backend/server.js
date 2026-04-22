@@ -1,13 +1,17 @@
 require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
+const path = require("path");
 
-const db = require("./db/db_config"); // 👈 IMPORTANTE
+const db = require("./db/db_config");
 
 const app = express();
 
 app.use(express.json({ limit: "10mb" }));
 app.use(cors());
+
+// 🔥 SERVIR FRONTEND
+app.use(express.static(path.join(__dirname, "../Frontend")));
 
 // Rotas
 const usuariosRoutes = require("./routes/usuarios");
@@ -18,12 +22,12 @@ app.use("/usuarios", usuariosRoutes);
 app.use("/eventos", eventosRoutes);
 app.use("/", authRoutes);
 
-// Teste API
+// Rota principal
 app.get("/", (req, res) => {
-  res.send("Servidor rodando! 🚀");
+  res.sendFile(path.join(__dirname, "../Frontend/index.html"));
 });
 
-// Teste conexão banco (IMPORTANTE PRA DEBUG)
+// Teste conexão banco
 db.getConnection?.((err, connection) => {
   if (err) {
     console.error("❌ Erro no banco:", err);
@@ -33,7 +37,6 @@ db.getConnection?.((err, connection) => {
   }
 });
 
-// Start server (RENDER OBRIGATÓRIO)
 const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {
