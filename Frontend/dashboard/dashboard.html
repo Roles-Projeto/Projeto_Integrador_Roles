@@ -1,615 +1,537 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dashboard</title>
-
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap">
-  <link rel="stylesheet" href="../css/footer.css">
+  <title>Rolês — Dashboard Empresarial</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap">
+  <script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
   <link rel="stylesheet" href="../css/dashboard.css">
 </head>
-
 <body>
 
-  <!-- HEADER FIXO -->
   <header>
     <div id="header-container"></div>
   </header>
 
-  <!-- CONTEÚDO REAL -->
   <main class="main-content">
-    <div class="dashboard-container">
+    <div class="dash-wrap">
 
-      <div class="dashboard-header">
-        <div>
-          <h1>Dashboard Empresarial</h1>
-          <p>Bem-vindo</p>
+      <!-- BARRA SUPERIOR -->
+      <div class="topbar">
+        <div class="topbar-left">
+          <span class="page-eyebrow">Painel do Empresário</span>
+          <h1 class="page-title">Dashboard <span class="brand-dot">.</span></h1>
         </div>
-
-        <button class="btn-export">
-          <img src="Imagens/download (1).svg" class="icon">
-          Exportar Relatório
-        </button>
+        <div class="topbar-right">
+          <button class="btn-quick" onclick="showSection('eventos',null)">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            Criar Evento
+          </button>
+          <button class="btn-quick btn-quick--outline" onclick="showSection('estabelecimentos',null)">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            Novo Estabelecimento
+          </button>
+          <button class="btn-export" id="btnExport">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            Exportar Relatório
+          </button>
+        </div>
       </div>
 
-      <div class="alert-box">
-        <img src="Imagens/sino.svg" class="alert-icon">
-
-        <div class="alert-text">
-          <strong>Você tem 3 notificações não lidas</strong>
-          <p>- Verifique suas novas vendas e atualizações!</p>
+      <!-- ALERTA -->
+      <div class="alert-banner" id="alertBanner">
+        <div class="alert-inner">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+          <span><strong>3 notificações não lidas</strong> — Novas vendas e atualizações aguardam sua atenção.</span>
+          <button class="alert-link" onclick="showSection('notificacoes',null)">Ver agora →</button>
         </div>
+        <button class="alert-close" onclick="this.closest('.alert-banner').style.display='none'">✕</button>
       </div>
 
-      <div class="tabs">
-        <button class="tab " onclick="showSection('dashboard')">
-          <img src="Imagens/estatisticas.svg" class="icon"> Dashboard
+      <!-- TABS -->
+      <nav class="dash-nav">
+        <button class="dnav-tab active" onclick="showSection('dashboard',this)">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+          Visão Geral
         </button>
-
-        <button class="tab" onclick="showSection('estabelecimentos')">
-          <img src="Imagens/comprar.svg" class="icon"> Estabelecimentos
+        <button class="dnav-tab" onclick="showSection('estabelecimentos',this)">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+          Estabelecimentos
         </button>
-
-        <button class="tab" onclick="showSection('eventos')">
-          <img src="Imagens/calendario.svg" class="icon"> Eventos
+        <button class="dnav-tab" onclick="showSection('eventos',this)">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          Eventos
         </button>
-
-        <button class="tab" onclick="showSection('vendas')">
-          <img src="Imagens/onda-de-conta-de-dinheiro (1).svg" class="icon"> Vendas
+        <button class="dnav-tab" onclick="showSection('vendas',this)">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+          Vendas
         </button>
-
-        <button class="tab" onclick="showSection('notificacoes')">
-          <img src="Imagens/sino.svg" class="icon">
+        <button class="dnav-tab" onclick="showSection('notificacoes',this)">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
           Notificações
-          <span class="badge">3</span>
+          <span class="dnav-badge">3</span>
         </button>
-      </div>
+      </nav>
 
-      <!-- DASHBOARD -->
-      <section id="dashboard" class="dashboard-section active-section">
-        <div class="stats-container">
-          <div class="stat-card">
-            <div class="stat-header">
-              <h3>Receita Total</h3>
-              <img src="Imagens/dolar.svg" class="icon">
+      <!-- ===== VISÃO GERAL ===== -->
+      <section id="dashboard" class="dsection active-section">
+
+        <div class="kpi-grid">
+          <div class="kpi-card">
+            <div class="kpi-icon kpi-icon--purple">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
             </div>
-            <p class="stat-value">R$ 45.780,50</p>
-            <p class="stat-increase">
-              <img src="Imagens/tendencia-de-seta-para-cima.svg" class="trend-icon"> +12.5% <span>vs mês passado</span>
-            </p>
+            <div class="kpi-body">
+              <span class="kpi-label">Receita Total</span>
+              <span class="kpi-value" id="total-vendas">R$ 45.780,50</span>
+              <span class="kpi-trend kpi-trend--up">
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+                +12,5% este mês
+              </span>
+            </div>
           </div>
-
-          <div class="stat-card">
-            <div class="stat-header">
-              Ingressos Vendidos
-              <img src="Imagens/ingresso-de-basquete.svg" class="icon">
+          <div class="kpi-card">
+            <div class="kpi-icon kpi-icon--green">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 9V7a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v2"/><path d="M2 15v2a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-2"/><line x1="12" y1="5" x2="12" y2="19"/></svg>
             </div>
-            <p class="stat-value">342</p>
-            <p class="stat-increase">
-              <img src="Imagens/tendencia-de-seta-para-cima.svg" class="trend-icon"> +8.2% <span>vs mês passado</span>
-            </p>
+            <div class="kpi-body">
+              <span class="kpi-label">Ingressos Vendidos</span>
+              <span class="kpi-value">342</span>
+              <span class="kpi-trend kpi-trend--up">
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+                +8,2% este mês
+              </span>
+            </div>
           </div>
-
-          <div class="stat-card">
-            <div class="stat-header">
-              Visualizações
-              <img src="Imagens/olho.svg" class="icon">
+          <div class="kpi-card">
+            <div class="kpi-icon kpi-icon--blue">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
             </div>
-            <p class="stat-value">8.945</p>
-            <p class="stat-increase">
-              <img src="Imagens/tendencia-de-seta-para-cima.svg" class="trend-icon"> +23.1% <span>vs mês passado</span>
-            </p>
+            <div class="kpi-body">
+              <span class="kpi-label">Visualizações</span>
+              <span class="kpi-value" id="eventos-ativos">8.945</span>
+              <span class="kpi-trend kpi-trend--up">
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+                +23,1% este mês
+              </span>
+            </div>
           </div>
-
-          <div class="stat-card">
-            <div class="stat-header">
-              Avaliação Média
-              <img src="Imagens/estrela (2).svg" class="icon">
+          <div class="kpi-card">
+            <div class="kpi-icon kpi-icon--yellow">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
             </div>
-            <p class="stat-value">4.7 ⭐</p>
-            <p class="stat-description">Baseado em 216 avaliações</p>
+            <div class="kpi-body">
+              <span class="kpi-label">Avaliação Média</span>
+              <span class="kpi-value" id="avaliacao-media">4.7 ⭐</span>
+              <span class="kpi-desc">216 avaliações no total</span>
+            </div>
           </div>
         </div>
 
         <div class="charts-row">
+          <div class="chart-card chart-card--wide">
+            <div class="chart-card-header">
+              <div>
+                <h3>Receita Mensal</h3>
+                <p>Evolução dos últimos meses</p>
+              </div>
+              <div class="period-tabs">
+                <button class="period-btn active" onclick="setPeriod(this,'6m')">6M</button>
+                <button class="period-btn" onclick="setPeriod(this,'3m')">3M</button>
+                <button class="period-btn" onclick="setPeriod(this,'1m')">1M</button>
+              </div>
+            </div>
+            <div class="chart-wrap"><canvas id="salesChart"></canvas></div>
+          </div>
           <div class="chart-card">
-            <h3>Gráfico de Vendas</h3>
-            <p>Últimos 6 meses</p>
-            <canvas id="salesChart"></canvas>
-          </div>
-
-          <div class="chart-card">
-            <h3>Gráfico de Avaliações</h3>
-            <p>Classificação média</p>
-            <canvas id="ratingChart"></canvas>
-          </div>
-        </div>
-        <!-- VENDAS RECENTES -->
-        <div class="recent-sales-card">
-          <div class="sales-header">
-            <h3>Vendas Recentes</h3>
-            <p>Últimas transações de ingressos</p>
-          </div>
-
-          <div class="sales-list">
-            <!-- Venda 1 -->
-            <div class="sale-item">
-              <div class="sale-info">
-                <div class="sale-header">
-                  <span class="customer-name">Ana Silva</span>
-                  <span class="sale-status completed">Pago</span>
-                </div>
-                <p class="sale-details">2x Live Jazz Night</p>
-                <p class="sale-date">2025-10-07 14:32</p>
-              </div>
-              <div class="sale-amount">
-                <span class="amount">R$ 240,00</span>
+            <div class="chart-card-header">
+              <div>
+                <h3>Ingressos por Evento</h3>
+                <p>Vendidos vs. disponíveis</p>
               </div>
             </div>
-
-            <!-- Venda 2 -->
-            <div class="sale-item">
-              <div class="sale-info">
-                <div class="sale-header">
-                  <span class="customer-name">Carlos Santos</span>
-                  <span class="sale-status completed">Pago</span>
-                </div>
-                <p class="sale-details">4x Festival Eletrônico</p>
-                <p class="sale-date">2025-10-07 13:15</p>
-              </div>
-              <div class="sale-amount">
-                <span class="amount">R$ 582,00</span>
-              </div>
-            </div>
-
-            <!-- Venda 3 -->
-            <div class="sale-item">
-              <div class="sale-info">
-                <div class="sale-header">
-                  <span class="customer-name">Maria Oliveira</span>
-                  <span class="sale-status completed">Pago</span>
-                </div>
-                <p class="sale-details">1x Live Jazz Night</p>
-                <p class="sale-date">2025-10-07 11:45</p>
-              </div>
-              <div class="sale-amount">
-                <span class="amount">R$ 120,00</span>
-              </div>
-            </div>
-
-            <!-- Venda 4 -->
-            <div class="sale-item">
-              <div class="sale-info">
-                <div class="sale-header">
-                  <span class="customer-name">João Pedro</span>
-                  <span class="sale-status completed">Pago</span>
-                </div>
-                <p class="sale-details">3x Festival Eletrônico</p>
-                <p class="sale-date">2025-10-08 19:20</p>
-              </div>
-              <div class="sale-amount">
-                <span class="amount">R$ 436,50</span>
-              </div>
-            </div>
-
-            <!-- Venda 5 -->
-            <div class="sale-item">
-              <div class="sale-info">
-                <div class="sale-header">
-                  <span class="customer-name">Beatriz Costa</span>
-                  <span class="sale-status pending">Pendente</span>
-                </div>
-                <p class="sale-details">2x Live Jazz Night</p>
-                <div class="sale-date-container">
-                  <p class="sale-date">2025-10-08 16:10</p>
-                </div>
-              </div>
-              <div class="sale-amount">
-                <span class="amount">R$ 240,00</span>
-              </div>
-            </div>
+            <div class="chart-wrap"><canvas id="ratingChart"></canvas></div>
           </div>
         </div>
 
-      </section>
-
-
-      <!-- ESTABELECIMENTOS -->
-      <section id="estabelecimentos" class="dashboard-section">
-        <div class="section-content">
-          <div class="establishments-header">
-            <h2>Seus Estabelecimentos</h2>
-            <p>Gerencie seus locais cadastrados</p>
-          </div>
-
-          <div class="establishments-container">
-            <!-- Card 1 - Sunset Lounge -->
-            <div class="establishment-card">
-              <div class="establishment-image">
-                <img src="Imagens/ferias.webp" alt="Sunset Lounge" class="establishment-img">
+        <div class="bottom-row">
+          <div class="panel panel--sales">
+            <div class="panel-header">
+              <div><h3>Vendas Recentes</h3><p>Últimas transações</p></div>
+              <button class="link-btn" onclick="showSection('vendas',null)">Ver todas →</button>
+            </div>
+            <div class="sales-feed">
+              <div class="sf-row">
+                <div class="sf-av">AS</div>
+                <div class="sf-info"><span>Ana Silva</span><small>2x Live Jazz Night</small></div>
+                <div class="sf-right"><strong>R$ 240,00</strong><span class="chip chip--green">Pago</span></div>
               </div>
-
-              <div class="establishment-header">
-                <h3 class="establishment-name">Sunset Lounge</h3>
-                <p class="establishment-address">Av. T: 10, 1234 - Setor Bueno, Goiânia</p>
+              <div class="sf-row">
+                <div class="sf-av">CS</div>
+                <div class="sf-info"><span>Carlos Santos</span><small>4x Festival Eletrônico</small></div>
+                <div class="sf-right"><strong>R$ 582,00</strong><span class="chip chip--green">Pago</span></div>
               </div>
-
-              <div class="establishment-stats">
-                <div class="stat-item">
-                  <span class="stat-value"> ⭐ 4.8</span>
-                  <span class="stat-label">127 avaliações</span>
-                </div>
-                <div class="stat-item">
-
-                  <span class="stat-value"><img class="estrelinha" src="Imagens/olho.svg" alt=""> 4523</span>
-                  <span class="stat-label">Visualizações</span>
-                </div>
-                <div class="stat-item">
-                  <span class="stat-value">R$ 28.450</span>
-                  <span class="stat-label">receita</span>
-                </div>
+              <div class="sf-row">
+                <div class="sf-av">MO</div>
+                <div class="sf-info"><span>Maria Oliveira</span><small>1x Live Jazz Night</small></div>
+                <div class="sf-right"><strong>R$ 120,00</strong><span class="chip chip--green">Pago</span></div>
               </div>
-
-              <div class="establishment-actions">
-                <button class="btn-edit">
-                  <img src="Imagens/editar.svg" class="icon">
-                  Editar
-                </button>
-                <button class="btn-view">
-                  <img class="estrelinha" src="Imagens/olho.svg" alt="">
-                  Visualizar
-                </button>
+              <div class="sf-row">
+                <div class="sf-av">JP</div>
+                <div class="sf-info"><span>João Pedro</span><small>3x Festival Eletrônico</small></div>
+                <div class="sf-right"><strong>R$ 436,50</strong><span class="chip chip--green">Pago</span></div>
+              </div>
+              <div class="sf-row">
+                <div class="sf-av">BC</div>
+                <div class="sf-info"><span>Beatriz Costa</span><small>2x Live Jazz Night</small></div>
+                <div class="sf-right"><strong>R$ 240,00</strong><span class="chip chip--orange">Pendente</span></div>
               </div>
             </div>
+          </div>
 
-            <!-- Card 2 - Espaço Cultural Mix -->
-            <div class="establishment-card">
-              <div class="establishment-image">
-                <img src="Imagens/estabelice" alt="Espaço Cultural Mix" class="establishment-img">
-              </div>
-
-              <div class="establishment-header">
-                <h3 class="establishment-name">Espaço Cultural Mix</h3>
-                <p class="establishment-address">Rua 84, 567 - Setor Sul, Goiânia</p>
-              </div>
-
-              <div class="establishment-stats">
-                <div class="stat-item">
-                  <span class="stat-value">⭐ 4.6</span>
-                  <span class="stat-label">89 avaliações</span>
-                </div>
-                <div class="stat-item">
-                  <span class="stat-value"> <img class="estrelinha" src="Imagens/olho.svg" alt=""> 3234</span>
-                  <span class="stat-label">Visualizações</span>
-                </div>
-                <div class="stat-item">
-                  <span class="stat-value">R$ 17.330,5</span>
-                  <span class="stat-label">receita</span>
+          <div class="panel panel--aside">
+            <div class="panel-header"><div><h3>Próximos Eventos</h3><p>Agenda dos próximos 30 dias</p></div></div>
+            <div class="upcoming-list">
+              <div class="upcoming-item">
+                <div class="up-date"><span>14</span><small>OUT</small></div>
+                <div class="up-info"><span>Live Jazz Night</span><small>Sunset Lounge · 20:00</small></div>
+                <div class="up-occ">
+                  <div class="occ-bar"><div style="width:78%; background:#7c3aed;"></div></div>
+                  <small>78%</small>
                 </div>
               </div>
-
-              <div class="establishment-actions">
-                <button class="btn-edit">
-                  <img src="Imagens/editar.svg" class="icon">
-                  Editar
-                </button>
-                <button class="btn-view">
-                  <img class="estrelinha" src="Imagens/olho.svg" alt="">
-                  Visualizar
-                </button>
+              <div class="upcoming-item">
+                <div class="up-date"><span>19</span><small>OUT</small></div>
+                <div class="up-info"><span>Festival Eletrônico</span><small>Espaço Cultural Mix · 22:00</small></div>
+                <div class="up-occ">
+                  <div class="occ-bar"><div style="width:62%; background:#17c947;"></div></div>
+                  <small>62%</small>
+                </div>
+              </div>
+              <div class="upcoming-item">
+                <div class="up-date"><span>24</span><small>OUT</small></div>
+                <div class="up-info"><span>Happy Hour Especial</span><small>Sunset Lounge · 18:00</small></div>
+                <div class="up-occ">
+                  <div class="occ-bar"><div style="width:0%; background:#ccc;"></div></div>
+                  <small style="color:#bbb;">Não iniciado</small>
+                </div>
+              </div>
+            </div>
+            <div class="panel-divider"></div>
+            <div class="panel-header"><div><h3>Receita por Local</h3><p>Participação por estabelecimento</p></div></div>
+            <div class="perf-list">
+              <div class="perf-row">
+                <span class="perf-dot" style="background:#7c3aed;"></span>
+                <span class="perf-name">Sunset Lounge</span>
+                <div class="perf-bar"><div style="width:62%;"></div></div>
+                <span class="perf-val">R$ 28.450</span>
+              </div>
+              <div class="perf-row">
+                <span class="perf-dot" style="background:#a78bfa;"></span>
+                <span class="perf-name">Espaço Cultural Mix</span>
+                <div class="perf-bar"><div style="width:38%; background:#a78bfa;"></div></div>
+                <span class="perf-val">R$ 17.330</span>
               </div>
             </div>
           </div>
         </div>
       </section>
-      <!-- EVENTOS -->
-      <section id="eventos" class="dashboard-section">
-        <div class="section-content">
-          <!-- Card de Evento + Header da Section (cole dentro de <section id="eventos" class="dashboard-section"> <div class="section-content"> ... ) -->
-          <!-- Importante: adicionar no <head> do seu projeto:
-<link rel="stylesheet" href="/styles/evento_card.css">
--->
 
-          <div class="section-header">
-            <div class="titles">
-              <h2>Seus Eventos</h2>
-              <p>Gerencie seus eventos e vendas de ingressos</p>
-            </div>
-            <button class="create-event-button"><i class="icon-plus">+</i> Criar Evento</button>
+      <!-- ===== ESTABELECIMENTOS ===== -->
+      <section id="estabelecimentos" class="dsection">
+        <div class="sec-header">
+          <div><h2>Seus Estabelecimentos</h2><p>Gerencie seus locais cadastrados</p></div>
+          <button class="btn-create">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            Novo Estabelecimento
+          </button>
+        </div>
+
+        <div class="ev-card">
+          <div class="ev-top">
+            <div class="ev-info"><h3 class="ev-title">Sunset Lounge</h3><span class="ev-chip ev-chip--on">aberto</span></div>
+            <div class="ev-revenue">R$ 28.450<br><small>receita total</small></div>
           </div>
-
-          <!-- Card (mantém o mesmo padrão de antes) -->
-          <div class="event-card">
-            <div class="event-card-header">
-              <div class="event-info">
-                <h3 class="event-title">Live Jazz Night</h3>
-                <span class="status active">ativo</span>
-              </div>
-              <div class="event-revenue">R$ 18.720<br><small>receita</small></div>
-            </div>
-
-            <div class="event-meta">
-              <span class="meta-item"><i class="icon-location"></i> Sunset Lounge</span>
-              <span class="meta-item"><i class="icon-calendar"></i> 14/10/2025</span>
-              <span class="meta-item"><i class="icon-clock"></i> 20:00</span>
-            </div>
-
-            <div class="flat-stats">
-              <div class="flat-stat">
-                <h4>156</h4>
-                <p>vendidos</p>
-              </div>
-
-              <div class="flat-stat">
-                <h4>44</h4>
-                <p>disponíveis</p>
-              </div>
-
-              <div class="flat-stat">
-                <h4>78%</h4>
-                <p>ocupação</p>
-              </div>
-            </div>
-
-
-            <div class="progress-wrapper">
-              <div class="progress-bar"><span style="width:78%"></span></div>
-              <p class="progress-text">156 / 200</p>
-            </div>
-
-            <div class="event-actions">
-              <button class="btn btn-edit"><i class="icon-edit"></i> Editar</button>
-              <button class="btn btn-report"><i class="icon-report"></i> Relatório</button>
-              <button class="btn btn-tickets"><i class="icon-ticket"></i> Ingressos</button>
-            </div>
-
-            <!-- Imagem de referência (arquivo enviado). Caminho local do arquivo: -->
-            <img src="/mnt/data/Captura de tela 2025-11-24 190142.png" alt="referencia" style="display:none;" />
+          <div class="ev-meta">
+            <span class="ev-mi"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>Av. T-10, 1234 — Setor Bueno, Goiânia</span>
+            <span class="ev-mi"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>4.8 · 127 avaliações</span>
+            <span class="ev-mi"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>4.523 visualizações</span>
           </div>
-
-          <!-- CARD 2 – Festival Eletrônico -->
-          <div class="event-card">
-            <div class="event-card-header">
-              <div class="event-info">
-                <h3 class="event-title">Festival Eletrônico</h3>
-                <span class="status active">ativo</span>
-              </div>
-              <div class="event-revenue">R$ 27.060,5<br><small>receita</small></div>
-            </div>
-
-            <div class="event-meta">
-              <span class="meta-item"><i class="icon-location"></i> Espaço Cultural Mix</span>
-              <span class="meta-item"><i class="icon-calendar"></i> 19/10/2025</span>
-              <span class="meta-item"><i class="icon-clock"></i> 22:00</span>
-            </div>
-
-            <div class="flat-stats">
-              <div class="flat-stat">
-                <h4>186</h4>
-                <p>vendidos</p>
-              </div>
-
-              <div class="flat-stat">
-                <h4>114</h4>
-                <p>disponíveis</p>
-              </div>
-
-              <div class="flat-stat">
-                <h4>62%</h4>
-                <p>ocupação</p>
-              </div>
-            </div>
-
-
-            <div class="progress-wrapper">
-              <div class="progress-bar"><span style="width:62%; background:#17c947;"></span></div>
-              <p class="progress-text">186 / 300</p>
-            </div>
-
-            <div class="event-actions">
-              <button class="btn btn-edit"><i class="icon-edit"></i> Editar</button>
-              <button class="btn btn-report"><i class="icon-report"></i> Relatório</button>
-              <button class="btn btn-tickets"><i class="icon-ticket"></i> Ingressos</button>
-            </div>
-
-            <!-- Imagem de referência -->
-            <img src="/mnt/data/Captura de tela 2025-11-24 193924.png" alt="referencia" style="display:none;" />
+          <div class="ev-stats">
+            <div class="ev-stat"><h4>4.8 ⭐</h4><p>avaliação</p></div>
+            <div class="ev-stat"><h4>4.523</h4><p>visualizações</p></div>
+            <div class="ev-stat"><h4>R$ 28.450</h4><p>receita</p></div>
           </div>
-          <div class="event-card-flat">
-            <div class="flat-header">
-              <div class="flat-title-wrap">
-                <h3>Happy Hour Especial</h3>
-                <span class="flat-status">agendado</span>
-              </div>
-
-              <div class="flat-revenue">
-                R$ 0<br><small>receita</small>
-              </div>
-            </div>
-
-            <div class="flat-meta">
-              <span><i class="icon-location"></i> Sunset Lounge</span>
-              <span><i class="icon-calendar"></i> 24/10/2025</span>
-              <span><i class="icon-clock"></i> 18:00</span>
-            </div>
-
-            <div class="flat-stats">
-              <div class="flat-stat">
-                <h4>0</h4>
-                <p>vendidos</p>
-              </div>
-
-              <div class="flat-stat">
-                <h4>100</h4>
-                <p>disponíveis</p>
-              </div>
-
-              <div class="flat-stat">
-                <h4>0%</h4>
-                <p>ocupação</p>
-              </div>
-            </div>
-
-            <div class="flat-progress-wrapper">
-              <div class="flat-progress-bar">
-                <span style="width:0%"></span>
-              </div>
-              <p class="flat-progress-text">0 / 100</p>
-            </div>
-
-            <div class="flat-actions">
-              <button class="flat-btn"><i class="icon-edit"></i> Editar</button>
-              <button class="flat-btn"><i class="icon-report"></i> Relatório</button>
-              <button class="flat-btn"><i class="icon-ticket"></i> Ingressos</button>
-            </div>
+          <div class="ev-prog">
+            <div class="ev-bar"><div class="ev-fill" style="width:96%; background:#7c3aed;"></div></div>
+            <p class="ev-bar-txt">127 avaliações · capacidade 80 pessoas</p>
           </div>
-
-
-
-      </section>
-
-      <!-- VENDAS -->
-      <section id="vendas" class="dashboard-section">
-        <div class="section-content">
-
-          <!-- Header da Section -->
-          <div class="section-header">
-            <div class="titles">
-              <h2>Histórico de Vendas</h2>
-              <p>Todas as transações de ingressos</p>
-            </div>
+          <div class="ev-actions">
+            <button class="ev-btn ev-btn--purple">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>Editar
+            </button>
+            <button class="ev-btn">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>Visualizar
+            </button>
+            <button class="ev-btn ev-btn--gray" onclick="showSection('vendas',null)">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>Relatório
+            </button>
           </div>
+        </div>
 
-          <!-- Tabela de Vendas -->
-          <div class="sales-table-wrapper">
-            <table class="sales-table">
-              <thead>
-                <tr>
-                  <th>Cliente</th>
-                  <th>Evento</th>
-                  <th>Qtd</th>
-                  <th>Total</th>
-                  <th>Data</th>
-                  <th>Status</th>
-                </tr>
-              </thead>
-
-              <tbody>
-                <tr>
-                  <td>Ana Silva</td>
-                  <td>Live Jazz Night</td>
-                  <td>2</td>
-                  <td>R$ 240.00</td>
-                  <td>2025-10-07 14:32</td>
-                  <td><span class="status-badge confirmed">● confirmado</span></td>
-                </tr>
-
-                <tr>
-                  <td>Carlos Santos</td>
-                  <td>Festival Eletrônico</td>
-                  <td>4</td>
-                  <td>R$ 582.00</td>
-                  <td>2025-10-07 13:15</td>
-                  <td><span class="status-badge confirmed">● confirmado</span></td>
-                </tr>
-
-                <tr>
-                  <td>Maria Oliveira</td>
-                  <td>Live Jazz Night</td>
-                  <td>1</td>
-                  <td>R$ 120.00</td>
-                  <td>2025-10-07 11:45</td>
-                  <td><span class="status-badge confirmed">● confirmado</span></td>
-                </tr>
-
-                <tr>
-                  <td>João Pedro</td>
-                  <td>Festival Eletrônico</td>
-                  <td>3</td>
-                  <td>R$ 436.50</td>
-                  <td>2025-10-06 19:20</td>
-                  <td><span class="status-badge confirmed">● confirmado</span></td>
-                </tr>
-
-                <tr>
-                  <td>Beatriz Costa</td>
-                  <td>Live Jazz Night</td>
-                  <td>2</td>
-                  <td>R$ 240.00</td>
-                  <td>2025-10-06 16:10</td>
-                  <td><span class="status-badge pending">○ pendente</span></td>
-                </tr>
-              </tbody>
-            </table>
+        <div class="ev-card">
+          <div class="ev-top">
+            <div class="ev-info"><h3 class="ev-title">Espaço Cultural Mix</h3><span class="ev-chip ev-chip--on">aberto</span></div>
+            <div class="ev-revenue">R$ 17.330,50<br><small>receita total</small></div>
           </div>
-
+          <div class="ev-meta">
+            <span class="ev-mi"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>Rua 84, 567 — Setor Sul, Goiânia</span>
+            <span class="ev-mi"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>4.6 · 89 avaliações</span>
+            <span class="ev-mi"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>3.234 visualizações</span>
+          </div>
+          <div class="ev-stats">
+            <div class="ev-stat"><h4>4.6 ⭐</h4><p>avaliação</p></div>
+            <div class="ev-stat"><h4>3.234</h4><p>visualizações</p></div>
+            <div class="ev-stat"><h4>R$ 17.330</h4><p>receita</p></div>
+          </div>
+          <div class="ev-prog">
+            <div class="ev-bar"><div class="ev-fill" style="width:74%; background:#17c947;"></div></div>
+            <p class="ev-bar-txt">89 avaliações · capacidade 120 pessoas</p>
+          </div>
+          <div class="ev-actions">
+            <button class="ev-btn ev-btn--purple">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>Editar
+            </button>
+            <button class="ev-btn">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>Visualizar
+            </button>
+            <button class="ev-btn ev-btn--gray" onclick="showSection('vendas',null)">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>Relatório
+            </button>
+          </div>
         </div>
       </section>
 
-
-      <!-- NOTIFICAÇÕES -->
-      <section id="notificacoes" class="dashboard-section">
-        <div class="section-content">
-          <div class="notifications-header">
-            <h2>Notificações</h2>
-            <p>Acompanhe vendas e atualizações em tempo real</p>
-          </div>
-
-          <div class="notification rating new">
-            <div class="content">
-              <p class="title">Nova venda: 2 ingressos para Live Jazz Night</p>
-              <span class="time">5 min atrás</span>
-            </div>
-            <span class="tag">Nova</span>
-          </div>
-
-          <div class="notification rating new">
-            <div class="content">
-              <p class="title">Nova venda: 4 ingressos para Festival Eletrônico</p>
-              <span class="time">1 hora atrás</span>
-            </div>
-            <span class="tag">Nova</span>
-          </div>
-
-          <div class="notification rating new">
-            <div class="content">
-              <p class="title">Nova avaliação 5★ no Sunset Lounge</p>
-              <span class="time">2 horas atrás</span>
-            </div>
-            <span class="tag">Nova</span>
-          </div>
-
-          <div class="notification success">
-            <div class="content">
-              <p class="title">Nova venda: 1 ingresso para Live Jazz Night</p>
-              <span class="time">3 horas atrás</span>
-            </div>
-          </div>
-
-          <div class="notification success">
-            <div class="content">
-              <p class="title">Festival Eletrônico com 90% dos ingressos vendidos</p>
-              <span class="time">5 horas atrás</span>
-            </div>
-          </div>
-
-
+      <!-- ===== EVENTOS ===== -->
+      <section id="eventos" class="dsection">
+        <div class="sec-header">
+          <div><h2>Seus Eventos</h2><p>Gerencie eventos e vendas de ingressos</p></div>
+          <button class="btn-create">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            Criar Evento
+          </button>
         </div>
+
+        <div class="ev-card">
+          <div class="ev-top">
+            <div class="ev-info"><h3 class="ev-title">Live Jazz Night</h3><span class="ev-chip ev-chip--on">ativo</span></div>
+            <div class="ev-revenue">R$ 18.720<br><small>receita</small></div>
+          </div>
+          <div class="ev-meta">
+            <span class="ev-mi"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>Sunset Lounge</span>
+            <span class="ev-mi"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>14/10/2025</span>
+            <span class="ev-mi"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>20:00</span>
+          </div>
+          <div class="ev-stats">
+            <div class="ev-stat"><h4>156</h4><p>vendidos</p></div>
+            <div class="ev-stat"><h4>44</h4><p>disponíveis</p></div>
+            <div class="ev-stat"><h4>78%</h4><p>ocupação</p></div>
+          </div>
+          <div class="ev-prog">
+            <div class="ev-bar"><div class="ev-fill" style="width:78%; background:#ff7a00;"></div></div>
+            <p class="ev-bar-txt">156 / 200 ingressos</p>
+          </div>
+          <div class="ev-actions">
+            <button class="ev-btn ev-btn--purple"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>Editar</button>
+            <button class="ev-btn ev-btn--gray btn-report" onclick="showSection('vendas',null)"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>Relatório</button>
+            <button class="ev-btn ev-btn--orange btn-tickets" onclick="openTicketModal()"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 9V7a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v2"/><path d="M2 15v2a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-2"/><line x1="12" y1="5" x2="12" y2="19"/></svg>Ingressos</button>
+          </div>
+        </div>
+
+        <div class="ev-card">
+          <div class="ev-top">
+            <div class="ev-info"><h3 class="ev-title">Festival Eletrônico</h3><span class="ev-chip ev-chip--on">ativo</span></div>
+            <div class="ev-revenue">R$ 27.060,50<br><small>receita</small></div>
+          </div>
+          <div class="ev-meta">
+            <span class="ev-mi"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>Espaço Cultural Mix</span>
+            <span class="ev-mi"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>19/10/2025</span>
+            <span class="ev-mi"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>22:00</span>
+          </div>
+          <div class="ev-stats">
+            <div class="ev-stat"><h4>186</h4><p>vendidos</p></div>
+            <div class="ev-stat"><h4>114</h4><p>disponíveis</p></div>
+            <div class="ev-stat"><h4>62%</h4><p>ocupação</p></div>
+          </div>
+          <div class="ev-prog">
+            <div class="ev-bar"><div class="ev-fill" style="width:62%; background:#17c947;"></div></div>
+            <p class="ev-bar-txt">186 / 300 ingressos</p>
+          </div>
+          <div class="ev-actions">
+            <button class="ev-btn ev-btn--purple"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>Editar</button>
+            <button class="ev-btn ev-btn--gray btn-report" onclick="showSection('vendas',null)"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>Relatório</button>
+            <button class="ev-btn ev-btn--orange btn-tickets" onclick="openTicketModal()"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 9V7a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v2"/><path d="M2 15v2a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-2"/><line x1="12" y1="5" x2="12" y2="19"/></svg>Ingressos</button>
+          </div>
+        </div>
+
+        <div class="ev-card ev-card--dim">
+          <div class="ev-top">
+            <div class="ev-info"><h3 class="ev-title">Happy Hour Especial</h3><span class="ev-chip ev-chip--sched">agendado</span></div>
+            <div class="ev-revenue">R$ 0<br><small>receita</small></div>
+          </div>
+          <div class="ev-meta">
+            <span class="ev-mi"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>Sunset Lounge</span>
+            <span class="ev-mi"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>24/10/2025</span>
+            <span class="ev-mi"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>18:00</span>
+          </div>
+          <div class="ev-stats">
+            <div class="ev-stat"><h4>0</h4><p>vendidos</p></div>
+            <div class="ev-stat"><h4>100</h4><p>disponíveis</p></div>
+            <div class="ev-stat"><h4>0%</h4><p>ocupação</p></div>
+          </div>
+          <div class="ev-prog">
+            <div class="ev-bar"><div class="ev-fill" style="width:0%;"></div></div>
+            <p class="ev-bar-txt">0 / 100 ingressos · vendas ainda não iniciadas</p>
+          </div>
+          <div class="ev-actions">
+            <button class="ev-btn ev-btn--purple"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>Editar</button>
+            <button class="ev-btn ev-btn--gray btn-report" onclick="showSection('vendas',null)"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>Relatório</button>
+            <button class="ev-btn ev-btn--orange btn-tickets" onclick="openTicketModal()"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 9V7a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v2"/><path d="M2 15v2a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-2"/><line x1="12" y1="5" x2="12" y2="19"/></svg>Ingressos</button>
+          </div>
+        </div>
+
+        <!-- MODAL INGRESSOS -->
+        <div id="ticketModal" class="modal-ov">
+          <div class="modal-box">
+            <div class="modal-head">
+              <div><h2>Gerenciar Ingressos</h2><p>Live Jazz Night · Sunset Lounge</p></div>
+              <button class="modal-close-btn" onclick="closeTicketModal()">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+              </button>
+            </div>
+            <div class="modal-grid">
+              <div class="mf"><label>Tipo</label><p>VIP</p></div>
+              <div class="mf"><label>Data</label><p>14/10/2025</p></div>
+              <div class="mf"><label>Horário</label><p>20:00 – 02:00</p></div>
+              <div class="mf"><label>Duração</label><p>1 dia</p></div>
+              <div class="mf"><label>Início das vendas</label><p>01/10/2025 – 10:00</p></div>
+              <div class="mf"><label>Fim das vendas</label><p>14/10/2025 – 19:00</p></div>
+            </div>
+            <div class="modal-qty">
+              <div class="qf"><label>Quantidade total</label><input type="number" id="totalTickets" value="200"></div>
+              <div class="qf"><label>Vendidos</label><input type="number" value="156" disabled></div>
+              <div class="qf"><label>Disponíveis</label><input type="number" id="availableTickets" value="44" disabled></div>
+            </div>
+            <div class="modal-foot">
+              <button class="btn-save-m">Salvar alterações</button>
+              <button class="btn-cancel-m" onclick="closeTicketModal()">Cancelar</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== VENDAS ===== -->
+      <section id="vendas" class="dsection">
+        <div class="sec-header">
+          <div><h2>Histórico de Vendas</h2><p>Todas as transações de ingressos</p></div>
+          <div class="sec-filters">
+            <div class="search-box">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+              <input type="text" id="salesSearch" placeholder="Buscar cliente ou evento..." oninput="filterSales()">
+            </div>
+            <select class="filter-sel" id="statusFilter" onchange="filterSales()">
+              <option value="">Todos os status</option>
+              <option value="confirmado">Confirmado</option>
+              <option value="pendente">Pendente</option>
+            </select>
+          </div>
+        </div>
+        <div class="table-wrap">
+          <table class="sales-table">
+            <thead>
+              <tr><th>Cliente</th><th>Evento</th><th>Qtd</th><th>Total</th><th>Data</th><th>Status</th></tr>
+            </thead>
+            <tbody id="salesTableBody">
+              <tr data-status="confirmado" data-name="ana silva" data-event="live jazz night">
+                <td><span class="td-av">AS</span> Ana Silva</td><td>Live Jazz Night</td><td>2</td><td>R$ 240,00</td><td>07/10/2025 14:32</td>
+                <td><span class="status-badge confirmed">● confirmado</span></td>
+              </tr>
+              <tr data-status="confirmado" data-name="carlos santos" data-event="festival eletronico">
+                <td><span class="td-av">CS</span> Carlos Santos</td><td>Festival Eletrônico</td><td>4</td><td>R$ 582,00</td><td>07/10/2025 13:15</td>
+                <td><span class="status-badge confirmed">● confirmado</span></td>
+              </tr>
+              <tr data-status="confirmado" data-name="maria oliveira" data-event="live jazz night">
+                <td><span class="td-av">MO</span> Maria Oliveira</td><td>Live Jazz Night</td><td>1</td><td>R$ 120,00</td><td>07/10/2025 11:45</td>
+                <td><span class="status-badge confirmed">● confirmado</span></td>
+              </tr>
+              <tr data-status="confirmado" data-name="joao pedro" data-event="festival eletronico">
+                <td><span class="td-av">JP</span> João Pedro</td><td>Festival Eletrônico</td><td>3</td><td>R$ 436,50</td><td>06/10/2025 19:20</td>
+                <td><span class="status-badge confirmed">● confirmado</span></td>
+              </tr>
+              <tr data-status="pendente" data-name="beatriz costa" data-event="live jazz night">
+                <td><span class="td-av">BC</span> Beatriz Costa</td><td>Live Jazz Night</td><td>2</td><td>R$ 240,00</td><td>06/10/2025 16:10</td>
+                <td><span class="status-badge pending">○ pendente</span></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="table-foot">
+            <span id="tableCount">5 transações</span>
+            <span>Total visível: <strong id="tableTotal">R$ 1.618,50</strong></span>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== NOTIFICAÇÕES ===== -->
+      <section id="notificacoes" class="dsection">
+        <div class="sec-header">
+          <div><h2>Central de Notificações</h2><p>Atividades e alertas do seu negócio</p></div>
+          <button class="link-btn" onclick="markAllRead()">Marcar todas como lidas</button>
+        </div>
+        <div class="notif-filters">
+          <button class="nf-btn active" onclick="filterNotif(this,'all')">Todas</button>
+          <button class="nf-btn" onclick="filterNotif(this,'venda')">Vendas</button>
+          <button class="nf-btn" onclick="filterNotif(this,'avaliacao')">Avaliações</button>
+          <button class="nf-btn" onclick="filterNotif(this,'sistema')">Sistema</button>
+        </div>
+        <div id="notifList" class="notif-list">
+          <p class="notif-group-label">Não lidas · 3</p>
+          <div class="notif-item notif-unread" data-cat="venda">
+            <div class="ni-icon ni-green"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 9V7a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v2"/><path d="M2 15v2a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-2"/><line x1="12" y1="5" x2="12" y2="19"/></svg></div>
+            <div class="ni-body"><p class="ni-title">Nova venda realizada</p><p class="ni-desc">Ana Silva comprou <strong>2 ingressos</strong> para <strong>Live Jazz Night</strong> · R$ 240,00</p><span class="ni-time">Há 5 minutos</span></div>
+            <span class="ni-new">Nova</span>
+          </div>
+          <div class="notif-item notif-unread" data-cat="venda">
+            <div class="ni-icon ni-green"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 9V7a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v2"/><path d="M2 15v2a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-2"/><line x1="12" y1="5" x2="12" y2="19"/></svg></div>
+            <div class="ni-body"><p class="ni-title">Nova venda realizada</p><p class="ni-desc">Carlos Santos comprou <strong>4 ingressos</strong> para <strong>Festival Eletrônico</strong> · R$ 582,00</p><span class="ni-time">Há 1 hora</span></div>
+            <span class="ni-new">Nova</span>
+          </div>
+          <div class="notif-item notif-unread" data-cat="avaliacao">
+            <div class="ni-icon ni-yellow"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
+            <div class="ni-body"><p class="ni-title">Nova avaliação 5 estrelas</p><p class="ni-desc">Seu estabelecimento <strong>Sunset Lounge</strong> recebeu uma avaliação 5★ de um cliente.</p><span class="ni-time">Há 2 horas</span></div>
+            <span class="ni-new">Nova</span>
+          </div>
+          <p class="notif-group-label" style="margin-top:24px;">Anteriores</p>
+          <div class="notif-item" data-cat="venda">
+            <div class="ni-icon ni-gray"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 9V7a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v2"/><path d="M2 15v2a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-2"/><line x1="12" y1="5" x2="12" y2="19"/></svg></div>
+            <div class="ni-body"><p class="ni-title">Venda confirmada</p><p class="ni-desc">Maria Oliveira comprou <strong>1 ingresso</strong> para <strong>Live Jazz Night</strong> · R$ 120,00</p><span class="ni-time">Há 3 horas</span></div>
+          </div>
+          <div class="notif-item" data-cat="sistema">
+            <div class="ni-icon ni-purple"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div>
+            <div class="ni-body"><p class="ni-title">Marco de ocupação atingido</p><p class="ni-desc"><strong>Festival Eletrônico</strong> ultrapassou 60% de ocupação. 114 ingressos ainda disponíveis.</p><span class="ni-time">Há 5 horas</span></div>
+          </div>
+          <div class="notif-item" data-cat="sistema">
+            <div class="ni-icon ni-gray"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></div>
+            <div class="ni-body"><p class="ni-title">Pagamento pendente</p><p class="ni-desc">Beatriz Costa possui pagamento <strong>pendente</strong> de R$ 240,00 — <strong>Live Jazz Night</strong>.</p><span class="ni-time">Há 8 horas</span></div>
+          </div>
+        </div>
+      </section>
+
     </div>
-    </section>
-    </div> <!-- fecha dashboard-container -->
   </main>
 
-   <script src="../JS/footer.js" defer></script>
-
-  <!-- CHART.JS -->
-  <script src="../JS/loadHeader.js"></script>
+  <script src="../js/loadHeader.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-  <script src="../JS/dashboard.js"></script>
-
+  <script src="../js/dashboard.js"></script>
 </body>
-
 </html>
