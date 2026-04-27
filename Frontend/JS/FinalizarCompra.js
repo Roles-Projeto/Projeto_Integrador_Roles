@@ -241,7 +241,16 @@ function gerarPix() {
     document.getElementById('pix-step-2').style.display = 'block';
 
     const totalText = document.getElementById('total').textContent;
-    document.getElementById('btn-pix-pay').innerHTML = `<i class="fas fa-check-circle" style="margin-right:8px;"></i>Já paguei ${totalText}`;
+    const btnPixPay = document.getElementById('btn-pix-pay');
+    
+    btnPixPay.innerHTML = `<i class="fas fa-check-circle" style="margin-right:8px;"></i>Já paguei ${totalText}`;
+    
+    // Adiciona evento para finalizar a compra ao clicar em "Já paguei"
+    btnPixPay.onclick = function(e) {
+        e.preventDefault();
+        finalizePurchase();
+    };
+
     iniciarTimerPix(30 * 60);
 }
 
@@ -341,16 +350,48 @@ function loadEventData() {
     }
 }
 
+// NOVA FUNÇÃO: Salva os dados no formato que a página de confirmação espera
+function salvarDadosCompra() {
+    const quantidade = parseInt(document.getElementById('quantidade').value) || 1;
+    const subtotalValue = quantidade * PRICE_PER_TICKET;
+    const taxValue = subtotalValue * SERVICE_TAX_RATE;
+    const totalValue = subtotalValue + taxValue;
+
+    // Recupera dados básicos do evento se existirem
+    const eventDataString = localStorage.getItem('eventoSelecionado');
+    let eventData = {};
+    if (eventDataString) {
+        eventData = JSON.parse(eventDataString);
+    }
+
+    const dadosCompra = {
+        pedidoID: Math.floor(Math.random() * 90000000 + 10000000).toString(), // Gera um ID aleatório
+        imagem: eventData.imagem || document.getElementById('event-image').src,
+        nome: eventData.nome || document.getElementById('event-name').textContent,
+        data: eventData.data || document.getElementById('event-date').textContent,
+        hora: eventData.hora || document.getElementById('event-time').textContent,
+        local: eventData.local || document.getElementById('event-location').textContent,
+        ingressoPreco: PRICE_PER_TICKET,
+        ingressoNome: eventData.ingressoNome || document.getElementById('ticket-type').textContent,
+        quantidade: quantidade,
+        subtotal: subtotalValue,
+        taxaServico: taxValue,
+        totalPago: totalValue
+    };
+
+    localStorage.setItem('compraConfirmada', JSON.stringify(dadosCompra));
+}
+
 function finalizePurchase() {
-    console.log('Validado. Redirecionando para confirmação...');
-    // Redirecionamento atualizado para presencaconfirmada.html
-    window.location.href = 'presencaconfirmada.html';
+    console.log('Validado. Salvando dados e redirecionando para confirmação...');
+    salvarDadosCompra(); // Chama a nova função antes de redirecionar
+    window.location.href = 'confirmacao.html';
 }
 
 function downloadBoleto() {
     alert('Boleto baixado com sucesso! Redirecionando...');
-    // Adicionado redirecionamento após o clique de baixar o boleto
-    window.location.href = 'presencaconfirmada.html';
+    salvarDadosCompra(); // Chama a nova função antes de redirecionar
+    window.location.href = 'confirmacao.html';
 }
 
 /* ==================================================
