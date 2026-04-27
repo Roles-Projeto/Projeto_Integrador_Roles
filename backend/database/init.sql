@@ -55,3 +55,33 @@ UNLOCK TABLES;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
 -- Dump completed on 2026-03-23 15:52:17
+
+CREATE TABLE IF NOT EXISTS `eventos` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `nome` varchar(150) NOT NULL,
+  `assunto` varchar(150) DEFAULT NULL,
+  `categoria` varchar(100) DEFAULT NULL,
+  `imagem` varchar(255) DEFAULT NULL,
+  `data_inicio` datetime NOT NULL,
+  `data_fim` datetime NOT NULL,
+  `descricao` text DEFAULT NULL,
+  `local_nome` varchar(150) DEFAULT NULL,
+  `cep` varchar(10) DEFAULT NULL,
+  `rua` varchar(150) DEFAULT NULL,
+  `cidade` varchar(100) DEFAULT NULL,
+  `estado` varchar(50) DEFAULT NULL,
+  `nome_produtor` varchar(150) DEFAULT NULL,
+  `criado_em` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+CREATE TABLE IF NOT EXISTS `ingressos` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `evento_id` int NOT NULL,
+  `titulo` varchar(150) NOT NULL,
+  `tipo` varchar(50) DEFAULT NULL,
+  `valor` decimal(10,2) DEFAULT 0.00,
+  `quantidade` int DEFAULT 0,
+  PRIMARY KEY (`id`),
+  FOREIGN KEY (`evento_id`) REFERENCES `eventos`(`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;

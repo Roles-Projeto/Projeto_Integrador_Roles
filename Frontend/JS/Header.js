@@ -344,11 +344,22 @@ if (useLocation) {
                     <i class="fas fa-times"></i>
                 </button>
             `;
-            li.querySelector('.sug-left').addEventListener('click', () => {
-                searchInput.value = termo;
-                fecharDropdown();
+           // Clique no item → vai direto para a página de detalhes
+                li.querySelector('.sug-left').addEventListener('click', () => {
+            salvarRecente(item.nome);
+            fecharDropdown();
+
+            // Pega o atributo href original do card (relativo ao index.html)
+            const hrefRelativo = item._el?.getAttribute('href');
+
+            if (hrefRelativo) {
+                // Monta o caminho absoluto a partir da raiz /Frontend/
+                window.location.href = '/Frontend/' + hrefRelativo;
+            } else {
+                searchInput.value = item.nome;
                 dispararBusca();
-            });
+            }
+        });
             li.querySelector('.sug-remover').addEventListener('click', (e) => {
                 e.stopPropagation();
                 removerRecente(termo);
