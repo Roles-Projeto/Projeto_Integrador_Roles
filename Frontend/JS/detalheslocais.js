@@ -1,4 +1,5 @@
 
+//detalherlocal,javascript
 // Função para carregar dados do local do localStorage
 function loadLocalDataFromStorage() {
     const dataJson = localStorage.getItem('localDetalhes');

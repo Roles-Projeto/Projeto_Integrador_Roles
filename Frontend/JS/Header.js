@@ -141,81 +141,73 @@ function initHeader() {
         });
     });
 
-   // USAR LOCALIZAÇÃO
-if (useLocation) {
-    useLocation.addEventListener("click", () => {
+    // USAR LOCALIZAÇÃO
+    if (useLocation) {
+        useLocation.addEventListener("click", () => {
 
-        if (!navigator.geolocation) {
-            alert("Geolocalização não suportada pelo seu navegador.");
-            return;
-        }
-
-        // Feedback visual enquanto busca
-        if (cityBtn) {
-            cityBtn.innerHTML = `<i class="fas fa-spinner fa-spin"></i> Buscando...`;
-        }
-
-        navigator.geolocation.getCurrentPosition(
-            async (position) => {
-                const { latitude, longitude } = position.coords;
-
-                try {
-                    const response = await fetch(
-                        `https://nominatim.openstreetmap.org/reverse?lat=${latitude}&lon=${longitude}&format=json&accept-language=pt-BR`,
-                        {
-                            headers: {
-                                // Nominatim exige um User-Agent identificando sua aplicação
-                                "Accept": "application/json"
-                            }
-                        }
-                    );
-
-                    const data = await response.json();
-
-                    // Pega cidade, município ou estado — o que estiver disponível
-                    const cityName =
-                        data.address?.city ||
-                        data.address?.town ||
-                        data.address?.village ||
-                        data.address?.municipality ||
-                        data.address?.state ||
-                        "Localização atual";
-
-                    if (cityBtn) {
-                        cityBtn.innerHTML = `<i class="fas fa-map-marker-alt"></i> ${cityName}`;
-                    }
-
-                    localStorage.setItem("cidade", cityName);
-                    fecharCard();
-
-                } catch (error) {
-                    console.error("Erro ao buscar cidade:", error);
-
-                    if (cityBtn) {
-                        cityBtn.innerHTML = `<i class="fas fa-map-marker-alt"></i> Minha localização`;
-                    }
-
-                    localStorage.setItem("cidade", "Minha localização");
-                    fecharCard();
-                }
-            },
-            (error) => {
-                // Usuário negou permissão ou ocorreu erro
-                console.warn("Geolocalização negada:", error.message);
-
-                if (cityBtn) {
-                    cityBtn.innerHTML = `<i class="fas fa-map-marker-alt"></i> Localização`;
-                }
-
-                alert("Permita o acesso à localização para usar essa função.");
-            },
-            {
-                timeout: 10000,        // 10 segundos máx.
-                maximumAge: 300000     // Aceita cache de até 5 minutos
+            if (!navigator.geolocation) {
+                alert("Geolocalização não suportada pelo seu navegador.");
+                return;
             }
-        );
-    });
-}
+
+            if (cityBtn) {
+                cityBtn.innerHTML = `<i class="fas fa-spinner fa-spin"></i> Buscando...`;
+            }
+
+            navigator.geolocation.getCurrentPosition(
+                async (position) => {
+                    const { latitude, longitude } = position.coords;
+
+                    try {
+                        const response = await fetch(
+                            `https://nominatim.openstreetmap.org/reverse?lat=${latitude}&lon=${longitude}&format=json&accept-language=pt-BR`,
+                            { headers: { "Accept": "application/json" } }
+                        );
+
+                        const data = await response.json();
+
+                        const cityName =
+                            data.address?.city ||
+                            data.address?.town ||
+                            data.address?.village ||
+                            data.address?.municipality ||
+                            data.address?.state ||
+                            "Localização atual";
+
+                        if (cityBtn) {
+                            cityBtn.innerHTML = `<i class="fas fa-map-marker-alt"></i> ${cityName}`;
+                        }
+
+                        localStorage.setItem("cidade", cityName);
+                        fecharCard();
+
+                    } catch (error) {
+                        console.error("Erro ao buscar cidade:", error);
+
+                        if (cityBtn) {
+                            cityBtn.innerHTML = `<i class="fas fa-map-marker-alt"></i> Minha localização`;
+                        }
+
+                        localStorage.setItem("cidade", "Minha localização");
+                        fecharCard();
+                    }
+                },
+                (error) => {
+                    console.warn("Geolocalização negada:", error.message);
+
+                    if (cityBtn) {
+                        cityBtn.innerHTML = `<i class="fas fa-map-marker-alt"></i> Localização`;
+                    }
+
+                    alert("Permita o acesso à localização para usar essa função.");
+                },
+                {
+                    timeout: 10000,
+                    maximumAge: 300000
+                }
+            );
+        });
+    }
 
     if (cityCard) document.body.appendChild(cityCard);
     if (overlay)  document.body.appendChild(overlay);
@@ -280,20 +272,31 @@ if (useLocation) {
     }
 
     // ---- Lê cards diretamente do DOM da página atual ----
-    // Funciona tanto para .card-local quanto .card-evento
+    // Suporta: .card-local, .card-evento (index.html) e .evento-card (eventos.html)
     function lerCardsDaPagina() {
         const itens = [];
 
-        // Tenta primeiro os seletores do index.html
-        document.querySelectorAll('.card-local, .card-evento, .card').forEach(card => {
+        document.querySelectorAll('.card-local, .card-evento, .card, .evento-card').forEach(card => {
             const nome      = card.querySelector('h3')?.textContent.trim() || '';
-            const local     = card.querySelector('.evento-local, .local')?.textContent.trim() || '';
-            const tagEl     = card.querySelector('[class*="tag"]');
-            const categoria = tagEl?.textContent.trim() || card.getAttribute('data-categoria-card') || '';
-            const img       = card.querySelector('img')?.src || '';
-            const data      = card.querySelector('.evento-data-local p, .local-meta p')?.textContent.trim() || '';
 
-            if (nome) itens.push({ nome, local, categoria, img, data, _el: card });
+            // Localização: tenta vários seletores possíveis
+            const localEl   = card.querySelector('.evento-local, .local, .meta .fa-location-dot, p.meta');
+            const local     = localEl?.textContent.trim() || '';
+
+            // Categoria: tag visível ou data-attribute
+            const tagEl     = card.querySelector('[class*="tag"], [class*="badge"]');
+            const categoria = tagEl?.textContent.trim()
+                           || card.getAttribute('data-categoria-card')
+                           || card.getAttribute('data-categoria')
+                           || '';
+
+            const img       = card.querySelector('img')?.src || '';
+            const dataEvt   = card.querySelector('.evento-data-local p, .local-meta p, p.meta')?.textContent.trim() || '';
+
+            // ID do evento (usado para .evento-card da página eventos.html)
+            const eventoId  = card.getAttribute('data-id') || card.getAttribute('data-event-id') || '';
+
+            if (nome) itens.push({ nome, local, categoria, img, data: dataEvt, eventoId, _el: card });
         });
 
         return itens;
@@ -320,6 +323,99 @@ if (useLocation) {
     const abrirDropdown  = () => suggestionsBox?.classList.add('active');
     const fecharDropdown = () => suggestionsBox?.classList.remove('active');
 
+    // ----------------------------------------------------------
+    // NAVEGAR PARA DETALHES
+    // card-local  → salva localStorage + vai para detalheslocais
+    // card-evento / evento-card → vai para detalhesEventos?id=X
+    // ----------------------------------------------------------
+    function navegarParaDetalhes(item) {
+        const el = item._el;
+
+        const isLocal  = el?.classList.contains('card-local');
+        const isEvento = el?.classList.contains('card-evento') || el?.classList.contains('evento-card');
+
+        if (isLocal) {
+            // ---- ESTABELECIMENTO ----
+            const localLimpo = (item.local || '')
+                .replace(/^\s*[\S]*location[\S]*\s*/i, '')
+                .replace(/^\s*[\S]*map[\S]*\s*/i, '')
+                .trim();
+
+            const dadosLocal = {
+                nome:       item.nome,
+                categoria:  el.dataset.categoriaCard  || item.categoria || '',
+                local:      localLimpo,
+                imagem:     el.querySelector('img')?.src || item.img || '',
+                nota:       el.dataset.nota           || '4.5',
+                avaliacoes: el.dataset.avaliacoes     || '0 avaliacoes',
+                telefone:   el.dataset.telefone       || '',
+                horario:    el.dataset.horario        || '',
+                preco:      el.dataset.preco          || '$$',
+                tags:       el.dataset.tags           || item.categoria || '',
+                descricao:  el.dataset.descricao      || '',
+            };
+
+            localStorage.setItem('localDetalhes', JSON.stringify(dadosLocal));
+
+            const href = el.getAttribute('href');
+            window.location.href = href || 'detalheslocais/detalheslocais.html';
+
+        } else if (isEvento) {
+            // ---- EVENTO ----
+            // Coleta todos os dados disponíveis do card e salva no localStorage
+            const localTexto = (item.local || '')
+                .replace(/^\s*[\S]*location[\S]*\s*/i, '')
+                .replace(/^\s*[\S]*map[\S]*\s*/i, '')
+                .trim();
+
+            // Tenta pegar data/hora do card
+            const metaEls   = el.querySelectorAll('p.meta, .evento-data-local p, .local-meta p');
+            const dataHora  = metaEls[0]?.textContent.trim() || '';
+            const descricao = el.querySelector('.descricao, p.descricao')?.textContent.trim() || '';
+            const badge     = el.querySelector('[class*="badge"], [class*="tag-evento"]')?.textContent.trim() || item.categoria || '';
+            const preco     = el.querySelector('.preco')?.textContent.trim() || 'Gratuito';
+
+            const dadosEvento = {
+                nome:      item.nome,
+                categoria: badge,
+                local:     localTexto,
+                imagem:    el.querySelector('img')?.src || item.img || '',
+                dataHora:  dataHora,
+                descricao: descricao,
+                preco:     preco,
+                // data-* extras se existirem
+                nota:      el.dataset.nota      || '',
+                avaliacoes:el.dataset.avaliacoes || '',
+                telefone:  el.dataset.telefone  || '',
+                horario:   el.dataset.horario   || '',
+                tags:      el.dataset.tags      || badge,
+            };
+
+            localStorage.setItem('eventoDetalhes', JSON.stringify(dadosEvento));
+
+            // Tenta pegar href do card ou do botão "Mais Detalhes"
+            const hrefExistente = el.getAttribute('href')
+                               || el.querySelector('a.btn-detalhes, a[href*="detalhes"]')?.getAttribute('href')
+                               || '';
+
+            const eventoId = item.eventoId || el.getAttribute('data-id') || '';
+
+            // Usa o href do próprio card diretamente (relativo à página atual)
+            if (hrefExistente && hrefExistente !== "#") {
+                window.location.href = hrefExistente;
+            } else if (eventoId) {
+                window.location.href = `../verDetalhesEventos/detalhesEventos.html?id=${eventoId}`;
+            } else {
+                window.location.href = "detalheseventos/detalheevento.html";
+            }
+
+        } else {
+            // Fallback genérico
+            if (searchInput) searchInput.value = item.nome;
+            dispararBusca();
+        }
+    }
+
     // ---- Render: vazio → recentes ----
     function renderVazio() {
         if (!suggestionsBox) return;
@@ -344,27 +440,32 @@ if (useLocation) {
                     <i class="fas fa-times"></i>
                 </button>
             `;
-           // Clique no item → vai direto para a página de detalhes
-                li.querySelector('.sug-left').addEventListener('click', () => {
-            salvarRecente(item.nome);
-            fecharDropdown();
 
-            // Pega o atributo href original do card (relativo ao index.html)
-            const hrefRelativo = item._el?.getAttribute('href');
+            // Clique no recente → tenta achar o card pelo nome e navega direto
+            li.querySelector('.sug-left').addEventListener('click', () => {
+                salvarRecente(termo);
+                fecharDropdown();
 
-            if (hrefRelativo) {
-                // Monta o caminho absoluto a partir da raiz /Frontend/
-                window.location.href = '/Frontend/' + hrefRelativo;
-            } else {
-                searchInput.value = item.nome;
-                dispararBusca();
-            }
-        });
+                // Procura o card que bate com esse termo
+                const todos = lerCardsDaPagina();
+                const match = todos.find(i => norm(i.nome) === norm(termo));
+
+                if (match) {
+                    // Achou o card → navega direto para detalhes
+                    navegarParaDetalhes(match);
+                } else {
+                    // Não achou na página atual → filtra/redireciona normalmente
+                    if (searchInput) searchInput.value = termo;
+                    dispararBusca();
+                }
+            });
+
             li.querySelector('.sug-remover').addEventListener('click', (e) => {
                 e.stopPropagation();
                 removerRecente(termo);
                 renderVazio();
             });
+
             ul.appendChild(li);
         });
 
@@ -405,18 +506,29 @@ if (useLocation) {
                     <i class="fas fa-arrow-up-left sug-completar" title="Preencher busca"></i>
                 `;
 
-                // Clique no item → preenche input e filtra na página
+                // ✅ card-local → detalhes do estabelecimento
+                //    card-evento / evento-card → detalhes do evento
+                //    outros → filtra na página
                 li.querySelector('.sug-left').addEventListener('click', () => {
-                    searchInput.value = item.nome;
                     salvarRecente(item.nome);
                     fecharDropdown();
-                    dispararBusca();
+
+                    const isLocal  = item._el?.classList.contains('card-local');
+                    const isEvento = item._el?.classList.contains('card-evento')
+                                  || item._el?.classList.contains('evento-card');
+
+                    if (isLocal || isEvento) {
+                        navegarParaDetalhes(item);
+                    } else {
+                        if (searchInput) searchInput.value = item.nome;
+                        dispararBusca();
+                    }
                 });
 
                 // Seta → só preenche o input
                 li.querySelector('.sug-completar').addEventListener('click', (e) => {
                     e.stopPropagation();
-                    searchInput.value = item.nome;
+                    if (searchInput) searchInput.value = item.nome;
                     searchInput.focus();
                     renderSugestoes(item.nome);
                 });
@@ -449,9 +561,14 @@ if (useLocation) {
 
         searchInput.addEventListener('input', () => {
             const t = searchInput.value.trim();
-            // Filtra em tempo real enquanto digita
-            dispararFiltroDireto(t);
-            if (t.length < 2) renderVazio(); else renderSugestoes(t);
+            // Só filtra na página se não tiver sugestões abertas (input vazio/curto)
+            // Evita que o filtroHome.js esconda cards antes do usuário clicar na sugestão
+            if (t.length < 2) {
+                dispararFiltroDireto('');
+                renderVazio();
+            } else {
+                renderSugestoes(t);
+            }
         });
 
         searchInput.addEventListener('keydown', (e) => {
@@ -478,7 +595,6 @@ if (useLocation) {
 
     // ----------------------------------------------------------
     // FILTRO DIRETO NA PÁGINA (sem redirect)
-    // Dispara o evento 'roles:filtrar' que o filtro-home.js ouve
     // ----------------------------------------------------------
     function dispararFiltroDireto(termo) {
         window.dispatchEvent(new CustomEvent('roles:filtrar', {
@@ -487,8 +603,7 @@ if (useLocation) {
     }
 
     // ----------------------------------------------------------
-    // BUSCA GLOBAL — salva + redireciona SE não estiver na home
-    // Se já estiver na home, apenas filtra no lugar
+    // BUSCA GLOBAL
     // ----------------------------------------------------------
     function dispararBusca() {
         const termo  = searchInput ? searchInput.value.trim() : '';
@@ -500,10 +615,8 @@ if (useLocation) {
                     || window.location.pathname.endsWith('/');
 
         if (naHome) {
-            // Filtra direto sem sair da página
             dispararFiltroDireto(termo);
         } else {
-            // Outra página: vai para a home com o filtro salvo
             window.location.href = '../frontend/index.html';
         }
     }
