@@ -44,6 +44,7 @@ if (clienteBtn && empresarioBtn) {
 // Lógica de login conectando ao backend
 form.addEventListener("submit", async (e) => {
     e.preventDefault();
+    
 
     const email = inputEmail.value.trim();
     const senha = inputPassword.value;

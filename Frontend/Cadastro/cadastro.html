@@ -5,74 +5,164 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cadastro - Rolês</title>
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link rel="stylesheet" href="../css/footer.css">
-    <link rel="stylesheet" href="../css/casatro.css">
+    <link rel="stylesheet" href="../css/cadastro.css">
 </head>
 
 <body>
-    <header>
-        <div id="header-container"></div>
-    </header>
 
-    <main class="container">
-        <div class="card">
-            <div class="user-icon">
-                <i class="fa-solid fa-user"></i>
-            </div>
-            <h2>Criar Conta de Usuário</h2>
-            <p>Encontre os melhores lugares para sair e se divertir em <strong>Goiânia</strong></p>
+<header>
+    <div id="header-container"></div>
+</header>
 
-            <div class="social-buttons">
-                <button class="google"><i class="fab fa-google"></i> Cadastrar-se com Google</button>
-            </div>
+<main class="container">
 
-            <div class="divider">OU CADASTRE-SE COM EMAIL</div>
-
-            <form id="cadastroForm">
-                <label>Nome Completo</label>
-                <input type="text" id="nome" placeholder="Seu nome completo" required>
-                <small id="erroNome" class="erro"></small>
-
-                <label>Email</label>
-                <input type="email" id="email" placeholder="seu@email.com" required>
-                <small id="erroEmail" class="erro"></small>
-
-                <label>Comfirmar E-mail</label>
-                <input type="email" id="email" placeholder="seu@email.com" required>
-
-                <label>Telefone (opcional)</label>
-                <input type="tel" id="telefone" placeholder="(62) 99999-9999">
-
-                <label>Senha</label>
-                <input type="password" id="senha" placeholder="Mínimo 8 caracteres" required minlength="8">
-                <small id="erroSenha" class="erro"></small>
-
-                <label>Confirmar Senha</label>
-                <input type="password" id="confirmarSenha" placeholder="Digite novamente sua senha" required>
-                <small id="erroConfirmar" class="erro"></small>
-
-                <button type="submit" class="btn-criar">Criar Conta</button>
-            </form>
-
-            <p class="termos">
-                Ao criar uma conta, você concorda com nossos <a href="../termodeuso/termodeuso.html">Termos de Uso</a>
-                </a>.
-            </p>
-
-            <p class="login">
-                Já tem uma conta? <a href="../login/login.html">Fazer login</a><br>
-
-            </p>
+    <div class="card">
+        <div class="user-icon">
+            <i class="fa-solid fa-user"></i>
         </div>
-    </main>
 
-    
-    <script src="../JS/footer.js" defer></script>
-    <script src="../JS/loadHeader.js"></script>
+        <h2>Criar Conta</h2>
+        <p>Encontre os melhores lugares para sair e se divertir</p>
 
-    <script src="../JS/cadastro.js"></script>
+        <div class="social-buttons">
+            <button class="google">
+                <img src="https://developers.google.com/identity/images/g-logo.png"
+                     class="google-icon" alt="Google">
+                Cadastrar-se com Google
+            </button>
+        </div>
+
+        <div class="divider">OU CADASTRE-SE COM EMAIL</div>
+
+        <!-- ================= FORM ================= -->
+        <form id="cadastroForm">
+
+            <label>Nome Completo</label>
+            <input type="text" id="nome" placeholder="Seu nome completo" required>
+            <small id="erroNome" class="erro"></small>
+
+            <label>Email</label>
+            <input type="email" id="email" placeholder="seu@email.com" required>
+            <small id="erroEmail" class="erro"></small>
+
+            <label>Confirmar E-mail</label>
+            <input type="email" id="confirmarEmail" placeholder="seu@email.com" required>
+
+            <label>Telefone (opcional)</label>
+            <input type="tel" id="telefone" placeholder="(62) 99999-9999">
+
+            <label>Senha</label>
+            <input type="password" id="senha" placeholder="Mínimo 8 caracteres" required minlength="8">
+            <small id="erroSenha" class="erro"></small>
+
+            <label>Confirmar Senha</label>
+            <input type="password" id="confirmarSenha" placeholder="Digite novamente sua senha" required>
+            <small id="erroConfirmar" class="erro"></small>
+
+            <button type="submit" class="btn-criar">Criar Conta</button>
+        </form>
+
+        <p class="termos">
+            Ao criar uma conta, você concorda com nossos
+            <a href="../termodeuso/termodeuso.html">Termos de Uso</a>.
+        </p>
+
+        <p class="login">
+            Já tem uma conta?
+            <a href="../login/login.html">Fazer login</a>
+        </p>
+    </div>
+
+    <!-- ================= MODAL ================= -->
+    <div id="modalCodigo" class="modal hidden">
+
+        <div class="modal-card">
+
+            <button class="fechar" onclick="fecharModal()">×</button>
+
+            <div class="icone-seguranca">
+                <i class="fa-solid fa-shield-halved"></i>
+            </div>
+
+            <h2>Verificação de Segurança</h2>
+
+            <!-- ESCOLHA DO MÉTODO -->
+            <div id="escolhaMetodo">
+
+                <p>Como deseja receber o código?</p>
+
+                <button class="btn-opcao" id="btnEmail">
+                    📧 Receber por Email
+                </button>
+
+                <button class="btn-opcao" id="btnTelefone">
+                    📱 Receber por Telefone
+                </button>
+
+            </div>
+
+            <!-- ÁREA DO CÓDIGO -->
+            <div id="areaCodigo" style="display:none;">
+
+                <p id="mensagemEnvio">
+                    Enviamos um código de verificação
+                </p>
+
+                <input type="text"
+                       id="codigo"
+                       placeholder="Digite o código"
+                       maxlength="6">
+
+                <button id="btnVerificar" class="btn-verificar">
+                    Verificar Código
+                </button>
+
+                <!-- ================= REENVIO COM TIMER ================= -->
+                <p class="reenviar">
+
+                    Não recebeu o código?
+
+                    <button id="reenviarCodigo"
+                            class="btn-reenviar"
+                            disabled>
+                        Reenviar em <span id="timer">60</span>s
+                    </button>
+
+                    <br>
+
+                    <span id="outraForma">
+                        Tente outra forma
+                    </span>
+
+                </p>
+
+                <!-- TELEFONE -->
+                <div id="areaTelefone" style="display:none;">
+
+                    <input type="tel"
+                           id="telefoneAlternativo"
+                           placeholder="Digite seu telefone">
+
+                    <button id="btnEnviarTelefone"
+                            class="btn-verificar">
+                        Enviar por telefone
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+</main>
+
+<script src="../js/footer.js" defer></script>
+<script src="../js/loadHeader.js"></script>
+<script src="../js/cadastro.js"></script>
 
 </body>
-
 </html>
