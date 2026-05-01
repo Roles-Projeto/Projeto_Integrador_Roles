@@ -1,19 +1,19 @@
 require("dotenv").config();
 
-const { Pool } = require("pg");
-
-const isProd = !!process.env.DATABASE_URL;
-
 let pool;
 
-if (isProd) {
+if (process.env.NODE_ENV === "production") {
+  // POSTGRES (Render)
+  const { Pool } = require("pg");
+
   pool = new Pool({
     connectionString: process.env.DATABASE_URL,
     ssl: { rejectUnauthorized: false }
   });
 
-  console.log("🟢 PostgreSQL (Render)");
+  console.log("🟢 Usando PostgreSQL (produção)");
 } else {
+  // MYSQL (local)
   const mysql = require("mysql2");
 
   pool = mysql.createPool({
@@ -21,10 +21,12 @@ if (isProd) {
     port: process.env.DB_PORT,
     user: process.env.DB_USER,
     password: process.env.DB_PASSWORD,
-    database: process.env.DB_NAME
+    database: process.env.DB_NAME,
+    waitForConnections: true,
+    connectionLimit: 10
   });
 
-  console.log("🟡 MySQL (local)");
+  console.log("🟡 Usando MySQL (local)");
 }
 
 module.exports = pool;

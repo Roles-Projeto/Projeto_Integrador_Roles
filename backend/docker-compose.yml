@@ -24,11 +24,14 @@ services:
       - mysql
     environment:
       DB_HOST: mysql
+      DB_PORT: 3306
       DB_USER: root
       DB_PASSWORD: 0411
       DB_NAME: roles_db
       PORT: 3000
       JWT_SECRET: minha_chave_secreta_segura
+      EMAIL_USER: roles.suporte@gmail.com
+      EMAIL_PASS: dxrz asij zxav cfip
 
 volumes:
   mysql_data:

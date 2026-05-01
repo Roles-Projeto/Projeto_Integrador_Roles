@@ -1,49 +1,43 @@
 require("dotenv").config();
-const express = require("express");
-const cors = require("cors");
-const path = require("path");
 
-const db = require("./db/db_config");
+const express = require("express");
+const cors    = require("cors");
 
 const app = express();
 
-app.use(express.json({ limit: "10mb" }));
 app.use(cors());
+app.use(express.json());
 
-// 🔥 CAMINHO CORRETO DO FRONTEND
-const frontendPath = path.join(process.cwd(), "Frontend");
+app.use((req, res, next) => {
+  console.log(`🌐 ${req.method} ${req.url}`);
+  next();
+});
 
-console.log("Caminho do frontend:", frontendPath);
+app.get("/", (req, res) => {
+  res.json({ status: "online", mensagem: "🚀 API Rolês rodando!" });
+});
 
-// SERVIR ARQUIVOS ESTÁTICOS
-app.use(express.static(frontendPath));
-
-// ROTAS
 const usuariosRoutes = require("./routes/usuarios");
-const authRoutes = require("./routes/auth");
-const eventosRoutes = require("./routes/eventos");
+const authRoutes     = require("./routes/auth");
 
 app.use("/usuarios", usuariosRoutes);
-app.use("/eventos", eventosRoutes);
-app.use("/", authRoutes);
+app.use("/usuarios", authRoutes);
 
-// ROTA PRINCIPAL
-app.get("/", (req, res) => {
-  res.sendFile(path.join(frontendPath, "index.html"));
+app.use((req, res) => {
+  res.status(404).json({ erro: `Rota não encontrada: ${req.method} ${req.url}` });
 });
 
-// TESTE BANCO
-db.getConnection?.((err, connection) => {
-  if (err) {
-    console.error("❌ Erro no banco:", err);
-  } else {
-    console.log("✅ Banco conectado com sucesso!");
-    connection.release?.();
-  }
+app.use((err, req, res, next) => {
+  console.error("❌ ERRO NÃO TRATADO:", err.message);
+  res.status(500).json({ erro: "Erro interno do servidor.", detalhes: err.message });
 });
 
-const PORT = process.env.PORT || 10000;
+const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {
-  console.log(`🌐 Servidor rodando na porta ${PORT}`);
+  console.log("================================");
+  console.log(`🚀 Servidor rodando na porta ${PORT}`);
+  console.log(`📍 http://localhost:${PORT}`);
+  console.log(`📧 Email configurado: ${process.env.EMAIL_USER || "⚠️ NÃO DEFINIDO"}`);
+  console.log("================================");
 });
