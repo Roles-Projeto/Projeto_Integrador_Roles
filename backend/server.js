@@ -26,11 +26,11 @@ app.use("/usuarios", authRoutes);
 // ========================
 // SERVIR FRONTEND ESTÁTICO
 // ========================
-app.use(express.static(path.join(__dirname, "../Frontend")));
+app.use(express.static(path.join(__dirname, "Frontend")));
 
 // Fallback — qualquer rota não encontrada serve o index.html
 app.use((req, res) => {
-  res.sendFile(path.join(__dirname, "../Frontend", "index.html"));
+  res.sendFile(path.join(__dirname, "Frontend", "index.html"));
 });
 // ========================
 // TRATAMENTO GLOBAL DE ERROS
