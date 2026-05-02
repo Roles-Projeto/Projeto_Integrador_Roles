@@ -2,6 +2,7 @@ require("dotenv").config();
 
 const express = require("express");
 const cors    = require("cors");
+const path    = require("path");
 
 const app = express();
 
@@ -13,25 +14,36 @@ app.use((req, res, next) => {
   next();
 });
 
-app.get("/", (req, res) => {
-  res.json({ status: "online", mensagem: "🚀 API Rolês rodando!" });
-});
-
+// ========================
+// ROTAS DA API
+// ========================
 const usuariosRoutes = require("./routes/usuarios");
 const authRoutes     = require("./routes/auth");
 
 app.use("/usuarios", usuariosRoutes);
 app.use("/usuarios", authRoutes);
 
-app.use((req, res) => {
-  res.status(404).json({ erro: `Rota não encontrada: ${req.method} ${req.url}` });
+// ========================
+// SERVIR FRONTEND ESTÁTICO
+// ========================
+app.use(express.static(path.join(__dirname, "../Frontend")));
+
+// Fallback — qualquer rota não encontrada serve o index.html
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "../Frontend", "index.html"));
 });
 
+// ========================
+// TRATAMENTO GLOBAL DE ERROS
+// ========================
 app.use((err, req, res, next) => {
   console.error("❌ ERRO NÃO TRATADO:", err.message);
   res.status(500).json({ erro: "Erro interno do servidor.", detalhes: err.message });
 });
 
+// ========================
+// START
+// ========================
 const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {
