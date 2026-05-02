@@ -29,7 +29,7 @@ app.use("/usuarios", authRoutes);
 app.use(express.static(path.join(__dirname, "../Frontend")));
 
 // Fallback — qualquer rota não encontrada serve o index.html
-app.get("/*", (req, res) => {
+app.use((req, res) => {
   res.sendFile(path.join(__dirname, "../Frontend", "index.html"));
 });
 // ========================
