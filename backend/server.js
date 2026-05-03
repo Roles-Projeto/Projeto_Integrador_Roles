@@ -3,6 +3,7 @@ require("dotenv").config();
 const express = require("express");
 const cors    = require("cors");
 const path    = require("path");
+const fs      = require("fs");
 
 const app = express();
 
@@ -11,14 +12,22 @@ app.use(express.json({ limit: "50mb" }));
 app.use(express.urlencoded({ limit: "50mb", extended: true }));
 
 // ========================
-// SERVIR FRONTEND ESTÁTICO
-// ← DEVE VIR ANTES DAS ROTAS DE API
+// SERVIR FRONTEND ESTÁTICO (case-insensitive)
 // ========================
-app.use("/frontend/imagens", express.static(path.join(__dirname, "frontend", "Imagens")));
-app.use("/frontend/js", express.static(path.join(__dirname, "frontend", "JS")));
-app.use("/frontend", express.static(path.join(__dirname, "frontend")));
+app.use("/frontend", (req, res, next) => {
+  const filePath = path.join(__dirname, "frontend", req.url);
+  const dir = path.dirname(filePath);
+  const base = path.basename(filePath).toLowerCase();
+  try {
+    const files = fs.readdirSync(dir);
+    const match = files.find(f => f.toLowerCase() === base);
+    if (match) req.url = req.url.replace(path.basename(req.url), match);
+  } catch(e) {}
+  next();
+}, express.static(path.join(__dirname, "frontend")));
 
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+
 app.use((req, res, next) => {
   console.log(`🌐 ${req.method} ${req.url}`);
   next();
@@ -29,7 +38,7 @@ app.use((req, res, next) => {
 // ========================
 const usuariosRoutes = require("./routes/usuarios");
 const authRoutes     = require("./routes/auth");
-const eventosRoutes = require("./routes/eventos");
+const eventosRoutes  = require("./routes/eventos");
 
 app.use("/usuarios", usuariosRoutes);
 app.use("/usuarios", authRoutes);
@@ -54,4 +63,3 @@ app.listen(PORT, () => {
   console.log(`📧 Email configurado: ${process.env.EMAIL_USER || "⚠️ NÃO DEFINIDO"}`);
   console.log("================================");
 });
-
