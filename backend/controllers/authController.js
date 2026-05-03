@@ -26,6 +26,13 @@ exports.loginUsuario = async (req, res) => {
 
       const usuario = results[0];
 
+      // 🔐 VALIDAÇÃO DO 2FA (ESSENCIAL)
+      if (!usuario.verificado) {
+        return res.status(403).json({
+          erro: "Conta não verificada. Verifique o código enviado por email."
+        });
+      }
+
       const senhaValida = await bcrypt.compare(
         senha,
         usuario.senha

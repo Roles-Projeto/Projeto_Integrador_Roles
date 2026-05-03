@@ -69,9 +69,9 @@ document.addEventListener("DOMContentLoaded", async () => {
         <div class="card-footer">
           <span class="preco">${preco}</span>
           <div class="acoes">
-            <a href="../verDetalhesEventos/detalhesEventos.html?id=${evento.id}"
+            <a href="/frontend/detalheseventos/detalheseventos.html?id=${evento.id}"
                class="btn-detalhes" role="button">Mais Detalhes</a>
-            <a href="../verDetalhesEventos/presencaConfirmada.html"
+            <a href="/frontend/detalheseventos/presencaconfirmada.html"
                class="btn-confirmar" role="button">Confirmar Presença</a>
           </div>
         </div>

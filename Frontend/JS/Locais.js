@@ -310,7 +310,7 @@
 
                 const dados = coletarDadosDoCard(card);
                 localStorage.setItem('localDetalhes', JSON.stringify(dados));
-                window.location.href = '/frontend/verDetalhesLocais/verDetalhesLocais.html';
+                window.location.href = '/frontend/detalheslocais/detalheslocais.html';
             });
         }
 

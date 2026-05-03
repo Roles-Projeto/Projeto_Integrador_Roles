@@ -1,4 +1,21 @@
 // backend/controllers/eventosController.js
+const multer = require('multer');
+const path = require('path');
+const fs = require('fs');
+
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        const dir = path.join(__dirname, '../uploads');
+        if (!fs.existsSync(dir)) fs.mkdirSync(dir);
+        cb(null, dir);
+    },
+    filename: (req, file, cb) => {
+        cb(null, Date.now() + path.extname(file.originalname));
+    }
+});
+
+exports.upload = multer({ storage });
+
 const connection = require("../db/db_config");
 
 // =====================================================
@@ -62,10 +79,19 @@ exports.listarEventos = (req, res) => {
 // =====================================================
 exports.buscarEvento = (req, res) => {
   const { id } = req.params;
+
   connection.query("SELECT * FROM eventos WHERE id = ?", [id], (err, results) => {
     if (err) return res.status(500).json({ erro: "Erro ao buscar evento." });
     if (results.length === 0) return res.status(404).json({ erro: "Evento não encontrado." });
-    res.json(results[0]);
+
+    const evento = results[0];
+
+    // Busca os ingressos desse evento
+    connection.query("SELECT * FROM ingressos WHERE evento_id = ?", [id], (errIng, ingressos) => {
+      if (errIng) return res.status(500).json({ erro: "Erro ao buscar ingressos." });
+
+      res.json({ ...evento, ingressos });
+    });
   });
 };
 
