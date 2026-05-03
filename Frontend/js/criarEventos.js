@@ -1,7 +1,7 @@
 // ====================================================
 // VARIÁVEIS GLOBAIS
 // ====================================================
-const API_URL = "http://localhost:3000/eventos";
+const API_URL = "/eventos";
 
 const steps = document.querySelectorAll(".step");
 const nextBtn = document.getElementById("nextBtn");
@@ -257,7 +257,7 @@ confirmarBtn.addEventListener("click", async () => {
         const formData = new FormData();
         formData.append('imagem', imagemEvento);
 
-        const uploadRes = await fetch('http://localhost:3000/eventos/upload-imagem', {
+        const uploadRes = await fetch('/eventos/upload-imagem', {
             method: 'POST',
             body: formData
         });

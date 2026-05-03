@@ -123,7 +123,7 @@ form.addEventListener('submit', async (e) => {
         console.log("🌐 ENVIANDO PARA API...");
 
         const response = await fetch(
-            "http://localhost:3000/usuarios/cadastro",
+            "/usuarios/cadastro",
             {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
@@ -224,7 +224,7 @@ async function enviarCodigo(metodo) {
 
     try {
         const response = await fetch(
-            "http://localhost:3000/usuarios/enviar-codigo",
+            "/usuarios/enviar-codigo",
             {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
@@ -343,7 +343,7 @@ btnVerificar.addEventListener("click", async () => {
 
     try {
         const response = await fetch(
-            "http://localhost:3000/usuarios/verificar-codigo",
+            "/usuarios/verificar-codigo",
             {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
