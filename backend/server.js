@@ -48,3 +48,7 @@ app.listen(PORT, () => {
   console.log(`📧 Email configurado: ${process.env.EMAIL_USER || "⚠️ NÃO DEFINIDO"}`);
   console.log("================================");
 });
+
+const fs = require("fs");
+console.log("📁 Conteúdo de /app:", fs.readdirSync("/app").join(", "));
+console.log("📁 Conteúdo de /app/Frontend:", fs.existsSync("/app/Frontend") ? fs.readdirSync("/app/Frontend").join(", ") : "NÃO EXISTE");
