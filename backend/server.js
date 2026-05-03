@@ -14,6 +14,8 @@ app.use(express.urlencoded({ limit: "50mb", extended: true }));
 // SERVIR FRONTEND ESTÁTICO
 // ← DEVE VIR ANTES DAS ROTAS DE API
 // ========================
+app.use("/frontend/imagens", express.static(path.join(__dirname, "frontend", "Imagens")));
+app.use("/frontend/js", express.static(path.join(__dirname, "frontend", "JS")));
 app.use("/frontend", express.static(path.join(__dirname, "frontend")));
 
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
