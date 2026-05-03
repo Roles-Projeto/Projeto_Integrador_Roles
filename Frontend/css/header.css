@@ -44,7 +44,7 @@ header { margin: 0; padding: 0; z-index: 100; }
     border-radius: 50px;
     height: 3em;
     width: 600px;
-    position: relative;        /* âncora do dropdown */
+    position: relative;
     transition: box-shadow 0.2s;
 }
 
@@ -124,7 +124,6 @@ header { margin: 0; padding: 0; z-index: 100; }
     z-index: 99999;
     overflow: hidden;
 
-    /* oculto por padrão */
     opacity: 0;
     visibility: hidden;
     transform: translateY(-4px);
@@ -138,7 +137,6 @@ header { margin: 0; padding: 0; z-index: 100; }
     transition: opacity 0.16s ease, transform 0.16s ease;
 }
 
-/* Título de seção */
 .sug-section-title {
     display: flex;
     align-items: center;
@@ -153,14 +151,12 @@ header { margin: 0; padding: 0; z-index: 100; }
     letter-spacing: 0.04em;
 }
 
-/* Lista */
 .sug-list {
     list-style: none;
     margin: 0;
     padding: 0 0 4px;
 }
 
-/* Item genérico */
 .sug-item {
     display: flex;
     align-items: center;
@@ -180,7 +176,6 @@ header { margin: 0; padding: 0; z-index: 100; }
     min-width: 0;
 }
 
-/* ---- Item recente ---- */
 .sug-icon-recente {
     font-size: 14px;
     color: #aaa;
@@ -213,7 +208,6 @@ header { margin: 0; padding: 0; z-index: 100; }
 }
 .sug-remover:hover { background: #f0ebff; color: #6C1DCE; }
 
-/* ---- Item evento/sugestão ---- */
 .sug-icon-evento {
     width: 34px;
     height: 34px;
@@ -244,7 +238,6 @@ header { margin: 0; padding: 0; z-index: 100; }
     text-overflow: ellipsis;
 }
 
-/* Destaque do texto buscado */
 .sug-nome mark {
     background: none;
     color: #6C1DCE;
@@ -272,7 +265,6 @@ header { margin: 0; padding: 0; z-index: 100; }
     font-weight: 600;
 }
 
-/* Seta de completar busca */
 .sug-completar {
     font-size: 12px;
     color: #ccc;
@@ -284,7 +276,6 @@ header { margin: 0; padding: 0; z-index: 100; }
 }
 .sug-item:hover .sug-completar { color: #6C1DCE; background: #f0ebff; }
 
-/* ---- Rodapé "Buscar por X" ---- */
 .sug-rodape {
     display: flex;
     align-items: center;
@@ -379,7 +370,6 @@ header { margin: 0; padding: 0; z-index: 100; }
     position: absolute;
     top: 45px;
     right: 0;
-    width: 260px;
     background: #fff;
     border-radius: 8px;
     box-shadow: 0 4px 12px rgba(0,0,0,0.15);
@@ -478,4 +468,138 @@ header { margin: 0; padding: 0; z-index: 100; }
     height: 5px;
     width: 100%;
     background: linear-gradient(to right, #131314 0%, #e9e5f5 50%, #6C1DCE 100%);
+}
+
+/* ==================================================
+   BOTÃO LUPA MOBILE — escondido no desktop
+================================================== */
+.header-main .search-toggle-btn {
+    display: none;
+}
+
+/* ==================================================
+   BARRA DE BUSCA MOBILE — escondida no desktop
+================================================== */
+.header-main .search-bar-mobile {
+    display: none;
+}
+
+/* ==================================================
+   RESPONSIVIDADE — MOBILE (até 768px)
+================================================== */
+@media (max-width: 768px) {
+
+    /* Navbar mais compacta */
+    .header-main .navbar {
+        padding: 0 16px;
+        height: 56px;
+        gap: 10px;
+    }
+
+    /* Logo menor */
+    .header-main .logo a {
+        font-size: 1.6em;
+        margin-right: 0;
+    }
+
+    /* Esconde a barra de busca desktop */
+    .header-main .search-bar {
+        display: none;
+    }
+
+    /* Esconde "Criar evento" e "Meus ingressos" */
+    .header-main .event-actions {
+        display: none;
+    }
+
+    /* Right section mais compacta */
+    .header-main .right-section {
+        gap: 8px;
+    }
+
+    /* Botão lupa aparece no mobile */
+    .header-main .search-toggle-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        border: none;
+        background: #f3f3f3;
+        cursor: pointer;
+        transition: background 0.2s;
+        flex-shrink: 0;
+    }
+    .header-main .search-toggle-btn:hover,
+    .header-main .search-toggle-btn.active {
+        background: #f0ebff;
+    }
+    .header-main .search-toggle-btn i {
+        color: #555;
+        font-size: 15px;
+    }
+    .header-main .search-toggle-btn.active i {
+        color: #6C1DCE;
+    }
+
+    /* Barra de busca mobile — aparece abaixo do navbar ao clicar na lupa */
+    .header-main .search-bar-mobile {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        background: #fff;
+        border-bottom: 1px solid #eee;
+        overflow: hidden;
+        max-height: 0;
+        padding: 0 16px;
+        transition: max-height 0.25s ease, padding 0.25s ease;
+    }
+
+    .header-main .search-bar-mobile.open {
+        max-height: 60px;
+        padding: 10px 16px;
+    }
+
+    .header-main .search-bar-mobile input {
+        flex: 1;
+        border: none;
+        background: #f3f3f3;
+        border-radius: 20px;
+        padding: 8px 14px;
+        font-size: 13px;
+        font-family: 'Poppins', sans-serif;
+        outline: none;
+        transition: background 0.2s, box-shadow 0.2s;
+    }
+    .header-main .search-bar-mobile input:focus {
+        background: #fff;
+        box-shadow: 0 0 0 2px #6C1DCE44;
+    }
+
+    .header-main .search-bar-mobile .city-tag-mobile {
+        background: #f0ebff;
+        color: #6C1DCE;
+        font-size: 11px;
+        font-weight: 600;
+        padding: 5px 10px;
+        border-radius: 20px;
+        white-space: nowrap;
+        cursor: pointer;
+        border: none;
+        font-family: 'Poppins', sans-serif;
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        flex-shrink: 0;
+    }
+    .header-main .search-bar-mobile .city-tag-mobile i {
+        font-size: 10px;
+    }
+
+    /* Card de cidade responsivo */
+    .city-card {
+        width: 90vw;
+        max-width: 400px;
+    }
 }

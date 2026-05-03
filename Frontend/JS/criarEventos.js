@@ -27,7 +27,7 @@ function showStep(index) {
     prevBtn.style.display = index === 0 ? "none" : "inline-block";
 
     if (index > 0) {
-        prevBtn.innerHTML = '<img src="../imagens/seta-direita.png" style="transform: scaleX(-1); width:40px;">';
+        prevBtn.innerHTML = '<img src="/frontend/imagens/seta-direita.png" style="transform: scaleX(-1); width:40px;">';
     }
 
     if (index === steps.length - 1) {
@@ -35,7 +35,7 @@ function showStep(index) {
         nextBtn.className = "btn-primary";
         nextBtn.style.padding = "12px 28px";
     } else {
-        nextBtn.innerHTML = '<img src="../imagens/seta-direita.png" style="width:40px;">';
+        nextBtn.innerHTML = '<img src="/frontend/imagens/seta-direita.png" style="width:40px;">';
         nextBtn.className = "btn-success";
         nextBtn.style.padding = "";
     }
@@ -251,21 +251,25 @@ confirmarBtn.addEventListener("click", async () => {
     const dataFim = document.getElementById("end-date")?.value;
     const horaFim = document.getElementById("end-time")?.value;
 
-    // Converte imagem para base64
-    let imagemBase64 = null;
+    // Faz upload da imagem primeiro
+    let imagemUrl = null;
     if (imagemEvento) {
-        imagemBase64 = await new Promise((resolve) => {
-            const reader = new FileReader();
-            reader.onload = (e) => resolve(e.target.result);
-            reader.readAsDataURL(imagemEvento);
+        const formData = new FormData();
+        formData.append('imagem', imagemEvento);
+
+        const uploadRes = await fetch('http://localhost:3000/eventos/upload-imagem', {
+            method: 'POST',
+            body: formData
         });
+        const uploadData = await uploadRes.json();
+        imagemUrl = uploadData.url;
     }
 
     const evento = {
         nome: document.getElementById("event-name")?.value?.trim(),
         assunto: document.getElementById("assunto")?.value,
         categoria: document.getElementById("categoria")?.value,
-        imagem: imagemBase64,
+        imagem: imagemUrl,
         data_inicio: dataInicio && horaInicio ? `${dataInicio} ${horaInicio}:00` : null,
         data_fim: dataFim && horaFim ? `${dataFim} ${horaFim}:00` : null,
         descricao: document.getElementById("descricao")?.value?.trim(),
@@ -278,7 +282,6 @@ confirmarBtn.addEventListener("click", async () => {
         ingressos: listaIngressos,
     };
 
-
     confirmarBtn.disabled = true;
     confirmarBtn.textContent = "Publicando...";
 
@@ -290,7 +293,6 @@ confirmarBtn.addEventListener("click", async () => {
         });
 
         const data = await response.json();
-
         if (!response.ok) {
             console.error("DETALHES DO ERRO:", data);
             throw new Error(data.erro + " | " + (data.detalhes || ""));
@@ -299,9 +301,8 @@ confirmarBtn.addEventListener("click", async () => {
         alert("✅ Evento publicado com sucesso!");
         localStorage.removeItem("rascunhoEvento");
         modal.style.display = "none";
-
         setTimeout(() => {
-            window.location.href = "../eventos/eventos.html";
+            window.location.href = "/frontend/eventos/eventos.html";
         }, 500);
 
     } catch (err) {
@@ -312,7 +313,6 @@ confirmarBtn.addEventListener("click", async () => {
         confirmarBtn.textContent = "Confirmar publicação";
     }
 });
-
 // ====================================================
 // INICIALIZAÇÃO
 // ====================================================

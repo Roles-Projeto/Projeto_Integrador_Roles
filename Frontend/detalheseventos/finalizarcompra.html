@@ -1,165 +1,451 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Finalizar Compra - Evento</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
-        rel="stylesheet">
-    <link rel="stylesheet" href="../css/footer.css">
-    <link rel="stylesheet" href="../css/finalizarcompra.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/frontend/css/footer.css">
+    <link rel="stylesheet" href="/frontend/css/finalizarcompra.css">
 </head>
-
 <body>
 
-    <header>
-        <div id="header-container"></div>
-    </header>
-    <main>
-        <div class="page-content">
+<header><div id="header-container"></div></header>
 
+<main>
+<div class="page-content">
+<div class="checkout-container">
 
-            <div class="checkout-container">
+    <!-- ── COLUNA ESQUERDA ── -->
+    <div class="form-section">
+        <h2 class="section-title">Finalizar Compra</h2>
+        <p class="section-subtitle">Preencha seus dados para concluir a compra dos ingressos</p>
 
-                <div class="form-section">
+        <!-- DADOS PESSOAIS -->
+        <div class="form-group">
+            <h3 class="form-subtitle">Dados Pessoais</h3>
+            <div class="dados-pessoais">
 
-                    <form id="payment-form">
-                        <h2 class="section-title">Finalizar Compra</h2>
-                        <p style="font-size: 14px; color: #666; margin-top: -10px;">Preencha seus dados para concluir a
-                            compra dos ingressos</p>
-
-                        <div class="form-group">
-                            <h3 class="form-subtitle">Dados Pessoais</h3>
-                            <div class="dados-pessoais">
-                                <div class="input-group">
-                                    <label for="nome">Nome Completo</label>
-                                    <input type="text" id="nome" value="" required>
-                                </div>
-                                <div class="input-group">
-                                    <label for="cpf">CPF</label>
-                                    <input type="text" id="cpf" value="" required>
-                                </div>
-                                <div class="input-group">
-                                    <label for="email">Email</label>
-                                    <input type="email" id="email" value="" required>
-                                </div>
-                                <div class="input-group">
-                                    <label for="telefone">Telefone</label>
-                                    <input type="tel" id="telefone" value="" required>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <h3 class="form-subtitle">Pagamento</h3>
-
-                            <div class="security-info">
-                                <i class="fas fa-lock"></i>
-                                Seus dados estão protegidos com criptografia SSL
-                            </div>
-
-                            <div class="input-group" style="margin-bottom: 10px;">
-                                <label for="numero-cartao">Número do Cartão</label>
-                                <input type="text" id="numero-cartao" placeholder="0000 0000 0000 0000" required>
-                            </div>
-
-                            <div class="input-group" style="margin-bottom: 10px;">
-                                <label for="nome-cartao">Nome no Cartão</label>
-                                <input type="text" id="nome-cartao" placeholder="Como está nos cartões" required>
-                            </div>
-
-                            <div class="validade-cvv-grid">
-                                <div class="input-group">
-                                    <label for="validade">Validade</label>
-                                    <input type="text" id="validade" placeholder="MM/AA" required>
-                                </div>
-                                <div class="input-group">
-                                    <label for="cvv">CVV</label>
-                                    <input type="text" id="cvv" placeholder="123" required>
-                                </div>
-                            </div>
-                        </div>
-
-                        <button type="submit" class="btn-pagar">Pagar R$ 0,00</button>
-                    </form>
+                <div class="input-group">
+                    <label for="nome">Nome Completo</label>
+                    <div class="input-wrapper">
+                        <input type="text" id="nome" autocomplete="name" placeholder="Seu nome completo">
+                        <i class="input-icon fas fa-user"></i>
+                    </div>
+                    <span class="field-feedback" id="fb-nome"></span>
                 </div>
 
-                <div class="summary-section">
-                    <h2 class="section-title">Resumo do Pedido</h2>
+                <div class="input-group">
+                    <label for="cpf">CPF</label>
+                    <div class="input-wrapper">
+                        <input type="text" id="cpf" autocomplete="off" placeholder="000.000.000-00" maxlength="14">
+                        <i class="input-icon fas fa-id-card" id="cpf-icon"></i>
+                        <span class="input-spinner" id="spinner-cpf" style="display:none;"></span>
+                    </div>
+                    <span class="field-feedback" id="fb-cpf"></span>
+                </div>
 
-                    <div class="event-details">
-                        <img class="event-image" id="event-image" src="caminho/para/imagem_evento.jpg"
-                            alt="Noite da Sanfona">
-                        <div class="event-info">
-                            <h4 id="event-name">Noite da Sanfona</h4>
-                            <div class="event-meta">
-                                <p><i class="fas fa-calendar-alt"></i> <span id="event-date">02/02/2025</span></p>
-                                <p><i class="fas fa-clock"></i> <span id="event-time">21:00</span></p>
-                                <p><i class="fas fa-map-marker-alt"></i> <span id="event-location">Club Latino</span>
-                                </p>
+                <div class="input-group">
+                    <label for="email">Email</label>
+                    <div class="input-wrapper">
+                        <input type="email" id="email" autocomplete="email" placeholder="seu@email.com">
+                        <i class="input-icon fas fa-envelope"></i>
+                    </div>
+                    <span class="field-feedback" id="fb-email"></span>
+                </div>
+
+                <div class="input-group">
+                    <label for="telefone">Telefone</label>
+                    <div class="input-wrapper">
+                        <input type="tel" id="telefone" autocomplete="tel" placeholder="(00) 00000-0000" maxlength="15">
+                        <i class="input-icon fas fa-phone"></i>
+                    </div>
+                    <span class="field-feedback" id="fb-telefone"></span>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- PAGAMENTO -->
+        <div class="form-group">
+            <h3 class="form-subtitle">Pagamento</h3>
+
+            <div class="payment-tabs">
+                <button type="button" class="payment-tab active" data-method="cartao" onclick="switchPaymentMethod('cartao')">
+                    <i class="fas fa-credit-card"></i><span>Cartão</span>
+                </button>
+                <button type="button" class="payment-tab" data-method="pix" onclick="switchPaymentMethod('pix')">
+                    <i class="fas fa-qrcode"></i><span>PIX</span>
+                </button>
+                <button type="button" class="payment-tab" data-method="boleto" onclick="switchPaymentMethod('boleto')">
+                    <i class="fas fa-barcode"></i><span>Boleto</span>
+                </button>
+            </div>
+
+            <!-- ══ CARTÃO ══ -->
+            <div id="payment-cartao" class="payment-card active">
+                <div class="security-info">
+                    <i class="fas fa-lock"></i> Seus dados estão protegidos com criptografia SSL
+                </div>
+
+                <div class="input-group" style="margin-bottom:10px;">
+                    <label for="numero-cartao">Número do Cartão</label>
+                    <div class="input-wrapper">
+                        <input type="text" id="numero-cartao" placeholder="0000 0000 0000 0000" maxlength="19" autocomplete="cc-number">
+                        <i class="input-icon fas fa-credit-card" id="card-brand-icon"></i>
+                    </div>
+                    <span class="field-feedback" id="fb-cartao"></span>
+                </div>
+
+                <div class="input-group" style="margin-bottom:10px;">
+                    <label for="nome-cartao">Nome no Cartão</label>
+                    <div class="input-wrapper">
+                        <input type="text" id="nome-cartao" placeholder="Como está impresso no cartão" autocomplete="cc-name">
+                        <i class="input-icon fas fa-user"></i>
+                    </div>
+                    <span class="field-feedback" id="fb-nome-cartao"></span>
+                </div>
+
+                <div class="validade-cvv-grid">
+                    <div class="input-group">
+                        <label for="validade">Validade</label>
+                        <div class="input-wrapper">
+                            <input type="text" id="validade" placeholder="MM/AA" maxlength="5" autocomplete="cc-exp">
+                            <i class="input-icon fas fa-calendar-alt"></i>
+                        </div>
+                        <span class="field-feedback" id="fb-validade"></span>
+                    </div>
+                    <div class="input-group">
+                        <label for="cvv">CVV</label>
+                        <div class="input-wrapper">
+                            <input type="text" id="cvv" placeholder="123" maxlength="4" autocomplete="cc-csc">
+                            <i class="input-icon fas fa-lock"></i>
+                        </div>
+                        <span class="field-feedback" id="fb-cvv"></span>
+                    </div>
+                </div>
+
+                <button type="button" class="btn-pagar" id="btn-pagar-cartao" onclick="handleCartaoSubmit()" style="margin-top:20px;">
+                    Pagar R$ 0,00
+                </button>
+            </div>
+
+            <!-- ══ PIX ══ -->
+            <div id="payment-pix" class="payment-card">
+                <div class="pix-info-banner">
+                    <i class="fas fa-bolt"></i>
+                    Pagamento instantâneo — aprovado na hora, sem taxas extras!
+                </div>
+
+                <!-- Resumo do pagador (dados pessoais) -->
+                <div class="pagador-card" id="pix-pagador-card">
+                    <div class="pagador-header">
+                        <i class="fas fa-user-check"></i><span>Pagador identificado</span>
+                    </div>
+                    <div class="pagador-body">
+                        <div class="pagador-row">
+                            <span class="pagador-label">Nome</span>
+                            <span class="pagador-value" id="pix-nome-display">—</span>
+                        </div>
+                        <div class="pagador-row">
+                            <span class="pagador-label">CPF</span>
+                            <span class="pagador-value" id="pix-cpf-display">—</span>
+                        </div>
+                    </div>
+                    <p class="pagador-hint">
+                        <i class="fas fa-info-circle"></i>
+                        Dados puxados automaticamente dos seus Dados Pessoais acima.
+                    </p>
+                </div>
+
+                <div class="dados-incompletos-alert" id="pix-dados-incompletos" style="display:none;">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    Preencha seu <strong>Nome</strong> e <strong>CPF</strong> nos Dados Pessoais antes de gerar o PIX.
+                </div>
+
+                <div id="pix-step-1">
+                    <p class="payment-description">
+                        Clique em "Gerar QR Code" para receber o código PIX. Você terá 30 minutos para realizar o pagamento.
+                    </p>
+                    <button type="button" class="btn-pagar" onclick="gerarPix()">
+                        <i class="fas fa-qrcode" style="margin-right:8px;"></i>Gerar QR Code PIX
+                    </button>
+                </div>
+
+                <div id="pix-step-2" style="display:none;">
+                    <p class="payment-description" style="text-align:center;">
+                        Escaneie o QR Code com o app do seu banco ou copie o código abaixo.
+                    </p>
+                    <div class="qrcode-wrapper">
+                        <div class="qrcode-box">
+                            <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" class="qrcode-svg">
+                                <rect x="10" y="10" width="60" height="60" fill="none" stroke="#1a1a1a" stroke-width="6"/>
+                                <rect x="22" y="22" width="36" height="36" fill="#1a1a1a"/>
+                                <rect x="130" y="10" width="60" height="60" fill="none" stroke="#1a1a1a" stroke-width="6"/>
+                                <rect x="142" y="22" width="36" height="36" fill="#1a1a1a"/>
+                                <rect x="10" y="130" width="60" height="60" fill="none" stroke="#1a1a1a" stroke-width="6"/>
+                                <rect x="22" y="142" width="36" height="36" fill="#1a1a1a"/>
+                                <rect x="90" y="10" width="10" height="10" fill="#1a1a1a"/><rect x="105" y="10" width="10" height="10" fill="#1a1a1a"/>
+                                <rect x="90" y="25" width="10" height="10" fill="#1a1a1a"/><rect x="80" y="40" width="10" height="10" fill="#1a1a1a"/>
+                                <rect x="105" y="40" width="10" height="10" fill="#1a1a1a"/><rect x="80" y="55" width="10" height="10" fill="#1a1a1a"/>
+                                <rect x="95" y="55" width="10" height="10" fill="#1a1a1a"/><rect x="10" y="90" width="10" height="10" fill="#1a1a1a"/>
+                                <rect x="25" y="90" width="10" height="10" fill="#1a1a1a"/><rect x="40" y="80" width="10" height="10" fill="#1a1a1a"/>
+                                <rect x="55" y="90" width="10" height="10" fill="#1a1a1a"/><rect x="10" y="105" width="10" height="10" fill="#1a1a1a"/>
+                                <rect x="40" y="105" width="10" height="10" fill="#1a1a1a"/><rect x="80" y="80" width="10" height="10" fill="#1a1a1a"/>
+                                <rect x="95" y="80" width="10" height="10" fill="#1a1a1a"/><rect x="110" y="80" width="10" height="10" fill="#1a1a1a"/>
+                                <rect x="80" y="95" width="10" height="10" fill="#1a1a1a"/><rect x="110" y="95" width="10" height="10" fill="#1a1a1a"/>
+                                <rect x="80" y="110" width="10" height="10" fill="#1a1a1a"/><rect x="95" y="110" width="10" height="10" fill="#1a1a1a"/>
+                                <rect x="110" y="110" width="10" height="10" fill="#1a1a1a"/><rect x="130" y="80" width="10" height="10" fill="#1a1a1a"/>
+                                <rect x="145" y="80" width="10" height="10" fill="#1a1a1a"/><rect x="160" y="80" width="10" height="10" fill="#1a1a1a"/>
+                                <rect x="175" y="80" width="10" height="10" fill="#1a1a1a"/><rect x="130" y="95" width="10" height="10" fill="#1a1a1a"/>
+                                <rect x="160" y="95" width="10" height="10" fill="#1a1a1a"/><rect x="145" y="110" width="10" height="10" fill="#1a1a1a"/>
+                                <rect x="175" y="110" width="10" height="10" fill="#1a1a1a"/><rect x="130" y="130" width="10" height="10" fill="#1a1a1a"/>
+                                <rect x="150" y="130" width="10" height="10" fill="#1a1a1a"/><rect x="170" y="130" width="10" height="10" fill="#1a1a1a"/>
+                                <rect x="130" y="145" width="10" height="10" fill="#1a1a1a"/><rect x="145" y="145" width="10" height="10" fill="#1a1a1a"/>
+                                <rect x="160" y="155" width="10" height="10" fill="#1a1a1a"/><rect x="175" y="145" width="10" height="10" fill="#1a1a1a"/>
+                                <rect x="130" y="160" width="10" height="10" fill="#1a1a1a"/><rect x="155" y="160" width="10" height="10" fill="#1a1a1a"/>
+                                <rect x="170" y="160" width="10" height="10" fill="#1a1a1a"/><rect x="130" y="175" width="10" height="10" fill="#1a1a1a"/>
+                                <rect x="145" y="175" width="10" height="10" fill="#1a1a1a"/><rect x="165" y="175" width="10" height="10" fill="#1a1a1a"/>
+                            </svg>
+                        </div>
+                        <div class="pix-timer">
+                            <i class="fas fa-clock"></i> Expira em <span id="pix-countdown">30:00</span>
+                        </div>
+                    </div>
+
+                    <div class="copy-code-wrapper">
+                        <label class="copy-label">Código PIX Copia e Cola</label>
+                        <div class="copy-code-box">
+                            <input type="text" id="pix-code" readonly value="00020126580014BR.GOV.BCB.PIX0136a629534e-7693-4846-b028-f142bbecde095204000053039865802BR5925ROLÊ EVENTOS LTDA6009SAO PAULO62070503***6304B14F">
+                            <button type="button" class="btn-copy" onclick="copiarCodigo('pix-code','pix-copy-feedback')">
+                                <i class="fas fa-copy"></i>
+                            </button>
+                        </div>
+                        <span id="pix-copy-feedback" class="copy-feedback"></span>
+                    </div>
+
+                    <button type="button" class="btn-pagar btn-green" id="btn-pix-pay" onclick="finalizePurchase()" style="margin-top:16px;">
+                        <i class="fas fa-check-circle" style="margin-right:8px;"></i>Já realizei o pagamento
+                    </button>
+                    <p class="payment-micro-hint">Seu ingresso será gerado automaticamente após a confirmação pelo banco.</p>
+                </div>
+            </div>
+
+            <!-- ══ BOLETO ══ -->
+            <div id="payment-boleto" class="payment-card">
+                <div class="boleto-info-banner">
+                    <i class="fas fa-info-circle"></i>
+                    <span>O boleto vence em <strong>3 dias úteis</strong>. Seu ingresso é enviado após a compensação bancária.</span>
+                </div>
+
+                <!-- Resumo do pagador (dados pessoais) -->
+                <div class="pagador-card" id="boleto-pagador-card">
+                    <div class="pagador-header">
+                        <i class="fas fa-user-check"></i><span>Pagador identificado</span>
+                    </div>
+                    <div class="pagador-body">
+                        <div class="pagador-row">
+                            <span class="pagador-label">Nome</span>
+                            <span class="pagador-value" id="boleto-nome-display">—</span>
+                        </div>
+                        <div class="pagador-row">
+                            <span class="pagador-label">CPF</span>
+                            <span class="pagador-value" id="boleto-cpf-display">—</span>
+                        </div>
+                    </div>
+                    <p class="pagador-hint">
+                        <i class="fas fa-info-circle"></i>
+                        Dados puxados automaticamente dos seus Dados Pessoais acima.
+                    </p>
+                </div>
+
+                <div class="dados-incompletos-alert" id="boleto-dados-incompletos" style="display:none;">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    Preencha seu <strong>Nome</strong> e <strong>CPF</strong> nos Dados Pessoais antes de emitir o boleto.
+                </div>
+
+                <div id="boleto-step-1">
+                    <p class="payment-description">
+                        Informe seu CEP para emitir o boleto. O endereço será preenchido automaticamente via API.
+                    </p>
+
+                    <div class="input-group" style="margin-bottom:10px;">
+                        <label for="cep-boleto">CEP</label>
+                        <div class="input-wrapper">
+                            <input type="text" id="cep-boleto" placeholder="00000-000" maxlength="9">
+                            <i class="input-icon fas fa-map-marker-alt"></i>
+                            <span class="input-spinner" id="spinner-cep" style="display:none;"></span>
+                        </div>
+                        <span class="field-feedback" id="fb-cep"></span>
+                    </div>
+
+                    <div id="endereco-box" style="display:none;">
+                        <div class="endereco-preview">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <div>
+                                <span id="endereco-logradouro">—</span>, <span id="endereco-bairro">—</span><br>
+                                <span id="endereco-cidade">—</span> – <span id="endereco-uf">—</span>
                             </div>
                         </div>
                     </div>
 
-                    <div class="ticket-selected">
-                        <h4 class="form-subtitle" style="margin-top: 0;">Ingresso Selecionado</h4>
+                    <button type="button" class="btn-pagar" onclick="gerarBoleto()" style="margin-top:16px;">
+                        <i class="fas fa-barcode" style="margin-right:8px;"></i>Emitir Boleto Bancário
+                    </button>
+                </div>
 
-                        <div class="ticket-row" style="background-color: #f8f8f8; padding: 10px; border-radius: 4px;">
-                            <span class="ticket-type" id="ticket-type">Ingresso Individual</span>
-                            <span class="ticket-price" id="ticket-price-display">R$ 30.00</span>
+                <div id="boleto-step-2" style="display:none;">
+                    <div class="boleto-generated">
+                        <div class="boleto-header-bar">
+                            <i class="fas fa-check-circle"></i> Boleto emitido com sucesso!
                         </div>
-                        <div class="ticket-benefits">
-                            <p><i class="fas fa-check-circle"></i> Aula gratuita</p>
-                            <p><i class="fas fa-check-circle"></i> 1 drink cortesia</p>
-                        </div>
-
-                        <div class="quantity-control">
-                            <label>Quantidade</label>
-                            <div class="quantity-input">
-                                <button type="button" onclick="changeQuantity(-1)">-</button>
-                                <input type="text" id="quantidade" value="1" readonly>
-                                <button type="button" onclick="changeQuantity(1)">+</button>
+                        <div class="boleto-details">
+                            <div class="boleto-detail-row">
+                                <span class="boleto-detail-label">Beneficiário</span>
+                                <span class="boleto-detail-value">Rolê Eventos Ltda</span>
                             </div>
-                            <span style="font-size: 11px; color: #888;">85 ingressos disponíveis</span>
+                            <div class="boleto-detail-row">
+                                <span class="boleto-detail-label">Valor</span>
+                                <span class="boleto-detail-value" id="boleto-valor">R$ 0,00</span>
+                            </div>
+                            <div class="boleto-detail-row">
+                                <span class="boleto-detail-label">Vencimento</span>
+                                <span class="boleto-detail-value" id="boleto-vencimento">--/--/----</span>
+                            </div>
+                            <div class="boleto-detail-row">
+                                <span class="boleto-detail-label">Nosso Número</span>
+                                <span class="boleto-detail-value" id="boleto-numero">---</span>
+                            </div>
+                        </div>
+                        <div class="barcode-wrapper">
+                            <svg viewBox="0 0 280 60" xmlns="http://www.w3.org/2000/svg" class="barcode-svg">
+                                <rect x="0" y="0" width="2" height="60" fill="#1a1a1a"/><rect x="4" y="0" width="1" height="60" fill="#1a1a1a"/>
+                                <rect x="7" y="0" width="3" height="60" fill="#1a1a1a"/><rect x="12" y="0" width="1" height="60" fill="#1a1a1a"/>
+                                <rect x="15" y="0" width="2" height="60" fill="#1a1a1a"/><rect x="19" y="0" width="1" height="60" fill="#1a1a1a"/>
+                                <rect x="22" y="0" width="3" height="60" fill="#1a1a1a"/><rect x="27" y="0" width="1" height="60" fill="#1a1a1a"/>
+                                <rect x="30" y="0" width="2" height="60" fill="#1a1a1a"/><rect x="34" y="0" width="1" height="60" fill="#1a1a1a"/>
+                                <rect x="37" y="0" width="3" height="60" fill="#1a1a1a"/><rect x="42" y="0" width="2" height="60" fill="#1a1a1a"/>
+                                <rect x="46" y="0" width="1" height="60" fill="#1a1a1a"/><rect x="49" y="0" width="2" height="60" fill="#1a1a1a"/>
+                                <rect x="53" y="0" width="3" height="60" fill="#1a1a1a"/><rect x="58" y="0" width="1" height="60" fill="#1a1a1a"/>
+                                <rect x="61" y="0" width="2" height="60" fill="#1a1a1a"/><rect x="65" y="0" width="1" height="60" fill="#1a1a1a"/>
+                                <rect x="68" y="0" width="3" height="60" fill="#1a1a1a"/><rect x="73" y="0" width="1" height="60" fill="#1a1a1a"/>
+                                <rect x="76" y="0" width="2" height="60" fill="#1a1a1a"/><rect x="80" y="0" width="3" height="60" fill="#1a1a1a"/>
+                                <rect x="85" y="0" width="1" height="60" fill="#1a1a1a"/><rect x="88" y="0" width="2" height="60" fill="#1a1a1a"/>
+                                <rect x="92" y="0" width="1" height="60" fill="#1a1a1a"/><rect x="95" y="0" width="3" height="60" fill="#1a1a1a"/>
+                                <rect x="100" y="0" width="2" height="60" fill="#1a1a1a"/><rect x="104" y="0" width="1" height="60" fill="#1a1a1a"/>
+                                <rect x="107" y="0" width="2" height="60" fill="#1a1a1a"/><rect x="111" y="0" width="3" height="60" fill="#1a1a1a"/>
+                                <rect x="116" y="0" width="1" height="60" fill="#1a1a1a"/><rect x="119" y="0" width="2" height="60" fill="#1a1a1a"/>
+                                <rect x="123" y="0" width="1" height="60" fill="#1a1a1a"/><rect x="126" y="0" width="3" height="60" fill="#1a1a1a"/>
+                                <rect x="131" y="0" width="2" height="60" fill="#1a1a1a"/><rect x="135" y="0" width="1" height="60" fill="#1a1a1a"/>
+                                <rect x="138" y="0" width="2" height="60" fill="#1a1a1a"/><rect x="142" y="0" width="1" height="60" fill="#1a1a1a"/>
+                                <rect x="145" y="0" width="3" height="60" fill="#1a1a1a"/><rect x="150" y="0" width="2" height="60" fill="#1a1a1a"/>
+                                <rect x="154" y="0" width="1" height="60" fill="#1a1a1a"/><rect x="157" y="0" width="3" height="60" fill="#1a1a1a"/>
+                                <rect x="162" y="0" width="1" height="60" fill="#1a1a1a"/><rect x="165" y="0" width="2" height="60" fill="#1a1a1a"/>
+                                <rect x="169" y="0" width="3" height="60" fill="#1a1a1a"/><rect x="174" y="0" width="1" height="60" fill="#1a1a1a"/>
+                                <rect x="177" y="0" width="2" height="60" fill="#1a1a1a"/><rect x="181" y="0" width="1" height="60" fill="#1a1a1a"/>
+                                <rect x="184" y="0" width="3" height="60" fill="#1a1a1a"/><rect x="189" y="0" width="2" height="60" fill="#1a1a1a"/>
+                                <rect x="193" y="0" width="1" height="60" fill="#1a1a1a"/><rect x="196" y="0" width="2" height="60" fill="#1a1a1a"/>
+                                <rect x="200" y="0" width="3" height="60" fill="#1a1a1a"/><rect x="205" y="0" width="1" height="60" fill="#1a1a1a"/>
+                                <rect x="208" y="0" width="2" height="60" fill="#1a1a1a"/><rect x="212" y="0" width="3" height="60" fill="#1a1a1a"/>
+                                <rect x="217" y="0" width="1" height="60" fill="#1a1a1a"/><rect x="220" y="0" width="2" height="60" fill="#1a1a1a"/>
+                                <rect x="224" y="0" width="1" height="60" fill="#1a1a1a"/><rect x="227" y="0" width="3" height="60" fill="#1a1a1a"/>
+                                <rect x="232" y="0" width="2" height="60" fill="#1a1a1a"/><rect x="236" y="0" width="1" height="60" fill="#1a1a1a"/>
+                                <rect x="239" y="0" width="2" height="60" fill="#1a1a1a"/><rect x="243" y="0" width="3" height="60" fill="#1a1a1a"/>
+                                <rect x="248" y="0" width="1" height="60" fill="#1a1a1a"/><rect x="251" y="0" width="2" height="60" fill="#1a1a1a"/>
+                                <rect x="255" y="0" width="1" height="60" fill="#1a1a1a"/><rect x="258" y="0" width="3" height="60" fill="#1a1a1a"/>
+                                <rect x="263" y="0" width="1" height="60" fill="#1a1a1a"/><rect x="266" y="0" width="2" height="60" fill="#1a1a1a"/>
+                                <rect x="270" y="0" width="3" height="60" fill="#1a1a1a"/><rect x="275" y="0" width="1" height="60" fill="#1a1a1a"/>
+                                <rect x="278" y="0" width="2" height="60" fill="#1a1a1a"/>
+                            </svg>
+                        </div>
+                        <div class="boleto-generated-bottom">
+                            <div class="copy-code-wrapper">
+                                <label class="copy-label">Linha Digitável</label>
+                                <div class="copy-code-box">
+                                    <input type="text" id="boleto-code" readonly value="34191.09008 62521.726900 61968.890004 1 99480000003300">
+                                    <button type="button" class="btn-copy" onclick="copiarCodigo('boleto-code','boleto-copy-feedback')">
+                                        <i class="fas fa-copy"></i>
+                                    </button>
+                                </div>
+                                <span id="boleto-copy-feedback" class="copy-feedback"></span>
+                            </div>
+                            <button type="button" class="btn-pagar" onclick="downloadBoleto()" style="margin-top:14px;">
+                                <i class="fas fa-download" style="margin-right:8px;"></i>Baixar Boleto em PDF
+                            </button>
                         </div>
                     </div>
+                </div>
+            </div>
 
-                    <div class="price-breakdown">
-                        <div class="price-row">
-                            <span id="subtotal-label">Subtotal (1x)</span>
-                            <span class="price" id="subtotal">R$ 30.00</span>
-                        </div>
-                        <div class="price-row">
-                            <span>Taxa de serviço (10%)</span>
-                            <span class="price" id="taxa">R$ 3.00</span>
-                        </div>
+        </div><!-- /form-group pagamento -->
+    </div><!-- /form-section -->
 
-                        <div class="tax-info">
-                            <i class="fas fa-info-circle"></i> A taxa cobre processamento de pagamento, emissão digital
-                            e suporte
-                        </div>
+    <!-- ── COLUNA DIREITA: RESUMO ── -->
+    <div class="summary-section">
+        <h2 class="section-title">Resumo do Pedido</h2>
 
-                        <div class="price-row total-row">
-                            <span>Total</span>
-                            <span class="price" id="total">R$ 33.00</span>
-                        </div>
-
-                        <p class="final-message">
-                            Ao finalizar a compra, você receberá os ingressos por email e poderá acessá-los em seu
-                            perfil.
-                        </p>
-                    </div>
-
+        <div class="event-details">
+            <img class="event-image" id="event-image" src="caminho/para/imagem_evento.jpg" alt="Evento">
+            <div class="event-info">
+                <h4 id="event-name">Noite da Sanfona</h4>
+                <div class="event-meta">
+                    <p><i class="fas fa-calendar-alt"></i> <span id="event-date">02/02/2025</span></p>
+                    <p><i class="fas fa-clock"></i> <span id="event-time">21:00</span></p>
+                    <p><i class="fas fa-map-marker-alt"></i> <span id="event-location">Club Latino</span></p>
                 </div>
             </div>
         </div>
-    </main>
 
+        <div class="ticket-selected">
+            <h4 class="form-subtitle" style="margin-top:0;">Ingresso Selecionado</h4>
+            <div class="ticket-row" style="background-color:#f8f8f8; padding:10px; border-radius:4px;">
+                <span class="ticket-type" id="ticket-type">Ingresso Individual</span>
+                <span class="ticket-price" id="ticket-price-display">R$ 30.00</span>
+            </div>
+            <div class="ticket-benefits">
+                <p><i class="fas fa-check-circle"></i> Aula gratuita</p>
+                <p><i class="fas fa-check-circle"></i> 1 drink cortesia</p>
+            </div>
+            <div class="quantity-control">
+                <label>Quantidade</label>
+                <div class="quantity-input">
+                    <button type="button" onclick="changeQuantity(-1)">-</button>
+                    <input type="text" id="quantidade" value="1" readonly>
+                    <button type="button" onclick="changeQuantity(1)">+</button>
+                </div>
+                <span style="font-size:11px; color:#888;">85 ingressos disponíveis</span>
+            </div>
+        </div>
+
+        <div class="price-breakdown">
+            <div class="price-row">
+                <span id="subtotal-label">Subtotal (1x)</span>
+                <span class="price" id="subtotal">R$ 30.00</span>
+            </div>
+            <div class="price-row">
+                <span>Taxa de serviço (10%)</span>
+                <span class="price" id="taxa">R$ 3.00</span>
+            </div>
+            <div class="tax-info">
+                <i class="fas fa-info-circle"></i> A taxa cobre processamento de pagamento, emissão digital e suporte
+            </div>
+            <div class="price-row total-row">
+                <span>Total</span>
+                <span class="price" id="total">R$ 33.00</span>
+            </div>
+            <p class="final-message">
+                Ao finalizar a compra, você receberá os ingressos por email e poderá acessá-los em seu perfil.
+            </p>
+        </div>
+    </div>
+
+</div>
+</div>
+</main>
+
+<script src="/frontend/JS/footer.js" defer></script>
+<script src="/frontend/JS/loadheader.js"></script>
+<script src="/frontend/JS/finalizarcompra.js"></script>
 </body>
-<script src="../JS/footer.js" defer></script>
-<script src="../JS/loadheader.js"></script>
-<script src="../JS/finalizarcompra.js"></script>
-
 </html>

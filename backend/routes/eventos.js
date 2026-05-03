@@ -1,12 +1,16 @@
-// backend/routes/evento// backend/routes/eventos.js
 const express = require("express");
 const router = express.Router();
 const eventosController = require("../controllers/eventosController");
 
-router.get("/",     eventosController.listarEventos);
-router.get("/:id",  eventosController.buscarEvento);
-router.post("/",    eventosController.criarEvento);
-router.put("/:id",  eventosController.editarEvento);
+router.post("/upload-imagem", eventosController.upload.single("imagem"), (req, res) => {
+    if (!req.file) return res.status(400).json({ erro: "Nenhuma imagem enviada" });
+    res.json({ url: `http://localhost:3000/uploads/${req.file.filename}` });
+});
+
+router.get("/",       eventosController.listarEventos);
+router.get("/:id",    eventosController.buscarEvento);
+router.post("/",      eventosController.criarEvento);
+router.put("/:id",    eventosController.editarEvento);
 router.delete("/:id", eventosController.excluirEvento);
 
 module.exports = router;

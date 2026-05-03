@@ -12,7 +12,7 @@ services:
       - "3307:3306"
     volumes:
       - mysql_data:/var/lib/mysql
-      - ./database:/docker-entrypoint-initdb.d
+      - projeto_integrador_roles_mysql_data:/var/lib/mysql
 
   backend:
     build: .
@@ -34,4 +34,4 @@ services:
       EMAIL_PASS: dxrz asij zxav cfip
 
 volumes:
-  mysql_data:
+ projeto_integrador_roles_mysql_data:
