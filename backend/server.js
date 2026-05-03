@@ -9,6 +9,12 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+// ========================
+// SERVIR FRONTEND ESTÁTICO
+// ← DEVE VIR ANTES DAS ROTAS DE API
+// ========================
+app.use(express.static(path.join(__dirname, "Frontend")));
+
 app.use((req, res, next) => {
   console.log(`🌐 ${req.method} ${req.url}`);
   next();
@@ -23,27 +29,16 @@ const authRoutes     = require("./routes/auth");
 app.use("/usuarios", usuariosRoutes);
 app.use("/usuarios", authRoutes);
 
-// ========================
-// SERVIR FRONTEND ESTÁTICO
-// ========================
-app.use(express.static(path.join(__dirname, "Frontend")));
-
-// Fallback — qualquer rota não encontrada serve o index.html
+// Fallback
 app.use((req, res) => {
   res.sendFile(path.join(__dirname, "Frontend", "index.html"));
 });
 
-// ========================
-// TRATAMENTO GLOBAL DE ERROS
-// ========================
 app.use((err, req, res, next) => {
   console.error("❌ ERRO NÃO TRATADO:", err.message);
   res.status(500).json({ erro: "Erro interno do servidor.", detalhes: err.message });
 });
 
-// ========================
-// START
-// ========================
 const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {
