@@ -1,5 +1,5 @@
 // Frontend/js/evento.js
-const API_URL = "http://localhost:3000/eventos";
+const API_URL = "/eventos";
 
 document.addEventListener("DOMContentLoaded", async () => {
 

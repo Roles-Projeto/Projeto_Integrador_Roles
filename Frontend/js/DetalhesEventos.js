@@ -1,4 +1,4 @@
-const API_URL = "http://localhost:3000/eventos";
+const API_URL = "/eventos";
 
 function atualizarBotaoDeCompra(precoNumerico, precoFormatado) {
     const botaoComprar = document.querySelector('.botao-comprar');

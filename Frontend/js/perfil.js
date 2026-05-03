@@ -48,7 +48,7 @@ async function loadProfileData() {
     }
 
     try {
-        const response = await fetch(`http://localhost:3000/usuarios/${userId}`);
+        const response = await fetch(`/usuarios/${userId}`);
         if (!response.ok) throw new Error("Erro ao buscar dados do usuário");
 
         const data = await response.json();
@@ -128,7 +128,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const userId = localStorage.getItem('userId');
 
         try {
-            const response = await fetch(`http://localhost:3000/usuarios/perfil`, { // 🔹 Endpoint que aceita PUT
+            const response = await fetch(`/usuarios/perfil`, { // 🔹 Endpoint que aceita PUT
                 method: "PUT",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
