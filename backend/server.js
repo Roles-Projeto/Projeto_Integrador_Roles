@@ -32,6 +32,7 @@ app.use(express.static(path.join(__dirname, "Frontend")));
 app.use((req, res) => {
   res.sendFile(path.join(__dirname, "Frontend", "index.html"));
 });
+
 // ========================
 // TRATAMENTO GLOBAL DE ERROS
 // ========================
