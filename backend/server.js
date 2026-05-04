@@ -19,12 +19,14 @@ console.log("Caminho do frontend:", frontendPath);
 app.use(express.static(frontendPath));
 
 // ROTAS
-const usuariosRoutes = require("./routes/usuarios");
-const authRoutes = require("./routes/auth");
-const eventosRoutes = require("./routes/eventos");
+const usuariosRoutes        = require("./routes/usuarios");
+const authRoutes            = require("./routes/auth");
+const eventosRoutes         = require("./routes/eventos");
+const estabelecimentosRoutes = require("./routes/estabelecimentos"); // ✅ ADICIONADO
 
 app.use("/usuarios", usuariosRoutes);
 app.use("/eventos", eventosRoutes);
+app.use("/estabelecimentos", estabelecimentosRoutes); // ✅ ADICIONADO
 app.use("/", authRoutes);
 
 // ROTA PRINCIPAL

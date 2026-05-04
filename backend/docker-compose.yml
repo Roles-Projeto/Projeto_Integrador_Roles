@@ -24,6 +24,7 @@ services:
       - mysql
     environment:
       DB_HOST: mysql
+      DB_PORT: 3306
       DB_USER: root
       DB_PASSWORD: 0411
       DB_NAME: roles_db
