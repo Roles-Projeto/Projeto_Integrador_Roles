@@ -223,10 +223,49 @@ cancelarBtn.addEventListener("click", () => {
 });
 
 // ====================================================
+// VALIDAR CNPJ (dígitos verificadores)
+// ====================================================
+
+function validarCNPJ(cnpj) {
+    cnpj = cnpj.replace(/\D/g, "");
+
+    if (cnpj.length !== 14) return false;
+
+    // Bloqueia sequências repetidas (ex: 00000000000000)
+    if (/^(\d)\1+$/.test(cnpj)) return false;
+
+    const calcDigito = (cnpj, peso) => {
+        let soma = 0;
+        for (let i = 0; i < peso.length; i++) {
+            soma += parseInt(cnpj[i]) * peso[i];
+        }
+        const resto = soma % 11;
+        return resto < 2 ? 0 : 11 - resto;
+    };
+
+    const peso1 = [5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2];
+    const peso2 = [6, 5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2];
+
+    const d1 = calcDigito(cnpj, peso1);
+    const d2 = calcDigito(cnpj, peso2);
+
+    return d1 === parseInt(cnpj[12]) && d2 === parseInt(cnpj[13]);
+}
+
+// ====================================================
 // CONFIRMAR PUBLICAÇÃO — SALVA NO "BANCO" (localStorage)
 // ====================================================
 
 confirmarBtn.addEventListener("click", () => {
+    // Valida CNPJ antes de salvar
+    const cnpjValor = document.getElementById("cnpj")?.value || "";
+    if (cnpjValor && !validarCNPJ(cnpjValor)) {
+        alert("❌ O CNPJ informado é inválido. Verifique os números.");
+        modal.style.display = "none";
+        stepNavigation.style.display = "flex";
+        return;
+    }
+
     // Coleta todos os dados do formulário
     const nome         = document.getElementById("estab-name")?.value?.trim() || "";
     const tipo         = document.getElementById("tipo")?.value || "";
@@ -245,7 +284,7 @@ confirmarBtn.addEventListener("click", () => {
     const telefone     = document.getElementById("telefone")?.value || "";
     const website      = document.getElementById("website")?.value || "";
     const responsavel  = document.getElementById("owner-name")?.value || "";
-    const cnpj         = document.getElementById("cnpj")?.value || "";
+    const cnpj         = cnpjValor;
     const visibilidade = document.querySelector('input[name="visibilidade"]:checked')?.value || "publico";
 
     // Horários
@@ -284,7 +323,7 @@ confirmarBtn.addEventListener("click", () => {
 
     // Monta objeto do estabelecimento
     const estabelecimento = {
-        id          : Date.now(),                          // ID único
+        id          : Date.now(),
         nome,
         tipo,
         especialidade,
@@ -306,16 +345,13 @@ confirmarBtn.addEventListener("click", () => {
         pratos      : [...listaPratos],
         imgLogo,
         imgCapa,
-        nota        : "Novo",                             // Sem avaliações ainda
+        nota        : "Novo",
         avaliacoes  : 0,
         criadoEm    : new Date().toISOString(),
-
-        // Campo usado pelo filtro de categoria na página locais.js
-        // Mapeia tipo do formulário → categoria do card
         categoriaCard: mapearCategoria(tipo)
     };
 
-    // ---- Salva na "tabela" de estabelecimentos ----
+    // Salva na "tabela" de estabelecimentos
     const CHAVE = "roles_estabelecimentos";
     let lista = [];
     try {
@@ -331,7 +367,6 @@ confirmarBtn.addEventListener("click", () => {
     modal.style.display = "none";
     stepNavigation.style.display = "flex";
 
-    // Feedback e redireciona para locais
     alert(`✅ "${nome}" publicado com sucesso! Ele já aparece na página de Locais.`);
     window.location.href = "../locais/locais.html";
 });
@@ -431,7 +466,7 @@ if (telefoneInput) {
 }
 
 // ====================================================
-// MÁSCARA CNPJ
+// MÁSCARA + VALIDAÇÃO CNPJ
 // ====================================================
 
 const cnpjInput = document.getElementById("cnpj");
@@ -439,11 +474,26 @@ if (cnpjInput) {
     cnpjInput.addEventListener("input", () => {
         let v = cnpjInput.value.replace(/\D/g, "");
         if (v.length > 14) v = v.slice(0, 14);
-        v = v.replace(/^(\d{2})(\d)/,         "$1.$2");
-        v = v.replace(/^(\d{2})\.(\d{3})(\d)/, "$1.$2.$3");
-        v = v.replace(/\.(\d{3})(\d)/,         ".$1/$2");
-        v = v.replace(/(\d{4})(\d)/,           "$1-$2");
+        v = v.replace(/^(\d{2})(\d)/,          "$1.$2");
+        v = v.replace(/^(\d{2})\.(\d{3})(\d)/,  "$1.$2.$3");
+        v = v.replace(/\.(\d{3})(\d)/,          ".$1/$2");
+        v = v.replace(/(\d{4})(\d)/,            "$1-$2");
         cnpjInput.value = v;
+
+        // Valida ao completar os 14 dígitos
+        const apenasNumeros = cnpjInput.value.replace(/\D/g, "");
+        if (apenasNumeros.length === 14) {
+            if (!validarCNPJ(apenasNumeros)) {
+                cnpjInput.style.borderColor = "red";
+                cnpjInput.setCustomValidity("CNPJ inválido");
+            } else {
+                cnpjInput.style.borderColor = "green";
+                cnpjInput.setCustomValidity("");
+            }
+        } else {
+            cnpjInput.style.borderColor = "";
+            cnpjInput.setCustomValidity("");
+        }
     });
 }
 
