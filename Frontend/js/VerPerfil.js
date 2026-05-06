@@ -11,7 +11,7 @@ const DADOS_PERFIS = {
         membroDesde: 'Março de 2021',
         email: 'contato@produtorajiecia.com',
         telefone: '(62) 99123-4567',
-        avatar: '../Imagens/logo3.png' // Imagem específica (se houver)
+        avatar: '/frontend/imagens/logo3.png' // Imagem específica (se houver)
     },
     'Drinks & Beer': {
         descricao: 'O melhor do happy hour na T-63! Oferecemos os melhores chopps e drinks com música ambiente e petiscos.',
@@ -23,7 +23,7 @@ const DADOS_PERFIS = {
         membroDesde: 'Outubro de 2022',
         email: 'contato@drinksandbeer.com.br',
         telefone: '(62) 98888-7777',
-        avatar: '../Imagens/avatar-generico.jpg'
+        avatar: '/frontend/imagens/avatar-generico.jpg'
     },
     // Perfil Padrão/Fallback para quando o parâmetro não for encontrado
     'Eventos Goiânia Premium': {
@@ -36,7 +36,7 @@ const DADOS_PERFIS = {
         membroDesde: 'Janeiro de 2020',
         email: 'contato@eventosgp.com.br',
         telefone: '(62) 98765-4321',
-        avatar: '../Imagens/Logo Restaurante.avif'
+        avatar: '/frontend/imagens/Logo Restaurante.avif'
     }
     // Adicione outros perfis aqui conforme necessário
 };

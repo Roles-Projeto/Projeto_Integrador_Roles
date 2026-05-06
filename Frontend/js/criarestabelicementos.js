@@ -30,7 +30,7 @@ function showStep(index) {
     prevBtn.style.display = index === 0 ? "none" : "inline-block";
 
     if (index > 0) {
-        prevBtn.innerHTML = '<img src="../imagens/seta-direita.png" style="transform: scaleX(-1); width:40px;">';
+        prevBtn.innerHTML = '<img src="/frontend/imagens/seta-direita.png" style="transform: scaleX(-1); width:40px;">';
     }
 
     if (index === steps.length - 1) {
@@ -38,7 +38,7 @@ function showStep(index) {
         nextBtn.className = "btn-primary";
         nextBtn.style.padding = "12px 28px";
     } else {
-        nextBtn.innerHTML = '<img src="../imagens/seta-direita.png" style="width:40px;">';
+        nextBtn.innerHTML = '<img src="/frontend/imagens/seta-direita.png" style="width:40px;">';
         nextBtn.className = "btn-success";
         nextBtn.style.padding = "";
     }

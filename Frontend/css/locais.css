@@ -265,9 +265,9 @@ body {
 
 
 .preco {
-    color: #00A859;
-    font-weight: 700;
-    font-size: 14px; /* Grande */
+    color: #444444;
+    font-weight: 600;
+    font-size: 14px;
     margin-left: 4px;
 }
 

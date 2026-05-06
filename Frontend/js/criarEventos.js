@@ -1,11 +1,7 @@
 // ====================================================
 // VARIÁVEIS GLOBAIS
 // ====================================================
-const API_URL =
-    window.location.hostname === "127.0.0.1" ||
-        window.location.hostname === "localhost"
-        ? "http://localhost:3000/eventos"
-        : "https://projeto-integrador-roles.onrender.com/eventos";
+const API_URL = window.API_BASE;
 
 const steps = document.querySelectorAll(".step");
 const nextBtn = document.getElementById("nextBtn");
@@ -309,7 +305,7 @@ confirmarBtn.addEventListener("click", async () => {
 
         alert("✅ Evento publicado com sucesso!");
 
-        window.location.replace(`${window.location.origin}/Frontend/eventos/eventos.html`);
+        window.location.replace(`${window.location.origin}/frontend/eventos/eventos.html`);
 
     } catch (err) {
         console.error("ERRO COMPLETO:", err);
