@@ -4,7 +4,7 @@ const eventosController = require("../controllers/eventosController");
 
 router.post("/upload-imagem", eventosController.upload.single("imagem"), (req, res) => {
     if (!req.file) return res.status(400).json({ erro: "Nenhuma imagem enviada" });
-    res.json({ url: `http://localhost:3000/uploads/${req.file.filename}` });
+    res.json({ url: `/uploads/${req.file.filename}` });  // ← só o caminho relativo
 });
 
 router.get("/",       eventosController.listarEventos);

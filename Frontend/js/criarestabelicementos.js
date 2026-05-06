@@ -145,7 +145,6 @@ function mostrarResumo() {
     const cidade = document.getElementById("cidade")?.value || "";
     const estado = document.getElementById("estado")?.value || "";
     const telefone = document.getElementById("telefone")?.value || "";
-    const bairro = document.getElementById("bairro")?.value || "";
 
     let local = "-";
     if (rua || localNome || cidade) {
@@ -223,117 +222,114 @@ cancelarBtn.addEventListener("click", () => {
 });
 
 // ====================================================
-// CONFIRMAR PUBLICAÇÃO — SALVA NO "BANCO" (localStorage)
+// CONFIRMAR PUBLICAÇÃO — ENVIA PARA A API (banco de dados)
 // ====================================================
 
-confirmarBtn.addEventListener("click", () => {
-    // Coleta todos os dados do formulário
-    const nome         = document.getElementById("estab-name")?.value?.trim() || "";
-    const tipo         = document.getElementById("tipo")?.value || "";
-    const especialidade= document.getElementById("especialidade")?.value || "";
-    const faixaPreco   = document.getElementById("faixa-preco")?.value || "";
-    const capacidade   = document.getElementById("capacidade")?.value || "";
-    const descricao    = document.getElementById("descricao")?.value || "";
-    const localNome    = document.getElementById("local-nome")?.value || "";
-    const cep          = document.getElementById("cep")?.value || "";
-    const rua          = document.getElementById("rua")?.value || "";
-    const numero       = document.getElementById("numero")?.value || "";
-    const complemento  = document.getElementById("complemento")?.value || "";
-    const bairro       = document.getElementById("bairro")?.value || "";
-    const cidade       = document.getElementById("cidade")?.value || "";
-    const estado       = document.getElementById("estado")?.value || "";
-    const telefone     = document.getElementById("telefone")?.value || "";
-    const website      = document.getElementById("website")?.value || "";
-    const responsavel  = document.getElementById("owner-name")?.value || "";
-    const cnpj         = document.getElementById("cnpj")?.value || "";
-    const visibilidade = document.querySelector('input[name="visibilidade"]:checked')?.value || "publico";
+confirmarBtn.addEventListener("click", async () => {
+    const nome          = document.getElementById("estab-name")?.value?.trim() || "";
+    const tipo          = document.getElementById("tipo")?.value || "";
+    const especialidade = document.getElementById("especialidade")?.value || "";
+    const faixa_preco   = document.getElementById("faixa-preco")?.value || "";
+    const capacidade    = document.getElementById("capacidade")?.value || "";
+    const descricao     = document.getElementById("descricao")?.value || "";
+    const local_nome    = document.getElementById("local-nome")?.value || "";
+    const cep           = document.getElementById("cep")?.value || "";
+    const rua           = document.getElementById("rua")?.value || "";
+    const numero        = document.getElementById("numero")?.value || "";
+    const complemento   = document.getElementById("complemento")?.value || "";
+    const bairro        = document.getElementById("bairro")?.value || "";
+    const cidade        = document.getElementById("cidade")?.value || "";
+    const estado        = document.getElementById("estado")?.value || "";
+    const telefone      = document.getElementById("telefone")?.value || "";
+    const website       = document.getElementById("website")?.value || "";
+    const responsavel   = document.getElementById("owner-name")?.value || "";
+    const cnpj          = document.getElementById("cnpj")?.value || "";
+    const visibilidade  = document.querySelector('input[name="visibilidade"]:checked')?.value || "publico";
 
-    // Horários
-    const horarios = [];
+    if (!nome) {
+        alert("O nome do estabelecimento é obrigatório.");
+        return;
+    }
+
+    // Endereço completo
+    const endereco = `${rua}${numero ? ", " + numero : ""}${bairro ? " — " + bairro : ""}, ${cidade}${estado ? " - " + estado : ""}`.trim();
+
+    // Horários → string "Seg: 08:00–22:00, Ter: 08:00–22:00"
+    const horariosArr = [];
     document.querySelectorAll(".horario-dia-row").forEach(row => {
-        const dia       = row.dataset.dia;
-        const check     = row.querySelector(".dia-check");
-        const abertura  = row.querySelector(".hora-abertura")?.value || "";
-        const fechamento= row.querySelector(".hora-fechamento")?.value || "";
-        horarios.push({
-            dia,
-            aberto: check?.checked || false,
-            abertura,
-            fechamento
-        });
+        const dia        = row.dataset.dia;
+        const check      = row.querySelector(".dia-check");
+        const abertura   = row.querySelector(".hora-abertura")?.value || "";
+        const fechamento = row.querySelector(".hora-fechamento")?.value || "";
+        if (check?.checked && abertura && fechamento) {
+            horariosArr.push(`${dia}: ${abertura}–${fechamento}`);
+        }
     });
+    const horario = horariosArr.join(", ") || "";
 
-    // Comodidades
-    const comodidades = [];
+    // Comodidades → string separada por vírgula
+    const comodidadesArr = [];
     document.querySelectorAll(".feature-check input:checked").forEach(feat => {
         const label = feat.closest("label");
-        if (label) comodidades.push(label.innerText.trim());
+        if (label) comodidadesArr.push(label.innerText.trim());
     });
+    const comodidades = comodidadesArr.join(", ");
 
-    // Imagens (base64 guardadas no preview)
-    const imgLogo = document.querySelector("#drop-zone-logo img")?.src || "";
-    const imgCapa = document.querySelector("#drop-zone-capa img")?.src || "";
+    // Imagens base64
+    const img_logo = document.querySelector("#drop-zone-logo img")?.src || "";
+    const img_capa = document.querySelector("#drop-zone-capa img")?.src || "";
 
-    // Mapeia faixa de preço para símbolo $
-    const mapaPreco = {
-        "economico": "$",
-        "moderado": "$$",
-        "sofisticado": "$$$",
-        "luxo": "$$$$"
+    // Categoria do card
+    const categoria_card = mapearCategoria(tipo);
+
+    // Monta objeto para enviar
+    const body = {
+        nome, tipo, especialidade, faixa_preco, capacidade, descricao,
+        local_nome, cep, rua, numero, complemento, bairro, cidade, estado,
+        endereco, telefone, website, responsavel, cnpj, visibilidade,
+        horario, comodidades, img_logo, img_capa, categoria_card
     };
 
-    // Monta objeto do estabelecimento
-    const estabelecimento = {
-        id          : Date.now(),                          // ID único
-        nome,
-        tipo,
-        especialidade,
-        faixaPreco,
-        faixaPrecoSimbolo: mapaPreco[faixaPreco] || "$",
-        capacidade,
-        descricao,
-        localNome,
-        cep, rua, numero, complemento,
-        bairro, cidade, estado,
-        endereco    : `${bairro ? bairro + ", " : ""}${cidade}${estado ? " - " + estado : ""}`,
-        telefone,
-        website,
-        responsavel,
-        cnpj,
-        visibilidade,
-        horarios,
-        comodidades,
-        pratos      : [...listaPratos],
-        imgLogo,
-        imgCapa,
-        nota        : "Novo",                             // Sem avaliações ainda
-        avaliacoes  : 0,
-        criadoEm    : new Date().toISOString(),
+    // ── DEBUG: mostra se a imagem foi capturada ──────────────────────────────
+    alert(
+        `🔍 DEBUG:\n` +
+        `Nome: ${nome}\n` +
+        `Horário: ${horario || "VAZIO"}\n` +
+        `img_capa: ${img_capa ? "✅ TEM IMAGEM (" + img_capa.length + " chars)" : "❌ VAZIO"}\n` +
+        `img_logo: ${img_logo ? "✅ TEM IMAGEM" : "❌ VAZIO"}`
+    );
+    // ── FIM DEBUG ────────────────────────────────────────────────────────────
 
-        // Campo usado pelo filtro de categoria na página locais.js
-        // Mapeia tipo do formulário → categoria do card
-        categoriaCard: mapearCategoria(tipo)
-    };
-
-    // ---- Salva na "tabela" de estabelecimentos ----
-    const CHAVE = "roles_estabelecimentos";
-    let lista = [];
+    // Envia para a API
     try {
-        lista = JSON.parse(localStorage.getItem(CHAVE)) || [];
-    } catch (_) {
-        lista = [];
+        confirmarBtn.disabled = true;
+        confirmarBtn.textContent = "Publicando...";
+
+        const res = await fetch("http://127.0.0.1:3000/estabelecimentos", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(body)
+        });
+
+        const resultado = await res.json();
+
+        if (!res.ok) {
+            throw new Error(resultado.erro || "Erro ao publicar.");
+        }
+
+        localStorage.removeItem("rascunhoEstabelecimento");
+        modal.style.display = "none";
+        stepNavigation.style.display = "flex";
+
+        alert(`✅ "${nome}" publicado com sucesso!`);
+        window.location.href = "../locais/locais.html";
+
+    } catch (err) {
+        console.error("Erro ao publicar estabelecimento:", err);
+        alert(`❌ Erro ao publicar: ${err.message}`);
+        confirmarBtn.disabled = false;
+        confirmarBtn.textContent = "Confirmar e Publicar";
     }
-    lista.push(estabelecimento);
-    localStorage.setItem(CHAVE, JSON.stringify(lista));
-
-    // Limpa rascunho
-    localStorage.removeItem("rascunhoEstabelecimento");
-    modal.style.display = "none";
-    stepNavigation.style.display = "flex";
-
-    // Feedback e redireciona para locais
-    alert(`✅ "${nome}" publicado com sucesso! Ele já aparece na página de Locais.`);
-    window.location.href = "../locais/locais.html";
 });
 
 // ====================================================
@@ -342,21 +338,21 @@ confirmarBtn.addEventListener("click", () => {
 
 function mapearCategoria(tipo) {
     const mapa = {
-        "Restaurante"             : "restaurantes",
-        "Bar e Boteco"            : "bares",
-        "Café e Cafeteria"        : "bares",
-        "Lanchonete e Fast Food"  : "restaurantes",
-        "Pizzaria"                : "restaurantes",
-        "Churrascaria"            : "restaurantes",
-        "Doceria e Confeitaria"   : "restaurantes",
-        "Padaria"                 : "restaurantes",
-        "Sorveteria"              : "restaurantes",
-        "Sushi e Japonês"         : "restaurantes",
-        "Food Truck"              : "restaurantes",
-        "Bistrô"                  : "restaurantes",
-        "Pub"                     : "bares",
-        "Enoteca"                 : "bares",
-        "Hamburgueria"            : "restaurantes",
+        "Restaurante"            : "restaurantes",
+        "Bar e Boteco"           : "bares",
+        "Café e Cafeteria"       : "bares",
+        "Lanchonete e Fast Food" : "restaurantes",
+        "Pizzaria"               : "restaurantes",
+        "Churrascaria"           : "restaurantes",
+        "Doceria e Confeitaria"  : "restaurantes",
+        "Padaria"                : "restaurantes",
+        "Sorveteria"             : "restaurantes",
+        "Sushi e Japonês"        : "restaurantes",
+        "Food Truck"             : "restaurantes",
+        "Bistrô"                 : "restaurantes",
+        "Pub"                    : "bares",
+        "Enoteca"                : "bares",
+        "Hamburgueria"           : "restaurantes",
     };
     return mapa[tipo] || "restaurantes";
 }
@@ -372,18 +368,18 @@ showStep(currentStep);
 // ====================================================
 
 const especialidadesPorTipo = {
-    "Restaurante": ["Brasileiro", "Italiano", "Árabe", "Japonês", "Chinês", "Mexicano", "Francês", "Vegetariano/Vegano", "Frutos do mar", "Fusion"],
-    "Bar e Boteco": ["Petiscos", "Cervejas especiais", "Drinks e coquetéis", "Bar temático", "Esportivo"],
-    "Café e Cafeteria": ["Café especial", "Brunch", "Torradas e pães", "Bolos e doces", "Vegano"],
-    "Lanchonete e Fast Food": ["Hambúrguer", "Hot dog", "Batata frita", "Tacos", "Wraps"],
-    "Pizzaria": ["Tradicional", "Gourmet", "Sem glúten", "Por metro", "Pizza no forno a lenha"],
-    "Churrascaria": ["Rodízio", "À la carte", "Assado na brasa", "Costela"],
-    "Doceria e Confeitaria": ["Bolos personalizados", "Brigadeiros", "Tortas", "Macarons", "Chocolates"],
-    "Padaria": ["Pão artesanal", "Café da manhã", "Salgados", "Doces"],
-    "Sorveteria": ["Sorvete artesanal", "Açaí", "Frozen", "Sorvete vegano"],
-    "Sushi e Japonês": ["Sushi", "Temaki", "Ramen", "Udon", "Teppanyaki"],
-    "Food Truck": ["Hambúrguer", "Tacos", "Churrasco", "Vegano", "Comida de rua"],
-    "Hamburgueria": ["Smash burger", "Artesanal", "Vegano", "Gourmet"],
+    "Restaurante"            : ["Brasileiro", "Italiano", "Árabe", "Japonês", "Chinês", "Mexicano", "Francês", "Vegetariano/Vegano", "Frutos do mar", "Fusion"],
+    "Bar e Boteco"           : ["Petiscos", "Cervejas especiais", "Drinks e coquetéis", "Bar temático", "Esportivo"],
+    "Café e Cafeteria"       : ["Café especial", "Brunch", "Torradas e pães", "Bolos e doces", "Vegano"],
+    "Lanchonete e Fast Food" : ["Hambúrguer", "Hot dog", "Batata frita", "Tacos", "Wraps"],
+    "Pizzaria"               : ["Tradicional", "Gourmet", "Sem glúten", "Por metro", "Pizza no forno a lenha"],
+    "Churrascaria"           : ["Rodízio", "À la carte", "Assado na brasa", "Costela"],
+    "Doceria e Confeitaria"  : ["Bolos personalizados", "Brigadeiros", "Tortas", "Macarons", "Chocolates"],
+    "Padaria"                : ["Pão artesanal", "Café da manhã", "Salgados", "Doces"],
+    "Sorveteria"             : ["Sorvete artesanal", "Açaí", "Frozen", "Sorvete vegano"],
+    "Sushi e Japonês"        : ["Sushi", "Temaki", "Ramen", "Udon", "Teppanyaki"],
+    "Food Truck"             : ["Hambúrguer", "Tacos", "Churrasco", "Vegano", "Comida de rua"],
+    "Hamburgueria"           : ["Smash burger", "Artesanal", "Vegano", "Gourmet"],
 };
 
 const tipoSelect = document.getElementById("tipo");
@@ -439,10 +435,10 @@ if (cnpjInput) {
     cnpjInput.addEventListener("input", () => {
         let v = cnpjInput.value.replace(/\D/g, "");
         if (v.length > 14) v = v.slice(0, 14);
-        v = v.replace(/^(\d{2})(\d)/,         "$1.$2");
+        v = v.replace(/^(\d{2})(\d)/,          "$1.$2");
         v = v.replace(/^(\d{2})\.(\d{3})(\d)/, "$1.$2.$3");
-        v = v.replace(/\.(\d{3})(\d)/,         ".$1/$2");
-        v = v.replace(/(\d{4})(\d)/,           "$1-$2");
+        v = v.replace(/\.(\d{3})(\d)/,          ".$1/$2");
+        v = v.replace(/(\d{4})(\d)/,            "$1-$2");
         cnpjInput.value = v;
     });
 }

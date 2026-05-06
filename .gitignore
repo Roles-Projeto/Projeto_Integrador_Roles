@@ -3,4 +3,6 @@
 /backend/.env
 .env
 .env.production
+backup.sql
+.hintrc
 node_modules/

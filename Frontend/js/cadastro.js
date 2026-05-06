@@ -1,6 +1,10 @@
 // ========================
 // DEBUG INICIAL
 // ========================
+const API_URL =
+    ["localhost", "127.0.0.1"].includes(window.location.hostname)
+        ? "http://localhost:3000"
+        : "https://projeto-integrador-roles.onrender.com";
 console.log("🚨 JS CADASTRO CARREGADO 🚨");
 
 // ========================
@@ -11,42 +15,42 @@ const form = document.getElementById('cadastroForm');
 // ========================
 // CAMPOS DE ERRO
 // ========================
-const erroNome     = document.getElementById('erroNome');
-const erroEmail    = document.getElementById('erroEmail');
-const erroSenha    = document.getElementById('erroSenha');
+const erroNome = document.getElementById('erroNome');
+const erroEmail = document.getElementById('erroEmail');
+const erroSenha = document.getElementById('erroSenha');
 const erroConfirmar = document.getElementById('erroConfirmar');
 
 // ========================
 // ELEMENTOS DO MODAL
 // ========================
-const modal          = document.getElementById("modalCodigo");
-const escolhaMetodo  = document.getElementById("escolhaMetodo");
-const areaCodigo     = document.getElementById("areaCodigo");
-const mensagemEnvio  = document.getElementById("mensagemEnvio");
-const btnVerificar   = document.getElementById("btnVerificar");
-const inputCodigo    = document.getElementById("codigo");
+const modal = document.getElementById("modalCodigo");
+const escolhaMetodo = document.getElementById("escolhaMetodo");
+const areaCodigo = document.getElementById("areaCodigo");
+const mensagemEnvio = document.getElementById("mensagemEnvio");
+const btnVerificar = document.getElementById("btnVerificar");
+const inputCodigo = document.getElementById("codigo");
 const reenviarCodigo = document.getElementById("reenviarCodigo");
-const outraForma     = document.getElementById("outraForma");
-const areaTelefone   = document.getElementById("areaTelefone");
+const outraForma = document.getElementById("outraForma");
+const areaTelefone = document.getElementById("areaTelefone");
 const telefoneAlternativo = document.getElementById("telefoneAlternativo");
-const btnEnviarTelefone   = document.getElementById("btnEnviarTelefone");
+const btnEnviarTelefone = document.getElementById("btnEnviarTelefone");
 
 // ========================
 // VARIÁVEIS DE CONTROLE
 // ========================
 let metodoSelecionado = null;
-let dadosTemporarios  = null;
-let tempoRestante     = 60;
-let intervaloTimer    = null;
+let dadosTemporarios = null;
+let tempoRestante = 60;
+let intervaloTimer = null;
 
 
 // ========================
 // LIMPAR ERROS DO FORM
 // ========================
 function limparErros() {
-    erroNome.textContent     = '';
-    erroEmail.textContent    = '';
-    erroSenha.textContent    = '';
+    erroNome.textContent = '';
+    erroEmail.textContent = '';
+    erroSenha.textContent = '';
     erroConfirmar.textContent = '';
 
     document.querySelectorAll('input').forEach(input => {
@@ -63,12 +67,12 @@ form.addEventListener('submit', async (e) => {
     e.preventDefault();
     limparErros();
 
-    const nome_completo    = document.getElementById('nome').value.trim();
-    const email            = document.getElementById('email').value.trim();
+    const nome_completo = document.getElementById('nome').value.trim();
+    const email = document.getElementById('email').value.trim();
     const confirmarEmailVal = document.getElementById('confirmarEmail').value.trim();
-    const telefone         = document.getElementById('telefone').value.trim();
-    const senha            = document.getElementById('senha').value.trim();
-    const confirmar        = document.getElementById('confirmarSenha').value.trim();
+    const telefone = document.getElementById('telefone').value.trim();
+    const senha = document.getElementById('senha').value.trim();
+    const confirmar = document.getElementById('confirmarSenha').value.trim();
 
     let temErro = false;
 
@@ -116,20 +120,19 @@ form.addEventListener('submit', async (e) => {
     // ENVIO PARA O BACKEND
     // ========================
     const btnSubmit = form.querySelector('button[type="submit"]');
-    btnSubmit.disabled    = true;
+    btnSubmit.disabled = true;
     btnSubmit.textContent = "Criando conta...";
 
     try {
         console.log("🌐 ENVIANDO PARA API...");
 
-        const response = await fetch(
-            "/usuarios/cadastro",
-            {
+        const response = await
+            fetch(`${API_URL}/usuarios/cadastro`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ nome_completo, email, telefone, senha })
             }
-        );
+            );
 
         console.log("📡 STATUS:", response.status);
 
@@ -162,7 +165,7 @@ form.addEventListener('submit', async (e) => {
         console.error("❌ ERRO DE CONEXÃO:", err);
         alert("Erro ao conectar com o servidor. Verifique se o backend está rodando.");
     } finally {
-        btnSubmit.disabled    = false;
+        btnSubmit.disabled = false;
         btnSubmit.textContent = "Criar Conta";
     }
 });
@@ -223,13 +226,11 @@ async function enviarCodigo(metodo) {
     metodoSelecionado = metodo;
 
     try {
-        const response = await fetch(
-            "/usuarios/enviar-codigo",
-            {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ email: dadosTemporarios.email })
-            }
+        const response = await fetch(`${API_URL}/usuarios/enviar-codigo`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ email: dadosTemporarios.email })
+        }
         );
 
         let data;
@@ -256,9 +257,9 @@ async function enviarCodigo(metodo) {
 function iniciarTimerReenvio() {
     clearInterval(intervaloTimer); // limpa timer anterior se houver
 
-    const btn    = reenviarCodigo;
+    const btn = reenviarCodigo;
     tempoRestante = 60;
-    btn.disabled  = true;
+    btn.disabled = true;
     btn.textContent = `Reenviar em ${tempoRestante}s`;
 
     intervaloTimer = setInterval(() => {
@@ -267,7 +268,7 @@ function iniciarTimerReenvio() {
 
         if (tempoRestante <= 0) {
             clearInterval(intervaloTimer);
-            btn.disabled    = false;
+            btn.disabled = false;
             btn.textContent = "Reenviar código";
         }
     }, 1000);
@@ -280,7 +281,7 @@ function iniciarTimerReenvio() {
 reenviarCodigo.addEventListener("click", async () => {
     if (!metodoSelecionado) return;
 
-    reenviarCodigo.disabled    = true;
+    reenviarCodigo.disabled = true;
     reenviarCodigo.textContent = "Enviando...";
 
     await enviarCodigo(metodoSelecionado);
@@ -338,13 +339,11 @@ btnVerificar.addEventListener("click", async () => {
         return;
     }
 
-    btnVerificar.disabled    = true;
+    btnVerificar.disabled = true;
     btnVerificar.textContent = "Verificando...";
 
     try {
-        const response = await fetch(
-            "/usuarios/verificar-codigo",
-            {
+        const response = await fetch(`${API_URL}/usuarios/verificar-codigo`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
@@ -370,7 +369,7 @@ btnVerificar.addEventListener("click", async () => {
         console.error("❌ ERRO AO VERIFICAR:", err);
         alert("Erro ao verificar código. Tente novamente.");
     } finally {
-        btnVerificar.disabled    = false;
+        btnVerificar.disabled = false;
         btnVerificar.textContent = "Verificar Código";
     }
 });
