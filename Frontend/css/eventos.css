@@ -265,9 +265,10 @@ p {
 }
 
 .preco {
-    font-weight: 700;
-    color: #16a34a;
-    /* verde */
+    color: #444444;
+    font-weight: 600;
+    font-size: 14px;
+    margin-left: 4px;
 }
 
 /* Botões */
@@ -302,10 +303,11 @@ p {
 }
 
 .preco {
-    color: #16a34a;
-    font-weight: 700;
+    color: #444444;
+    font-weight: 600;
+    font-size: 14px;
+    margin-left: 4px;
 }
-
 .taxa {
     display: block;
     font-size: 11px;

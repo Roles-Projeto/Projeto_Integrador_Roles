@@ -22,7 +22,7 @@ document.addEventListener('DOMContentLoaded', function () {
             descricao: 'Opções de chopp gelado e petiscos variados. Perfeito para um happy hour.',
             horario: '17:00 - 01:00',
             tags: ['Happy Hour', 'Música ao vivo', 'Cerveja artesanal'],
-            imagem: '../Imagens/1º imagem cad.png'
+            imagem: '/frontend/imagens/1º imagem cad.png'
         },
         {
             nome: 'Kabanas Restaurante',
@@ -33,7 +33,7 @@ document.addEventListener('DOMContentLoaded', function () {
             descricao: 'Culinária sofisticada em ambiente elegante. Ideal para ocasiões especiais.',
             horario: '11:30 - 00:00',
             tags: ['Menu degustação', 'Carta de vinhos', 'Rolê romântico'],
-            imagem: '../Imagens/2º imagem card.png'
+            imagem: '/frontend/imagens/2º imagem card.png'
         },
         {
             nome: 'Roxy Club',
@@ -44,7 +44,7 @@ document.addEventListener('DOMContentLoaded', function () {
             descricao: 'Um dos maiores clubs de Goiânia com DJs locais e nacionais e pista de dança.',
             horario: '23:00 - 06:00',
             tags: ['Pista de dança', 'Música eletrônica', 'Bar completo'],
-            imagem: '../Imagens/3º imagem card.png'
+            imagem: '/frontend/imagens/3º imagem card.png'
         },
         {
             nome: 'Boliche do Park',
@@ -55,7 +55,7 @@ document.addEventListener('DOMContentLoaded', function () {
             descricao: 'Pistas de boliche e salas de karaoke privadas para você soltar a voz.',
             horario: '14:00 - 00:00',
             tags: ['Salas privadas', 'Diversão em grupo', 'Drinks'],
-            imagem: '../Imagens/local-karaoke.png'
+            imagem: '/frontend/imagens/local-karaoke.png'
         },
         {
             nome: 'Teatro Rio Vermelho',
@@ -66,7 +66,7 @@ document.addEventListener('DOMContentLoaded', function () {
             descricao: 'Principal espaço para grandes shows, peças de teatro e apresentações culturais.',
             horario: 'Verificar Agenda',
             tags: ['Grande capacidade', 'Estacionamento', 'Programação variada'],
-            imagem: '../Imagens/6º imagem cad.png'
+            imagem: '/frontend/imagens/6º imagem cad.png'
         }
     ];
 
@@ -80,7 +80,7 @@ document.addEventListener('DOMContentLoaded', function () {
             local: 'Setor Marista, Goiânia',
             descricao: 'Uma noite mágica com os melhores músicos de jazz da cidade.',
             interessados: 260,
-            imagem: '../Imagens/7º imagem card.png'
+            imagem: '/frontend/imagens/7º imagem card.png'
         },
         {
             nome: 'Salsa e Bachata Night',
@@ -91,7 +91,7 @@ document.addEventListener('DOMContentLoaded', function () {
             local: 'Casa Latina, Setor Central',
             descricao: 'Aulas gratuitas de salsa seguidas de muito baile latino.',
             interessados: 120,
-            imagem: '../Imagens/9º imagem card.png'
+            imagem: '/frontend/imagens/9º imagem card.png'
         },
         {
             nome: 'Noite de Stand-up',
@@ -102,7 +102,7 @@ document.addEventListener('DOMContentLoaded', function () {
             local: 'Guardian Comedy Club',
             descricao: 'Os melhores comediantes do Brasil em uma noite de risadas.',
             interessados: 95,
-            imagem: '../Imagens/4º imagem cad.png'
+            imagem: '/frontend/imagens/4º imagem cad.png'
         }
     ];
 

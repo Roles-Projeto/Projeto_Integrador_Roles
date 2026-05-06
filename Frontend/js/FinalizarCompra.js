@@ -338,7 +338,7 @@ function loadEventData() {
     const eventDataString = localStorage.getItem('eventoSelecionado');
     if (eventDataString) {
         const eventData = JSON.parse(eventDataString);
-        document.getElementById('event-image').src = eventData.imagem || 'caminho/para/placeholder.jpg';
+        document.getElementById('event-image').src = eventData.imagem || '/frontend/imagens/placeholder.jpg';
         document.getElementById('event-name').textContent = eventData.nome || 'Evento Desconhecido';
         document.getElementById('event-date').textContent = eventData.data || '--/--/----';
         document.getElementById('event-time').textContent = eventData.hora || '--:--';

@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
 
-    fetch("/frontend/header/header.html")
+    fetch("/Frontend/header/header.html")
         .then(response => response.text())
         .then(data => {
             document.getElementById("header-container").innerHTML = data;
@@ -71,7 +71,7 @@ function initHeader() {
             ['userIsLoggedIn', 'profilePhotoUrl', 'profileName', 'profileEmail']
                 .forEach(k => localStorage.removeItem(k));
             alternarEstadoHeader(false);
-            window.location.href = '/frontend/login/logout.html';
+            window.location.href = '/Frontend/login/logout.html';
         });
 
         logoutBtn.dataset.listenerAdded = 'true';
@@ -104,7 +104,7 @@ function initHeader() {
             const isHome = window.location.pathname.endsWith('index.html')
                         || window.location.pathname.endsWith('/');
             if (isHome) window.postMessage('OPEN_LOGIN_MODAL', '*');
-            else window.location.href = '/frontend/login/login.html';
+            else window.location.href = '/Frontend/login/login.html';
         });
     }
 
@@ -412,7 +412,7 @@ function initHeader() {
         if (naHome) {
             dispararFiltroDireto(termo);
         } else {
-            window.location.href = '/frontend/index.html';
+            window.location.href = '/Frontend/index.html';
         }
     }
 

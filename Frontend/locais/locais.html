@@ -1,250 +1,249 @@
-    <!DOCTYPE html>
-    <html lang="pt-br">
+<!DOCTYPE html>
+<html lang="pt-br">
 
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Rolês - Início</title>
-        <link rel="stylesheet" href="../header/css/style.css">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-        <script src="https://unpkg.com/feather-icons"></script>
-        <link rel="stylesheet" href="../css/footer.css">
-        <link rel="stylesheet" href="../css/locais.css">
-    </head>
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Rolês - Locais</title>
+    <link rel="stylesheet" href="../header/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="../css/footer.css">
+    <link rel="stylesheet" href="../css/locais.css">
+</head>
 
-    <body>
+<body>
 
-        <header>
-            <div id="header-container"></div>
-        </header>
+    <header>
+        <div id="header-container"></div>
+    </header>
 
-        <main>
+    <main>
 
-            <section class="todos-locais1">
-                <h1>Todos os Locais</h1>
-                <p>Descubra os melhores lugares para sair e se divertir na sua cidade</p>
+        <section class="todos-locais1">
+            <h1>Todos os Locais</h1>
+            <p>Descubra os melhores lugares para sair e se divertir na sua cidade</p>
 
-                <div class="search-box1">
-                    <i data-feather="search" class="icon"></i>
-                    <input type="text" placeholder="Buscar locais, bairros, tipos..." id="search-input" />
+            <div class="search-box1">
+                <i class="fa-solid fa-magnifying-glass icon"></i>
+                <input type="text" placeholder="Buscar locais, bairros, tipos..." id="search-locais" />
+        </section>
+
+        <div class="content-container1">
+
+            <section class="barra-filtros1">
+                <div class="filtro-esquerda1">
+                    <i class="fa-solid fa-filter icone-filtro"></i>
+                    <span>Filtros</span>
+                </div>
+                <div class="filtro-direita1">
+                    <button class="botao-dropdown1">
+                        Todas as Categorias <i class="fa-solid fa-chevron-down"></i>
+                    </button>
+                    <button class="botao-dropdown1">
+                        Melhor avaliados <i class="fa-solid fa-chevron-down"></i>
+                    </button>
                 </div>
             </section>
 
-            <div class="content-container1">
+            <section class="opçoes">
+                <p class="mover">Encontrado <strong id="contador-locais">0</strong> locais</p>
 
-                <section class="barra-filtros1">
-                    <div class="filtro-esquerda1">
-                        <i class="fa-solid fa-filter icone-filtro"></i>
-                        <span>Filtros</span>
-                    </div>
-                    <div class="filtro-direita1">
-                        <button class="botao-dropdown1" data-filtro-tipo="categoria">
-                            Todas as Categorias <i class="fa-solid fa-chevron-down"></i>
-                        </button>
-                        <button class="botao-dropdown1" data-filtro-tipo="avaliacao">
-                            Melhor avaliados <i class="fa-solid fa-chevron-down"></i>
-                        </button>
-                    </div>
-                </section>
+                <div class="botoes" id="botoes-categoria-locais">
+                    <button class="opçoes-abaixo ativo" data-categoria="todos">Todos</button>
+                    <button class="opçoes-abaixo" data-categoria="baladas">Baladas</button>
+                    <button class="opçoes-abaixo" data-categoria="bares">Bares</button>
+                    <button class="opçoes-abaixo" data-categoria="restaurantes">Restaurantes</button>
+                    <button class="opçoes-abaixo" data-categoria="shows">Shows</button>
+                </div>
+            </section>
 
-                <section class="opçoes">
-                    <p class="mover">Encontrado <strong id="contador-locais">6</strong> locais</p>
+            <section>
+                <div class="cards-container" id="cards-container-locais">
 
-                    <div class="botoes" id="botoes-categoria-locais">
-                        <button class="opçoes-abaixo ativo" data-categoria="todos">Todos</button>
-                        <button class="opçoes-abaixo" data-categoria="baladas">Baladas</button>
-                        <button class="opçoes-abaixo" data-categoria="bares">Bares</button>
-                        <button class="opçoes-abaixo" data-categoria="restaurantes">Restaurantes</button>
-                        <button class="opçoes-abaixo" data-categoria="shows">Shows</button>
-                    </div>
-                </section>
-
-                <section>
-                    <div class="cards-container" id="cards-container-locais">
-
-                        <div class="card" data-categoria-card="bares">
-                            <div class="card-img">
-                                <img src="../Imagens/1º imagem cad.png" alt="Pinga Fogo">
-                                <span class="categoria">Bar</span>
-                                <span class="nota">⭐ 4.5</span>
-                            </div>
-                            <div class="card-content">
-                                <h3>Pinga Fogo </h3>
-                                <p class="local"><i class="fa-solid fa-location-dot"></i> Setor Marista, Goiânia</p>
-                                <p class="descricao">Opções de chopp gelado e petiscos variados. Perfeito para um happy hour.</p>
-                                <div class="info">
-                                    <p><i class="fa-regular fa-clock"></i> 17:00 – 01:00</p>
-                                    <p><i class="fa-solid fa-phone"></i> (62) 32XX-XXXX</p>
-                                </div>
-                                <div class="tags">
-                                    <span>Happy Hour</span>
-                                    <span>Música ao vivo</span>
-                                    <span>Cerveja artesanal</span>
-                                </div>
-                                <div class="footer">
-                                    <p class="avaliacoes"><i class="fa-solid fa-star"></i> 450 avaliações</p>
-                                    <button class="detalhes">Ver Detalhes</button>
-                                </div>
-                            </div>
+                    <div class="card" data-categoria-card="bares">
+                        <div class="card-img">
+                            <img src="/frontend/imagens/1º imagem cad.png" alt="Pinga Fogo">
+                            <span class="categoria">Bar</span>
+                            <span class="nota">⭐ 4.5</span>
                         </div>
-
-                        <div class="card" data-categoria-card="restaurantes">
-                            <div class="card-img">
-                                <img src="../Imagens/2º imagem card.png" alt="Kabanas Restaurante">
-                                <span class="categoria">Restaurante</span>
-                                <span class="nota">⭐ 4.6</span>
+                        <div class="card-content">
+                            <h3>Pinga Fogo</h3>
+                            <p class="local"><i class="fa-solid fa-location-dot"></i> Setor Marista, Goiânia</p>
+                            <p class="descricao">Opções de chopp gelado e petiscos variados. Perfeito para um happy hour.</p>
+                            <div class="info">
+                                <p><i class="fa-regular fa-clock"></i> 17:00 – 01:00</p>
+                                <p><i class="fa-solid fa-phone"></i> (62) 32XX-XXXX</p>
                             </div>
-                            <div class="card-content">
-                                <h3>Kabanas Restaurante <span class="preco">$$$</span></h3>
-                                <p class="local"><i class="fa-solid fa-location-dot"></i> Setor Bueno, Goiânia</p>
-                                <p class="descricao">Culinária sofisticada em ambiente elegante. Ideal para ocasiões especiais.</p>
-                                <div class="info">
-                                    <p><i class="fa-regular fa-clock"></i> 11:30 – 00:00</p>
-                                    <p><i class="fa-solid fa-phone"></i> (62) 32XX-XXXX</p>
-                                </div>
-                                <div class="tags">
-                                    <span>Menu degustação</span>
-                                    <span>Carta de vinhos</span>
-                                    <span>Rolê romântico</span>
-                                </div>
-                                <div class="footer">
-                                    <p class="avaliacoes"><i class="fa-solid fa-star"></i> 1200 avaliações</p>
-                                    <button class="detalhes">Ver Detalhes</button>
-                                </div>
+                            <div class="tags">
+                                <span>Happy Hour</span>
+                                <span>Música ao vivo</span>
+                                <span>Cerveja artesanal</span>
                             </div>
-                        </div>
-
-                        <div class="card" data-categoria-card="baladas">
-                            <div class="card-img">
-                                <img src="../Imagens/3º imagem card.png" alt="Roxy">
-                                <span class="categoria">Balada</span>
-                                <span class="nota">⭐ 4.7</span>
+                            <div class="footer">
+                                <p class="avaliacoes"><i class="fa-solid fa-star"></i> 450 avaliações</p>
+                                <button class="detalhes">Ver Detalhes</button>
                             </div>
-                            <div class="card-content">
-                                <h3>Roxy <span class="preco">$$</span></h3>
-                                <p class="local"><i class="fa-solid fa-location-dot"></i> Setor Sul, Goiânia</p>
-                                <p class="descricao">Um dos maiores clubs de Goiânia com DJs locais e nacionais e pista de dança.</p>
-                                <div class="info">
-                                    <p><i class="fa-regular fa-clock"></i> 23:00 – 06:00</p>
-                                    <p><i class="fa-solid fa-phone"></i> (62) 9XXXX-XXXX</p>
-                                </div>
-                                <div class="tags">
-                                    <span>Pista de dança</span>
-                                    <span>Música eletrônica</span>
-                                    <span>Bar completo</span>
-                                </div>
-                                <div class="footer">
-                                    <p class="avaliacoes"><i class="fa-solid fa-star"></i> 780 avaliações</p>
-                                    <button class="detalhes">Ver Detalhes</button>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="card" data-categoria-card="shows">
-                            <div class="card-img">
-                                <img src="../Imagens/4º imagem cad.png" alt="Guardian Comedy Club">
-                                <span class="categoria">Stand-up</span>
-                                <span class="nota">⭐ 4.6</span>
-                            </div>
-                            <div class="card-content">
-                                <h3>Guardian Comedy Club <span class="preco">$</span></h3>
-                                <p class="local"><i class="fa-solid fa-location-dot"></i> Setor Marista, Goiânia</p>
-                                <p class="descricao">O principal palco de Stand-up da cidade. Risadas garantidas toda semana.</p>
-                                <div class="info">
-                                    <p><i class="fa-regular fa-clock"></i> 19:30 – 23:00</p>
-                                    <p><i class="fa-solid fa-phone"></i> (62) 9XXXX-XXXX</p>
-                                </div>
-                                <div class="tags">
-                                    <span>Sala de comédia</span>
-                                    <span>Bar e Petiscos</span>
-                                    <span>Eventos corporativos</span>
-                                </div>
-                                <div class="footer">
-                                    <p class="avaliacoes"><i class="fa-solid fa-star"></i> 286 avaliações</p>
-                                    <button class="detalhes">Ver Detalhes</button>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="card" data-categoria-card="restaurantes">
-                            <div class="card-img">
-                                <img src="../Imagens/5º imagem cad.png" alt="Pizzaria da 8">
-                                <span class="categoria">Restaurante</span>
-                                <span class="nota">⭐ 4.4</span>
-                            </div>
-                            <div class="card-content">
-                                <h3>Pizzaria da 8 <span class="preco">$</span></h3>
-                                <p class="local"><i class="fa-solid fa-location-dot"></i> Setor Central, Goiânia</p>
-                                <p class="descricao">Receitas tradicionais e ingredientes frescos. Ambiente familiar e acolhedor.</p>
-                                <div class="info">
-                                    <p><i class="fa-regular fa-clock"></i> 18:00 – 23:30</p>
-                                    <p><i class="fa-solid fa-phone"></i> (62) 32XX-XXXX</p>
-                                </div>
-                                <div class="tags">
-                                    <span>Entrega em casa</span>
-                                    <span>Massa artesanal</span>
-                                    <span>Opções vegetarianas</span>
-                                </div>
-                                <div class="footer">
-                                    <p class="avaliacoes"><i class="fa-solid fa-star"></i> 124 avaliações</p>
-                                    <button class="detalhes">Ver Detalhes</button>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="card" data-categoria-card="shows">
-                            <div class="card-img">
-                                <img src="../Imagens/6º imagem cad.png" alt="Teatro Rio Vermelho">
-                                <span class="categoria">Show</span>
-                                <span class="nota">⭐ 4.5</span>
-                            </div>
-                            <div class="card-content">
-                                <h3>Teatro Rio Vermelho <span class="preco">$$</span></h3>
-                                <p class="local"><i class="fa-solid fa-location-dot"></i> Setor Central, Goiânia</p>
-                                <p class="descricao">Principal espaço para grandes shows, peças de teatro e apresentações culturais.</p>
-                                <div class="info">
-                                    <p><i class="fa-regular fa-clock"></i> Verificar Agenda</p>
-                                    <p><i class="fa-solid fa-phone"></i> (62) 32XX-XXXX</p>
-                                </div>
-                                <div class="tags">
-                                    <span>Grande capacidade</span>
-                                    <span>Estacionamento</span>
-                                    <span>Programação variada</span>
-                                </div>
-                                <div class="footer">
-                                    <p class="avaliacoes"><i class="fa-solid fa-star"></i> 610 avaliações</p>
-                                    <button class="detalhes">Ver Detalhes</button>
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-                </section>
-
-                <section class="stats-section">
-                    <button class="ver-mais">Ver Todos os Locais</button>
-                    <div class="cards-stats">
-                        <div class="stat-card">
-                            <h2><i class="fa-solid fa-map-location-dot"></i></h2>
-                            <p>Locais cadastrados</p>
-                        </div>
-                        <div class="stat-card">
-                            <h2><i class="fa-solid fa-tags"></i></h2>
-                            <p>Categorias disponíveis</p>
-                        </div>
-                        <div class="stat-card">
-                            <h2>⭐</h2>
-                            <p>Avaliação média</p>
                         </div>
                     </div>
-                </section>
 
-            </div>
-        </main>
+                    <div class="card" data-categoria-card="restaurantes">
+                        <div class="card-img">
+                            <img src="/frontend/imagens/2º imagem card.png" alt="Kabanas Restaurante">
+                            <span class="categoria">Restaurante</span>
+                            <span class="nota">⭐ 4.6</span>
+                        </div>
+                        <div class="card-content">
+                            <h3>Kabanas Restaurante <span class="preco">$$$</span></h3>
+                            <p class="local"><i class="fa-solid fa-location-dot"></i> Setor Bueno, Goiânia</p>
+                            <p class="descricao">Culinária sofisticada em ambiente elegante. Ideal para ocasiões especiais.</p>
+                            <div class="info">
+                                <p><i class="fa-regular fa-clock"></i> 11:30 – 00:00</p>
+                                <p><i class="fa-solid fa-phone"></i> (62) 32XX-XXXX</p>
+                            </div>
+                            <div class="tags">
+                                <span>Menu degustação</span>
+                                <span>Carta de vinhos</span>
+                                <span>Rolê romântico</span>
+                            </div>
+                            <div class="footer">
+                                <p class="avaliacoes"><i class="fa-solid fa-star"></i> 1200 avaliações</p>
+                                <button class="detalhes">Ver Detalhes</button>
+                            </div>
+                        </div>
+                    </div>
 
-        <script src="../JS/footer.js" defer></script>
-        <script src="../JS/loadHeader.js"></script>
-        <script src="../JS/locais.js"></script>
+                    <div class="card" data-categoria-card="baladas">
+                        <div class="card-img">
+                            <img src="/frontend/imagens/3º imagem card.png" alt="Roxy">
+                            <span class="categoria">Balada</span>
+                            <span class="nota">⭐ 4.7</span>
+                        </div>
+                        <div class="card-content">
+                            <h3>Roxy <span class="preco">$$</span></h3>
+                            <p class="local"><i class="fa-solid fa-location-dot"></i> Setor Sul, Goiânia</p>
+                            <p class="descricao">Um dos maiores clubs de Goiânia com DJs locais e nacionais e pista de dança.</p>
+                            <div class="info">
+                                <p><i class="fa-regular fa-clock"></i> 23:00 – 06:00</p>
+                                <p><i class="fa-solid fa-phone"></i> (62) 9XXXX-XXXX</p>
+                            </div>
+                            <div class="tags">
+                                <span>Pista de dança</span>
+                                <span>Música eletrônica</span>
+                                <span>Bar completo</span>
+                            </div>
+                            <div class="footer">
+                                <p class="avaliacoes"><i class="fa-solid fa-star"></i> 780 avaliações</p>
+                                <button class="detalhes">Ver Detalhes</button>
+                            </div>
+                        </div>
+                    </div>
 
-    </body>
-    </html>
+                    <div class="card" data-categoria-card="shows">
+                        <div class="card-img">
+                            <img src="/frontend/imagens/4º imagem cad.png" alt="Guardian Comedy Club">
+                            <span class="categoria">Stand-up</span>
+                            <span class="nota">⭐ 4.6</span>
+                        </div>
+                        <div class="card-content">
+                            <h3>Guardian Comedy Club <span class="preco">$</span></h3>
+                            <p class="local"><i class="fa-solid fa-location-dot"></i> Setor Marista, Goiânia</p>
+                            <p class="descricao">O principal palco de Stand-up da cidade. Risadas garantidas toda semana.</p>
+                            <div class="info">
+                                <p><i class="fa-regular fa-clock"></i> 19:30 – 23:00</p>
+                                <p><i class="fa-solid fa-phone"></i> (62) 9XXXX-XXXX</p>
+                            </div>
+                            <div class="tags">
+                                <span>Sala de comédia</span>
+                                <span>Bar e Petiscos</span>
+                                <span>Eventos corporativos</span>
+                            </div>
+                            <div class="footer">
+                                <p class="avaliacoes"><i class="fa-solid fa-star"></i> 286 avaliações</p>
+                                <button class="detalhes">Ver Detalhes</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card" data-categoria-card="restaurantes">
+                        <div class="card-img">
+                            <img src="/frontend/imagens/5º imagem cad.png" alt="Pizzaria da 8">
+                            <span class="categoria">Restaurante</span>
+                            <span class="nota">⭐ 4.4</span>
+                        </div>
+                        <div class="card-content">
+                            <h3>Pizzaria da 8 <span class="preco">$</span></h3>
+                            <p class="local"><i class="fa-solid fa-location-dot"></i> Setor Central, Goiânia</p>
+                            <p class="descricao">Receitas tradicionais e ingredientes frescos. Ambiente familiar e acolhedor.</p>
+                            <div class="info">
+                                <p><i class="fa-regular fa-clock"></i> 18:00 – 23:30</p>
+                                <p><i class="fa-solid fa-phone"></i> (62) 32XX-XXXX</p>
+                            </div>
+                            <div class="tags">
+                                <span>Entrega em casa</span>
+                                <span>Massa artesanal</span>
+                                <span>Opções vegetarianas</span>
+                            </div>
+                            <div class="footer">
+                                <p class="avaliacoes"><i class="fa-solid fa-star"></i> 124 avaliações</p>
+                                <button class="detalhes">Ver Detalhes</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card" data-categoria-card="shows">
+                        <div class="card-img">
+                            <img src="/frontend/imagens/6º imagem cad.png" alt="Teatro Rio Vermelho">
+                            <span class="categoria">Show</span>
+                            <span class="nota">⭐ 4.5</span>
+                        </div>
+                        <div class="card-content">
+                            <h3>Teatro Rio Vermelho <span class="preco">$$</span></h3>
+                            <p class="local"><i class="fa-solid fa-location-dot"></i> Setor Central, Goiânia</p>
+                            <p class="descricao">Principal espaço para grandes shows, peças de teatro e apresentações culturais.</p>
+                            <div class="info">
+                                <p><i class="fa-regular fa-clock"></i> Verificar Agenda</p>
+                                <p><i class="fa-solid fa-phone"></i> (62) 32XX-XXXX</p>
+                            </div>
+                            <div class="tags">
+                                <span>Grande capacidade</span>
+                                <span>Estacionamento</span>
+                                <span>Programação variada</span>
+                            </div>
+                            <div class="footer">
+                                <p class="avaliacoes"><i class="fa-solid fa-star"></i> 610 avaliações</p>
+                                <button class="detalhes">Ver Detalhes</button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+
+            <section class="stats-section">
+                <button class="ver-mais">Ver Todos os Locais</button>
+                <div class="cards-stats">
+                    <div class="stat-card">
+                        <h2><i class="fa-solid fa-map-location-dot"></i></h2>
+                        <p>Locais cadastrados</p>
+                    </div>
+                    <div class="stat-card">
+                        <h2><i class="fa-solid fa-tags"></i></h2>
+                        <p>Categorias disponíveis</p>
+                    </div>
+                    <div class="stat-card">
+                        <h2>⭐</h2>
+                        <p>Avaliação média</p>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <script src="/frontend/js/config.js"></script>
+    <script src="../js/footer.js" defer></script>
+    <script src="../js/loadHeader.js"></script>
+    <script src="../js/locais.js"></script>
+
+</body>
+</html>

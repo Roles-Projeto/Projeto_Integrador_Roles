@@ -16,7 +16,7 @@ function carregarDadosConfirmacao() {
         el.textContent = `Pedido #${dados.pedidoID || 'N/A'}`;
     });
 
-    document.querySelector('.event-image').src = dados.imagem || 'caminho/para/placeholder.jpg';
+    document.querySelector('.event-image').src = dados.imagem || '/frontend/imagens/placeholder.jpg';
     document.querySelector('.event-info h4').textContent = dados.nome || 'Evento Desconhecido';
 
     const eventMeta = document.querySelector('.event-meta').querySelectorAll('p');

@@ -51,7 +51,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       ? `R$ ${parseFloat(evento.preco_minimo).toFixed(2)}`
       : "Gratuito";
 
-    const imagemSrc = evento.imagem || "../Imagens/7º imagem card.png";
+    const imagemSrc = evento.imagem || "/frontend/imagens/7º imagem card.png";
 
     article.innerHTML = `
       <div class="evento-imagem">
