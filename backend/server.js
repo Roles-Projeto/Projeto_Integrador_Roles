@@ -52,11 +52,11 @@ app.use("/uploads",  express.static(path.join(__dirname, "backend", "uploads")))
 /* ─────────────────────────────────────────────────────
    ROTAS DA API
 ───────────────────────────────────────────────────── */
-const usuariosRoutes         = require("./backend/routes/usuarios");
-const authRoutes             = require("./backend/routes/auth");
-const eventosRoutes          = require("./backend/routes/eventos");
-const estabelecimentosRoutes = require("./backend/routes/estabelecimentos");
-const contatoRoutes          = require("./backend/routes/contato");
+const usuariosRoutes         = require("./routes/usuarios");
+const authRoutes             = require("./routes/auth");
+const eventosRoutes          = require("./routes/eventos");
+const estabelecimentosRoutes = require("./routes/estabelecimentos");
+const contatoRoutes          = require("./routes/contato");
 
 app.use("/usuarios",         usuariosRoutes);
 app.use("/usuarios",         authRoutes);
