@@ -1,108 +1,196 @@
+// detalheslocais.js
+// Busca os dados do estabelecimento direto da API pelo id na URL
+// Ex: detalhesLocais.html?id=5
 
-// Função para carregar dados do local do localStorage
-function loadLocalDataFromStorage() {
-    const dataJson = localStorage.getItem('localDetalhes');
-    if (dataJson) {
-        try {
-            return JSON.parse(dataJson);
-        } catch (e) {
-            console.error("Erro ao fazer parse dos dados do local:", e);
-            return null;
-        }
-    }
-    return null;
+// ─── Pegar o ID da URL ─────────────────────────────────────────
+function getIdFromUrl() {
+    const params = new URLSearchParams(window.location.search);
+    return params.get("id");
 }
 
-// Função para preencher a página usando os IDs do seu HTML
-function updatePage(localData) {
-    if (!localData) {
-        console.warn('Não foi possível carregar os dados do local.');
+// ─── URL da API ───────────────────────────────────────────────
+const API_URL =
+    ["localhost", "127.0.0.1"].includes(window.location.hostname)
+        ? "http://localhost:3000"
+        : "https://projeto-integrador-roles.onrender.com";
+
+// ─── Buscar dados da API ──────────────────────────────────────
+async function fetchEstabelecimento(id) {
+    try {
+        const res = await fetch(`${API_URL}/estabelecimentos/${id}`);
+        if (!res.ok) throw new Error(`Erro HTTP: ${res.status}`);
+        return await res.json();
+    } catch (err) {
+        console.error("Erro ao buscar estabelecimento:", err);
+        return null;
+    }
+}
+
+// ─── Atualizar página com dados ───────────────────────────────
+function updatePage(data) {
+    if (!data) {
+        console.warn("Nenhum dado recebido.");
         return;
     }
 
-    // --- 1. Preparar e Limpar os Dados ---
-    const ratingText = localData.nota.replace('⭐', '').trim();
-    const reviewsText = localData.avaliacoes.replace('avaliacoes', '').trim();
-    const phoneClean = localData.telefone.replace(/[^\d\s\-\(\)]/g, '').trim();
-    const localClean = localData.local.replace(/i\s*fa-solid\s*fa-location-dot/g, '').replace('location-dot', '').trim();
-    const hoursClean = localData.horario.replace(/[^\d\s\–\:]/g, '').trim();
+    // ── Endereço ───────────────────────────────────────────────
+    const enderecoExibicao = data.endereco
+        || `${data.rua || ""}, ${data.numero || ""} — ${data.bairro || ""}, ${data.cidade || ""}/${data.estado || ""}`.trim();
 
-    // --- 2. Hero Section ---
-    document.getElementById('page-title').textContent = localData.nome;
-    document.getElementById('local-name').textContent = localData.nome;
-    document.getElementById('local-type').textContent = localData.categoria;
-    document.getElementById('local-rating').innerHTML =
-        `<i class="fas fa-star"></i> ${ratingText} (${reviewsText} avaliações) | <i class="fas fa-map-marker-alt"></i> ${localClean}`;
-    document.getElementById('local-price-icon').textContent = localData.preco;
+    const enderecoMaps = data.endereco
+        || `${data.rua}, ${data.numero}, ${data.bairro}, ${data.cidade}, ${data.estado}`;
 
-    const heroSection = document.getElementById('hero-section');
-    if (heroSection && localData.imagem) {
-        heroSection.style.backgroundImage = `url('${localData.imagem}')`;
+    const nota = data.nota || "Novo";
+    const avaliacoes = data.avaliacoes || 0;
+
+    // ── Hero ───────────────────────────────────────────────────
+    document.getElementById("page-title").textContent = data.nome || "Detalhes do Local";
+    document.getElementById("local-name").textContent = data.nome || "—";
+    document.getElementById("local-type").textContent = data.tipo || data.categoria_card || "—";
+    document.getElementById("local-rating").textContent = `${nota} (${avaliacoes} avaliações)`;
+    document.getElementById("hero-address").textContent = enderecoExibicao;
+
+    const heroSection = document.getElementById("hero-section");
+    if (heroSection && data.img_capa) {
+        heroSection.style.backgroundImage = `url('${data.img_capa}')`;
+        heroSection.style.backgroundSize = "cover";
+        heroSection.style.backgroundPosition = "center";
     }
 
-    // --- 3. Visão Geral ---
-    document.getElementById('local-description').textContent = localData.descricao;
-    document.getElementById('local-hours').textContent = hoursClean;
-    document.getElementById('local-contact-phone').textContent = phoneClean;
+    // ── Descrição ──────────────────────────────────────────────
+    document.getElementById("local-description").textContent =
+        data.descricao || "Descrição não disponível.";
 
-    // Inserir Tags/Atributos
-    const attributesContainer = document.getElementById('local-attributes');
-    attributesContainer.innerHTML = '';
-    const tagsArray = localData.tags.split(',').map(tag => tag.trim()).filter(tag => tag.length > 0);
+    document.getElementById("local-hours").textContent = data.horario || "—";
+    document.getElementById("local-contact-phone").textContent = data.telefone || "—";
 
-    tagsArray.forEach(tag => {
-        const span = document.createElement('span');
-        span.textContent = tag;
-        attributesContainer.appendChild(span);
-    });
+    // ── Tags ───────────────────────────────────────────────────
+    const attributesContainer = document.getElementById("local-attributes");
+    attributesContainer.innerHTML = "";
 
-    // --- 4. Sidebar ---
-    document.getElementById('sidebar-rating').innerHTML =
-        `<i class="fas fa-star"></i> ${ratingText} (${reviewsText})`;
-    document.getElementById('sidebar-type').textContent = localData.categoria;
-    document.getElementById('sidebar-price-symbol').textContent = localData.preco;
-    document.getElementById('sidebar-hours').textContent = hoursClean;
-    document.getElementById('sidebar-phone').textContent = phoneClean;
-    document.getElementById('sidebar-address').textContent = localClean;
+    [data.especialidade, data.tipo, data.categoria_card]
+        .filter(t => t && t.trim().length > 0)
+        .forEach(tag => {
+            const span = document.createElement("span");
+            span.textContent = tag;
+            attributesContainer.appendChild(span);
+        });
 
-    // --- 5. Compact Info ---
-    document.getElementById('info-address').textContent = localClean;
-    document.getElementById('info-phone').textContent = phoneClean;
-    document.getElementById('info-hours').textContent = hoursClean;
+    // ── Comodidades ────────────────────────────────────────────
+    if (data.comodidades) {
+        const amenitiesMap = {
+            "wifi": { icon: "fa-wifi", label: "Wi-Fi Grátis" },
+            "wi-fi": { icon: "fa-wifi", label: "Wi-Fi Grátis" },
+            "estacionamento": { icon: "fa-car", label: "Estacionamento" },
+            "cartao": { icon: "fa-credit-card", label: "Aceita Cartão" },
+            "cartão": { icon: "fa-credit-card", label: "Aceita Cartão" },
+            "pet": { icon: "fa-paw", label: "Pet Friendly" },
+            "acessibilidade": { icon: "fa-wheelchair", label: "Acessibilidade" },
+            "ar condicionado": { icon: "fa-snowflake", label: "Ar Condicionado" },
+        };
+
+        const amenitiesList = document.querySelector(".amenities-list");
+        if (amenitiesList) {
+            amenitiesList.innerHTML = "";
+
+            data.comodidades
+                .split(",")
+                .map(c => c.trim().toLowerCase())
+                .filter(c => c.length > 0)
+                .forEach(c => {
+                    const match = amenitiesMap[c];
+
+                    const div = document.createElement("div");
+                    div.className = "amenity-item";
+                    div.innerHTML = `<i class="fas ${match ? match.icon : "fa-check"}"></i> ${match ? match.label : c}`;
+
+                    amenitiesList.appendChild(div);
+                });
+        }
+    }
+
+    // ── Sidebar ────────────────────────────────────────────────
+    document.getElementById("sidebar-rating").innerHTML =
+        `<i class="fas fa-star"></i> ${nota} (${avaliacoes})`;
+
+    document.getElementById("sidebar-type").textContent =
+        data.tipo || data.categoria_card || "—";
+
+    document.getElementById("sidebar-price-symbol").textContent =
+        data.faixa_preco || "—";
+
+    document.getElementById("sidebar-hours").textContent =
+        data.horario || "—";
+
+    document.getElementById("sidebar-phone").textContent =
+        data.telefone || "—";
+
+    document.getElementById("sidebar-address").textContent =
+        enderecoExibicao;
+
+    // ── Info compacta ─────────────────────────────────────────
+    document.getElementById("info-address").textContent = enderecoExibicao;
+    document.getElementById("info-phone").textContent = data.telefone || "—";
+    document.getElementById("info-hours").textContent = data.horario || "—";
+
+    // ── Botão ligar ───────────────────────────────────────────
+    const phoneDigits = (data.telefone || "").replace(/[^\d\+]/g, "");
+    const btnLigar = document.getElementById("btn-ligar");
+
+    if (btnLigar && phoneDigits) {
+        btnLigar.href = `tel:${phoneDigits}`;
+    }
+
+    // ── Botão como chegar ─────────────────────────────────────
+    const btnChegar = document.getElementById("btn-como-chegar");
+
+    if (btnChegar) {
+        btnChegar.addEventListener("click", () => {
+            const destino = encodeURIComponent(enderecoMaps);
+
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    ({ coords }) => {
+                        const url = `https://www.google.com/maps/dir/?api=1&origin=${coords.latitude},${coords.longitude}&destination=${destino}&travelmode=driving`;
+                        window.open(url, "_blank");
+                    },
+                    () => {
+                        window.open(`https://www.google.com/maps/search/?api=1&query=${destino}`, "_blank");
+                    }
+                );
+            } else {
+                window.open(`https://www.google.com/maps/search/?api=1&query=${destino}`, "_blank");
+            }
+        });
+    }
 }
 
-// FUNÇÃO DE NAVEGAÇÃO ENTRE ABAS
+// ─── Navegação entre abas ─────────────────────────────────────
 function setupTabNavigation() {
-    const tabButtons = document.querySelectorAll('.tab-button');
-    const tabContents = document.querySelectorAll('.tab-content');
+    document.querySelectorAll(".tab-button").forEach(button => {
+        button.addEventListener("click", () => {
+            document.querySelectorAll(".tab-button").forEach(b => b.classList.remove("active"));
+            document.querySelectorAll(".tab-content").forEach(c => c.classList.remove("active"));
 
-    tabButtons.forEach(button => {
-        button.addEventListener('click', () => {
-            const targetTabId = button.getAttribute('data-tab');
+            button.classList.add("active");
 
-            // 1. Remove a classe 'active' de todos os botões e conteúdos
-            tabButtons.forEach(btn => btn.classList.remove('active'));
-            tabContents.forEach(content => content.classList.remove('active'));
-
-            // 2. Adiciona a classe 'active' ao botão clicado
-            button.classList.add('active');
-
-            // 3. Adiciona a classe 'active' ao conteúdo correspondente
-            const targetContent = document.getElementById(targetTabId);
-            if (targetContent) {
-                targetContent.classList.add('active');
-            }
+            const target = document.getElementById(button.getAttribute("data-tab"));
+            if (target) target.classList.add("active");
         });
     });
 }
 
-// Execução: Carrega os dados e configura a navegação de abas
-document.addEventListener('DOMContentLoaded', () => {
-    // 1. Carrega e exibe os dados
-    const localData = loadLocalDataFromStorage();
-    updatePage(localData);
+// ─── Inicialização ────────────────────────────────────────────
+document.addEventListener("DOMContentLoaded", async () => {
+    const id = getIdFromUrl();
 
-    // 2. Configura a troca de abas
+    if (!id) {
+        console.error("ID não encontrado na URL.");
+        return;
+    }
+
+    const data = await fetchEstabelecimento(id);
+
+    updatePage(data);
     setupTabNavigation();
 });
-

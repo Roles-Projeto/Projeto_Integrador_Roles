@@ -1,5 +1,13 @@
 // Frontend/js/evento.js
-const API_URL = "/eventos";
+const isLocal =
+  window.location.hostname === "localhost" ||
+  window.location.hostname === "127.0.0.1";
+
+const API_BASE = isLocal
+  ? "http://localhost:3000"
+  : window.location.origin;
+
+const API_URL = `${API_BASE}/eventos`;
 
 document.addEventListener("DOMContentLoaded", async () => {
 
@@ -10,7 +18,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   // -------------------------------------------------------
   async function carregarEventos() {
     try {
-      const res  = await fetch(API_URL);
+      const res = await fetch(API_URL);
       const data = await res.json();
 
       document.querySelectorAll(".evento-card").forEach(c => c.remove());
@@ -53,7 +61,11 @@ document.addEventListener("DOMContentLoaded", async () => {
       : "Gratuito";
 
     // Remova o "º" e o espaço, deixando exatamente como o nome do arquivo na pasta
-const imagemSrc = evento.imagem || evento.imagem_url || "../imagens/jazz.png";
+    const imagemSrc = !evento.imagem
+      ? "http://localhost:3000/frontend/imagens/jazz.png"
+      : evento.imagem.startsWith("http")
+        ? evento.imagem
+        : `http://localhost:3000/uploads/${evento.imagem}`;
 
     article.innerHTML = `
       <div class="evento-imagem">
@@ -89,26 +101,26 @@ const imagemSrc = evento.imagem || evento.imagem_url || "../imagens/jazz.png";
   function formatarData(dataStr) {
     if (!dataStr) return "-";
     const d = new Date(dataStr);
-    const dias  = ["Dom","Seg","Ter","Qua","Qui","Sex","Sáb"];
-    const meses = ["Jan","Fev","Mar","Abr","Mai","Jun","Jul","Ago","Set","Out","Nov","Dez"];
-    return `${dias[d.getDay()]}, ${d.getDate()} de ${meses[d.getMonth()]} &nbsp;<i class="fa-regular fa-clock"></i> ${d.toTimeString().slice(0,5)}`;
+    const dias = ["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sáb"];
+    const meses = ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"];
+    return `${dias[d.getDay()]}, ${d.getDate()} de ${meses[d.getMonth()]} &nbsp;<i class="fa-regular fa-clock"></i> ${d.toTimeString().slice(0, 5)}`;
   }
 
   // -------------------------------------------------------
   // FILTROS
   // -------------------------------------------------------
-  const searchInput    = document.getElementById("searchInput");
+  const searchInput = document.getElementById("searchInput");
   const pillsContainer = document.getElementById("pillsContainer");
 
   function aplicarFiltros() {
     const categoriaAtiva = document.querySelector(".pill.active")?.getAttribute("data-cat") || "todas";
-    const termoBusca     = (searchInput?.value || "").toLowerCase().trim();
+    const termoBusca = (searchInput?.value || "").toLowerCase().trim();
 
     document.querySelectorAll(".evento-card").forEach(card => {
-      const cat  = (card.getAttribute("data-categoria") || "").toLowerCase();
+      const cat = (card.getAttribute("data-categoria") || "").toLowerCase();
       const nome = card.querySelector("h3")?.textContent.toLowerCase() || "";
       const desc = card.querySelector(".descricao")?.textContent.toLowerCase() || "";
-      const textoOk     = termoBusca === "" || nome.includes(termoBusca) || desc.includes(termoBusca);
+      const textoOk = termoBusca === "" || nome.includes(termoBusca) || desc.includes(termoBusca);
       const categoriaOk = categoriaAtiva === "todas" || cat.includes(categoriaAtiva);
       card.style.display = textoOk && categoriaOk ? "flex" : "none";
     });

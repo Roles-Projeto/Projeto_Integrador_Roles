@@ -1,7 +1,11 @@
 // ====================================================
 // VARIÁVEIS GLOBAIS
 // ====================================================
-const API_URL = "/eventos";
+const API_URL =
+    window.location.hostname === "127.0.0.1" ||
+        window.location.hostname === "localhost"
+        ? "http://localhost:3000/eventos"
+        : "https://projeto-integrador-roles.onrender.com/eventos";
 
 const steps = document.querySelectorAll(".step");
 const nextBtn = document.getElementById("nextBtn");
@@ -257,7 +261,7 @@ confirmarBtn.addEventListener("click", async () => {
         const formData = new FormData();
         formData.append('imagem', imagemEvento);
 
-        const uploadRes = await fetch('/eventos/upload-imagem', {
+        const uploadRes = await fetch(`${API_URL}/upload-imagem`, {
             method: 'POST',
             body: formData
         });
@@ -295,24 +299,26 @@ confirmarBtn.addEventListener("click", async () => {
         const data = await response.json();
         if (!response.ok) {
             console.error("DETALHES DO ERRO:", data);
+            confirmarBtn.disabled = false;
+            confirmarBtn.textContent = "Confirmar publicação";
             throw new Error(data.erro + " | " + (data.detalhes || ""));
         }
 
-        alert("✅ Evento publicado com sucesso!");
         localStorage.removeItem("rascunhoEvento");
         modal.style.display = "none";
-        setTimeout(() => {
-            window.location.href = "/frontend/eventos/eventos.html";
-        }, 500);
+
+        alert("✅ Evento publicado com sucesso!");
+
+        window.location.replace(`${window.location.origin}/Frontend/eventos/eventos.html`);
 
     } catch (err) {
         console.error("ERRO COMPLETO:", err);
         alert("❌ Erro ao publicar: " + err.message);
-    } finally {
         confirmarBtn.disabled = false;
         confirmarBtn.textContent = "Confirmar publicação";
     }
 });
+
 // ====================================================
 // INICIALIZAÇÃO
 // ====================================================
@@ -322,7 +328,7 @@ showStep(currentStep);
 // CATEGORIAS POR ASSUNTO
 // ====================================================
 const categoriasPorAssunto = {
-    "Festa e Balada": ["Aniversário", "Formatura", "Open Bar", "Festa Universitária", "Baile", "After", "Happy Hour",],
+    "Festa e Balada": ["Aniversário", "Formatura", "Open Bar", "Festa Universitária", "Baile", "After", "Happy Hour"],
     "Shows e Música": ["Sertanejo", "Funk", "Pagode", "Rock", "Eletrônica", "Rap / Trap", "DJ", "K-pop"],
     "Gastronomia": ["Festival gastronômico", "Rodízio", "Degustação", "Churrasco", "Food Truck"],
     "Esportes": ["Futebol", "Corrida", "Treino funcional", "Campeonato", "Torneio"],
@@ -341,7 +347,7 @@ const categoriaSelect = document.getElementById("categoria");
 
 assuntoSelect.addEventListener("change", () => {
     const assunto = assuntoSelect.value;
-    assuntoSelect.style.border = ""; // Remove borda de erro
+    assuntoSelect.style.border = "";
     categoriaSelect.innerHTML = '<option value="">Selecione uma categoria</option>';
     if (categoriasPorAssunto[assunto]) {
         categoriasPorAssunto[assunto].forEach(cat => {
@@ -397,7 +403,6 @@ function processarImagem(file) {
         return;
     }
 
-    // Salva o arquivo E já converte para base64
     imagemEvento = file;
 
     const reader = new FileReader();

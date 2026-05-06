@@ -11,9 +11,6 @@ app.use(cors());
 app.use(express.json({ limit: "50mb" }));
 app.use(express.urlencoded({ limit: "50mb", extended: true }));
 
-// ========================
-// SERVIR FRONTEND ESTÁTICO (case-insensitive)
-// ========================
 app.use("/frontend", (req, res, next) => {
   const filePath = path.join(__dirname, "frontend", req.url);
   const dir = path.dirname(filePath);
@@ -33,25 +30,23 @@ app.use((req, res, next) => {
   next();
 });
 
-// ========================
-// ROTAS DA API
-// ========================
 const usuariosRoutes = require("./routes/usuarios");
 const authRoutes     = require("./routes/auth");
 const eventosRoutes  = require("./routes/eventos");
+const estabelecimentosRoutes = require("./routes/estabelecimentos"); // ✅ ADICIONADO
 
 app.use("/usuarios", usuariosRoutes);
 app.use("/usuarios", authRoutes);
 app.use("/eventos", eventosRoutes);
+app.use("/estabelecimentos", estabelecimentosRoutes); // ✅ ADICIONADO
 
-// Fallback
-app.use((req, res) => {
+app.get("*path", (req, res) => {
   res.sendFile(path.join(__dirname, "frontend", "index.html"));
 });
 
 app.use((err, req, res, next) => {
-  console.error("❌ ERRO NÃO TRATADO:", err.message);
-  res.status(500).json({ erro: "Erro interno do servidor.", detalhes: err.message });
+  console.error("❌ ERRO:", err.message);
+  res.status(500).json({ erro: "Erro interno.", detalhes: err.message });
 });
 
 const PORT = process.env.PORT || 3000;

@@ -12,7 +12,9 @@ services:
       - "3307:3306"
     volumes:
       - mysql_data:/var/lib/mysql
-      - projeto_integrador_roles_mysql_data:/var/lib/mysql
+      # 👇 aceita os dois caminhos (caso você ainda esteja migrando)
+      - ./database:/docker-entrypoint-initdb.d
+      - ./backend/db-init:/docker-entrypoint-initdb.d
 
   backend:
     build: .
@@ -23,6 +25,7 @@ services:
     depends_on:
       - mysql
     environment:
+      NODE_ENV: development
       DB_HOST: mysql
       DB_PORT: 3306
       DB_USER: root
@@ -30,8 +33,14 @@ services:
       DB_NAME: roles_db
       PORT: 3000
       JWT_SECRET: minha_chave_secreta_segura
+
+      # 👇 email (do segundo)
       EMAIL_USER: roles.suporte@gmail.com
       EMAIL_PASS: dxrz asij zxav cfip
 
+    volumes:
+      # 👇 uploads persistentes
+      - ./backend/uploads:/app/uploads
+
 volumes:
- projeto_integrador_roles_mysql_data:
+  mysql_data:

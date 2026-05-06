@@ -1,4 +1,5 @@
-const API_URL = "/eventos";
+const isLocal = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1";
+const API_URL = isLocal ? "http://localhost:3000/eventos" : "/eventos";
 
 function atualizarBotaoDeCompra(precoNumerico, precoFormatado) {
     const botaoComprar = document.querySelector('.botao-comprar');

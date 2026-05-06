@@ -58,7 +58,7 @@ form.addEventListener("submit", async (e) => {
     }
 
     // Endpoint único
-    const endpoint = "/usuarios/login";
+    const endpoint = "http://localhost:3000/usuarios/login";
 
     try {
         const response = await fetch(endpoint, {
