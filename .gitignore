@@ -3,6 +3,9 @@
 /backend/.env
 .env
 .env.production
-backup.sql
 .hintrc
 node_modules/
+test.txt
+test2.txt
+test3.tx3
+frontend.nojekyll

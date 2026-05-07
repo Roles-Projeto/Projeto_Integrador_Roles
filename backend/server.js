@@ -8,7 +8,7 @@
  * =====================================================
  */
 
-require("dotenv").config({ path: "./backend/.env" });
+require("dotenv").config();
 
 const express = require("express");
 const cors    = require("cors");
@@ -47,7 +47,7 @@ function caseInsensitiveStatic(baseDir) {
 
 app.use("/frontend", caseInsensitiveStatic(path.join(__dirname, "frontend")));
 app.use("/frontend", express.static(path.join(__dirname, "frontend")));
-app.use("/uploads",  express.static(path.join(__dirname, "backend", "uploads")));
+app.use("/uploads",  express.static(path.join(__dirname, "uploads")));
 
 /* ─────────────────────────────────────────────────────
    ROTAS DA API
