@@ -11,17 +11,6 @@
     --tamanho-borda-arredondada: 0.5rem;
 }
 
-/* ==================================================
-// 🔑 CORREÇÃO FINAL DE ACESSIBILIDADE E LAYOUT DO HEADER
-// A altura do IFRAME foi reduzida no HTML para 70px.
-// A regra de pointer-events FOI REMOVIDA.
-================================================== */
-
-/* REMOVIDAS as regras de .header-overlay e reabilitação de cliques. */
-
-/* 1. Empurra o conteúdo principal para baixo da barra de menu (de 70px, altura do iframe) */
-
-
 header {
     margin: 0;
     padding: 0;
@@ -35,25 +24,20 @@ body {
     font-size: 12px;
 }
 
-
-/* ==================================================
-// 1. ESTRUTURA E LAYOUT 
-================================================== */
-
 .conteudo-principal-evento {
     margin: 0;
     padding-bottom: 2em;
 }
 
-/* --- 2. Seção do Banner  --- */
 .banner-evento {
     position: relative;
     width: 100%;
-    height: 60vh;
-    min-height: 400px;
-    background-image: var(--url-imagem-fundo);
+    height: 55vh;
+    min-height: 420px;
     background-size: cover;
-    background-position: center center;
+    background-position: center 15%;
+    background-repeat: no-repeat;
+    background-color: #e8e8e8;
     color: var(--cor-texto-claro);
     display: flex;
     flex-direction: column;
@@ -63,12 +47,10 @@ body {
     overflow: hidden;
 }
 
-/* --- 3. Estrutura de Layout do Conteúdo  --- */
 .conteudo-evento {
     max-width: 1200px;
     margin: 2em auto;
     padding: 0 2em;
-
     display: flex;
     gap: 2em;
 }
@@ -83,11 +65,9 @@ body {
     min-width: 300px;
     position: sticky;
     top: 90px;
-    /* Ajustado para 90px para fixar a barra lateral abaixo do menu */
     align-self: flex-start;
 }
 
-/* Estilos  Cards */
 .card-informacoes,
 .card-garantia-ingresso,
 .ingressos-disponiveis {
@@ -97,11 +77,6 @@ body {
     margin-bottom: 2em;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 }
-
-
-/* ==================================================
-// 4. APLICAÇÃO DAS FONTES PADRONIZADAS 
-================================================== */
 
 .titulo-evento {
     font-size: 2.5em;
@@ -167,8 +142,6 @@ body {
 .beneficio-item {
     font-size: var(--tamanho-fonte-pequena);
 }
-
-/* Ações e Estilos Pontuais do Banner  */
 .banner-evento::before {
     content: "";
     position: absolute;
@@ -176,7 +149,7 @@ body {
     left: 0;
     right: 0;
     bottom: 0;
-    background: linear-gradient(to top, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0) 50%, rgba(0, 0, 0, 0.5) 100%);
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.85) 0%, rgba(0, 0, 0, 0) 50%);
     z-index: 1;
 }
 
@@ -184,7 +157,6 @@ body {
     z-index: 2;
 }
 
-/* Botão Voltar */
 .botao-voltar {
     align-self: flex-start;
     background-color: rgba(255, 255, 255, 0.2);
@@ -198,7 +170,6 @@ body {
     gap: 0.5em;
     transition: background-color 0.3s;
     text-decoration: none;
-
 }
 
 .botao-voltar:hover {
@@ -210,7 +181,6 @@ body {
     height: 1.2em;
 }
 
-/* Ações Direita Superior */
 .acoes-cabecalho {
     position: absolute;
     top: 1.5em;
@@ -236,7 +206,6 @@ body {
     background-color: rgba(255, 255, 255, 0.4);
 }
 
-/* Preço Direita Inferior */
 .preco-cabecalho {
     position: absolute;
     bottom: 1.5em;
@@ -251,7 +220,6 @@ body {
     margin-top: 0.2em;
 }
 
-/* --- 4. Card: Sobre o Evento --- */
 .descricao-evento {
     line-height: 1.5;
     margin-bottom: 1.5em;
@@ -268,7 +236,6 @@ body {
     margin: 0;
     padding: 0;
 }
-
 
 .info-item {
     display: flex;
@@ -300,7 +267,6 @@ body {
     line-height: 1.2;
 }
 
-/* --- 5. Card: Organizador --- */
 .perfil-organizador {
     display: flex;
     align-items: center;
@@ -357,7 +323,6 @@ body {
     background-color: #333;
 }
 
-/* --- 6. Card: Avaliações --- */
 .lista-avaliacoes {
     display: flex;
     flex-direction: column;
@@ -415,7 +380,6 @@ body {
     color: #999;
 }
 
-/* --- 7. Card: Ingressos Disponíveis --- */
 .titulo-ingressos {
     font-weight: 600;
     margin-top: 0;
@@ -495,7 +459,6 @@ body {
     transition: width 0.5s ease;
 }
 
-/* Ação e Preço Ingressos */
 .acao-opcao {
     display: flex;
     flex-direction: column;
@@ -526,7 +489,6 @@ body {
     background-color: #f5f5f5;
 }
 
-/* --- 8. Card: Transparência Total --- */
 .card-transparencia {
     background-color: #e6f7ff;
     border: 1px solid #91d5ff;
@@ -563,7 +525,6 @@ body {
     color: var(--cor-destaque);
 }
 
-/* --- 9. Card: Garantir Ingresso (Coluna Direita) --- */
 .detalhes-data-local {
     margin-bottom: 1.5em;
     padding-bottom: 1.5em;
@@ -605,7 +566,6 @@ body {
     border-radius: var(--tamanho-borda-arredondada);
     padding: 1em 1.5em;
     font-size: var(--tamanho-fonte-grande);
-    /* 16px */
     font-weight: 600;
     cursor: pointer;
     margin-bottom: 1em;
@@ -635,10 +595,11 @@ body {
     font-size: 1.1em;
 }
 
-/* --- 10. Responsividade (Breakpoints) --- */
 @media (max-width: 900px) {
     .banner-evento {
         padding: 1em 1em;
+        background-size: contain;
+        background-position: center top;
     }
 
     .acoes-cabecalho {

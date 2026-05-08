@@ -1,0 +1,403 @@
+/* =========================
+   RESET E BASE
+========================= */
+.container,
+.container * {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Poppins", sans-serif;
+  background:
+    radial-gradient(circle at top left, rgba(245, 0, 87, 0.08), transparent 35%),
+    radial-gradient(circle at bottom right, rgba(106, 13, 173, 0.08), transparent 35%),
+    linear-gradient(135deg, #f8f9ff, #ffffff);
+  color: #212121;
+  min-height: 100vh;
+}
+
+/* =========================
+   CONTAINER
+========================= */
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px 20px;
+}
+
+/* =========================
+   CARD PRINCIPAL
+========================= */
+.container .card {
+  width: 100%;
+  max-width: 520px; /* mantém largura */
+  background: rgba(255,255,255,0.95);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255,255,255,0.7);
+  border-radius: 24px;
+
+  padding: 26px 38px; /* antes estava maior */
+  
+  box-shadow:
+    0 20px 60px rgba(0,0,0,0.08),
+    0 8px 25px rgba(106,13,173,0.06);
+
+  animation: surgir 0.5s ease;
+}
+
+@keyframes surgir {
+  from {
+    opacity: 0;
+    transform: translateY(25px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* =========================
+   TOPO
+========================= */
+/* ÍCONE DO BONECO COM MESMO DEGRADÊ DO BOTÃO */
+.container .user-icon {
+  width: 78px;
+  height: 78px;
+  border-radius: 50%;
+  margin: 0 auto 18px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 34px;
+  color: white;
+
+  background: linear-gradient(135deg, #2d1366, #6a0dad, #8a2be2);
+
+  box-shadow: 0 10px 25px rgba(106,13,173,0.25);
+}
+
+.container h2 {
+  text-align: center;
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.container .card > p {
+  text-align: center;
+  color: #666;
+  font-size: 14px;
+  margin-bottom: 24px;
+  line-height: 1.5;
+}
+
+/* =========================
+   BOTÃO GOOGLE
+========================= */
+.container .social-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.container .social-buttons button {
+  border: 1px solid #ececec;
+  background: #fff;
+  border-radius: 14px;
+  padding: 14px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.25s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.container .social-buttons button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.06);
+}
+
+.container .google-icon {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+}
+
+/* =========================
+   DIVISOR
+========================= */
+.container .divider {
+  margin: 28px 0 18px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  color: #999;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.container .divider::before,
+.container .divider::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: #e8e8e8;
+}
+
+/* =========================
+   FORM
+========================= */
+.container form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.container label {
+  font-size: 13px;
+  font-weight: 600;
+  color: #444;
+  margin-bottom: -8px;
+}
+
+.container input {
+  width: 100%;
+  padding: 14px 16px;
+  border-radius: 14px;
+  border: 1px solid #e5e5e5;
+  font-size: 15px;
+  background: #fafafa;
+  transition: 0.2s;
+}
+
+.container input:focus {
+  outline: none;
+  background: #fff;
+  border-color: #6a0dad;
+  box-shadow: 0 0 0 4px rgba(106,13,173,0.08);
+}
+
+/* =========================
+   ERROS
+========================= */
+.container .erro {
+  color: #e63946;
+  font-size: 12px;
+  margin-top: -8px;
+  margin-bottom: -2px;
+}
+
+.container input.erro-input {
+  border-color: #e63946;
+  background: #fff5f6;
+}
+
+/* =========================
+   BOTÃO CRIAR
+========================= */
+.container .btn-criar {
+  margin-top: 12px;
+  padding: 15px;
+  border: none;
+  border-radius: 14px;
+  background: linear-gradient(135deg, #2d1366, #6a0dad, #8a2be2);
+  color: white;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: 0.25s ease;
+  box-shadow: 0 12px 25px rgba(106,13,173,0.25);
+}
+
+.container .btn-criar:hover {
+  transform: translateY(-2px);
+  background: linear-gradient(135deg, #24104f, #5d0bb8, #7d22da);
+  box-shadow: 0 18px 35px rgba(106,13,173,0.35);
+}
+
+/* =========================
+   LINKS
+========================= */
+.container .termos,
+.container .login {
+  text-align: center;
+  margin-top: 18px;
+  font-size: 13px;
+  color: #666;
+  line-height: 1.6;
+}
+
+.container .termos a,
+.container .login a {
+  color: #f50057;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.container .termos a:hover,
+.container .login a:hover {
+  text-decoration: underline;
+}
+
+/* =========================
+   MODAL
+========================= */
+.container .modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(15,15,15,0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  padding: 20px;
+}
+
+.container .hidden {
+  display: none;
+}
+
+.container .modal-card {
+  width: 100%;
+  max-width: 430px;
+  background: white;
+  border-radius: 24px;
+  padding: 30px 32px;
+  position: relative;
+  box-shadow: 0 25px 60px rgba(0,0,0,0.18);
+}
+
+@keyframes modalUp {
+  from {
+    opacity: 0;
+    transform: translateY(25px) scale(.96);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* FECHAR */
+.container .fechar {
+  position: absolute;
+  top: 14px;
+  right: 16px;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: none;
+  background: #f4f4f4;
+  font-size: 20px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.container .fechar:hover {
+  background: #ececec;
+}
+
+/* ICONE */
+/* ÍCONE DA VERIFICAÇÃO DE SEGURANÇA COM MESMO DEGRADÊ */
+
+.container .icone-seguranca {
+  display: none;
+}
+
+.container .modal-card h2 {
+  text-align: center;
+  color: #212121;
+  font-size: 22px;
+  margin-bottom: 14px;
+  margin-top: 5px;
+}
+
+.container .modal-card p {
+  text-align: center;
+  color: #666;
+  font-size: 14px;
+  line-height: 1.5;
+  margin-bottom: 18px;
+}
+
+/* BOTÕES */
+.container .btn-verificar {
+  width: 100%;
+  padding: 14px;
+  border: none;
+  border-radius: 14px;
+  font-size: 16px;
+  font-weight: 700;
+  color: white;
+  cursor: pointer;
+
+  background: linear-gradient(135deg, #2d1366, #6a0dad, #8a2be2);
+
+  margin-top: 1em; /* distância extra */
+}
+
+.container .btn-opcao {
+  margin-bottom: 12px;
+  background: #f7f1ff;
+  color: #6a0dad;
+  border: 1px solid #e7d5ff;
+}
+
+.container .btn-opcao:hover {
+  background: #efe3ff;
+}
+
+.container .btn-verificar:hover {
+  transform: translateY(-2px);
+
+  background: linear-gradient(135deg, #24104f, #5d0bb8, #7d22da);
+
+  box-shadow: 0 18px 35px rgba(106,13,173,0.35);
+}
+
+/* REENVIAR */
+.container .reenviar {
+  margin-top: 14px;
+  font-size: 13px;
+}
+
+.container #outraForma,
+.container #reenviarCodigo {
+  color: #6a0dad;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.container #outraForma:hover,
+.container #reenviarCodigo:hover {
+  text-decoration: underline;
+}
+
+/* =========================
+   RESPONSIVO
+========================= */
+@media (max-width: 600px) {
+  .container .card,
+  .container .modal-card {
+    padding: 26px 20px;
+    border-radius: 20px;
+  }
+
+  .container h2 {
+    font-size: 24px;
+  }
+
+  .container .user-icon {
+    width: 68px;
+    height: 68px;
+    font-size: 28px;
+  }
+}

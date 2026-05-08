@@ -1,11 +1,11 @@
 /* Variáveis para cores */
 :root {
-    --primary-color: #000000; /* Preto para botões e texto principal */
-    --secondary-color: #555555; /* Cinza escuro para detalhes */
-    --background-color: #f7f7f7; /* Fundo claro da página */
+    --primary-color: #000000;
+    --secondary-color: #555555;
+    --background-color: #f7f7f7;
     --white-color: #ffffff;
     --dark-bg-color: #1a1a1a;
-    --accent-color: #f90; /* Amarelo/Dourado para estrelas (exemplo) */
+    --accent-color: #f90;
     --price-label-color: #888888;
     --border-color: #eeeeee;
 }
@@ -13,9 +13,8 @@
 /* Base e Tipografia */
 body {
     font-family: 'Poppins', sans-serif;
-    font-size: 12px; /* Tamanho de fonte base solicitado */
+    font-size: 12px;
     margin: 0;
-    
     background-color: var(--background-color);
     color: var(--primary-color);
     line-height: 1.6;
@@ -36,80 +35,133 @@ hr {
     margin: 15px 0;
 }
 
-/* --- Seção Hero --- */
+/* ─── HERO SECTION (igual à tela de evento) ─────────────────────────────────── */
 .hero-section {
     position: relative;
-    height: 250px;
-    background: url('https://via.placeholder.com/1200x250/cccccc/808080?text=Fundo+do+Local') no-repeat center center/cover;
+    width: 100%;
+    height: 420px;
+    background-color: #1a1a2e;        /* fallback enquanto a imagem carrega */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    overflow: hidden;
 }
 
-.overlay {
+/* Overlay escuro degradê de baixo para cima */
+.hero-overlay {
     position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.3);
-    padding: 20px;
-    color: var(--white-color);
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-end;
+    inset: 0;
+    background: linear-gradient(
+        to top,
+        rgba(0, 0, 0, 0.82) 0%,
+        rgba(0, 0, 0, 0.30) 55%,
+        rgba(0, 0, 0, 0.08) 100%
+    );
+    z-index: 1;
 }
 
-.location-info {
-    margin-left: 100px;
-    margin-bottom: 20px;
-}
-
-.location-info .type {
-    font-size: 12px;
-    font-weight: 300;
-    margin-bottom: 5px;
-}
-
-.location-info .name {
-    font-size: 24px;
-    font-weight: 600;
-    margin-bottom: 5px;
-}
-
-.location-info .rating {
-    font-size: 12px;
-    font-weight: 400;
-}
-
-.location-info .rating .fas.fa-star {
-    color: var(--accent-color);
-}
-
-.price-range {
-    display: flex;
-    flex-direction: column;
+/* Botão Voltar — canto superior esquerdo */
+.hero-back-btn {
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    z-index: 10;
+    display: inline-flex;
     align-items: center;
-    margin-right: 100px;
-    margin-bottom: 20px;
-    font-size: 24px;
-    font-weight: 600;
+    gap: 6px;
+    padding: 8px 16px;
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    border-radius: 99px;
+    color: #fff;
+    font-size: 0.82rem;
+    font-weight: 500;
+    font-family: 'Poppins', sans-serif;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+.hero-back-btn:hover {
+    background: rgba(255, 255, 255, 0.28);
 }
 
-.price-range .price-label {
-    font-size: 12px;
+/* Ações (favorito / compartilhar) — canto superior direito */
+.hero-top-actions {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    z-index: 10;
+    display: flex;
+    gap: 8px;
+}
+.hero-icon-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    color: #fff;
+    font-size: 1rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s;
+}
+.hero-icon-btn:hover {
+    background: rgba(255, 255, 255, 0.28);
+}
+
+/* Bloco de texto na parte inferior do hero */
+.hero-info {
+    position: absolute;
+    bottom: 1.8rem;
+    left: 2rem;
+    right: 2rem;
+    z-index: 10;
+    color: #fff;
+}
+.hero-category {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    opacity: 0.85;
+    margin-bottom: 4px;
     font-weight: 400;
-    color: var(--white-color);
-    opacity: 0.7;
+}
+.hero-name {
+    font-size: 2rem;
+    font-weight: 700;
+    line-height: 1.15;
+    margin-bottom: 6px;
+}
+.hero-meta {
+    font-size: 0.88rem;
+    opacity: 0.9;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin: 0;
+}
+.hero-meta .fa-star {
+    color: #ffc107;
 }
 
-/* --- Conteúdo Principal (Main Content) --- */
+/* ─── CONTEÚDO PRINCIPAL ─────────────────────────────────────────────────────── */
 .main-content {
     max-width: 1200px;
-    margin: -40px auto 20px auto;
+    margin: 20px auto 20px auto;   /* positivo: hero não sobrepõe mais o conteúdo */
     padding: 0 20px;
     position: relative;
     z-index: 10;
 }
 
-/* --- Navegação de Abas --- */
+/* ─── NAVEGAÇÃO DE ABAS ──────────────────────────────────────────────────────── */
 .tab-navigation {
     display: flex;
     background-color: var(--white-color);
@@ -128,6 +180,7 @@ hr {
     color: var(--secondary-color);
     transition: color 0.2s, border-bottom 0.2s;
     border-bottom: 3px solid transparent;
+    font-family: 'Poppins', sans-serif;
 }
 
 .tab-button.active {
@@ -160,7 +213,11 @@ hr {
 }
 
 /* Títulos de Seções */
-.general-info-section h3, .amenities-section h3, .promocionais-section h3, .photos-section h3, .reviews-section h3 {
+.general-info-section h3,
+.amenities-section h3,
+.promocionais-section h3,
+.photos-section h3,
+.reviews-section h3 {
     font-size: 16px;
     font-weight: 600;
     margin-bottom: 15px;
@@ -220,8 +277,7 @@ hr {
     color: #28a745;
 }
 
-/* --- ESTILOS ESPECÍFICOS PARA PRATOS PROMOCIONAIS (MENU) --- */
-
+/* ─── PRATOS PROMOCIONAIS ────────────────────────────────────────────────────── */
 .menu-category {
     margin-bottom: 25px;
 }
@@ -234,78 +290,72 @@ hr {
     padding-bottom: 5px;
 }
 
-/* Novo container para o item da linha */
 .menu-item-row {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
     padding: 15px 0;
-    border-bottom: 1px dashed var(--border-color); /* Linha divisória */
+    border-bottom: 1px dashed var(--border-color);
 }
 
-/* Remove a borda do último item da categoria */
 .menu-category .menu-item-row:last-child {
     border-bottom: none;
 }
 
-/* Estilo de destaque para a promoção */
 .destaque-promocional {
-    background-color: #fffaf0; 
-    border-left: 3px solid var(--accent-color); 
-    padding: 10px 15px; /* Ajusta o padding */
+    background-color: #fffaf0;
+    border-left: 3px solid var(--accent-color);
+    padding: 10px 15px;
     border-radius: 5px;
-    margin: 10px 0; /* Espaçamento */
-    border-bottom: none !important; /* Remove a linha pontilhada interna */
+    margin: 10px 0;
+    border-bottom: none !important;
 }
 
-/* Detalhes do item (Nome e descrição) */
 .menu-item-row .item-details {
     flex-grow: 1;
-    padding-right: 15px; /* Espaço entre texto e preço */
+    padding-right: 15px;
 }
 
-/* Preço e preço riscado */
 .item-price-container {
     text-align: right;
     white-space: nowrap;
 }
 
-.item-price { /* Preço normal (R$ 45, R$ 130) */
+.item-price {
     font-weight: 600;
     color: var(--primary-color);
-    white-space: nowrap; 
+    white-space: nowrap;
     display: block;
 }
 
-.item-price-sale { /* Preço de venda (R$ 35) */
+.item-price-sale {
     font-weight: bold;
-    color: #cc0000; /* Vermelho para desconto */
+    color: #cc0000;
     display: block;
 }
 
-.item-price-original { /* Preço riscado (R$ 50) */
+.item-price-original {
     font-weight: normal;
     color: var(--secondary-color);
     font-size: 0.9em;
     display: block;
 }
 
-
-/* --- Galeria de Fotos --- */
+/* ─── GALERIA DE FOTOS ───────────────────────────────────────────────────────── */
 .photo-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 15px; /* Aumentado para melhor visual */
+    gap: 15px;
 }
 
 .photo-grid img {
     width: 100%;
-    height: 100%; /* Garante que a altura do HTML inline seja respeitada */
+    height: 100%;
     border-radius: 5px;
     object-fit: cover;
 }
 
-/* --- Avaliações --- */
+/* ─── AVALIAÇÕES ─────────────────────────────────────────────────────────────── */
 .review-list {
     margin-top: 10px;
 }
@@ -337,13 +387,12 @@ hr {
     font-weight: 600;
     margin-right: 15px;
     color: var(--white-color);
-    object-fit: cover; /* Para imagens de avatar */
+    object-fit: cover;
 }
 
 .reviewer-header img.avatar {
     padding: 0;
 }
-
 
 .reviewer-name {
     font-weight: 600;
@@ -358,7 +407,7 @@ hr {
 }
 
 .review-text {
-    margin-left: 55px; /* Alinha o texto com o nome após o avatar */
+    margin-left: 55px;
     margin-bottom: 5px;
     font-size: 12px;
 }
@@ -373,7 +422,7 @@ hr {
     margin-right: 5px;
 }
 
-/* --- Barra Lateral (Sidebar) --- */
+/* ─── SIDEBAR ────────────────────────────────────────────────────────────────── */
 .sidebar {
     flex: 1;
     align-self: flex-start;
@@ -382,13 +431,12 @@ hr {
 
 .sidebar-cards {
     position: sticky;
-    top: 20px; 
+    top: 20px;
     display: flex;
     flex-direction: column;
-    gap: 20px; 
+    gap: 20px;
 }
 
-/* Base do Card */
 .info-card {
     background-color: var(--white-color);
     padding: 20px;
@@ -440,9 +488,11 @@ hr {
     cursor: pointer;
     font-size: 13px;
     font-weight: 600;
+    font-family: 'Poppins', sans-serif;
     text-align: center;
     text-decoration: none;
     transition: background-color 0.2s, color 0.2s, border-color 0.2s;
+    box-sizing: border-box;
 }
 
 .btn-primary {

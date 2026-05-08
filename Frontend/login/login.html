@@ -7,8 +7,8 @@
     <title>Tela de Login - Rolês</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
-    <link rel="stylesheet" href="../css/footer.css">
-    <link rel="stylesheet" href="../css/login.css">
+    <link rel="stylesheet" href="/frontend/css/footer.css">
+    <link rel="stylesheet" href="/frontend/css/login.css">
 
 </head>
 
@@ -45,23 +45,30 @@
 
                 <p id="sub-text" class="small">Entre rapidamente com</p>
 
+                <!-- SUBSTITUA SUA DIV SOCIAL-LOGIN POR ESTA -->
+
                 <div class="social-login">
-                    <button><i class="fab fa-google"></i></button>
-                    <button><i class="fab fa-facebook-f"></i></button>
+
+                    <button class="google-btn">
+                        <img src="https://developers.google.com/identity/images/g-logo.png" alt="Google"
+                            class="social-icon">
+                    </button>
+
                 </div>
 
 
                 <p class="register-link">
-                    Não tem conta? <a href="../Cadastro/cadastro.html">Cadastre-se</a>
+                    Não tem conta? <a href="/frontend/Cadastro/cadastro.html">Cadastre-se</a>
                 </p>
             </div>
         </div>
     </main>
 
-    <script src="../js/footer.js" defer></script>
-    <script src="../js/loadHeader.js"></script>
+    <script src="/frontend/js/config.js"></script>
+    <script src="/frontend/js/footer.js" defer></script>
+    <script src="/frontend/js/loadHeader.js"></script>
 
-    <script src="../js/Login.js"></script>
+    <script src="/frontend/js/Login.js"></script>
 
 </body>
 

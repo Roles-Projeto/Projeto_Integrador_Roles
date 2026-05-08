@@ -4,10 +4,9 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Rolês - Início</title>
+    <title>Rolês - Locais</title>
     <link rel="stylesheet" href="../header/css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <script src="https://unpkg.com/feather-icons"></script>
     <link rel="stylesheet" href="../css/footer.css">
     <link rel="stylesheet" href="../css/locais.css">
 </head>
@@ -25,9 +24,8 @@
             <p>Descubra os melhores lugares para sair e se divertir na sua cidade</p>
 
             <div class="search-box1">
-                <i data-feather="search" class="icon"></i>
-                <input type="text" placeholder="Buscar locais, bairros, tipos..." id="search-input" />
-            </div>
+                <i class="fa-solid fa-magnifying-glass icon"></i>
+                <input type="text" placeholder="Buscar locais, bairros, tipos..." id="search-locais" />
         </section>
 
         <div class="content-container1">
@@ -38,17 +36,17 @@
                     <span>Filtros</span>
                 </div>
                 <div class="filtro-direita1">
-                    <button class="botao-dropdown1" data-filtro-tipo="categoria">
+                    <button class="botao-dropdown1">
                         Todas as Categorias <i class="fa-solid fa-chevron-down"></i>
                     </button>
-                    <button class="botao-dropdown1" data-filtro-tipo="avaliacao">
+                    <button class="botao-dropdown1">
                         Melhor avaliados <i class="fa-solid fa-chevron-down"></i>
                     </button>
                 </div>
             </section>
 
             <section class="opçoes">
-                <p class="mover">Encontrado <strong id="contador-locais">6</strong> locais</p>
+                <p class="mover">Encontrado <strong id="contador-locais">0</strong> locais</p>
 
                 <div class="botoes" id="botoes-categoria-locais">
                     <button class="opçoes-abaixo ativo" data-categoria="todos">Todos</button>
@@ -64,12 +62,12 @@
 
                     <div class="card" data-categoria-card="bares">
                         <div class="card-img">
-                            <img src="../Imagens/1º imagem cad.png" alt="Pinga Fogo">
+                            <img src="/frontend/imagens/1º imagem cad.png" alt="Pinga Fogo">
                             <span class="categoria">Bar</span>
                             <span class="nota">⭐ 4.5</span>
                         </div>
                         <div class="card-content">
-                            <h3>Pinga Fogo <span class="preco">$$</span></h3>
+                            <h3>Pinga Fogo</h3>
                             <p class="local"><i class="fa-solid fa-location-dot"></i> Setor Marista, Goiânia</p>
                             <p class="descricao">Opções de chopp gelado e petiscos variados. Perfeito para um happy hour.</p>
                             <div class="info">
@@ -90,7 +88,7 @@
 
                     <div class="card" data-categoria-card="restaurantes">
                         <div class="card-img">
-                            <img src="../Imagens/2º imagem card.png" alt="Kabanas Restaurante">
+                            <img src="/frontend/imagens/2º imagem card.png" alt="Kabanas Restaurante">
                             <span class="categoria">Restaurante</span>
                             <span class="nota">⭐ 4.6</span>
                         </div>
@@ -116,7 +114,7 @@
 
                     <div class="card" data-categoria-card="baladas">
                         <div class="card-img">
-                            <img src="../Imagens/3º imagem card.png" alt="Roxy">
+                            <img src="/frontend/imagens/3º imagem card.png" alt="Roxy">
                             <span class="categoria">Balada</span>
                             <span class="nota">⭐ 4.7</span>
                         </div>
@@ -142,7 +140,7 @@
 
                     <div class="card" data-categoria-card="shows">
                         <div class="card-img">
-                            <img src="../Imagens/4º imagem cad.png" alt="Guardian Comedy Club">
+                            <img src="/frontend/imagens/4º imagem cad.png" alt="Guardian Comedy Club">
                             <span class="categoria">Stand-up</span>
                             <span class="nota">⭐ 4.6</span>
                         </div>
@@ -168,7 +166,7 @@
 
                     <div class="card" data-categoria-card="restaurantes">
                         <div class="card-img">
-                            <img src="../Imagens/5º imagem cad.png" alt="Pizzaria da 8">
+                            <img src="/frontend/imagens/5º imagem cad.png" alt="Pizzaria da 8">
                             <span class="categoria">Restaurante</span>
                             <span class="nota">⭐ 4.4</span>
                         </div>
@@ -194,7 +192,7 @@
 
                     <div class="card" data-categoria-card="shows">
                         <div class="card-img">
-                            <img src="../Imagens/6º imagem cad.png" alt="Teatro Rio Vermelho">
+                            <img src="/frontend/imagens/6º imagem cad.png" alt="Teatro Rio Vermelho">
                             <span class="categoria">Show</span>
                             <span class="nota">⭐ 4.5</span>
                         </div>
@@ -242,9 +240,10 @@
         </div>
     </main>
 
-    <script src="../JS/footer.js" defer></script>
-    <script src="../JS/loadHeader.js"></script>
-    <script src="../JS/locais.js"></script>
+    <script src="/frontend/js/config.js"></script>
+    <script src="../js/footer.js" defer></script>
+    <script src="../js/loadHeader.js"></script>
+    <script src="../js/locais.js"></script>
 
 </body>
 </html>

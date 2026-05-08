@@ -1,0 +1,31 @@
+version: "3.8"
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: roles_mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      MYSQL_DATABASE: ${DB_NAME}
+    ports:
+      - "3307:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./backend/db-init:/docker-entrypoint-initdb.d   # apenas uma fonte de init
+
+  backend:
+    build: .
+    container_name: roles_backend
+    restart: always
+    ports:
+      - "3000:3000"
+    depends_on:
+      - mysql
+    env_file:
+      - ./backend/.env                                   # todas as variáveis vêm do .env
+    volumes:
+      - ./backend/uploads:/app/uploads
+
+volumes:
+  mysql_data:
