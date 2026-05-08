@@ -6,15 +6,13 @@ services:
     container_name: roles_mysql
     restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: 0411
-      MYSQL_DATABASE: roles_db
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      MYSQL_DATABASE: ${DB_NAME}
     ports:
       - "3307:3306"
     volumes:
       - mysql_data:/var/lib/mysql
-      # 👇 aceita os dois caminhos (caso você ainda esteja migrando)
-      - ./database:/docker-entrypoint-initdb.d
-      - ./backend/db-init:/docker-entrypoint-initdb.d
+      - ./backend/db-init:/docker-entrypoint-initdb.d   # apenas uma fonte de init
 
   backend:
     build: .
@@ -24,22 +22,9 @@ services:
       - "3000:3000"
     depends_on:
       - mysql
-    environment:
-      NODE_ENV: development
-      DB_HOST: mysql
-      DB_PORT: 3306
-      DB_USER: root
-      DB_PASSWORD: 0411
-      DB_NAME: roles_db
-      PORT: 3000
-      JWT_SECRET: minha_chave_secreta_segura
-
-      # 👇 email (do segundo)
-      EMAIL_USER: roles.suporte@gmail.com
-      EMAIL_PASS: dxrz asij zxav cfip
-
+    env_file:
+      - ./backend/.env                                   # todas as variáveis vêm do .env
     volumes:
-      # 👇 uploads persistentes
       - ./backend/uploads:/app/uploads
 
 volumes:
