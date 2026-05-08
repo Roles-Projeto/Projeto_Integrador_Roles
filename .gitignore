@@ -1,11 +1,33 @@
-/backend/node_modules
-/node_modules
-/backend/.env
-.env
-.env.production
-.hintrc
+# Dependências
 node_modules/
+**/node_modules/
+
+# Variáveis de ambiente (NUNCA sobem pro Git)
+.env
+**/.env
+.env.production
+**/.env.production
+
+# Uploads de usuários (arquivos locais de cada máquina)
+backend/uploads/*
+!backend/uploads/.gitkeep
+
+# Logs
+*.log
+npm-debug.log*
+
+# Sistema operacional
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Arquivos de teste temporários
 test.txt
 test2.txt
-test3.tx3
-frontend.nojekyll
+test3.txt
+
+# VS Code
+.vscode/
+
+# Docker volumes locais
+mysql_data/
