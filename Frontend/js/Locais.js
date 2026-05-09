@@ -4,20 +4,21 @@
 
     const API_URL = window.API_BASE;
 
+    // detalheslocais.js — linha 1
     const faixaPrecoMap = {
-        "economico":   "$ — até R$ 30",
-        "moderado":    "$$ — R$ 30 a R$ 80",
-        "sofisticado": "$$$ — R$ 80 a R$ 150",
-        "luxo":        "$$$$ — acima de R$ 150"
+        "economico": "até R$ 30",
+        "moderado": "R$ 30 a R$ 80",
+        "sofisticado": "R$ 80 a R$ 150",
+        "luxo": "acima de R$ 150"
     };
 
     function norm(s) {
         return (s || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
     }
 
-    let termoAtual      = '';
-    let categoriaAtual  = 'todos';
-    let ordenacaoAtual  = 'padrao';
+    let termoAtual = '';
+    let categoriaAtual = 'todos';
+    let ordenacaoAtual = 'padrao';
 
     // ─── FETCH ────────────────────────────────────────────────────────────────
     async function fetchEstabelecimentos() {
@@ -52,8 +53,8 @@
             ? `<span class="nota"><i class="fas fa-star"></i> ${nota.toFixed(1)}</span>`
             : `<span class="nota nova">Novo</span>`;
 
-        const horarioDisplay    = estab.horario || "Verificar agenda";
-        const telefoneDisplay   = estab.telefone || "";
+        const horarioDisplay = estab.horario || "Verificar agenda";
+        const telefoneDisplay = estab.telefone || "";
         const faixaPrecoDisplay = faixaPrecoMap[estab.faixa_preco] || estab.faixa_preco || "";
 
         const card = document.createElement('div');
@@ -103,10 +104,10 @@
 
     // ─── FILTRO ───────────────────────────────────────────────────────────────
     function textoDoCard(card) {
-        const nome      = card.querySelector('h3')?.textContent || '';
-        const local     = card.querySelector('.local')?.textContent || '';
+        const nome = card.querySelector('h3')?.textContent || '';
+        const local = card.querySelector('.local')?.textContent || '';
         const descricao = card.querySelector('.descricao')?.textContent || '';
-        const tags      = card.querySelector('.tags')?.textContent || '';
+        const tags = card.querySelector('.tags')?.textContent || '';
         const categoria = card.getAttribute('data-categoria-card') || '';
         return norm(`${nome} ${local} ${descricao} ${tags} ${categoria}`);
     }
@@ -122,10 +123,10 @@
 
         // 1. Filtrar visibilidade
         cards.forEach(card => {
-            const texto   = textoDoCard(card);
+            const texto = textoDoCard(card);
             const catCard = norm(card.getAttribute('data-categoria-card') || '');
             const bateTexto = tNorm === '' || texto.includes(tNorm);
-            const bateCat   = cNorm === 'todos' || catCard === cNorm;
+            const bateCat = cNorm === 'todos' || catCard === cNorm;
 
             if (bateTexto && bateCat) {
                 card.style.display = '';
@@ -226,7 +227,7 @@
 
             // Posiciona abaixo do botão
             const rect = botao.getBoundingClientRect();
-            menu.style.top  = `${rect.bottom + window.scrollY + 4}px`;
+            menu.style.top = `${rect.bottom + window.scrollY + 4}px`;
             menu.style.left = `${rect.left + window.scrollX}px`;
             document.body.appendChild(menu);
         });
@@ -265,10 +266,10 @@
         if (botaoCategoria) {
             criarDropdown(botaoCategoria, [
                 { label: 'Todas as Categorias', valor: 'todos' },
-                { label: 'Baladas',             valor: 'baladas' },
-                { label: 'Bares',               valor: 'bares' },
-                { label: 'Restaurantes',        valor: 'restaurantes' },
-                { label: 'Shows',               valor: 'shows' },
+                { label: 'Baladas', valor: 'baladas' },
+                { label: 'Bares', valor: 'bares' },
+                { label: 'Restaurantes', valor: 'restaurantes' },
+                { label: 'Shows', valor: 'shows' },
             ], (item) => {
                 categoriaAtual = item.valor;
                 // Sincroniza botões menores
@@ -285,9 +286,9 @@
         // Dropdown "Melhor avaliados"
         if (botaoOrdenacao) {
             criarDropdown(botaoOrdenacao, [
-                { label: 'Padrão',           valor: 'padrao' },
+                { label: 'Padrão', valor: 'padrao' },
                 { label: 'Melhor avaliados', valor: 'melhor-avaliados' },
-                { label: 'Mais avaliados',   valor: 'mais-avaliados' },
+                { label: 'Mais avaliados', valor: 'mais-avaliados' },
             ], (item) => {
                 ordenacaoAtual = item.valor;
                 aplicarFiltro();
