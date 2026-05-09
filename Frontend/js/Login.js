@@ -77,6 +77,7 @@ form.addEventListener("submit", async (e) => {
 
             // Salva o ID do usuário para usar no perfil
             localStorage.setItem('userId', data.id);
+            localStorage.setItem('token', data.token);
 
             let name = data.nome_completo || 'Cliente Rolês';
 

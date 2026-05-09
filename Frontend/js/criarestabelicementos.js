@@ -226,25 +226,25 @@ cancelarBtn.addEventListener("click", () => {
 // ====================================================
 
 confirmarBtn.addEventListener("click", async () => {
-    const nome          = document.getElementById("estab-name")?.value?.trim() || "";
-    const tipo          = document.getElementById("tipo")?.value || "";
+    const nome = document.getElementById("estab-name")?.value?.trim() || "";
+    const tipo = document.getElementById("tipo")?.value || "";
     const especialidade = document.getElementById("especialidade")?.value || "";
-    const faixa_preco   = document.getElementById("faixa-preco")?.value || "";
-    const capacidade    = document.getElementById("capacidade")?.value || "";
-    const descricao     = document.getElementById("descricao")?.value || "";
-    const local_nome    = document.getElementById("local-nome")?.value || "";
-    const cep           = document.getElementById("cep")?.value || "";
-    const rua           = document.getElementById("rua")?.value || "";
-    const numero        = document.getElementById("numero")?.value || "";
-    const complemento   = document.getElementById("complemento")?.value || "";
-    const bairro        = document.getElementById("bairro")?.value || "";
-    const cidade        = document.getElementById("cidade")?.value || "";
-    const estado        = document.getElementById("estado")?.value || "";
-    const telefone      = document.getElementById("telefone")?.value || "";
-    const website       = document.getElementById("website")?.value || "";
-    const responsavel   = document.getElementById("owner-name")?.value || "";
-    const cnpj          = document.getElementById("cnpj")?.value || "";
-    const visibilidade  = document.querySelector('input[name="visibilidade"]:checked')?.value || "publico";
+    const faixa_preco = document.getElementById("faixa-preco")?.value || "";
+    const capacidade = document.getElementById("capacidade")?.value || "";
+    const descricao = document.getElementById("descricao")?.value || "";
+    const local_nome = document.getElementById("local-nome")?.value || "";
+    const cep = document.getElementById("cep")?.value || "";
+    const rua = document.getElementById("rua")?.value || "";
+    const numero = document.getElementById("numero")?.value || "";
+    const complemento = document.getElementById("complemento")?.value || "";
+    const bairro = document.getElementById("bairro")?.value || "";
+    const cidade = document.getElementById("cidade")?.value || "";
+    const estado = document.getElementById("estado")?.value || "";
+    const telefone = document.getElementById("telefone")?.value || "";
+    const website = document.getElementById("website")?.value || "";
+    const responsavel = document.getElementById("owner-name")?.value || "";
+    const cnpj = document.getElementById("cnpj")?.value || "";
+    const visibilidade = document.querySelector('input[name="visibilidade"]:checked')?.value || "publico";
 
     if (!nome) {
         alert("O nome do estabelecimento é obrigatório.");
@@ -257,9 +257,9 @@ confirmarBtn.addEventListener("click", async () => {
     // Horários → string "Seg: 08:00–22:00, Ter: 08:00–22:00"
     const horariosArr = [];
     document.querySelectorAll(".horario-dia-row").forEach(row => {
-        const dia        = row.dataset.dia;
-        const check      = row.querySelector(".dia-check");
-        const abertura   = row.querySelector(".hora-abertura")?.value || "";
+        const dia = row.dataset.dia;
+        const check = row.querySelector(".dia-check");
+        const abertura = row.querySelector(".hora-abertura")?.value || "";
         const fechamento = row.querySelector(".hora-fechamento")?.value || "";
         if (check?.checked && abertura && fechamento) {
             horariosArr.push(`${dia}: ${abertura}–${fechamento}`);
@@ -283,13 +283,28 @@ confirmarBtn.addEventListener("click", async () => {
     const categoria_card = mapearCategoria(tipo);
 
     // Monta objeto para enviar
+    // Fotos da galeria → array de base64
+    const fotos_galeria = await Promise.all(
+        fotosGaleria.map(file => new Promise(resolve => {
+            const r = new FileReader();
+            r.onload = e => resolve(e.target.result);
+            r.readAsDataURL(file);
+        }))
+    );
+
+    // Monta objeto para enviar
+    // Pratos cadastrados
+    const pratos = listaPratos || [];
+
+    // Monta objeto para enviar
     const body = {
         nome, tipo, especialidade, faixa_preco, capacidade, descricao,
         local_nome, cep, rua, numero, complemento, bairro, cidade, estado,
         endereco, telefone, website, responsavel, cnpj, visibilidade,
-        horario, comodidades, img_logo, img_capa, categoria_card
+        horario, comodidades, img_logo, img_capa, categoria_card,
+        fotos_galeria,
+        pratos
     };
-
     // ── DEBUG: mostra se a imagem foi capturada ──────────────────────────────
     alert(
         `🔍 DEBUG:\n` +
@@ -338,21 +353,21 @@ confirmarBtn.addEventListener("click", async () => {
 
 function mapearCategoria(tipo) {
     const mapa = {
-        "Restaurante"            : "restaurantes",
-        "Bar e Boteco"           : "bares",
-        "Café e Cafeteria"       : "bares",
-        "Lanchonete e Fast Food" : "restaurantes",
-        "Pizzaria"               : "restaurantes",
-        "Churrascaria"           : "restaurantes",
-        "Doceria e Confeitaria"  : "restaurantes",
-        "Padaria"                : "restaurantes",
-        "Sorveteria"             : "restaurantes",
-        "Sushi e Japonês"        : "restaurantes",
-        "Food Truck"             : "restaurantes",
-        "Bistrô"                 : "restaurantes",
-        "Pub"                    : "bares",
-        "Enoteca"                : "bares",
-        "Hamburgueria"           : "restaurantes",
+        "Restaurante": "restaurantes",
+        "Bar e Boteco": "bares",
+        "Café e Cafeteria": "bares",
+        "Lanchonete e Fast Food": "restaurantes",
+        "Pizzaria": "restaurantes",
+        "Churrascaria": "restaurantes",
+        "Doceria e Confeitaria": "restaurantes",
+        "Padaria": "restaurantes",
+        "Sorveteria": "restaurantes",
+        "Sushi e Japonês": "restaurantes",
+        "Food Truck": "restaurantes",
+        "Bistrô": "restaurantes",
+        "Pub": "bares",
+        "Enoteca": "bares",
+        "Hamburgueria": "restaurantes",
     };
     return mapa[tipo] || "restaurantes";
 }
@@ -368,18 +383,18 @@ showStep(currentStep);
 // ====================================================
 
 const especialidadesPorTipo = {
-    "Restaurante"            : ["Brasileiro", "Italiano", "Árabe", "Japonês", "Chinês", "Mexicano", "Francês", "Vegetariano/Vegano", "Frutos do mar", "Fusion"],
-    "Bar e Boteco"           : ["Petiscos", "Cervejas especiais", "Drinks e coquetéis", "Bar temático", "Esportivo"],
-    "Café e Cafeteria"       : ["Café especial", "Brunch", "Torradas e pães", "Bolos e doces", "Vegano"],
-    "Lanchonete e Fast Food" : ["Hambúrguer", "Hot dog", "Batata frita", "Tacos", "Wraps"],
-    "Pizzaria"               : ["Tradicional", "Gourmet", "Sem glúten", "Por metro", "Pizza no forno a lenha"],
-    "Churrascaria"           : ["Rodízio", "À la carte", "Assado na brasa", "Costela"],
-    "Doceria e Confeitaria"  : ["Bolos personalizados", "Brigadeiros", "Tortas", "Macarons", "Chocolates"],
-    "Padaria"                : ["Pão artesanal", "Café da manhã", "Salgados", "Doces"],
-    "Sorveteria"             : ["Sorvete artesanal", "Açaí", "Frozen", "Sorvete vegano"],
-    "Sushi e Japonês"        : ["Sushi", "Temaki", "Ramen", "Udon", "Teppanyaki"],
-    "Food Truck"             : ["Hambúrguer", "Tacos", "Churrasco", "Vegano", "Comida de rua"],
-    "Hamburgueria"           : ["Smash burger", "Artesanal", "Vegano", "Gourmet"],
+    "Restaurante": ["Brasileiro", "Italiano", "Árabe", "Japonês", "Chinês", "Mexicano", "Francês", "Vegetariano/Vegano", "Frutos do mar", "Fusion"],
+    "Bar e Boteco": ["Petiscos", "Cervejas especiais", "Drinks e coquetéis", "Bar temático", "Esportivo"],
+    "Café e Cafeteria": ["Café especial", "Brunch", "Torradas e pães", "Bolos e doces", "Vegano"],
+    "Lanchonete e Fast Food": ["Hambúrguer", "Hot dog", "Batata frita", "Tacos", "Wraps"],
+    "Pizzaria": ["Tradicional", "Gourmet", "Sem glúten", "Por metro", "Pizza no forno a lenha"],
+    "Churrascaria": ["Rodízio", "À la carte", "Assado na brasa", "Costela"],
+    "Doceria e Confeitaria": ["Bolos personalizados", "Brigadeiros", "Tortas", "Macarons", "Chocolates"],
+    "Padaria": ["Pão artesanal", "Café da manhã", "Salgados", "Doces"],
+    "Sorveteria": ["Sorvete artesanal", "Açaí", "Frozen", "Sorvete vegano"],
+    "Sushi e Japonês": ["Sushi", "Temaki", "Ramen", "Udon", "Teppanyaki"],
+    "Food Truck": ["Hambúrguer", "Tacos", "Churrasco", "Vegano", "Comida de rua"],
+    "Hamburgueria": ["Smash burger", "Artesanal", "Vegano", "Gourmet"],
 };
 
 const tipoSelect = document.getElementById("tipo");
@@ -419,8 +434,8 @@ if (telefoneInput) {
     telefoneInput.addEventListener("input", () => {
         let v = telefoneInput.value.replace(/\D/g, "");
         if (v.length > 11) v = v.slice(0, 11);
-        if (v.length > 6)      v = `(${v.slice(0,2)}) ${v.slice(2,7)}-${v.slice(7)}`;
-        else if (v.length > 2) v = `(${v.slice(0,2)}) ${v.slice(2)}`;
+        if (v.length > 6) v = `(${v.slice(0, 2)}) ${v.slice(2, 7)}-${v.slice(7)}`;
+        else if (v.length > 2) v = `(${v.slice(0, 2)}) ${v.slice(2)}`;
         else if (v.length > 0) v = `(${v}`;
         telefoneInput.value = v;
     });
@@ -435,10 +450,10 @@ if (cnpjInput) {
     cnpjInput.addEventListener("input", () => {
         let v = cnpjInput.value.replace(/\D/g, "");
         if (v.length > 14) v = v.slice(0, 14);
-        v = v.replace(/^(\d{2})(\d)/,          "$1.$2");
+        v = v.replace(/^(\d{2})(\d)/, "$1.$2");
         v = v.replace(/^(\d{2})\.(\d{3})(\d)/, "$1.$2.$3");
-        v = v.replace(/\.(\d{3})(\d)/,          ".$1/$2");
-        v = v.replace(/(\d{4})(\d)/,            "$1-$2");
+        v = v.replace(/\.(\d{3})(\d)/, ".$1/$2");
+        v = v.replace(/(\d{4})(\d)/, "$1-$2");
         cnpjInput.value = v;
     });
 }
@@ -526,8 +541,8 @@ function processarImagem(file, dropZone) {
 // CEP
 // ====================================================
 
-const cepInput    = document.getElementById("cep");
-const ruaInput    = document.getElementById("rua");
+const cepInput = document.getElementById("cep");
+const ruaInput = document.getElementById("rua");
 const cidadeInput = document.getElementById("cidade");
 const estadoInput = document.getElementById("estado");
 const bairroInput = document.getElementById("bairro");
@@ -546,10 +561,10 @@ if (cepInput) {
             const res = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
             const data = await res.json();
             if (data.erro) { alert("CEP não encontrado"); return; }
-            if (ruaInput)    ruaInput.value    = data.logradouro || "";
+            if (ruaInput) ruaInput.value = data.logradouro || "";
             if (cidadeInput) cidadeInput.value = data.localidade || "";
-            if (estadoInput) estadoInput.value = data.uf         || "";
-            if (bairroInput) bairroInput.value = data.bairro     || "";
+            if (estadoInput) estadoInput.value = data.uf || "";
+            if (bairroInput) bairroInput.value = data.bairro || "";
         } catch (e) {
             alert("Erro ao buscar CEP");
         }
@@ -561,8 +576,8 @@ if (cepInput) {
 // ====================================================
 
 const ticketConfigCard = document.querySelector(".ticket-config-card");
-const listaContainer   = document.querySelector(".lista-pratos");
-const listaPratos      = [];
+const listaContainer = document.querySelector(".lista-pratos");
+const listaPratos = [];
 let pratoEditandoIndex = null;
 
 document.querySelectorAll(".btn-ticket-action").forEach(btn => {
@@ -581,7 +596,7 @@ function criarFormPrato(tipo) {
     ticketItem.dataset.tipo = tipo;
 
     const tituloForm = tipo === "destaque" ? "⭐ Adicionar prato destaque" : "🏷️ Adicionar promoção";
-    const descForm   = tipo === "destaque"
+    const descForm = tipo === "destaque"
         ? `<p>Destaque os pratos mais populares ou especiais do seu estabelecimento.</p>`
         : `<p>Cadastre uma promoção especial — combo, desconto, happy hour, etc.</p>`;
 
@@ -645,7 +660,8 @@ function criarFormPrato(tipo) {
             preco = precoPromo ? parseFloat(precoPromo).toFixed(2) : "";
         }
 
-        const prato = { titulo, categoria, preco, tipo };
+        const descricao = ticketItem.querySelector(".descricao-prato")?.value?.trim() || "";
+        const prato = { titulo, categoria, preco, tipo, descricao };
         if (pratoEditandoIndex !== null) {
             listaPratos[pratoEditandoIndex] = prato;
             pratoEditandoIndex = null;
@@ -672,8 +688,8 @@ function renderizarPratos() {
         const item = document.createElement("div");
         item.classList.add("prato-resumo");
         const valorDisplay = prato.preco ? `R$ ${prato.preco}` : "Sem preço";
-        const badgeClass   = prato.tipo === "destaque" ? "badge-destaque" : "badge-promocao";
-        const badgeLabel   = prato.tipo === "destaque" ? "⭐ Destaque" : "🏷️ Promoção";
+        const badgeClass = prato.tipo === "destaque" ? "badge-destaque" : "badge-promocao";
+        const badgeLabel = prato.tipo === "destaque" ? "⭐ Destaque" : "🏷️ Promoção";
         item.innerHTML = `
             <div>
                 <strong>${prato.titulo}</strong>
@@ -698,7 +714,7 @@ function editarPrato(index) {
     ticketConfigCard.style.display = "flex";
     criarFormPrato(prato.tipo);
     const form = ticketConfigCard.querySelector(".ticket-item");
-    form.querySelector(".titulo-prato").value    = prato.titulo;
+    form.querySelector(".titulo-prato").value = prato.titulo;
     form.querySelector(".categoria-prato").value = prato.categoria !== "-" ? prato.categoria : "";
     if (prato.tipo === "destaque") {
         const precoField = form.querySelector(".preco-destaque");
@@ -713,3 +729,57 @@ function excluirPrato(index) {
     listaPratos.splice(index, 1);
     renderizarPratos();
 }
+
+// ====================================================
+// GALERIA DE FOTOS DO LOCAL
+// ====================================================
+
+const MAX_FOTOS = 8;
+let fotosGaleria = [];
+
+function renderGalleryGrid() {
+    const grid = document.getElementById('gallery-grid');
+    if (!grid) return;
+    grid.innerHTML = '';
+
+    fotosGaleria.forEach((file, i) => {
+        const url = URL.createObjectURL(file);
+        const slot = document.createElement('div');
+        slot.className = 'gallery-slot filled';
+        slot.innerHTML = `
+            <img src="${url}" alt="Foto ${i + 1}">
+            <button class="gallery-remove" data-index="${i}" title="Remover">
+                <i class="fa-solid fa-xmark"></i>
+            </button>`;
+        grid.appendChild(slot);
+    });
+
+    if (fotosGaleria.length < MAX_FOTOS) {
+        const add = document.createElement('div');
+        add.className = 'gallery-slot add-slot';
+        add.innerHTML = `<i class="fa-solid fa-plus"></i><span>Adicionar foto</span>`;
+        add.addEventListener('click', () => document.getElementById('gallery-input').click());
+        grid.appendChild(add);
+    }
+
+    grid.querySelectorAll('.gallery-remove').forEach(btn => {
+        btn.addEventListener('click', e => {
+            e.stopPropagation();
+            fotosGaleria.splice(+e.currentTarget.dataset.index, 1);
+            renderGalleryGrid();
+        });
+    });
+}
+
+const galleryInput = document.getElementById('gallery-input');
+if (galleryInput) {
+    galleryInput.addEventListener('change', e => {
+        const novos = Array.from(e.target.files);
+        const disponiveis = MAX_FOTOS - fotosGaleria.length;
+        fotosGaleria.push(...novos.slice(0, disponiveis));
+        renderGalleryGrid();
+        e.target.value = '';
+    });
+}
+
+renderGalleryGrid();
