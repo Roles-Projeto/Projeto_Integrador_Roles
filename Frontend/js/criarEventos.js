@@ -1,7 +1,9 @@
 // ====================================================
 // VARIÁVEIS GLOBAIS
 // ====================================================
-const API_URL = window.API_BASE;
+const isLocal = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1";
+const API_BASE = isLocal ? "http://localhost:3000" : window.location.origin;
+const API_URL = `${API_BASE}/eventos`;
 
 const steps = document.querySelectorAll(".step");
 const nextBtn = document.getElementById("nextBtn");
@@ -57,7 +59,6 @@ function atualizarProgresso() {
 // VALIDAÇÃO POR ETAPA
 // ====================================================
 function validarEtapa(index) {
-    // Etapa 1 — Nome e Assunto obrigatórios
     if (index === 0) {
         const nome = document.getElementById("event-name")?.value?.trim();
         const assunto = document.getElementById("assunto")?.value;
@@ -74,7 +75,6 @@ function validarEtapa(index) {
         document.getElementById("assunto").style.border = "";
     }
 
-    // Etapa 3 — Datas obrigatórias
     if (index === 2) {
         const dataInicio = document.getElementById("start-date")?.value;
         const horaInicio = document.getElementById("start-time")?.value;
@@ -104,7 +104,6 @@ function validarEtapa(index) {
         }
     }
 
-    // Etapa 7 — Nome do produtor e termos
     if (index === 6) {
         const produtor = document.getElementById("producer-name")?.value?.trim();
         const termos = document.getElementById("terms")?.checked;
@@ -251,18 +250,23 @@ confirmarBtn.addEventListener("click", async () => {
     const dataFim = document.getElementById("end-date")?.value;
     const horaFim = document.getElementById("end-time")?.value;
 
-    // Faz upload da imagem primeiro
+    // Upload de imagem
     let imagemUrl = null;
     if (imagemEvento) {
-        const formData = new FormData();
-        formData.append('imagem', imagemEvento);
+        try {
+            const formData = new FormData();
+            formData.append('imagem', imagemEvento);
 
-        const uploadRes = await fetch(`${API_URL}/upload-imagem`, {
-            method: 'POST',
-            body: formData
-        });
-        const uploadData = await uploadRes.json();
-        imagemUrl = uploadData.url;
+            const uploadRes = await fetch(`${API_BASE}/eventos/upload-imagem`, {
+                method: 'POST',
+                body: formData
+            });
+            const uploadData = await uploadRes.json();
+            imagemUrl = uploadData.url;
+            console.log("URL da imagem:", imagemUrl); // ← debug
+        } catch (err) {
+            console.error("Erro no upload da imagem:", err);
+        }
     }
 
     const evento = {
@@ -270,8 +274,16 @@ confirmarBtn.addEventListener("click", async () => {
         assunto: document.getElementById("assunto")?.value,
         categoria: document.getElementById("categoria")?.value,
         imagem: imagemUrl,
-        data_inicio: dataInicio && horaInicio ? `${dataInicio} ${horaInicio}:00` : null,
-        data_fim: dataFim && horaFim ? `${dataFim} ${horaFim}:00` : null,
+        data_inicio: dataInicio && horaInicio ? (() => {
+            const d = new Date(`${dataInicio}T${horaInicio}:00`);
+            d.setHours(d.getHours() + 3);
+            return d.toISOString().slice(0, 19).replace('T', ' ');
+        })() : null,
+        data_fim: dataFim && horaFim ? (() => {
+            const d = new Date(`${dataFim}T${horaFim}:00`);
+            d.setHours(d.getHours() + 3);
+            return d.toISOString().slice(0, 19).replace('T', ' ');
+        })() : null,
         descricao: document.getElementById("descricao")?.value?.trim(),
         local_nome: document.getElementById("local-nome")?.value?.trim(),
         cep: document.getElementById("cep")?.value?.trim(),
@@ -293,6 +305,9 @@ confirmarBtn.addEventListener("click", async () => {
         });
 
         const data = await response.json();
+        console.log("Status:", response.status);  // ← debug
+        console.log("Resposta:", data);            // ← debug
+
         if (!response.ok) {
             console.error("DETALHES DO ERRO:", data);
             confirmarBtn.disabled = false;
@@ -302,10 +317,7 @@ confirmarBtn.addEventListener("click", async () => {
 
         localStorage.removeItem("rascunhoEvento");
         modal.style.display = "none";
-
-        alert("✅ Evento publicado com sucesso!");
-
-        window.location.replace(`${window.location.origin}/frontend/eventos/eventos.html`);
+        window.location.replace("../eventos/eventos.html");
 
     } catch (err) {
         console.error("ERRO COMPLETO:", err);

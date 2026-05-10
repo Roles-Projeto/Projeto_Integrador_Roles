@@ -3,10 +3,19 @@ const router = express.Router();
 const usuariosController = require("../controllers/usuariosController");
 
 router.post("/cadastro", usuariosController.cadastrarUsuario);
+
 router.post("/enviar-codigo", usuariosController.enviarCodigo);
+
 router.post("/verificar-codigo", usuariosController.verificarCodigo);
+
+router.post("/recuperar-senha", usuariosController.recuperarSenha);
+
+router.post("/redefinir-senha", usuariosController.redefinirSenha);
+
 router.get("/", usuariosController.listarUsuarios);
+
 router.put("/perfil", usuariosController.atualizarUsuario);
+
 router.get("/:id", usuariosController.buscarUsuarioPorId);
 
 console.log("📡 ROTAS DE USUÁRIOS CARREGADAS");

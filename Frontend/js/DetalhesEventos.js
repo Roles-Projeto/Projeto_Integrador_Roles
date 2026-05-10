@@ -1,4 +1,5 @@
 const isLocal = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1";
+const API_BASE = isLocal ? "http://localhost:3000" : window.location.origin; // ← ADICIONA
 const API_URL = isLocal ? "http://localhost:3000/eventos" : "/eventos";
 
 function atualizarBotaoDeCompra(precoNumerico, precoFormatado) {
@@ -63,8 +64,11 @@ async function carregarDetalhesEvento() {
         // Banner
         const bannerSection = document.querySelector('.banner-evento');
         if (bannerSection && evento.imagem) {
+            const imgUrl = evento.imagem.startsWith("http")
+                ? evento.imagem
+                : `${API_BASE}${evento.imagem}`
             bannerSection.style.backgroundImage =
-                `linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.6)), url('${evento.imagem}')`;
+                `linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.6)), url('${imgUrl}')`;
         }
 
         // Cabeçalho

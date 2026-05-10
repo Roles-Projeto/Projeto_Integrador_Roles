@@ -19,18 +19,21 @@ function initHeader() {
     // ----------------------------------------------------------
     function loadPersistentData() {
         const photoUrl = localStorage.getItem('profilePhotoUrl');
-        const name     = localStorage.getItem('profileName');
-        const email    = localStorage.getItem('profileEmail');
+        const name = localStorage.getItem('profileName');
+        const email = localStorage.getItem('profileEmail');
 
-        const headerPic     = document.getElementById('profile-pic-header');
-        const dropdownName  = document.querySelector('.dropdown-menu .user-info strong');
+        const headerPic = document.getElementById('profile-pic-header');
+        const dropdownName = document.querySelector('.dropdown-menu .user-info strong');
         const dropdownEmail = document.querySelector('.dropdown-menu .user-info span');
-        const dropdownImg   = document.querySelector('.dropdown-menu .user-info img');
+        const dropdownImg = document.querySelector('.dropdown-menu .user-info img');
 
-        if (photoUrl && headerPic)     headerPic.src             = photoUrl;
-        if (photoUrl && dropdownImg)   dropdownImg.src           = photoUrl;
-        if (name     && dropdownName)  dropdownName.textContent  = name;
-        if (email    && dropdownEmail) dropdownEmail.textContent = email;
+        const defaultAvatar = `data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewBox='0 0 40 40'%3E%3Ccircle cx='20' cy='20' r='20' fill='%23ede9ff'/%3E%3Ccircle cx='20' cy='16' r='7' fill='%236C1DCE'/%3E%3Cellipse cx='20' cy='34' rx='12' ry='8' fill='%236C1DCE'/%3E%3C/svg%3E`;
+
+        const avatarUrl = photoUrl || defaultAvatar;
+        if (headerPic) headerPic.src = avatarUrl;
+        if (dropdownImg) dropdownImg.src = avatarUrl;
+        if (name && dropdownName) dropdownName.textContent = name;
+        if (email && dropdownEmail) dropdownEmail.textContent = email;
     }
 
     loadPersistentData();
@@ -39,8 +42,8 @@ function initHeader() {
     // ESTADO LOGADO / NÃO LOGADO
     // ----------------------------------------------------------
     function alternarEstadoHeader(logado) {
-        const naoLogado    = document.getElementById('header-nao-logado');
-        const logadoDiv    = document.getElementById('header-logado');
+        const naoLogado = document.getElementById('header-nao-logado');
+        const logadoDiv = document.getElementById('header-logado');
         const hamburgerBtn = document.getElementById('hamburger-btn');
 
         if (!naoLogado || !logadoDiv) return;
@@ -87,7 +90,8 @@ function initHeader() {
             profileContainer.classList.toggle('active');
         });
         document.addEventListener('click', (e) => {
-            if (!profileContainer.contains(e.target))
+            const hbtn = document.getElementById('hamburger-btn');
+            if (!profileContainer.contains(e.target) && e.target !== hbtn && !hbtn?.contains(e.target))
                 profileContainer.classList.remove('active');
         });
     }
@@ -102,7 +106,7 @@ function initHeader() {
         document.getElementById('openLogin').addEventListener('click', (e) => {
             e.preventDefault();
             const isHome = window.location.pathname.endsWith('index.html')
-                        || window.location.pathname.endsWith('/');
+                || window.location.pathname.endsWith('/');
             if (isHome) window.postMessage('OPEN_LOGIN_MODAL', '*');
             else window.location.href = '/frontend/login/login.html';
         });
@@ -111,31 +115,35 @@ function initHeader() {
     // ----------------------------------------------------------
     // HAMBURGER
     // ----------------------------------------------------------
-    document.getElementById('hamburger-btn')?.addEventListener('click', () => {
-        document.body.classList.toggle('sidebar-open');
-    });
-
+    const hamburgerElement = document.getElementById('hamburger-btn');
+    if (hamburgerElement) {
+        hamburgerElement.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const pc = document.querySelector('.user-profile-container');
+            if (pc) pc.classList.toggle('active');
+        });
+    }
     // ----------------------------------------------------------
     // CARD DE CIDADE
     // ----------------------------------------------------------
-    const cityBtn     = document.querySelector('.city-btn');
-    const cityCard    = document.getElementById('city-card');
-    const overlay     = document.getElementById('city-overlay');
-    const closeCard   = document.getElementById('close-card');
-    const citySearch  = document.getElementById('city-search');
+    const cityBtn = document.querySelector('.city-btn');
+    const cityCard = document.getElementById('city-card');
+    const overlay = document.getElementById('city-overlay');
+    const closeCard = document.getElementById('close-card');
+    const citySearch = document.getElementById('city-search');
     const useLocation = document.getElementById('use-location');
-    const cityItems   = document.querySelectorAll('.city-list li');
+    const cityItems = document.querySelectorAll('.city-list li');
 
     if (cityCard) document.body.appendChild(cityCard);
-    if (overlay)  document.body.appendChild(overlay);
+    if (overlay) document.body.appendChild(overlay);
 
-    const abrirCard  = () => {
+    const abrirCard = () => {
         if (cityCard) cityCard.style.display = 'block';
-        if (overlay)  overlay.style.display  = 'block';
+        if (overlay) overlay.style.display = 'block';
     };
     const fecharCard = () => {
         if (cityCard) cityCard.style.display = 'none';
-        if (overlay)  overlay.style.display  = 'none';
+        if (overlay) overlay.style.display = 'none';
     };
 
     function selecionarCidade(nome) {
@@ -171,17 +179,17 @@ function initHeader() {
             navigator.geolocation.getCurrentPosition(
                 async ({ coords: { latitude, longitude } }) => {
                     try {
-                        const res  = await fetch(
+                        const res = await fetch(
                             `https://nominatim.openstreetmap.org/reverse?lat=${latitude}&lon=${longitude}&format=json&accept-language=pt-BR`,
                             { headers: { Accept: 'application/json' } }
                         );
                         const data = await res.json();
                         const cityName =
-                            data.address?.city         ||
-                            data.address?.town         ||
-                            data.address?.village      ||
+                            data.address?.city ||
+                            data.address?.town ||
+                            data.address?.village ||
                             data.address?.municipality ||
-                            data.address?.state        ||
+                            data.address?.state ||
                             'Localização atual';
                         selecionarCidade(cityName);
                     } catch (err) {
@@ -202,24 +210,24 @@ function initHeader() {
     // ----------------------------------------------------------
     // DROPDOWN DE BUSCA
     // ----------------------------------------------------------
-    const searchInput    = document.getElementById('search-input');
-    const searchWrapper  = document.getElementById('search-bar-wrapper');
+    const searchInput = document.getElementById('search-input');
+    const searchWrapper = document.getElementById('search-bar-wrapper');
     const suggestionsBox = document.getElementById('search-suggestions');
-    const btnBuscar      = document.getElementById('btn-buscar');
+    const btnBuscar = document.getElementById('btn-buscar');
 
     const CHAVE_RECENTES = 'buscasRecentes';
-    const MAX_RECENTES   = 5;
-    const MAX_SUGESTOES  = 6;
+    const MAX_RECENTES = 5;
+    const MAX_SUGESTOES = 6;
 
     const icones = {
-        'show':'fa-music','música':'fa-music','festa':'fa-glass-cheers',
-        'bar':'fa-cocktail','restaurante':'fa-utensils',
-        'teatro':'fa-theater-masks','esporte':'fa-futbol',
-        'balada':'fa-music','stand-up':'fa-microphone',
-        'arte':'fa-palette','default':'fa-calendar-alt',
+        'show': 'fa-music', 'música': 'fa-music', 'festa': 'fa-glass-cheers',
+        'bar': 'fa-cocktail', 'restaurante': 'fa-utensils',
+        'teatro': 'fa-theater-masks', 'esporte': 'fa-futbol',
+        'balada': 'fa-music', 'stand-up': 'fa-microphone',
+        'arte': 'fa-palette', 'default': 'fa-calendar-alt',
     };
-    const getIcone = (cat) => icones[(cat||'').toLowerCase()] || icones['default'];
-    const norm     = (s)   => (s||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
+    const getIcone = (cat) => icones[(cat || '').toLowerCase()] || icones['default'];
+    const norm = (s) => (s || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
 
     function getRecentes() {
         try { return JSON.parse(localStorage.getItem(CHAVE_RECENTES)) || []; } catch { return []; }
@@ -238,11 +246,11 @@ function initHeader() {
     function lerCardsDaPagina() {
         const itens = [];
         document.querySelectorAll('.card-local, .card-evento, .card').forEach(card => {
-            const nome      = card.querySelector('h3')?.textContent.trim() || '';
-            const local     = card.querySelector('.evento-local, .local')?.textContent.trim() || '';
-            const tagEl     = card.querySelector('[class*="tag"]');
+            const nome = card.querySelector('h3')?.textContent.trim() || '';
+            const local = card.querySelector('.evento-local, .local')?.textContent.trim() || '';
+            const tagEl = card.querySelector('[class*="tag"]');
             const categoria = tagEl?.textContent.trim() || card.getAttribute('data-categoria-card') || '';
-            const data      = card.querySelector('.evento-data-local p, .local-meta p')?.textContent.trim() || '';
+            const data = card.querySelector('.evento-data-local p, .local-meta p')?.textContent.trim() || '';
             if (nome) itens.push({ nome, local, categoria, data });
         });
         return itens;
@@ -257,10 +265,10 @@ function initHeader() {
 
     function destacar(txt, termo) {
         if (!termo) return txt;
-        return txt.replace(new RegExp(`(${termo.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')})`, 'gi'), '<mark>$1</mark>');
+        return txt.replace(new RegExp(`(${termo.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi'), '<mark>$1</mark>');
     }
 
-    const abrirDropdown  = () => suggestionsBox?.classList.add('active');
+    const abrirDropdown = () => suggestionsBox?.classList.add('active');
     const fecharDropdown = () => suggestionsBox?.classList.remove('active');
 
     function renderVazio() {
@@ -327,7 +335,7 @@ function initHeader() {
                             <span class="sug-nome">${destacar(item.nome, termo)}</span>
                             <span class="sug-meta">
                                 ${item.categoria ? `<span class="sug-badge">${item.categoria}</span>` : ''}
-                                ${item.local     ? `<i class="fas fa-map-marker-alt"></i>${item.local}` : ''}
+                                ${item.local ? `<i class="fas fa-map-marker-alt"></i>${item.local}` : ''}
                             </span>
                         </div>
                     </div>
@@ -401,13 +409,13 @@ function initHeader() {
     // BUSCA GLOBAL
     // ----------------------------------------------------------
     function dispararBusca() {
-        const termo  = searchInput?.value.trim() || '';
+        const termo = searchInput?.value.trim() || '';
         const cidade = localStorage.getItem('cidade') || 'Minha localização';
 
         localStorage.setItem('filtrosRoles', JSON.stringify({ termo, cidade }));
 
         const naHome = window.location.pathname.endsWith('index.html')
-                    || window.location.pathname.endsWith('/');
+            || window.location.pathname.endsWith('/');
 
         if (naHome) {
             dispararFiltroDireto(termo);

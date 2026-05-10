@@ -329,7 +329,172 @@ function verificarCodigo(req, res) {
     }
   );
 }
+// ========================
+// RECUPERAR SENHA
+// ========================
+async function recuperarSenha(req, res) {
 
+  const { email } = req.body;
+
+  if (!email) {
+    return res.status(400).json({
+      erro: "E-mail obrigatório."
+    });
+  }
+
+  const codigo = gerarCodigo();
+
+  // expira em 10 min
+  const expira = new Date(Date.now() + 10 * 60 * 1000);
+
+  connection.query(
+    `
+    UPDATE usuarios
+    SET codigo_recuperacao = ?, codigo_expira_em = ?
+    WHERE email = ?
+    `,
+    [codigo, expira, email],
+    async (err, result) => {
+
+      if (err) {
+        return res.status(500).json({
+          erro: "Erro no servidor",
+          detalhes: err.message
+        });
+      }
+
+      if (result.affectedRows === 0) {
+        return res.status(404).json({
+          erro: "Usuário não encontrado"
+        });
+      }
+
+      try {
+
+        await transporter.sendMail({
+          from: `"Rolês App" <${process.env.EMAIL_USER}>`,
+          to: email,
+          subject: "Recuperação de senha - Rolês",
+          html: `
+            <div style="font-family: Arial; padding: 30px;">
+              <h2>Recuperação de senha</h2>
+
+              <p>Use o código abaixo para redefinir sua senha:</p>
+
+              <div style="
+                font-size: 40px;
+                font-weight: bold;
+                letter-spacing: 8px;
+                color: #6c3dff;
+                margin: 20px 0;
+              ">
+                ${codigo}
+              </div>
+
+              <p>
+                Esse código expira em 10 minutos.
+              </p>
+            </div>
+          `
+        });
+
+        res.json({
+          mensagem: "Código enviado no e-mail."
+        });
+
+      } catch (erroEmail) {
+
+        console.log(erroEmail);
+
+        res.status(500).json({
+          erro: "Erro ao enviar e-mail."
+        });
+
+      }
+
+    }
+  );
+
+}
+
+// ========================
+// REDEFINIR SENHA
+// ========================
+async function redefinirSenha(req, res) {
+
+  const { email, codigo, novaSenha } = req.body;
+
+  if (!email || !codigo || !novaSenha) {
+    return res.status(400).json({
+      erro: "Preencha todos os campos."
+    });
+  }
+
+  connection.query(
+    `
+    SELECT codigo_recuperacao, codigo_expira_em
+    FROM usuarios
+    WHERE email = ?
+    `,
+    [email],
+    async (err, results) => {
+
+      if (err) {
+        return res.status(500).json({
+          erro: "Erro no servidor"
+        });
+      }
+
+      if (results.length === 0) {
+        return res.status(404).json({
+          erro: "Usuário não encontrado"
+        });
+      }
+
+      const usuario = results[0];
+
+      if (usuario.codigo_recuperacao !== codigo) {
+        return res.status(400).json({
+          erro: "Código inválido"
+        });
+      }
+
+      if (new Date() > new Date(usuario.codigo_expira_em)) {
+        return res.status(400).json({
+          erro: "Código expirado"
+        });
+      }
+
+      const senhaHash = await bcrypt.hash(novaSenha, 10);
+
+      connection.query(
+        `
+        UPDATE usuarios
+        SET senha = ?,
+            codigo_recuperacao = NULL,
+            codigo_expira_em = NULL
+        WHERE email = ?
+        `,
+        [senhaHash, email],
+        (err) => {
+
+          if (err) {
+            return res.status(500).json({
+              erro: "Erro ao atualizar senha"
+            });
+          }
+
+          res.json({
+            mensagem: "Senha redefinida com sucesso!"
+          });
+
+        }
+      );
+
+    }
+  );
+
+}
 
 // ========================
 // EXPORTS
@@ -340,5 +505,8 @@ module.exports = {
   atualizarUsuario,
   buscarUsuarioPorId,
   enviarCodigo,
-  verificarCodigo
+  verificarCodigo,
+
+  recuperarSenha,
+  redefinirSenha
 };

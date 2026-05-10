@@ -6,6 +6,12 @@
   font-family: "Poppins", sans-serif;
 }
 
+/* BODY */
+body {
+  background: transparent;
+  overflow: auto;
+}
+
 /* CONTEÚDO PRINCIPAL */
 main {
   flex: 1;
@@ -22,129 +28,87 @@ main {
   align-items: center;
   width: 100%;
   min-height: 500px;
+  padding: 20px;
 }
 
-
+/* CARD */
 .login-box {
   background: #fff;
-  border-radius: 16px;
-  padding: 40px;
-  box-shadow: 0 6px 25px rgba(0, 0, 0, 0.2);
+  border-radius: 20px;
+  padding: 44px 40px;
+  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.12);
   max-width: 400px;
   width: 100%;
   text-align: center;
-  animation: fadeIn 0.8s ease;
+  animation: fadeIn 0.5s ease;
 }
 
 /* TÍTULO */
 .login-box h1 {
-  font-size: 2rem;
-  color: #232324;
-  margin-bottom: 20px;
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #111;
+  margin-bottom: 6px;
 }
 
-/* BOTÕES CLIENTE/EMPRESÁRIO */
-.toggle-buttons {
-  display: flex;
-  justify-content: center;
-  margin-bottom: 20px;
-}
-
-.toggle-buttons button {
-  background: #eee;
-  border: none;
-  padding: 10px 20px;
-  cursor: pointer;
-  font-weight: 600;
-  border-radius: 25px;
-  margin: 0 5px;
-  transition: all 0.3s ease;
-}
-
-.toggle-buttons .active {
-  background: #3d0e66;
-  color: #fff;
-}
-
-/* TEXTOS */
+/* SUBTÍTULO */
 .text-muted {
-  color: #555;
-  margin-bottom: 8px;
-}
-
-.small {
-  font-size: 0.9rem;
-  color: #777;
-  margin-bottom: 15px;
-}
-
-/* SOCIAL LOGIN */
-/* SOCIAL LOGIN APENAS GOOGLE */
-
-.social-login {
-  display: flex;
-  justify-content: center;
-  margin-bottom: 20px;
-}
-
-.google-btn {
-  background: #ffffff;
-  border: 1px solid #e4e4e4;
-  border-radius: 50%;
-  width: 48px;
-  height: 48px;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  cursor: pointer;
-  transition: 0.25s ease;
-}
-
-.google-btn:hover {
-  transform: scale(1.08);
-  box-shadow: 0 8px 18px rgba(0,0,0,0.08);
-}
-
-.social-icon {
-  width: 22px;
-  height: 22px;
-  object-fit: contain;
-}
-
-/* DIVISOR */
-.divider {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 0.6em;
-  padding: 1em 0 0 ;
-}
-
-.divider span {
-  background: #fff;
-  padding: 0 10px;
   color: #888;
   font-size: 0.9rem;
+  margin-bottom: 24px;
+  line-height: 1.5;
 }
 
 /* FORMULÁRIO */
 #login-form {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 14px;
 }
 
-#login-form input {
-  padding: 10px 15px;
-  border: 1px solid #ccc;
-  border-radius: 10px;
+#login-form input,
+.forgot-password-box input {
+  width: 100%;
+  padding: 13px 16px;
+  border: 1.5px solid #e0e0e0;
+  border-radius: 12px;
   outline: none;
-  transition: border 0.2s ease;
+  font-size: 0.95rem;
+  color: #222;
+  background: #fafafa;
+  transition: border 0.2s ease, background 0.2s ease;
+}
+
+#login-form input:focus,
+.forgot-password-box input:focus {
+  border-color: #6a11cb;
+  background: #fff;
+}
+
+#login-form input::placeholder,
+.forgot-password-box input::placeholder {
+  color: #aaa;
+}
+
+/* SENHA */
+.password-container {
+  position: relative;
+  width: 100%;
+}
+
+.password-container input {
+  width: 100%;
+  padding-right: 44px;
 }
 
 .password-container span {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: #aaa;
+  font-size: 1.1rem;
   opacity: 0;
   pointer-events: none;
   transition: 0.2s ease;
@@ -153,54 +117,117 @@ main {
 .password-container span.show {
   opacity: 1;
   pointer-events: auto;
+  color: #6a11cb;
 }
 
-.password-container {
-  position: relative;
-  width: 100%;
+/* ESQUECI SENHA */
+.forgot-password {
+  margin-top: -4px;
+  text-align: right;
 }
 
-.password-container input {
-  width: 100%;
-  padding-right: 40px;
+.forgot-password a {
+  color: #6a11cb;
+  text-decoration: none;
+  font-size: 0.85rem;
+  font-weight: 500;
 }
 
-.password-container span {
-  position: absolute;
-  right: 10px;
-  top: 50%;
-  transform: translateY(-50%);
-  cursor: pointer;
-  color: #5f6368; /* cor estilo Google */
+.forgot-password a:hover {
+  text-decoration: underline;
 }
 
-#login-form input:focus {
-  border-color: #8e2de2;
-}
-
+/* BOTÃO ENTRAR */
 .login-btn {
-  background: #000;
+  background: #111;
   color: #fff;
   border: none;
-  padding: 12px;
-  border-radius: 10px;
+  padding: 14px;
+  border-radius: 12px;
   cursor: pointer;
-  font-weight: bold;
-  transition: background 0.3s ease;
+  font-weight: 600;
+  font-size: 0.95rem;
+  letter-spacing: 0.3px;
+  transition: background 0.25s ease, transform 0.1s ease;
 }
 
 .login-btn:hover {
-  background: #313131;
+  background: #2a2a2a;
+}
+
+.login-btn:active {
+  transform: scale(0.98);
+}
+
+/* DIVISOR */
+.divider {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 4px 0;
+}
+
+.divider::before,
+.divider::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: #eee;
+}
+
+.divider span {
+  color: #bbb;
+  font-size: 0.85rem;
+}
+
+/* SUBTEXTO SOCIAL */
+.small {
+  font-size: 0.85rem;
+  color: #999;
+  margin-bottom: 10px;
+}
+
+/* SOCIAL LOGIN */
+.social-login {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 4px;
+}
+
+.google-btn {
+  background: #fff;
+  border: 1.5px solid #e0e0e0;
+  border-radius: 50%;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.google-btn:hover {
+  border-color: #bbb;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  transform: scale(1.06);
+}
+
+.social-icon {
+  width: 22px;
+  height: 22px;
+  object-fit: contain;
 }
 
 /* LINK CADASTRO */
 .register-link {
-  margin-top: 10px;
-  font-size: 0.9rem;
+  margin-top: 16px;
+  font-size: 0.88rem;
+  color: #888;
 }
 
 .register-link a {
-  color: #2575fc;
+  color: #6a11cb;
   text-decoration: none;
   font-weight: 600;
 }
@@ -209,66 +236,103 @@ main {
   text-decoration: underline;
 }
 
-/* ANIMAÇÃO */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+/* RECUPERAR SENHA BOX */
+.forgot-password-box {
+  display: none;
 }
 
-/* Media Query para Telas Pequenas (Mobile) */
-@media (max-width: 768px) {
-
-  /* Em telas menores, todos os cards ocupam a metade da tela (2 por linha) */
-  .numero-card,
-  .valor-card,
-  .membro-card {
-    /* Largura para 2 cards por linha */
-    width: calc(50% - 15px);
-  }
+.forgot-password-box.active {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  animation: fadeIn 0.3s ease;
 }
 
+.back-login {
+  color: #6a11cb;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  text-align: center;
+}
+
+.back-login:hover {
+  text-decoration: underline;
+}
+
+#etapaEmail,
+#etapaRedefinir {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* NOTIFICAÇÕES INLINE */
+.notificacao {
+  display: none;
+  padding: 12px 16px;
+  border-radius: 10px;
+  font-size: 0.85rem;
+  gap: 10px;
+  align-items: center;
+  text-align: left;
+  animation: fadeIn 0.3s ease;
+}
+
+.notificacao.ativa {
+  display: flex;
+}
+
+.notificacao.sucesso {
+  background: #e8f5e9;
+  color: #2e7d32;
+  border: 1px solid #a5d6a7;
+}
+
+.notificacao.erro {
+  background: #ffebee;
+  color: #c62828;
+  border: 1px solid #ef9a9a;
+}
+
+.notificacao.aviso {
+  background: #fff8e1;
+  color: #f57f17;
+  border: 1px solid #ffe082;
+}
+
+.notificacao i {
+  font-size: 1rem;
+  flex-shrink: 0;
+}
+
+/* IFRAME */
 iframe {
   border: none;
   display: block;
   overflow: hidden;
 }
 
-
-
-
-/* FOOTER */
 footer iframe {
-    min-height: 22rem;
-    display: block;
-}
-/* ==================================================
-================ LOGIN MODAL / FORMULÁRIO ===========
-================================================== */
-
-body {
-  background: transparent;
-  overflow: auto;
+  min-height: 22rem;
+  display: block;
 }
 
-
-.login-container {
-  padding: 20px;
+/* ANIMAÇÃO */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
-.login-box {
-  background: #fff;
-  border-radius: 16px;
-  padding: 40px;
-  box-shadow: 0 6px 25px rgba(0, 0, 0, 0.2);
-  max-width: 380px;
-  width: 100%;
-  text-align: center;
-  animation: fadeIn 0.8s ease;
+/* MOBILE */
+@media (max-width: 480px) {
+  .login-box {
+    padding: 32px 24px;
+  }
 }
