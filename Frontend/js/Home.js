@@ -4,25 +4,76 @@ document.addEventListener("DOMContentLoaded", () => {
     ================= CARROSSEL SYMPLA-STYLE ============
     ================================================== */
 
-    const track = document.querySelector(".carousel-track");
-    const cards = Array.from(document.querySelectorAll(".carousel-card"));
-    const btnNext = document.querySelector(".carousel-btn.next");
-    const btnPrev = document.querySelector(".carousel-btn.prev");
+    async function iniciarCarrossel() {
 
-    if (track && cards.length > 0) {
+        const track = document.querySelector(".carousel-track");
+        const btnNext = document.querySelector(".carousel-btn.next");
+        const btnPrev = document.querySelector(".carousel-btn.prev");
+
+        if (!track) return;
+
+        // ------------------------------------------------
+        // 1. BUSCA EVENTOS REAIS DA API
+        // ------------------------------------------------
+        try {
+            const res = await fetch(`${window.API_BASE}/eventos`);
+            const eventos = await res.json();
+
+            if (!eventos || eventos.length === 0) {
+                track.innerHTML = '<p style="color:#fff;text-align:center;padding:20px">Nenhum evento encontrado.</p>';
+                return;
+            }
+
+            track.innerHTML = ""; // limpa cards estáticos do HTML
+
+            eventos.forEach(evento => {
+                // Formata data
+                const data = evento.data_inicio
+                    ? new Date(evento.data_inicio).toLocaleDateString('pt-BR', {
+                        weekday: 'short', day: '2-digit', month: 'short'
+                      })
+                    : '';
+                const hora = evento.hora_inicio ? evento.hora_inicio.slice(0, 5) : '';
+
+                // Imagem com fallback
+                const imagem = evento.imagem
+                    ? `${window.API_BASE}${evento.imagem}`
+                    : '/frontend/imagens/1º imagem cad.png';
+
+                // Link para detalhes do evento
+                const link = `/frontend/detalheseventos/detalheevento.html?id=${evento.id}`;
+
+                const card = document.createElement('a');
+                card.href = link;
+                card.className = 'carousel-card';
+                card.dataset.eventoId = evento.id;
+                card.innerHTML = `
+                    <img src="${imagem}" alt="${evento.nome}" onerror="this.src='/frontend/imagens/1º imagem cad.png'">
+                    <div class="carousel-info">
+                        <h3>${evento.nome}</h3>
+                        <p>${data}${hora ? ' • ' + hora : ''}</p>
+                    </div>
+                `;
+                track.appendChild(card);
+            });
+
+        } catch (err) {
+            console.error('❌ Erro ao carregar eventos no carrossel:', err);
+            track.innerHTML = '<p style="color:#fff;text-align:center;padding:20px">Erro ao carregar eventos.</p>';
+            return;
+        }
+
+        // ------------------------------------------------
+        // 2. LÓGICA DO CARROSSEL (roda após carregar cards)
+        // ------------------------------------------------
+        const cards = Array.from(track.querySelectorAll(".carousel-card"));
+
+        if (cards.length === 0) return;
 
         let currentIndex = 0;
         const total = cards.length;
 
-        /*
-         * Posições relativas ao centro (como no Sympla):
-         * 0 = card ativo (centro, maior)
-         * ±1 = cards laterais visíveis
-         * ±2 = cards mais distantes, parcialmente visíveis
-         * resto = escondido
-         */
         function getPosition(relIndex) {
-            // Normaliza para range [-floor, +floor]
             let r = relIndex % total;
             if (r > total / 2) r -= total;
             if (r < -total / 2) r += total;
@@ -30,52 +81,29 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         function aplicarCarrossel() {
-            const containerWidth = track.offsetWidth || 1100;
-
             cards.forEach((card, i) => {
                 const rel = getPosition(i - currentIndex);
 
-                // Posições X e propriedades visuais por slot
                 let translateX, translateY, scale, zIndex, opacity, rotation;
 
                 if (rel === 0) {
-                    // Card ativo — centro
-                    translateX = 0;
-                    translateY = 0;
-                    scale = 1;
-                    zIndex = 10;
-                    opacity = 1;
-                    rotation = 0;
+                    translateX = 0; translateY = 0; scale = 1;
+                    zIndex = 10; opacity = 1; rotation = 0;
                 } else if (rel === 1 || rel === -1) {
                     const side = rel > 0 ? 1 : -1;
-                    translateX = side * 280;
-                    translateY = 30;
-                    scale = 0.80;
-                    zIndex = 7;
-                    opacity = 0.90;
-                    rotation = side * 4;
+                    translateX = side * 280; translateY = 30; scale = 0.80;
+                    zIndex = 7; opacity = 0.90; rotation = side * 4;
                 } else if (rel === 2 || rel === -2) {
                     const side = rel > 0 ? 1 : -1;
-                    translateX = side * 460;
-                    translateY = 55;
-                    scale = 0.62;
-                    zIndex = 4;
-                    opacity = 0.60;
-                    rotation = side * 8;
+                    translateX = side * 460; translateY = 55; scale = 0.62;
+                    zIndex = 4; opacity = 0.60; rotation = side * 8;
                 } else if (rel === 3 || rel === -3) {
                     const side = rel > 0 ? 1 : -1;
-                    translateX = side * 580;
-                    translateY = 75;
-                    scale = 0.48;
-                    zIndex = 2;
-                    opacity = 0.30;
-                    rotation = side * 12;
+                    translateX = side * 580; translateY = 75; scale = 0.48;
+                    zIndex = 2; opacity = 0.30; rotation = side * 12;
                 } else {
-                    translateX = rel > 0 ? 700 : -700;
-                    translateY = 90;
-                    scale = 0.38;
-                    zIndex = 0;
-                    opacity = 0;
+                    translateX = rel > 0 ? 700 : -700; translateY = 90;
+                    scale = 0.38; zIndex = 0; opacity = 0;
                     rotation = rel > 0 ? 15 : -15;
                 }
 
@@ -120,18 +148,86 @@ document.addEventListener("DOMContentLoaded", () => {
             autoplayTimer = setInterval(proximoCard, 4000);
         }
 
-        // Pausa no hover, retoma ao sair
         track.addEventListener("mouseenter", () => clearInterval(autoplayTimer));
         track.addEventListener("mouseleave", () => {
             autoplayTimer = setInterval(proximoCard, 4000);
         });
 
-        // Ao clicar nas setas, reinicia o timer
-
-
         aplicarCarrossel();
         window.addEventListener("resize", aplicarCarrossel);
+
+        // ------------------------------------------------
+        // 3. REORDENAÇÃO POR CLIQUES
+        // ------------------------------------------------
+
+        let cliques = JSON.parse(localStorage.getItem('eventosCliques') || '{}');
+
+        cards.forEach(card => {
+            const id = card.getAttribute('href');
+            if (!cliques[id]) cliques[id] = 0;
+        });
+
+        function reordenarCarrossel() {
+            const ordenados = [...cards].sort((a, b) => {
+                const idA = a.getAttribute('href');
+                const idB = b.getAttribute('href');
+                return (cliques[idB] || 0) - (cliques[idA] || 0);
+            });
+            ordenados.forEach(card => track.appendChild(card));
+
+            cards.length = 0;
+            ordenados.forEach(c => cards.push(c));
+
+            currentIndex = 0;
+            aplicarCarrossel();
+            atualizarBadge();
+        }
+
+        function atualizarBadge() {
+            track.querySelectorAll('.badge-em-alta').forEach(b => b.remove());
+            const maisClicado = cards[0];
+            const id = maisClicado?.getAttribute('href');
+            if (id && cliques[id] > 0) {
+                const badge = document.createElement('span');
+                badge.className = 'badge-em-alta';
+                badge.innerHTML = '<i class="fas fa-fire"></i> Em Alta';
+                maisClicado.appendChild(badge);
+            }
+        }
+
+        // Clique nos cards do carrossel hero
+        cards.forEach((card) => {
+            card.addEventListener('click', function (e) {
+                const rel = getPosition(cards.indexOf(this) - currentIndex);
+                if (rel === 0) {
+                    e.preventDefault();
+                    const id = this.getAttribute('href');
+                    cliques[id] = (cliques[id] || 0) + 1;
+                    localStorage.setItem('eventosCliques', JSON.stringify(cliques));
+                    reordenarCarrossel();
+                    setTimeout(() => { window.location.href = id; }, 150);
+                }
+            });
+        });
+
+        // Clique nos cards de Eventos Próximos
+        document.querySelectorAll('.card-evento[data-evento-id]').forEach(card => {
+            card.addEventListener('click', function (e) {
+                e.preventDefault();
+                const id = this.getAttribute('data-evento-id');
+                const destino = this.getAttribute('href');
+                cliques[id] = (cliques[id] || 0) + 1;
+                localStorage.setItem('eventosCliques', JSON.stringify(cliques));
+                reordenarCarrossel();
+                setTimeout(() => { window.location.href = destino; }, 150);
+            });
+        });
+
+        reordenarCarrossel();
     }
+
+    // Inicia o carrossel (async para aguardar a API)
+    iniciarCarrossel();
 
     /* ==================================================
     ================= CARROSSEL CATEGORIAS =============
@@ -147,9 +243,8 @@ document.addEventListener("DOMContentLoaded", () => {
         let catIndex = 0;
         let catAutoplay;
 
-        // Quantos cards cabem visivelmente no container
         function visiveis() {
-            const containerW = catTrack.parentElement.offsetWidth - 112; // desconta padding dos botoes
+            const containerW = catTrack.parentElement.offsetWidth - 112;
             const cardW = catCards[0].offsetWidth + 14;
             return Math.max(1, Math.floor(containerW / cardW));
         }
@@ -163,7 +258,6 @@ document.addEventListener("DOMContentLoaded", () => {
             if (instant) {
                 catTrack.style.transition = "none";
                 catTrack.style.transform = `translateX(-${catIndex * cardWidth}px)`;
-                // Reativa transição no próximo frame
                 requestAnimationFrame(() => {
                     catTrack.style.transition = "transform .45s cubic-bezier(0.25, 0.46, 0.45, 0.94)";
                 });
@@ -171,7 +265,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 catTrack.style.transform = `translateX(-${catIndex * cardWidth}px)`;
             }
 
-            // Botões sempre ativos no modo loop
             if (catPrev) catPrev.style.opacity = "1";
             if (catNext) catNext.style.opacity = "1";
         }
@@ -193,25 +286,12 @@ document.addEventListener("DOMContentLoaded", () => {
             catAutoplay = setInterval(proximaCategoria, 3000);
         }
 
-        function resetarAutoplay() {
-            iniciarAutoplay();
-        }
+        if (catNext) catNext.addEventListener("click", () => { proximaCategoria(); iniciarAutoplay(); });
+        if (catPrev) catPrev.addEventListener("click", () => { categoriaAnterior(); iniciarAutoplay(); });
 
-        if (catNext) catNext.addEventListener("click", () => {
-            proximaCategoria();
-            resetarAutoplay();
-        });
-
-        if (catPrev) catPrev.addEventListener("click", () => {
-            categoriaAnterior();
-            resetarAutoplay();
-        });
-
-        // Pausa no hover, retoma ao sair
         catTrack.addEventListener("mouseenter", () => clearInterval(catAutoplay));
         catTrack.addEventListener("mouseleave", iniciarAutoplay);
 
-        // Suporte a swipe touch
         let touchStartX = 0;
         catTrack.addEventListener("touchstart", (e) => {
             touchStartX = e.touches[0].clientX;
@@ -226,7 +306,6 @@ document.addEventListener("DOMContentLoaded", () => {
             iniciarAutoplay();
         }, { passive: true });
 
-        // Recalcula ao redimensionar
         window.addEventListener("resize", () => {
             catIndex = Math.min(catIndex, maxIndex());
             moverCategorias();
