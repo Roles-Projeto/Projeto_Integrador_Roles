@@ -1,135 +1,225 @@
+
+// Se não encontrar os elementos do login, encerra o script
+if (!document.getElementById("login-form") && !document.getElementById("forgotPasswordBox")) {
+    throw new Error("Login.js carregado fora do contexto correto.");
+}
+
+function mostrarNotificacao(elementId, mensagem, tipo = "erro") {
+    const el = document.getElementById(elementId);
+    const icones = {
+        sucesso: "fa-circle-check",
+        erro: "fa-circle-exclamation",
+        aviso: "fa-triangle-exclamation"
+    };
+
+    el.className = `notificacao ativa ${tipo}`;
+    el.innerHTML = `<i class="fa-solid ${icones[tipo]}"></i><span>${mensagem}</span>`;
+
+    setTimeout(() => {
+        el.className = "notificacao";
+    }, 5000);
+}
 const clienteBtn = document.getElementById("cliente-btn");
 const empresarioBtn = document.getElementById("empresario-btn");
+
 const mainText = document.getElementById("main-text");
 const subText = document.getElementById("sub-text");
+
 const form = document.getElementById("login-form");
 
 const inputEmail = document.getElementById("email");
 const inputPassword = document.getElementById("password");
-const headerIframe = document.getElementById('site-header');
 
-// Função para enviar a mensagem de login para o Header Iframe
+const headerIframe = document.getElementById("site-header");
+
+/* ==================================================
+================ HEADER LOGIN ========================
+================================================== */
+
 function enviarLoginParaHeader(name, email, userType, photoUrl) {
+
     if (headerIframe && headerIframe.contentWindow) {
+
         headerIframe.contentWindow.postMessage({
-            action: 'LOGIN_SUCCESS',
+            action: "LOGIN_SUCCESS",
             newName: name,
             newEmail: email,
-            newPicUrl: photoUrl || 'https://i.imgur.com/default-placeholder.png',
+            newPicUrl:
+                photoUrl ||
+                "https://i.imgur.com/default-placeholder.png",
             userType: userType
-        }, '*');
-        console.log('Mensagem enviada para o iframe: LOGIN_SUCCESS');
+        }, "*");
+
+        console.log("Mensagem enviada para iframe");
+
     }
+
 }
 
-// Mantido apenas para interface visual (não interfere no backend)
+/* ==================================================
+================ BOTÕES CLIENTE =====================
+================================================== */
+
 if (clienteBtn && empresarioBtn) {
 
     clienteBtn.addEventListener("click", () => {
+
         clienteBtn.classList.add("active");
         empresarioBtn.classList.remove("active");
-        mainText.textContent = "Encontre os melhores lugares para sair e se divertir";
-        subText.textContent = "Entre rapidamente com";
+
+        mainText.textContent =
+            "Encontre os melhores lugares para sair e se divertir";
+
+        subText.textContent =
+            "Entre rapidamente com";
+
     });
 
     empresarioBtn.addEventListener("click", () => {
+
         empresarioBtn.classList.add("active");
         clienteBtn.classList.remove("active");
-        mainText.textContent = "Cadastre seu estabelecimento e aumente sua visibilidade";
-        subText.textContent = "Entre rapidamente com";
+
+        mainText.textContent =
+            "Cadastre seu estabelecimento e aumente sua visibilidade";
+
+        subText.textContent =
+            "Entre rapidamente com";
+
     });
 
 }
 
-// Lógica de login conectando ao backend
-form.addEventListener("submit", async (e) => {
-    e.preventDefault();
-    
+/* ==================================================
+================ LOGIN ==============================
+================================================== */
 
-    const email = inputEmail.value.trim();
-    const senha = inputPassword.value;
+if (form) {
 
-    // Agora existe apenas um tipo de usuário
-    let userType = 'usuario';
+    form.addEventListener("submit", async (e) => {
 
-    if (!email || !senha) {
-        alert("⚠️ Preencha todos os campos (Email e Senha)!");
-        return;
-    }
+        e.preventDefault();
 
-    // Endpoint único
-    const endpoint = "http://localhost:3000/usuarios/login";
+        const email = inputEmail.value.trim();
+        const senha = inputPassword.value;
 
-    try {
-        const response = await fetch(endpoint, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ email, senha })
-        });
+        if (!email || !senha) {
 
-        const data = await response.json();
-        console.log("📩 Resposta do backend:", data);
+            mostrarNotificacao("notificacaoLogin", "Preencha todos os campos.", "aviso");
 
-        if (response.ok) {
-            // Salva dados no localStorage
-            localStorage.setItem('userIsLoggedIn', 'true');
-            localStorage.setItem('userType', 'usuario');
+            return;
 
-            // Salva o ID do usuário para usar no perfil
-            localStorage.setItem('userId', data.id);
+        }
 
-            let name = data.nome_completo || 'Cliente Rolês';
+        try {
 
-            let photoUrl = data.foto_perfil || 'https://i.imgur.com/default-placeholder.png';
-
-            localStorage.setItem('profileName', name);
-            localStorage.setItem('profileEmail', email);
-            localStorage.setItem('profilePhotoUrl', photoUrl);
-
-            // Atualiza o header
-            enviarLoginParaHeader(
-                name,
-                email,
-                localStorage.getItem('userType'),
-                photoUrl
+            const response = await fetch(
+                "http://localhost:3000/usuarios/login",
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        email,
+                        senha
+                    })
+                }
             );
 
-            // 🔹 Verifica se está dentro de um modal / iframe no home
-            if (window.parent && window.parent !== window) {
+            const data = await response.json();
 
-                console.log("Login feito dentro do card do home");
+            console.log("📩 Backend:", data);
 
-                // avisa o home que o login foi feito
-                window.parent.postMessage(
-                    "LOGIN_SUCCESS",
-                    "*"
+            if (response.ok) {
+
+                localStorage.setItem(
+                    "userIsLoggedIn",
+                    "true"
                 );
+
+                localStorage.setItem(
+                    "userType",
+                    "usuario"
+                );
+
+                localStorage.setItem(
+                    "userId",
+                    data.id
+                );
+
+                localStorage.setItem(
+                    "token",
+                    data.token
+                );
+
+                const nome =
+                    data.nome_completo ||
+                    "Cliente Rolês";
+
+                localStorage.setItem("profileName", nome);
+
+                const foto = data.foto_perfil || "";
+
+                if (foto) {
+                    localStorage.setItem("profilePhotoUrl", foto);
+                } else {
+                    localStorage.removeItem("profilePhotoUrl");
+                }
+
+                localStorage.setItem(
+                    "profileEmail",
+                    email
+                );
+
+                enviarLoginParaHeader(
+                    nome,
+                    email,
+                    "usuario",
+                    foto
+                );
+
+                if (
+                    window.parent &&
+                    window.parent !== window
+                ) {
+
+                    window.parent.postMessage(
+                        "LOGIN_SUCCESS",
+                        "*"
+                    );
+
+                } else {
+
+                    window.location.href =
+                        "../index.html";
+
+                }
 
             } else {
 
-                console.log("Login feito na página normal");
-
-                // Redireciona para o perfil
-                window.location.href =
-                    "../index.html";
+                mostrarNotificacao("notificacaoLogin", data.erro || "Email ou senha incorretos.", "erro");
 
             }
-        } else {
-            alert("⚠️ " + (data.erro || "Email ou senha incorretos."));
+
+        } catch (err) {
+
+            console.error(err);
+
+            mostrarNotificacao("notificacaoLogin", "Não foi possível conectar ao servidor.", "erro");
+
         }
 
-    } catch (err) {
-        console.error("❌ Erro na requisição:", err);
-        alert("❌ Não foi possível conectar ao servidor. Verifique se o backend está rodando (porta 3000).");
-    }
-});
+    });
 
+}
 
 /* ==================================================
-================ REDIRECIONAR CADASTRO ==============
+================ CADASTRO ===========================
 ================================================== */
 
-const btnCadastrar = document.getElementById("btnCadastrar");
+const btnCadastrar =
+    document.getElementById("btnCadastrar");
 
 if (btnCadastrar) {
 
@@ -137,37 +227,249 @@ if (btnCadastrar) {
 
         e.preventDefault();
 
-        window.parent.location.href = "../cadastro/Cadastro.html";
+        window.parent.location.href =
+            "../cadastro/Cadastro.html";
 
     });
 
 }
 
+/* ==================================================
+================ MOSTRAR SENHA ======================
+================================================== */
 
-// 👁️ MOSTRAR / ESCONDER SENHA
-const togglePassword = document.getElementById("togglePassword");
-const password = document.getElementById("password");
+const togglePassword =
+    document.getElementById("togglePassword");
+
+const password =
+    document.getElementById("password");
 
 if (togglePassword && password) {
 
     password.addEventListener("input", () => {
+
         if (password.value.length > 0) {
+
             togglePassword.classList.add("show");
+
         } else {
+
             togglePassword.classList.remove("show");
+
             password.type = "password";
-            togglePassword.textContent = "visibility";
+
+            togglePassword.textContent =
+                "visibility";
+
         }
+
     });
 
     togglePassword.addEventListener("click", () => {
+
         if (password.type === "password") {
+
             password.type = "text";
-            togglePassword.textContent = "visibility_off";
+
+            togglePassword.textContent =
+                "visibility_off";
+
         } else {
+
             password.type = "password";
-            togglePassword.textContent = "visibility";
+
+            togglePassword.textContent =
+                "visibility";
+
         }
+
+    });
+
+}
+
+/* ==================================================
+================ RECUPERAR SENHA ====================
+================================================== */
+
+const forgotPasswordLink =
+    document.getElementById("forgotPasswordLink");
+
+const forgotPasswordBox =
+    document.getElementById("forgotPasswordBox");
+
+const backToLogin =
+    document.getElementById("backToLogin");
+
+const loginContent =
+    document.getElementById("loginContent");
+
+/* ABRIR BOX */
+
+if (forgotPasswordLink) {
+
+    forgotPasswordLink.addEventListener("click", (e) => {
+
+        e.preventDefault();
+
+        loginContent.style.display = "none";
+
+        forgotPasswordBox.classList.add("active");
+
+    });
+
+}
+
+/* VOLTAR LOGIN */
+
+if (backToLogin) {
+
+    backToLogin.addEventListener("click", () => {
+
+        forgotPasswordBox.classList.remove("active");
+
+        loginContent.style.display = "block";
+
+    });
+
+}
+
+/* ==================================================
+================ ENVIAR CÓDIGO ======================
+================================================== */
+
+const sendRecoveryBtn =
+    document.getElementById("sendRecoveryBtn");
+
+if (sendRecoveryBtn) {
+
+    sendRecoveryBtn.addEventListener("click", async () => {
+
+        const email =
+            document.getElementById("recoveryEmail").value.trim();
+        if (!email) {
+
+            mostrarNotificacao("notificacaoRecuperar", "Digite seu e-mail.", "aviso");
+
+            return;
+
+        }
+
+        try {
+
+            const response = await fetch(
+                "http://localhost:3000/usuarios/recuperar-senha",
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        email
+                    })
+                }
+            );
+
+            const data = await response.json();
+            if (response.ok) {
+
+                mostrarNotificacao("notificacaoRecuperar", "Código enviado para seu e-mail.", "sucesso");
+                document.getElementById("etapaEmail").style.display = "none";
+
+                document.getElementById("etapaRedefinir").style.display = "flex";
+
+            } else {
+
+                mostrarNotificacao("notificacaoRecuperar", data.erro, "erro");
+
+            }
+
+        } catch (err) {
+
+            console.log(err);
+
+            mostrarNotificacao("notificacaoRecuperar", "Erro ao enviar o código.", "erro");
+
+        }
+
+    });
+
+}
+/* ==================================================
+================ REDEFINIR SENHA ====================
+================================================== */
+
+const redefinirSenhaBtn =
+    document.getElementById("redefinirSenhaBtn");
+
+if (redefinirSenhaBtn) {
+
+    redefinirSenhaBtn.addEventListener("click", async () => {
+
+        const email =
+            document.getElementById("recoveryEmail").value.trim();
+
+        const codigo =
+            document.getElementById("codigoRecuperacao").value.trim();
+
+        const novaSenha =
+            document.getElementById("novaSenha").value;
+
+        if (!email || !codigo || !novaSenha) {
+
+            mostrarNotificacao("notificacaoRecuperar", "Preencha todos os campos.", "aviso");
+
+            return;
+
+        }
+
+        try {
+
+            const response = await fetch(
+                "http://localhost:3000/usuarios/redefinir-senha",
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        email,
+                        codigo,
+                        novaSenha
+                    })
+                }
+            );
+
+            const data = await response.json();
+
+            if (response.ok) {
+
+                mostrarNotificacao("notificacaoRecuperar", "Senha redefinida com sucesso!", "sucesso");
+
+                document.getElementById("recoveryEmail").value = "";
+                document.getElementById("codigoRecuperacao").value = "";
+                document.getElementById("novaSenha").value = "";
+                document.getElementById("etapaEmail").style.cssText = "display: none !important";
+                document.getElementById("etapaRedefinir").style.cssText = "display: none !important";
+                setTimeout(() => {
+                    document.getElementById("etapaEmail").style.cssText = "";
+                    document.getElementById("etapaRedefinir").style.cssText = "";
+                    forgotPasswordBox.classList.remove("active");
+                    loginContent.style.display = "block";
+                }, 2000);
+            } else {
+
+                mostrarNotificacao("notificacaoRecuperar", data.erro, "erro");
+
+            }
+
+        } catch (err) {
+
+            console.log(err);
+
+            mostrarNotificacao("notificacaoRecuperar", "Erro ao redefinir a senha.", "erro");
+
+        }
+
     });
 
 }

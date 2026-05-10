@@ -1,74 +1,84 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt-BR">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="/frontend/css/login.css">
-
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+    <link rel="stylesheet" href="/frontend/css/login.css" />
     <title>Login</title>
 </head>
 
 <body>
-
     <div class="login-container">
         <div class="login-box">
-
-            <h1>Entrar no Rolês</h1>
-
-            <p id="main-text" class="text-muted">
-                Encontre os melhores lugares para sair e se divertir
-            </p>
-            <form id="login-form" autocomplete="off">
-
-                <input type="email" id="email" placeholder="E-mail" required>
-
-                <input type="password" id="password" placeholder="Senha" required>
-
-                <button type="submit" class="login-btn">
-                    Entrar
-                </button>
-
-                 <div class="divider">
-                    <span>ou</span>
-                </div>
-
-
-                <p id="sub-text" class="small">
-                    Entre rapidamente com
+            <!-- LOGIN -->
+            <div id="loginContent">
+                <h1>Entrar no Rolês</h1>
+                <p id="main-text" class="text-muted">
+                    Encontre os melhores lugares para sair e se divertir
                 </p>
 
-                <div class="social-login">
+                <div id="notificacaoLogin" class="notificacao" role="alert"></div>
 
-                    <button class="google-btn">
-                        <img src="https://developers.google.com/identity/images/g-logo.png" alt="Google"
-                            class="social-icon">
-                    </button>
+                <form id="login-form" autocomplete="off">
+                    <input type="email" id="email" placeholder="E-mail" required />
+                    <div class="password-container">
+                        <input type="password" id="password" placeholder="Senha" required />
+                        <span class="material-symbols-outlined" id="togglePassword">visibility</span>
+                    </div>
+                    <p class="forgot-password">
+                        <a href="#" id="forgotPasswordLink">Esqueci minha senha</a>
+                    </p>
+                    <button type="submit" class="login-btn">Entrar</button>
+                    <div class="divider"><span>ou</span></div>
+                    <p id="sub-text" class="small">Entre rapidamente com</p>
+                    <div class="social-login">
+                        <button class="google-btn">
+                            <img src="https://developers.google.com/identity/images/g-logo.png" alt="Google"
+                                class="social-icon" />
+                        </button>
+                    </div>
+                </form>
 
+                <p class="register-link">
+                    Não tem conta?
+                    <a href="/frontend/Cadastro/cadastro.html" id="btnCadastrar">Cadastrar</a>
+                </p>
+            </div>
+
+            <!-- RECUPERAR SENHA -->
+            <div id="forgotPasswordBox" class="forgot-password-box">
+                <h1>Esqueceu sua senha?</h1>
+
+                <div id="notificacaoRecuperar" class="notificacao" role="alert"></div>
+
+                <!-- ETAPA 1 -->
+                <div id="etapaEmail">
+                    <p class="text-muted">
+                        Enviaremos um código de verificação para seu e-mail
+                    </p>
+                    <input type="email" id="recoveryEmail" placeholder="Seu e-mail" />
+                    <button id="sendRecoveryBtn" class="login-btn">Continuar</button>
                 </div>
 
-               
+                <!-- ETAPA 2 -->
+                <div id="etapaRedefinir" style="display: none">
+                    <p class="text-muted">Digite o código enviado para seu e-mail</p>
+                    <input type="text" id="codigoRecuperacao" placeholder="Código recebido" />
+                    <input type="password" id="novaSenha" placeholder="Nova senha" />
+                    <button id="redefinirSenhaBtn" class="login-btn">Redefinir senha</button>
+                    <p class="spam-aviso">Não recebeu o código? Verifique o spam ou <a href="#"
+                            id="reenviarCodigo">reenviar código</a></p>
+                </div>
 
-            </form>
-
-            <p class="register-link">
-                Não tem conta?
-                <a href="/frontend/Cadastro/cadastro.html" id="btnCadastrar">
-                    Cadastrar
-                </a>
-            </p>
-
+                <p class="back-login" id="backToLogin">← Voltar para o login</p>
+            </div>
         </div>
     </div>
-
     <script src="/frontend/js/config.js"></script>
     <script src="/frontend/js/Login.js"></script>
-
- 
-
-
-
 </body>
 
 </html>

@@ -18,7 +18,11 @@ const fs      = require("fs");
 const app = express();
 
 /* ─── Middlewares globais ─── */
-app.use(cors());
+app.use(cors({
+    origin: "*",
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"]
+}));
 app.use(express.json({ limit: "50mb" }));
 app.use(express.urlencoded({ limit: "50mb", extended: true }));
 
@@ -57,12 +61,14 @@ const authRoutes             = require("./routes/auth");
 const eventosRoutes          = require("./routes/eventos");
 const estabelecimentosRoutes = require("./routes/estabelecimentos");
 const contatoRoutes          = require("./routes/contato");
+const avaliacoesRoutes = require("./routes/avaliacoes");
 
 app.use("/usuarios",         usuariosRoutes);
 app.use("/usuarios",         authRoutes);
 app.use("/eventos",          eventosRoutes);
 app.use("/estabelecimentos", estabelecimentosRoutes);
 app.use("/contato",          contatoRoutes);
+app.use("/avaliacoes", avaliacoesRoutes);
 
 /* ─────────────────────────────────────────────────────
    FALLBACK SPA
