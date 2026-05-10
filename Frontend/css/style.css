@@ -636,17 +636,16 @@ a { text-decoration: none; }
   position: relative;
   width: 100%;
   max-width: 420px;
+  overflow: visible;
 }
-
 .login-iframe {
   width: 100%;
-  height: min(90vh, 560px);
+  height: 580px;
   border: none;
   border-radius: 14px;
   overflow: hidden;
   scrollbar-width: none;
 }
-
 .login-iframe::-webkit-scrollbar { display: none; }
 
 .close-login {
@@ -759,3 +758,4 @@ footer iframe { min-height: 22rem; display: block; }
   outline-offset: 3px;
   border-radius: 4px;
 }
+

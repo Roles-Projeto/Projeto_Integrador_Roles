@@ -314,3 +314,29 @@ if (loginModal && closeLogin) {
         }
     });
 }
+
+window.addEventListener("message", (e) => {
+    if (e.data === "OPEN_RECOVER_MODAL") {
+        document.getElementById("recover-modal").classList.remove("hidden");
+    }
+    if (e.data === "CLOSE_RECOVER_MODAL") {
+        document.getElementById("recover-modal").classList.add("hidden");
+    }
+
+
+});
+
+const closeRecover = document.getElementById("closeRecoverModal");
+const recoverModal = document.getElementById("recover-modal");
+
+if (closeRecover) {
+    closeRecover.addEventListener("click", () => {
+        recoverModal.classList.add("hidden");
+    });
+
+    recoverModal.addEventListener("click", (e) => {
+        if (e.target === recoverModal) {
+            recoverModal.classList.add("hidden");
+        }
+    });
+}
