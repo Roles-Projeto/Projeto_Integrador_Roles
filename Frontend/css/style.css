@@ -758,4 +758,30 @@ footer iframe { min-height: 22rem; display: block; }
   outline-offset: 3px;
   border-radius: 4px;
 }
+<<<<<<< HEAD
+/* ==================================================
+   BADGE EM ALTA — CARROSSEL
+================================================== */
+.badge-em-alta {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background: #ff4757;
+  color: #fff;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  z-index: 10;
+  pointer-events: none;
+}
 
+.badge-em-alta i {
+  font-size: 10px;
+}
+=======
+
+>>>>>>> 1f24689462dceba60b68403c5672326d570d9eb3
