@@ -6,8 +6,8 @@ services:
     container_name: roles_mysql
     restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
-      MYSQL_DATABASE: ${DB_NAME}
+      MYSQL_ROOT_PASSWORD: 265
+      MYSQL_DATABASE: roles_db
     ports:
       - "3307:3306"
     volumes:
