@@ -4,7 +4,6 @@ body {
     margin: 0;
     padding: 0;
     background-color: #ffffff;
-    color: white; /* Cuidado aqui: todo elemento sem cor explícita herda branco */
 }
 
 
@@ -21,12 +20,14 @@ body {
     font-size: 24px;
     font-weight: 380;
     margin-bottom: 8px;
+    color: #ffffff;
 }
 
 .todos-locais1 p {
     font-size: 14px; /* Grande */
     opacity: 0.8;
     margin-bottom: 30px;
+    color: #fff;
 }
 
 /* ======= CAMPO DE BUSCA ======= */
