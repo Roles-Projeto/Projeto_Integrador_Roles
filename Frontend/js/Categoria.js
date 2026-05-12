@@ -18,6 +18,22 @@ document.addEventListener('DOMContentLoaded', function () {
         '50+':        '#e53935',
     };
 
+    // --- Imagens reais do Unsplash por categoria ---
+    // Formato: URL direta com tamanho otimizado para banner (1400x500)
+    const imagensPorCategoria = {
+        'Baladas':     'https://images.unsplash.com/photo-1574391884720-bbc3740c59d1?w=1400&h=500&fit=crop&q=80',
+        'Bar':         'https://images.unsplash.com/photo-1572116469696-31de0f17cc34?w=1400&h=500&fit=crop&q=80',
+        'Restaurante': 'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=1400&h=500&fit=crop&q=80',
+        'Karaoke':     'https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=1400&h=500&fit=crop&q=80',
+        'Show':        'https://images.unsplash.com/photo-1501386761578-eac5c94b800a?w=1400&h=500&fit=crop&q=80',
+        'Eventos':     'https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?w=1400&h=500&fit=crop&q=80',
+        'Parques':     'https://images.unsplash.com/photo-1519331379826-f10be5486c6f?w=1400&h=500&fit=crop&q=80',
+        '50+':         'https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=1400&h=500&fit=crop&q=80',
+    };
+
+    // Imagem genérica de fallback caso a categoria não tenha mapeamento
+    const imagemFallback = 'https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=1400&h=500&fit=crop&q=80';
+
     const corFundoHex = coresPorCategoria[nomeCategoria] || '#6c757d';
 
     // --- Atualiza o Hero ---
@@ -27,13 +43,13 @@ document.addEventListener('DOMContentLoaded', function () {
     const countElement  = document.getElementById('locais-eventos-count');
 
     if (nomeCategoria) {
-        heroSection.style.backgroundColor = corFundoHex;
-        nomeElement.textContent            = nomeCategoria;
-        iconContainer.innerHTML            = `<i class="${iconClass}"></i>`;
+        aplicarImagemHero(heroSection, corFundoHex, nomeCategoria, imagensPorCategoria, imagemFallback);
+        nomeElement.textContent  = nomeCategoria;
+        iconContainer.innerHTML  = `<i class="${iconClass}"></i>`;
     } else {
-        nomeElement.textContent            = 'Categoria Não Encontrada';
-        heroSection.style.backgroundColor  = '#6c757d';
-        iconContainer.innerHTML            = `<i class="fas fa-question-circle"></i>`;
+        nomeElement.textContent           = 'Categoria Não Encontrada';
+        heroSection.style.backgroundColor = '#6c757d';
+        iconContainer.innerHTML           = `<i class="fas fa-question-circle"></i>`;
     }
 
     // --- Busca dados reais em paralelo ---
@@ -58,6 +74,31 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 // =============================================
+// IMAGEM REAL NO HERO (UNSPLASH)
+// =============================================
+function aplicarImagemHero(heroSection, corFundoHex, nomeCategoria, imagensPorCategoria, imagemFallback) {
+    // Aplica cor sólida imediatamente como fallback enquanto a imagem carrega
+    heroSection.style.backgroundColor = corFundoHex;
+
+    const imgUrl = imagensPorCategoria[nomeCategoria] || imagemFallback;
+
+    // Aplica a imagem diretamente via CSS background — sem esperar onload
+    // Isso garante que o navegador trate o carregamento progressivamente
+    heroSection.style.backgroundImage    = `url('${imgUrl}')`;
+    heroSection.style.backgroundSize     = 'cover';
+    heroSection.style.backgroundPosition = 'center center';
+    heroSection.style.backgroundRepeat   = 'no-repeat';
+
+    // Verifica se a imagem carrega corretamente; se falhar, mantém a cor
+    const img = new Image();
+    img.onerror = () => {
+        heroSection.style.backgroundImage = 'none';
+        heroSection.style.backgroundColor = corFundoHex;
+    };
+    img.src = imgUrl;
+}
+
+// =============================================
 // BUSCA ESTABELECIMENTOS (LOCAIS) REAIS
 // =============================================
 async function buscarLocais(categoria) {
@@ -74,7 +115,6 @@ async function buscarLocais(categoria) {
         if (!res.ok) throw new Error(res.status);
         const todos = await res.json();
 
-        // Filtra pela categoria_card ou tipo, usando includes para match parcial
         const normalizar = s => (s || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
         const catNorm    = normalizar(categoria);
 
@@ -159,7 +199,6 @@ function renderizarLocais(locais) {
     grid.className = 'populares-grid';
 
     locais.forEach(local => {
-        // Monta comodidades como tags (pode ser string separada por vírgula ou array)
         let tags = [];
         if (local.comodidades) {
             tags = Array.isArray(local.comodidades)
@@ -168,23 +207,16 @@ function renderizarLocais(locais) {
         }
         const tagsHTML = tags.slice(0, 3).map(t => `<span class="atributo">${t}</span>`).join('');
 
-        // Imagem: usa img_capa se existir
         const imagem = (local.img_capa || local.img_logo)
-    ? (() => {
-        const src = local.img_capa || local.img_logo;
-        // Se for base64, usa direto
-        if (src.startsWith('data:')) return src;
-        // Se for URL completa, usa direto
-        if (src.startsWith('http')) return src;
-        // Se for caminho relativo, adiciona a base
-        return `${window.API_BASE}${src}`;
-      })()
-    : '/frontend/imagens/placeholder.png';
+            ? (() => {
+                const src = local.img_capa || local.img_logo;
+                if (src.startsWith('data:')) return src;
+                if (src.startsWith('http')) return src;
+                return `${window.API_BASE}${src}`;
+              })()
+            : '/frontend/imagens/placeholder.png';
 
-        // Endereço resumido
         const endereco = [local.bairro, local.cidade].filter(Boolean).join(', ') || local.endereco || '—';
-
-        // Avaliação
         const nota       = parseFloat(local.nota) || 0;
         const avaliacoes = local.avaliacoes || 0;
 
@@ -245,7 +277,6 @@ function renderizarEventos(eventos, corCategoria) {
               })()
             : null;
 
-        // Formata data — corrigido para incluir data_inicio
         let dataFormatada = '';
         if (evento.data_inicio || evento.data || evento.data_evento) {
             const raw = evento.data_inicio || evento.data || evento.data_evento;
@@ -256,7 +287,6 @@ function renderizarEventos(eventos, corCategoria) {
             } catch { dataFormatada = raw; }
         }
 
-        // Preço — corrigido para incluir preco_minimo
         let preco = 'Consultar';
         if (evento.preco_minimo) {
             preco = `A partir de R$ ${parseFloat(evento.preco_minimo).toFixed(2)}`;
