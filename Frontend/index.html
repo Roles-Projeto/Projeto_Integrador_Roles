@@ -9,7 +9,6 @@
     <link rel="stylesheet" href="/frontend/css/footer.css">
     <link rel="stylesheet" href="/frontend/css/header.css">
     <link rel="stylesheet" href="/frontend/css/style.css">
-    
 </head>
 
 <body>
@@ -37,67 +36,8 @@
                         <i class="fas fa-chevron-left"></i>
                     </button>
 
-                    <div class="carousel-track" id="carouselTrack">
-                        <!-- Eventos carregados dinamicamente via JS -->
-                    </div>
-
-                        <a href="/frontend/eventos/festival-jazz.html" class="carousel-card">
-                            <img src="/frontend/imagens/1º imagem cad.png" alt="Festival de Jazz">
-                            <div class="carousel-info">
-                                <h3>Festival de Jazz</h3>
-                                <p>Sáb • 21:00</p>
-                            </div>
-                        </a>
-
-                        <a href="/frontend/eventos/chopada-universitaria.html" class="carousel-card">
-                            <img src="/frontend/imagens/2º imagem card.png" alt="Chopada Universitária">
-                            <div class="carousel-info">
-                                <h3>Chopada Universitária</h3>
-                                <p>Sex • 22:00</p>
-                            </div>
-                        </a>
-
-                        <a href="/frontend/eventos/salsa-night.html" class="carousel-card">
-                            <img src="/frontend/imagens/3º imagem card.png" alt="Salsa Night">
-                            <div class="carousel-info">
-                                <h3>Salsa Night</h3>
-                                <p>Dom • 20:00</p>
-                            </div>
-                        </a>
-
-                        <a href="/frontend/eventos/standup-comedy.html" class="carousel-card active">
-                            <img src="/frontend/imagens/4º imagem cad.png" alt="Stand-up Comedy">
-                            <div class="carousel-info">
-                                <h3>Stand-up Comedy</h3>
-                                <p>Sáb • 19:30</p>
-                            </div>
-                        </a>
-
-                        <a href="/frontend/eventos/rock-festival.html" class="carousel-card">
-                            <img src="/frontend/imagens/5º imagem cad.png" alt="Rock Festival">
-                            <div class="carousel-info">
-                                <h3>Rock Festival</h3>
-                                <p>Sex • 23:00</p>
-                            </div>
-                        </a>
-
-                        <a href="/frontend/eventos/festival-gastronomico.html" class="carousel-card">
-                            <img src="/frontend/imagens/6º imagem cad.png" alt="Festival Gastronômico">
-                            <div class="carousel-info">
-                                <h3>Festival Gastronômico</h3>
-                                <p>Dom • 12:00</p>
-                            </div>
-                        </a>
-
-                        <a href="/frontend/eventos/noite-eletronica.html" class="carousel-card">
-                            <img src="/frontend/imagens/7º imagem card.png" alt="Noite Eletrônica">
-                            <div class="carousel-info">
-                                <h3>Noite Eletrônica</h3>
-                                <p>Sáb • 23:30</p>
-                            </div>
-                        </a>
-
-                    </div>
+                    <!-- Cards inseridos dinamicamente pelo Home.js -->
+                    <div class="carousel-track" id="carouselTrack"></div>
 
                     <button class="carousel-btn next">
                         <i class="fas fa-chevron-right"></i>
@@ -185,7 +125,6 @@
 
         <!-- ================================================
              LOCAIS MAIS POPULARES
-             ↓ Única mudança: data-categoria-card em cada card
         ================================================ -->
         <section class="section-populares">
             <div class="populares-header container">
@@ -288,102 +227,102 @@
              EVENTOS PRÓXIMOS
         ================================================ -->
         <section class="section-eventos">
-    <div class="eventos-header container">
-        <h2 class="section-title">Eventos Próximos</h2>
-        <p class="section-subtitle">Não perca os melhores eventos da cidade</p>
-    </div>
+            <div class="eventos-header container">
+                <h2 class="section-title">Eventos Próximos</h2>
+                <p class="section-subtitle">Não perca os melhores eventos da cidade</p>
+            </div>
 
-    <div class="eventos-grid container">
+            <div class="eventos-grid container">
 
-        <a href="/frontend/detalheseventos/detalheevento.html" class="card-evento" data-categoria-card="música" data-evento-id="/frontend/eventos/festival-jazz.html">
-            <div class="evento-imagem-wrap">
-                <img src="/frontend/imagens/7º imagem card.png" alt="Festival de Jazz ao Ar Livre">
-                <span class="tag-evento tag-musica">Música</span>
-            </div>
-            <div class="evento-content">
-                <h3>Festival de Jazz ao Ar Livre</h3>
-                <div class="evento-data-local">
-                    <p><i class="fas fa-calendar-alt"></i> Sex, 14 de Out - 20:00</p>
-                </div>
-                <p class="evento-local"><i class="fas fa-map-marker-alt"></i> Setor Marista, Goiânia</p>
-            </div>
-        </a>
+                <a href="/frontend/detalheseventos/detalheevento.html" class="card-evento" data-categoria-card="música">
+                    <div class="evento-imagem-wrap">
+                        <img src="/frontend/imagens/7º imagem card.png" alt="Festival de Jazz ao Ar Livre">
+                        <span class="tag-evento tag-musica">Música</span>
+                    </div>
+                    <div class="evento-content">
+                        <h3>Festival de Jazz ao Ar Livre</h3>
+                        <div class="evento-data-local">
+                            <p><i class="fas fa-calendar-alt"></i> Sex, 14 de Out - 20:00</p>
+                        </div>
+                        <p class="evento-local"><i class="fas fa-map-marker-alt"></i> Setor Marista, Goiânia</p>
+                    </div>
+                </a>
 
-        <a href="/frontend/detalheseventos/detalheevento.html" class="card-evento" data-categoria-card="happy hour" data-evento-id="/frontend/eventos/chopada-universitaria.html">
-            <div class="evento-imagem-wrap">
-                <img src="/frontend/imagens/8º imagem card.png" alt="Chopada da T-63">
-                <span class="tag-evento tag-happy-hour">Happy Hour</span>
-            </div>
-            <div class="evento-content">
-                <h3>Chopada da T-63</h3>
-                <div class="evento-data-local">
-                    <p><i class="fas fa-calendar-alt"></i> Qui, 27 de Out - 18:00</p>
-                </div>
-                <p class="evento-local"><i class="fas fa-map-marker-alt"></i> Avenida T-63, Setor Bueno</p>
-            </div>
-        </a>
+                <a href="/frontend/detalheseventos/detalheevento.html" class="card-evento" data-categoria-card="happy hour">
+                    <div class="evento-imagem-wrap">
+                        <img src="/frontend/imagens/8º imagem card.png" alt="Chopada da T-63">
+                        <span class="tag-evento tag-happy-hour">Happy Hour</span>
+                    </div>
+                    <div class="evento-content">
+                        <h3>Chopada da T-63</h3>
+                        <div class="evento-data-local">
+                            <p><i class="fas fa-calendar-alt"></i> Qui, 27 de Out - 18:00</p>
+                        </div>
+                        <p class="evento-local"><i class="fas fa-map-marker-alt"></i> Avenida T-63, Setor Bueno</p>
+                    </div>
+                </a>
 
-        <a href="/frontend/detalheseventos/detalheevento.html" class="card-evento" data-categoria-card="dança" data-evento-id="/frontend/eventos/salsa-night.html">
-            <div class="evento-imagem-wrap">
-                <img src="/frontend/imagens/9º imagem card.png" alt="Salsa e Bachata Night">
-                <span class="tag-evento tag-danca">Dança</span>
-            </div>
-            <div class="evento-content">
-                <h3>Salsa e Bachata Night</h3>
-                <div class="evento-data-local">
-                    <p><i class="fas fa-calendar-alt"></i> Dom, 2 de Out - 21:00</p>
-                </div>
-                <p class="evento-local"><i class="fas fa-map-marker-alt"></i> Casa Latina, Setor Central</p>
-            </div>
-        </a>
+                <a href="/frontend/detalheseventos/detalheevento.html" class="card-evento" data-categoria-card="dança">
+                    <div class="evento-imagem-wrap">
+                        <img src="/frontend/imagens/9º imagem card.png" alt="Salsa e Bachata Night">
+                        <span class="tag-evento tag-danca">Dança</span>
+                    </div>
+                    <div class="evento-content">
+                        <h3>Salsa e Bachata Night</h3>
+                        <div class="evento-data-local">
+                            <p><i class="fas fa-calendar-alt"></i> Dom, 2 de Out - 21:00</p>
+                        </div>
+                        <p class="evento-local"><i class="fas fa-map-marker-alt"></i> Casa Latina, Setor Central</p>
+                    </div>
+                </a>
 
-        <a href="/frontend/detalheseventos/detalheevento.html" class="card-evento" data-categoria-card="restaurante" data-evento-id="/frontend/eventos/standup-comedy.html">
-            <div class="evento-imagem-wrap">
-                <img src="/frontend/imagens/10º imagem card.png" alt="Vinhos do Cerrado">
-                <span class="tag-evento tag-restaurante">Restaurante</span>
-            </div>
-            <div class="evento-content">
-                <h3>Vinhos do Cerrado</h3>
-                <div class="evento-data-local">
-                    <p><i class="fas fa-calendar-alt"></i> Ter, 4 de Out - 19:30</p>
-                </div>
-                <p class="evento-local"><i class="fas fa-map-marker-alt"></i> Adega Nobre, Setor Bueno</p>
-            </div>
-        </a>
+                <a href="/frontend/detalheseventos/detalheevento.html" class="card-evento" data-categoria-card="restaurante">
+                    <div class="evento-imagem-wrap">
+                        <img src="/frontend/imagens/10º imagem card.png" alt="Vinhos do Cerrado">
+                        <span class="tag-evento tag-restaurante">Restaurante</span>
+                    </div>
+                    <div class="evento-content">
+                        <h3>Vinhos do Cerrado</h3>
+                        <div class="evento-data-local">
+                            <p><i class="fas fa-calendar-alt"></i> Ter, 4 de Out - 19:30</p>
+                        </div>
+                        <p class="evento-local"><i class="fas fa-map-marker-alt"></i> Adega Nobre, Setor Bueno</p>
+                    </div>
+                </a>
 
-        <a href="/frontend/detalheseventos/detalheevento.html" class="card-evento" data-categoria-card="música" data-evento-id="/frontend/eventos/rock-festival.html">
-            <div class="evento-imagem-wrap">
-                <img src="/frontend/imagens/11º imagem card.png" alt="Rock no Low Ridez">
-                <span class="tag-evento tag-musica">Música</span>
-            </div>
-            <div class="evento-content">
-                <h3>Rock no Low Ridez</h3>
-                <div class="evento-data-local">
-                    <p><i class="fas fa-calendar-alt"></i> Dom, 9 de Out - 22:00</p>
-                </div>
-                <p class="evento-local"><i class="fas fa-map-marker-alt"></i> Vila Cultural, Setor Central</p>
-            </div>
-        </a>
+                <a href="/frontend/detalheseventos/detalheevento.html" class="card-evento" data-categoria-card="música">
+                    <div class="evento-imagem-wrap">
+                        <img src="/frontend/imagens/11º imagem card.png" alt="Rock no Low Ridez">
+                        <span class="tag-evento tag-musica">Música</span>
+                    </div>
+                    <div class="evento-content">
+                        <h3>Rock no Low Ridez</h3>
+                        <div class="evento-data-local">
+                            <p><i class="fas fa-calendar-alt"></i> Dom, 9 de Out - 22:00</p>
+                        </div>
+                        <p class="evento-local"><i class="fas fa-map-marker-alt"></i> Vila Cultural, Setor Central</p>
+                    </div>
+                </a>
 
-        <a href="/frontend/detalheseventos/detalheevento.html" class="card-evento" data-categoria-card="restaurante" data-evento-id="/frontend/eventos/festival-gastronomico.html">
-            <div class="evento-imagem-wrap">
-                <img src="/frontend/imagens/12º imagem card.png" alt="Brunch no Bougainville">
-                <span class="tag-evento tag-brunch">Restaurante</span>
+                <a href="/frontend/detalheseventos/detalheevento.html" class="card-evento" data-categoria-card="restaurante">
+                    <div class="evento-imagem-wrap">
+                        <img src="/frontend/imagens/12º imagem card.png" alt="Brunch no Bougainville">
+                        <span class="tag-evento tag-brunch">Restaurante</span>
+                    </div>
+                    <div class="evento-content">
+                        <h3>Brunch no Bougainville</h3>
+                        <div class="evento-data-local">
+                            <p><i class="fas fa-calendar-alt"></i> Sáb, 8 de Out - 10:00</p>
+                        </div>
+                        <p class="evento-local"><i class="fas fa-map-marker-alt"></i> Próximo ao Shopping, Setor Bueno</p>
+                    </div>
+                </a>
+
             </div>
-            <div class="evento-content">
-                <h3>Brunch no Bougainville</h3>
-                <div class="evento-data-local">
-                    <p><i class="fas fa-calendar-alt"></i> Sáb, 8 de Out - 10:00</p>
-                </div>
-                <p class="evento-local"><i class="fas fa-map-marker-alt"></i> Próximo ao Shopping, Setor Bueno</p>
-            </div>
-        </a>
 
-    </div>
+            <a href="/frontend/eventos/eventos.html" class="btn-ver-todos">Ver Todos os Eventos</a>
+        </section>
 
-    <a href="/frontend/eventos/eventos.html" class="btn-ver-todos">Ver Todos os Eventos</a>
-
-</section>
         <!-- ================================================
              FAQ
         ================================================ -->
@@ -482,13 +421,16 @@
 
     </main>
 
-    <footer></footer>
+    <footer>
+        <div id="footer-container"></div>
+    </footer>
 
     <script src="/frontend/js/config.js"></script>
     <script src="/frontend/js/footer.js" defer></script>
     <script src="/frontend/js/loadHeader.js"></script>
     <script src="/frontend/js/Home.js"></script>
-    <script src="/frontend/js/filtrohome.js"></script>  <!-- ← NOVO: filtra cards na página -->
+    <script src="/frontend/js/filtrohome.js"></script>
+    <script src="/monitor.js"></script>
 
 </body>
 

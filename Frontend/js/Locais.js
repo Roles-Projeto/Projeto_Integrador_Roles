@@ -88,14 +88,21 @@
         return card;
     }
 
-    async function carregarEstabelecimentosDinamicos() {
-        const container = document.getElementById('cards-container-locais');
-        if (!container) return;
-        const estabelecimentos = await fetchEstabelecimentos();
-        if (estabelecimentos.length === 0) return;
+   async function carregarEstabelecimentosDinamicos() {
+    const container = document.getElementById('cards-container-locais');
+    if (!container) return;
+
+    container.style.visibility = 'hidden'; // esconde durante o carregamento
+
+    const estabelecimentos = await fetchEstabelecimentos();
+
+    if (estabelecimentos.length > 0) {
+        container.innerHTML = '';
         estabelecimentos.forEach(estab => container.appendChild(criarCardDinamico(estab)));
     }
 
+    container.style.visibility = 'visible'; // mostra tudo pronto
+}
     // ─── CONTADOR ─────────────────────────────────────────────────────────────
     function atualizarContador(total) {
         const el = document.getElementById('contador-locais');
