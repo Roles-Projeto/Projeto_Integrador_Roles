@@ -16,7 +16,7 @@ document.addEventListener("DOMContentLoaded", () => {
         // 1. BUSCA EVENTOS REAIS DA API
         // ------------------------------------------------
         try {
-            const res    = await fetch(`${window.API_BASE}/eventos`);
+            const res = await fetch(`${window.API_BASE}/eventos`);
             const eventos = await res.json();
 
             if (!eventos || eventos.length === 0) {
@@ -24,7 +24,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 return;
             }
 
-            // Limpa TODO o conteúdo do track (inclusive cards estáticos soltos)
             track.innerHTML = "";
 
             eventos.forEach(evento => {
@@ -35,11 +34,21 @@ document.addEventListener("DOMContentLoaded", () => {
                     : '';
                 const hora = evento.hora_inicio ? evento.hora_inicio.slice(0, 5) : '';
 
-                const imagem = evento.imagem
-                    ? (evento.imagem.startsWith('http') ? evento.imagem : `${window.API_BASE}${evento.imagem}`)
-                    : '/frontend/imagens/1º imagem cad.png';
+                // FIX: monta URL da imagem corretamente
+                // O banco salva "/uploads/filename.jpg" (caminho relativo)
+                // Precisamos de "http://localhost:3000/uploads/filename.jpg" para exibir
+                let imagem = '/frontend/imagens/1º imagem cad.png'; // fallback
 
-                // Link correto com ?id= para a página de detalhes
+                if (evento.imagem) {
+                    if (evento.imagem.startsWith('http')) {
+                        // URL absoluta — usa direto
+                        imagem = evento.imagem;
+                    } else {
+                        // Caminho relativo como "/uploads/xxx.jpg" — adiciona API_BASE
+                        imagem = `${window.API_BASE}${evento.imagem.startsWith('/') ? '' : '/'}${evento.imagem}`;
+                    }
+                }
+
                 const link = `/frontend/detalheseventos/detalheevento.html?id=${evento.id}`;
 
                 const card = document.createElement('a');
@@ -47,8 +56,9 @@ document.addEventListener("DOMContentLoaded", () => {
                 card.className       = 'carousel-card';
                 card.dataset.eventoId = String(evento.id);
                 card.innerHTML = `
-                    <img src="${imagem}" alt="${evento.nome}"
-                         onerror="this.src='/frontend/imagens/1º imagem cad.png'">
+                    <img src="${imagem}" 
+                         alt="${evento.nome}"
+                         onerror="this.onerror=null; this.src='/frontend/imagens/1º imagem cad.png'">
                     <div class="carousel-info">
                         <h3>${evento.nome}</h3>
                         <p>${data}${hora ? ' • ' + hora : ''}</p>
@@ -110,8 +120,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 card.style.zIndex  = zIndex;
                 card.style.opacity = opacity;
                 card.classList.toggle("active", rel === 0);
-
-                // Impede clique nos cards que não estão visíveis
                 card.style.pointerEvents = (opacity === 0) ? 'none' : 'auto';
             });
         }
@@ -122,24 +130,15 @@ document.addEventListener("DOMContentLoaded", () => {
         if (btnNext) btnNext.addEventListener("click", () => { proximoCard();  resetAutoplay(); });
         if (btnPrev) btnPrev.addEventListener("click", () => { cardAnterior(); resetAutoplay(); });
 
-        // ------------------------------------------------
-        // 3. CLIQUE NOS CARDS DO CARROSSEL
-        //    - Card lateral  → navega o carrossel até ele
-        //    - Card central  → segue o href (navega para detalhes)
-        // ------------------------------------------------
         cards.forEach((card, i) => {
             card.addEventListener("click", (e) => {
                 const rel = getPosition(i - currentIndex);
-
                 if (rel !== 0) {
-                    // Card lateral: apenas reposiciona, não navega
                     e.preventDefault();
                     currentIndex = i;
                     aplicarCarrossel();
                     resetAutoplay();
                 } else {
-                    // Card central: navega normalmente via href
-                    // (não precisa de preventDefault — o <a> cuida disso)
                     const eventoId = card.dataset.eventoId;
                     registrarClique(eventoId);
                 }
