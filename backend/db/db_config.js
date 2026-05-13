@@ -18,8 +18,14 @@ if (isProduction) {
     user: process.env.DB_USER,
     password: process.env.DB_PASSWORD,
     database: process.env.DB_NAME,
+    charset: 'utf8mb4',
     waitForConnections: true,
     connectionLimit: 10
+  });
+
+  // Adiciona isso logo abaixo:
+  pool.on('connection', (conn) => {
+    conn.query("SET NAMES 'utf8mb4' COLLATE 'utf8mb4_unicode_ci'");
   });
   console.log("🟡 Usando MySQL (local)");
 }
