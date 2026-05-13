@@ -6,7 +6,7 @@
  * outro JS que faça fetch para a API.
  *
  * Uso nos outros arquivos JS:
- *   fetch(`${window.API_BASE}/eventos`)
+ *   fetch(${window.API_BASE}/eventos)
  */
 
 (function () {

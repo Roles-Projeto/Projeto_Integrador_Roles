@@ -1,117 +1,203 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="pt-BR">
-
 <head>
-    <meta charset="UTF-8" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Entrar — Rolês</title>
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-    <title>Tela de Login - Rolês</title>
-
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
-
-    <link rel="stylesheet" href="/frontend/css/footer.css" />
-
-    <link rel="stylesheet" href="/frontend/css/login.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="/frontend/css/footer.css">
+    <link rel="stylesheet" href="/frontend/css/login.css">
 </head>
 
 <body>
-    <header>
-        <div id="header-container"></div>
-    </header>
+    <header><div id="header-container"></div></header>
 
-    <main>
-        <div class="login-container">
-            <div class="login-box">
-                <!-- LOGIN -->
+    <main class="login-main">
+        <div class="login-split">
 
-                <div id="loginContent">
-                    <h1>Entrar no Rolês</h1>
+            <!-- ════════ LADO ESQUERDO — hero ════════ -->
+            <div class="login-hero">
+                <div class="orb orb-1"></div>
+                <div class="orb orb-2"></div>
+                <div class="orb orb-3"></div>
 
-                    <p id="main-text" class="text-muted">
-                        Encontre os melhores lugares para sair e se divertir
+                <div class="hero-content">
+                    <div class="hero-logo">Rolês</div>
+                    <h2 class="hero-headline">
+                        Descubra onde<br>
+                        <em>a noite te leva.</em>
+                    </h2>
+                    <p class="hero-sub">
+                        Eventos, bares, restaurantes e muito mais —
+                        tudo num só lugar.
                     </p>
-
-                    <div id="notificacaoLogin" class="notificacao" role="alert"></div>
-
-                    <form id="login-form">
-                        <input type="email" id="email" placeholder="E-mail" required />
-
-                        <div class="password-container">
-                            <input type="password" id="password" placeholder="Senha" required />
-
-                            <span class="material-symbols-outlined" id="togglePassword">
-                                visibility
-                            </span>
-                        </div>
-
-                        <p class="forgot-password">
-                            <a href="#" id="forgotPasswordLink"> Esqueci minha senha </a>
-                        </p>
-
-                        <button type="submit" class="login-btn">Entrar</button>
-                    </form>
-
-                    <div class="divider">
-                        <span>ou</span>
-                    </div>
-
-                    <p id="sub-text" class="small">Entre rapidamente com</p>
-
-                    <div class="social-login">
-                        <button class="google-btn">
-                            <img src="https://developers.google.com/identity/images/g-logo.png" alt="Google"
-                                class="social-icon" />
-                        </button>
-                    </div>
-
-                    <p class="register-link">
-                        Não tem conta?
-
-                        <a href="/frontend/Cadastro/cadastro.html" id="btnCadastrar">
-                            Cadastrar
-                        </a>
-                    </p>
-                </div>
-
-                <!-- RECUPERAR SENHA -->
-                <div id="forgotPasswordBox" class="forgot-password-box">
-                    <h1>Esqueceu sua senha?</h1>
-
-                    <div id="notificacaoRecuperar" class="notificacao" role="alert"></div>
-
-                    <!-- ETAPA 1 -->
-                    <div id="etapaEmail">
-                        <p class="text-muted">
-                            Enviaremos um código de verificação para seu e-mail
-                        </p>
-                        <input type="email" id="recoveryEmail" placeholder="Seu e-mail" />
-                        <button id="sendRecoveryBtn" class="login-btn">Continuar</button>
-                    </div>
-
-                    <!-- ETAPA 2 -->
-                    <div id="etapaRedefinir" style="display: none">
-                        <p class="text-muted">Digite o código enviado para seu e-mail</p>
-                        <input type="text" id="codigoRecuperacao" placeholder="Código recebido" />
-                        <input type="password" id="novaSenha" placeholder="Nova senha" />
-                        <button id="redefinirSenhaBtn" class="login-btn">Redefinir senha</button>
-                        <p class="spam-aviso">Não recebeu o código? Verifique o spam ou <a href="#"
-                                id="reenviarCodigo">reenviar código</a></p>
-                        <p class="back-login" id="backToLogin">← Voltar para o login</p>
-                    </div>
                 </div>
             </div>
+
+            <!-- ════════ LADO DIREITO — card ════════ -->
+            <div class="login-form-side">
+                <div class="login-box">
+
+                    <!-- ─── LOGIN ─── -->
+                    <div id="loginContent">
+
+                        <div class="card-top">
+                            <div class="card-icon">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <h1>Bem-vindo de volta</h1>
+                            <p id="main-text" class="text-muted">
+                                Encontre os melhores lugares para sair e se divertir
+                            </p>
+                        </div>
+
+                        <!-- Notificação inline -->
+                        <div id="notificacaoLogin" class="notificacao" role="alert"></div>
+
+                        <form id="login-form" novalidate>
+
+                            <div class="field-group">
+                                <label for="email">E-mail</label>
+                                <div class="input-wrap">
+                                    <i class="fas fa-envelope input-icon"></i>
+                                    <input type="email" id="email"
+                                           placeholder="seu@email.com"
+                                           autocomplete="email" required>
+                                </div>
+                            </div>
+
+                            <div class="field-group">
+                                <div class="label-row">
+                                    <label for="password">Senha</label>
+                                    <a href="#" class="forgot-link" id="forgotPasswordLink">
+                                        Esqueci minha senha
+                                    </a>
+                                </div>
+                                <div class="input-wrap password-container">
+                                    <i class="fas fa-lock input-icon"></i>
+                                    <input type="password" id="password"
+                                           placeholder="Sua senha"
+                                           autocomplete="current-password" required>
+                                    <span class="material-symbols-outlined toggle-pw"
+                                          id="togglePassword">visibility</span>
+                                </div>
+                            </div>
+
+                            <button type="submit" class="btn-entrar">
+                                <span>Entrar</span>
+                                <i class="fas fa-arrow-right"></i>
+                            </button>
+
+                        </form>
+
+                        <div class="or-divider">
+                            <span></span>
+                            <p>ou</p>
+                            <span></span>
+                        </div>
+
+                        <p id="sub-text" class="social-label">Entre rapidamente com</p>
+
+                        <div class="social-row">
+                            <button class="btn-social google-btn" type="button">
+                                <img src="https://developers.google.com/identity/images/g-logo.png"
+                                     alt="Google" class="social-icon">
+                                <span>Continuar com Google</span>
+                            </button>
+                        </div>
+
+                        <p class="card-footer register-link">
+                            Não tem conta?
+                            <a href="/frontend/Cadastro/cadastro.html" id="btnCadastrar">
+                                Criar conta grátis
+                            </a>
+                        </p>
+
+                    </div><!-- /#loginContent -->
+
+                    <!-- ─── RECUPERAR SENHA ─── -->
+                    <div id="forgotPasswordBox" class="forgot-password-box">
+
+                        <div class="card-top">
+                            <div class="card-icon" style="background: linear-gradient(135deg,#1a0a3d,#5b0ea6);">
+                                <i class="fas fa-key"></i>
+                            </div>
+                            <h1>Esqueceu sua senha?</h1>
+                        </div>
+
+                        <!-- Notificação recuperação -->
+                        <div id="notificacaoRecuperar" class="notificacao" role="alert"></div>
+
+                        <!-- ETAPA 1 — e-mail -->
+                        <div id="etapaEmail">
+                            <p class="text-muted">
+                                Enviaremos um código de verificação para seu e-mail.
+                            </p>
+                            <div class="field-group">
+                                <label for="recoveryEmail">E-mail cadastrado</label>
+                                <div class="input-wrap">
+                                    <i class="fas fa-envelope input-icon"></i>
+                                    <input type="email" id="recoveryEmail"
+                                           placeholder="seu@email.com">
+                                </div>
+                            </div>
+                            <button id="sendRecoveryBtn" class="btn-entrar" type="button">
+                                <span>Enviar código</span>
+                                <i class="fas fa-paper-plane"></i>
+                            </button>
+                        </div>
+
+                        <!-- ETAPA 2 — código + nova senha -->
+                        <div id="etapaRedefinir" style="display:none;">
+                            <p class="text-muted">
+                                Digite o código enviado para seu e-mail e defina uma nova senha.
+                            </p>
+                            <div class="field-group">
+                                <label for="codigoRecuperacao">Código recebido</label>
+                                <div class="input-wrap">
+                                    <i class="fas fa-shield-alt input-icon"></i>
+                                    <input type="text" id="codigoRecuperacao"
+                                           placeholder="Digite o código">
+                                </div>
+                            </div>
+                            <div class="field-group">
+                                <label for="novaSenha">Nova senha</label>
+                                <div class="input-wrap">
+                                    <i class="fas fa-lock input-icon"></i>
+                                    <input type="password" id="novaSenha"
+                                           placeholder="Nova senha">
+                                </div>
+                            </div>
+                            <button id="redefinirSenhaBtn" class="btn-entrar" type="button">
+                                <span>Redefinir senha</span>
+                                <i class="fas fa-check"></i>
+                            </button>
+                            <p class="spam-aviso">
+                                Não recebeu o código? Verifique o spam ou
+                                <a href="#" id="reenviarCodigo">reenviar código</a>
+                            </p>
+                        </div>
+
+                        <p class="back-login" id="backToLogin">
+                            <i class="fas fa-arrow-left"></i> Voltar para o login
+                        </p>
+
+                    </div><!-- /#forgotPasswordBox -->
+
+                </div><!-- /.login-box -->
+            </div><!-- /.login-form-side -->
+
+        </div><!-- /.login-split -->
     </main>
 
     <script src="/frontend/js/config.js"></script>
-
     <script src="/frontend/js/footer.js" defer></script>
-
     <script src="/frontend/js/loadHeader.js"></script>
-
     <script src="/frontend/js/Login.js"></script>
 </body>
-
 </html>

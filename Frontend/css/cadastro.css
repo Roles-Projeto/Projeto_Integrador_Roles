@@ -1,6 +1,37 @@
 /* =========================
-   RESET E BASE
+   IMPORTS
 ========================= */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
+
+/* =========================
+   RESET E VARIÁVEIS
+========================= */
+:root {
+  --primary-dark:  #1a0a3d;
+  --primary:       #5b0ea6;
+  --primary-mid:   #7c3aed;
+  --primary-light: #a78bfa;
+  --accent:        #f50057;
+  --accent-soft:   rgba(245, 0, 87, 0.12);
+  --surface:       #ffffff;
+  --surface-2:     #f9f7ff;
+  --border:        rgba(124, 58, 237, 0.14);
+  --border-hover:  rgba(124, 58, 237, 0.35);
+  --text-primary:  #0f0720;
+  --text-secondary:#5b5576;
+  --text-muted:    #9b96b0;
+  --error:         #e63946;
+  --shadow-sm:     0 2px 8px rgba(91, 14, 166, 0.08);
+  --shadow-md:     0 8px 32px rgba(91, 14, 166, 0.12);
+  --shadow-lg:     0 20px 60px rgba(91, 14, 166, 0.18);
+  --radius-sm:     10px;
+  --radius-md:     16px;
+  --radius-lg:     24px;
+  --radius-full:   9999px;
+  --grad-primary:  linear-gradient(135deg, #1a0a3d 0%, #5b0ea6 50%, #7c3aed 100%);
+  --grad-bg:       linear-gradient(145deg, #fdfbff 0%, #f5f0ff 50%, #fff5f9 100%);
+}
+
 .container,
 .container * {
   margin: 0;
@@ -8,24 +39,60 @@
   box-sizing: border-box;
 }
 
+/* =========================
+   BODY / FUNDO
+========================= */
 body {
   font-family: "Poppins", sans-serif;
-  background:
-    radial-gradient(circle at top left, rgba(245, 0, 87, 0.08), transparent 35%),
-    radial-gradient(circle at bottom right, rgba(106, 13, 173, 0.08), transparent 35%),
-    linear-gradient(135deg, #f8f9ff, #ffffff);
-  color: #212121;
+  color: var(--text-primary);
   min-height: 100vh;
+  background: var(--grad-bg);
+  position: relative;
+  overflow-x: hidden;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 80% 50% at -10% -10%, rgba(124, 58, 237, 0.10) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 40% at 110% 110%, rgba(245, 0, 87, 0.07) 0%, transparent 55%),
+    radial-gradient(ellipse 50% 60% at 50% 0%, rgba(124, 58, 237, 0.04) 0%, transparent 50%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+body::after {
+  content: "";
+  position: fixed;
+  width: 500px;
+  height: 500px;
+  top: -120px;
+  right: -120px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(124, 58, 237, 0.06), transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+  animation: orbFloat 8s ease-in-out infinite alternate;
+}
+
+@keyframes orbFloat {
+  from { transform: translate(0, 0) scale(1); }
+  to   { transform: translate(-30px, 30px) scale(1.05); }
 }
 
 /* =========================
    CONTAINER
 ========================= */
 .container {
+  position: relative;
+  z-index: 1;
   display: flex;
   justify-content: center;
-  align-items: center;
-  padding: 40px 20px;
+  align-items: flex-start;
+  padding: 36px 20px 60px;
+  min-height: calc(100vh - 70px);
 }
 
 /* =========================
@@ -33,66 +100,71 @@ body {
 ========================= */
 .container .card {
   width: 100%;
-  max-width: 520px; /* mantém largura */
-  background: rgba(255,255,255,0.95);
-  backdrop-filter: blur(8px);
-  border: 1px solid rgba(255,255,255,0.7);
-  border-radius: 24px;
-
-  padding: 26px 38px; /* antes estava maior */
-  
+  max-width: 500px;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  border-radius: var(--radius-lg);
+  padding: 36px 40px 32px;
   box-shadow:
-    0 20px 60px rgba(0,0,0,0.08),
-    0 8px 25px rgba(106,13,173,0.06);
-
-  animation: surgir 0.5s ease;
+    0 1px 0 rgba(255,255,255,0.8) inset,
+    var(--shadow-lg),
+    0 0 0 1px var(--border);
+  animation: cardEntrance 0.55s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
-@keyframes surgir {
-  from {
-    opacity: 0;
-    transform: translateY(25px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+@keyframes cardEntrance {
+  from { opacity: 0; transform: translateY(32px) scale(0.98); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
 }
 
 /* =========================
-   TOPO
+   TOPO — ÍCONE
 ========================= */
-/* ÍCONE DO BONECO COM MESMO DEGRADÊ DO BOTÃO */
 .container .user-icon {
-  width: 78px;
-  height: 78px;
-  border-radius: 50%;
-  margin: 0 auto 18px;
-
+  width: 72px;
+  height: 72px;
+  border-radius: var(--radius-full);
+  margin: 0 auto 16px;
   display: flex;
   align-items: center;
   justify-content: center;
-
-  font-size: 34px;
+  font-size: 30px;
   color: white;
+  background: var(--grad-primary);
+  box-shadow:
+    0 12px 28px rgba(91, 14, 166, 0.30),
+    0 0 0 4px rgba(124, 58, 237, 0.12);
+  position: relative;
+}
 
-  background: linear-gradient(135deg, #2d1366, #6a0dad, #8a2be2);
-
-  box-shadow: 0 10px 25px rgba(106,13,173,0.25);
+.container .user-icon::after {
+  content: "";
+  position: absolute;
+  inset: -3px;
+  border-radius: var(--radius-full);
+  background: linear-gradient(135deg, rgba(124,58,237,0.3), rgba(245,0,87,0.2));
+  z-index: -1;
+  filter: blur(8px);
 }
 
 .container h2 {
   text-align: center;
-  font-size: 28px;
-  font-weight: 700;
-  margin-bottom: 8px;
+  font-size: 26px;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  color: var(--text-primary);
+  margin-bottom: 6px;
+  line-height: 1.2;
 }
 
 .container .card > p {
   text-align: center;
-  color: #666;
+  color: var(--text-secondary);
   font-size: 14px;
-  margin-bottom: 24px;
+  font-weight: 400;
+  margin-bottom: 22px;
   line-height: 1.5;
 }
 
@@ -102,32 +174,38 @@ body {
 .container .social-buttons {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 10px;
 }
 
 .container .social-buttons button {
-  border: 1px solid #ececec;
-  background: #fff;
-  border-radius: 14px;
-  padding: 14px;
-  font-size: 15px;
+  border: 1.5px solid var(--border);
+  background: var(--surface);
+  border-radius: var(--radius-md);
+  padding: 13px 16px;
+  font-family: "Poppins", sans-serif;
+  font-size: 14px;
   font-weight: 600;
+  color: var(--text-primary);
   cursor: pointer;
-  transition: 0.25s;
+  transition: all 0.22s ease;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 10px;
+  letter-spacing: 0.1px;
+  box-shadow: var(--shadow-sm);
 }
 
 .container .social-buttons button:hover {
+  border-color: var(--border-hover);
   transform: translateY(-2px);
-  box-shadow: 0 10px 25px rgba(0,0,0,0.06);
+  box-shadow: var(--shadow-md);
+  background: var(--surface-2);
 }
 
 .container .google-icon {
-  width: 20px;
-  height: 20px;
+  width: 18px;
+  height: 18px;
   object-fit: contain;
 }
 
@@ -135,13 +213,14 @@ body {
    DIVISOR
 ========================= */
 .container .divider {
-  margin: 28px 0 18px;
+  margin: 22px 0 16px;
   display: flex;
   align-items: center;
-  gap: 14px;
-  color: #999;
-  font-size: 12px;
+  gap: 12px;
+  color: var(--text-muted);
+  font-size: 11px;
   font-weight: 600;
+  letter-spacing: 0.8px;
 }
 
 .container .divider::before,
@@ -149,7 +228,7 @@ body {
   content: "";
   flex: 1;
   height: 1px;
-  background: #e8e8e8;
+  background: linear-gradient(to right, transparent, var(--border), transparent);
 }
 
 /* =========================
@@ -158,69 +237,223 @@ body {
 .container form {
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 12px;
 }
 
 .container label {
-  font-size: 13px;
+  display: block;
+  font-size: 12.5px;
   font-weight: 600;
-  color: #444;
-  margin-bottom: -8px;
+  color: var(--text-secondary);
+  letter-spacing: 0.2px;
+  margin-bottom: -6px;
 }
 
 .container input {
   width: 100%;
-  padding: 14px 16px;
-  border-radius: 14px;
-  border: 1px solid #e5e5e5;
-  font-size: 15px;
-  background: #fafafa;
-  transition: 0.2s;
+  padding: 13px 16px;
+  border-radius: var(--radius-sm);
+  border: 1.5px solid var(--border);
+  font-family: "Poppins", sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--text-primary);
+  background: var(--surface-2);
+  transition: all 0.2s ease;
+  outline: none;
+}
+
+.container input::placeholder {
+  color: var(--text-muted);
+  font-weight: 300;
+}
+
+.container input:hover {
+  border-color: var(--border-hover);
+  background: var(--surface);
 }
 
 .container input:focus {
-  outline: none;
-  background: #fff;
-  border-color: #6a0dad;
-  box-shadow: 0 0 0 4px rgba(106,13,173,0.08);
+  background: var(--surface);
+  border-color: var(--primary-mid);
+  box-shadow:
+    0 0 0 3px rgba(124, 58, 237, 0.10),
+    var(--shadow-sm);
+}
+
+/* =========================
+   WRAPPER SENHA (olho)
+========================= */
+.container .input-senha-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.container .input-senha-wrapper input {
+  padding-right: 48px;
+}
+
+.container .btn-olho {
+  position: absolute;
+  right: 14px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--text-muted);
+  font-size: 16px;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.2s;
+  line-height: 1;
+}
+
+.container .btn-olho:hover {
+  color: var(--primary-mid);
+}
+
+/* =========================
+   FORÇA DA SENHA
+========================= */
+.container .forca-senha-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: -6px;
+  margin-bottom: -4px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.container .forca-barra {
+  display: flex;
+  gap: 4px;
+  flex: 1;
+}
+
+.container .forca-segmento {
+  flex: 1;
+  height: 4px;
+  border-radius: var(--radius-full);
+  background: #e8e0f0;
+  transition: background 0.3s ease;
+}
+
+.container .forca-label {
+  font-size: 11px;
+  font-weight: 700;
+  min-width: 38px;
+  text-align: right;
+  letter-spacing: 0.2px;
+  transition: color 0.3s ease;
 }
 
 /* =========================
    ERROS
 ========================= */
 .container .erro {
-  color: #e63946;
-  font-size: 12px;
-  margin-top: -8px;
-  margin-bottom: -2px;
+  display: block;
+  color: var(--error);
+  font-size: 11.5px;
+  font-weight: 500;
+  margin-top: -6px;
+  margin-bottom: -4px;
+  padding-left: 4px;
+  min-height: 16px;
+  animation: erroEntrada 0.2s ease;
+}
+
+@keyframes erroEntrada {
+  from { opacity: 0; transform: translateY(-4px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
 .container input.erro-input {
-  border-color: #e63946;
-  background: #fff5f6;
+  border-color: var(--error) !important;
+  background: #fff5f6 !important;
+  box-shadow: 0 0 0 3px rgba(230, 57, 70, 0.08);
+}
+
+/* =========================
+   SPINNER
+========================= */
+.container .spinner {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border: 2.5px solid rgba(255,255,255,0.35);
+  border-top-color: #ffffff;
+  border-radius: 50%;
+  animation: girar 0.7s linear infinite;
+  vertical-align: middle;
+}
+
+.container .hidden {
+  display: none !important;
+}
+
+@keyframes girar {
+  to { transform: rotate(360deg); }
 }
 
 /* =========================
    BOTÃO CRIAR
 ========================= */
 .container .btn-criar {
-  margin-top: 12px;
-  padding: 15px;
+  margin-top: 10px;
+  padding: 15px 24px;
   border: none;
-  border-radius: 14px;
-  background: linear-gradient(135deg, #2d1366, #6a0dad, #8a2be2);
+  border-radius: var(--radius-md);
+  background: var(--grad-primary);
   color: white;
-  font-size: 16px;
+  font-family: "Poppins", sans-serif;
+  font-size: 15px;
   font-weight: 700;
+  letter-spacing: 0.3px;
   cursor: pointer;
-  transition: 0.25s ease;
-  box-shadow: 0 12px 25px rgba(106,13,173,0.25);
+  transition: all 0.25s ease;
+  box-shadow:
+    0 8px 24px rgba(91, 14, 166, 0.30),
+    0 1px 0 rgba(255,255,255,0.15) inset;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 52px;
 }
+
+.container .btn-criar::before {
+  content: "";
+  position: absolute;
+  top: 0; left: -100%;
+  width: 60%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.12), transparent);
+  transition: left 0.5s ease;
+}
+
+.container .btn-criar:hover::before { left: 150%; }
 
 .container .btn-criar:hover {
   transform: translateY(-2px);
-  background: linear-gradient(135deg, #24104f, #5d0bb8, #7d22da);
-  box-shadow: 0 18px 35px rgba(106,13,173,0.35);
+  box-shadow:
+    0 14px 32px rgba(91, 14, 166, 0.38),
+    0 1px 0 rgba(255,255,255,0.15) inset;
+}
+
+.container .btn-criar:active {
+  transform: translateY(0px);
+  box-shadow: 0 6px 16px rgba(91, 14, 166, 0.28);
+}
+
+.container .btn-criar:disabled {
+  opacity: 0.75;
+  cursor: not-allowed;
+  transform: none;
 }
 
 /* =========================
@@ -229,31 +462,37 @@ body {
 .container .termos,
 .container .login {
   text-align: center;
-  margin-top: 18px;
+  margin-top: 16px;
   font-size: 13px;
-  color: #666;
+  color: var(--text-muted);
   line-height: 1.6;
 }
 
 .container .termos a,
 .container .login a {
-  color: #f50057;
+  color: var(--accent);
   font-weight: 600;
   text-decoration: none;
+  transition: color 0.2s;
 }
 
 .container .termos a:hover,
 .container .login a:hover {
+  color: #c2003e;
   text-decoration: underline;
 }
 
+.container .login { margin-top: 12px; }
+
 /* =========================
-   MODAL
+   MODAL — OVERLAY
 ========================= */
 .container .modal {
   position: fixed;
   inset: 0;
-  background: rgba(15,15,15,0.55);
+  background: rgba(10, 3, 25, 0.60);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -261,143 +500,249 @@ body {
   padding: 20px;
 }
 
-.container .hidden {
-  display: none;
-}
-
+/* =========================
+   MODAL — CARD
+========================= */
 .container .modal-card {
   width: 100%;
-  max-width: 430px;
-  background: white;
-  border-radius: 24px;
-  padding: 30px 32px;
+  max-width: 420px;
+  background: var(--surface);
+  border-radius: var(--radius-lg);
+  padding: 36px 32px 30px;
   position: relative;
-  box-shadow: 0 25px 60px rgba(0,0,0,0.18);
+  box-shadow:
+    0 30px 80px rgba(10, 3, 25, 0.28),
+    0 0 0 1px rgba(124, 58, 237, 0.10);
+  animation: modalUp 0.35s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
 @keyframes modalUp {
-  from {
-    opacity: 0;
-    transform: translateY(25px) scale(.96);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
+  from { opacity: 0; transform: translateY(24px) scale(0.96); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* Tarja roxa no topo */
+.container .modal-card::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 4px;
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+  background: var(--grad-primary);
 }
 
 /* FECHAR */
 .container .fechar {
   position: absolute;
-  top: 14px;
-  right: 16px;
-  width: 34px;
-  height: 34px;
-  border-radius: 50%;
-  border: none;
-  background: #f4f4f4;
-  font-size: 20px;
+  top: 18px;
+  right: 18px;
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-full);
+  border: 1.5px solid var(--border);
+  background: var(--surface-2);
+  color: var(--text-secondary);
+  font-size: 18px;
   cursor: pointer;
-  transition: 0.2s;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .container .fechar:hover {
-  background: #ececec;
+  background: #f0ebff;
+  border-color: var(--border-hover);
+  color: var(--primary);
 }
 
-/* ICONE */
-/* ÍCONE DA VERIFICAÇÃO DE SEGURANÇA COM MESMO DEGRADÊ */
-
-.container .icone-seguranca {
-  display: none;
-}
+.container .icone-seguranca { display: none; }
 
 .container .modal-card h2 {
   text-align: center;
-  color: #212121;
-  font-size: 22px;
-  margin-bottom: 14px;
-  margin-top: 5px;
+  color: var(--text-primary);
+  font-size: 21px;
+  font-weight: 800;
+  letter-spacing: -0.3px;
+  margin-bottom: 8px;
+  margin-top: 4px;
 }
 
 .container .modal-card p {
   text-align: center;
-  color: #666;
-  font-size: 14px;
-  line-height: 1.5;
-  margin-bottom: 18px;
+  color: var(--text-secondary);
+  font-size: 13.5px;
+  line-height: 1.55;
+  margin-bottom: 16px;
 }
 
-/* BOTÕES */
+/* Campo código */
+.container #codigo {
+  text-align: center;
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: 8px;
+  padding: 16px 20px;
+  border-radius: var(--radius-sm);
+  border: 1.5px solid var(--border);
+  background: var(--surface-2);
+  color: var(--text-primary);
+  width: 100%;
+  transition: all 0.2s;
+}
+
+.container #codigo:focus {
+  border-color: var(--primary-mid);
+  box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.10);
+  outline: none;
+  background: var(--surface);
+}
+
+/* =========================
+   BOTÕES DO MODAL
+========================= */
 .container .btn-verificar {
   width: 100%;
-  padding: 14px;
+  padding: 14px 20px;
   border: none;
-  border-radius: 14px;
-  font-size: 16px;
+  border-radius: var(--radius-md);
+  font-family: "Poppins", sans-serif;
+  font-size: 15px;
   font-weight: 700;
   color: white;
   cursor: pointer;
-
-  background: linear-gradient(135deg, #2d1366, #6a0dad, #8a2be2);
-
-  margin-top: 1em; /* distância extra */
-}
-
-.container .btn-opcao {
-  margin-bottom: 12px;
-  background: #f7f1ff;
-  color: #6a0dad;
-  border: 1px solid #e7d5ff;
-}
-
-.container .btn-opcao:hover {
-  background: #efe3ff;
+  background: var(--grad-primary);
+  margin-top: 14px;
+  transition: all 0.25s ease;
+  box-shadow: 0 8px 24px rgba(91, 14, 166, 0.28);
+  letter-spacing: 0.2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 50px;
 }
 
 .container .btn-verificar:hover {
   transform: translateY(-2px);
-
-  background: linear-gradient(135deg, #24104f, #5d0bb8, #7d22da);
-
-  box-shadow: 0 18px 35px rgba(106,13,173,0.35);
+  box-shadow: 0 14px 30px rgba(91, 14, 166, 0.36);
 }
 
-/* REENVIAR */
-.container .reenviar {
-  margin-top: 14px;
-  font-size: 13px;
+.container .btn-verificar:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+  transform: none;
 }
 
-.container #outraForma,
-.container #reenviarCodigo {
-  color: #6a0dad;
-  font-weight: 700;
+/* Botões opção */
+.container .btn-opcao {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 13px 20px;
+  margin-bottom: 10px;
+  border-radius: var(--radius-md);
+  border: 1.5px solid rgba(124, 58, 237, 0.20);
+  background: #f5f0ff;
+  color: var(--primary);
+  font-family: "Poppins", sans-serif;
+  font-size: 14px;
+  font-weight: 600;
   cursor: pointer;
+  transition: all 0.2s ease;
 }
 
-.container #outraForma:hover,
-.container #reenviarCodigo:hover {
+.container .btn-opcao:hover {
+  background: #ede5ff;
+  border-color: rgba(124, 58, 237, 0.35);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-sm);
+}
+
+/* =========================
+   REENVIAR
+========================= */
+.container .reenviar {
+  margin-top: 16px;
+  font-size: 13px;
+  color: var(--text-muted);
+  text-align: center;
+  line-height: 1.8;
+}
+
+.container #reenviarCodigo {
+  background: none;
+  border: none;
+  font-family: "Poppins", sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--primary);
+  cursor: pointer;
+  padding: 0;
+  transition: color 0.2s;
+}
+
+.container #reenviarCodigo:disabled {
+  color: var(--text-muted);
+  cursor: not-allowed;
+}
+
+.container #outraForma {
+  display: inline-block;
+  font-weight: 600;
+  color: var(--accent);
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.container #outraForma:hover {
+  color: #c2003e;
   text-decoration: underline;
+}
+
+.container #areaTelefone {
+  margin-top: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.container #telefoneAlternativo {
+  text-align: center;
+  letter-spacing: 1px;
 }
 
 /* =========================
    RESPONSIVO
 ========================= */
 @media (max-width: 600px) {
-  .container .card,
-  .container .modal-card {
-    padding: 26px 20px;
+  .container {
+    padding: 20px 16px 50px;
+    align-items: flex-start;
+  }
+
+  .container .card {
+    padding: 28px 22px 24px;
     border-radius: 20px;
   }
 
-  .container h2 {
-    font-size: 24px;
+  .container .modal-card {
+    padding: 30px 20px 24px;
+    border-radius: 20px;
   }
 
+  .container h2 { font-size: 22px; }
+
   .container .user-icon {
-    width: 68px;
-    height: 68px;
-    font-size: 28px;
+    width: 62px;
+    height: 62px;
+    font-size: 26px;
+  }
+
+  .container #codigo {
+    font-size: 18px;
+    letter-spacing: 6px;
   }
 }
