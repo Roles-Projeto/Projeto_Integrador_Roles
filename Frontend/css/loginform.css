@@ -1,0 +1,57 @@
+/* ═══════════════════════════════════════════
+   LOGIN MODAL / IFRAME
+   Sobrepõe apenas o que é diferente do login.css principal.
+   Mantém todos os tokens e componentes do login.css.
+═══════════════════════════════════════════ */
+
+/* Body transparente — renderiza dentro de modal/iframe */
+.modal-body {
+    background: transparent;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+/* Container ocupa toda a área disponível */
+.modal-body .login-container {
+    width: 100%;
+    min-height: unset;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Card — versão compacta sem split */
+.modal-body .login-box {
+    width: 100%;
+    max-width: 400px;
+    background: var(--surface);
+    border-radius: var(--r-xl);
+    padding: 36px 32px 28px;
+    box-shadow:
+        0 1px 0 rgba(255,255,255,0.9) inset,
+        0 20px 60px rgba(91,14,166,0.18),
+        0 0 0 1px var(--border);
+    animation: cardIn 0.55s var(--ease) both;
+}
+
+/* Ícone do card: roxo escuro para a versão de recuperação */
+.modal-body .recover-icon {
+    background: linear-gradient(135deg, #1a0a3d, #5b0ea6) !important;
+}
+
+/* Espaçamento compacto entre seções */
+.modal-body #login-form,
+.modal-body #etapaEmail,
+.modal-body #etapaRedefinir {
+    gap: 14px;
+}
+
+/* Social row — botão único ocupa tudo */
+.modal-body .social-row { margin-bottom: 16px; }
+
+/* Divider e social label com menos margem */
+.modal-body .or-divider { margin: 14px 0 8px; }

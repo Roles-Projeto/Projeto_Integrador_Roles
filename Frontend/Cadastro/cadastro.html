@@ -52,17 +52,40 @@
             <input type="email" id="confirmarEmail" placeholder="seu@email.com" required>
 
             <label>Telefone (opcional)</label>
-            <input type="tel" id="telefone" placeholder="(62) 99999-9999">
+            <input type="tel" id="telefone" placeholder="(62) 9 9999-9999">
 
             <label>Senha</label>
-            <input type="password" id="senha" placeholder="Mínimo 8 caracteres" required minlength="8">
+            <div class="input-senha-wrapper">
+                <input type="password" id="senha" placeholder="Mínimo 8 caracteres" required minlength="8">
+                <button type="button" class="btn-olho" id="toggleSenha" aria-label="Mostrar senha">
+                    <i class="fa-regular fa-eye" id="iconeSenha"></i>
+                </button>
+            </div>
+            <!-- Barra de força da senha -->
+            <div class="forca-senha-wrapper" id="forcaSenhaWrapper">
+                <div class="forca-barra">
+                    <span class="forca-segmento" id="seg1"></span>
+                    <span class="forca-segmento" id="seg2"></span>
+                    <span class="forca-segmento" id="seg3"></span>
+                    <span class="forca-segmento" id="seg4"></span>
+                </div>
+                <span class="forca-label" id="forcaLabel"></span>
+            </div>
             <small id="erroSenha" class="erro"></small>
 
             <label>Confirmar Senha</label>
-            <input type="password" id="confirmarSenha" placeholder="Digite novamente sua senha" required>
+            <div class="input-senha-wrapper">
+                <input type="password" id="confirmarSenha" placeholder="Digite novamente sua senha" required>
+                <button type="button" class="btn-olho" id="toggleConfirmar" aria-label="Mostrar confirmação de senha">
+                    <i class="fa-regular fa-eye" id="iconeConfirmar"></i>
+                </button>
+            </div>
             <small id="erroConfirmar" class="erro"></small>
 
-            <button type="submit" class="btn-criar">Criar Conta</button>
+            <button type="submit" class="btn-criar" id="btnCriar">
+                <span id="btnCriarTexto">Criar Conta</span>
+                <span id="btnCriarSpinner" class="spinner hidden"></span>
+            </button>
         </form>
 
         <p class="termos">
@@ -113,11 +136,14 @@
 
                 <input type="text"
                        id="codigo"
-                       placeholder="Digite o código"
-                       maxlength="6">
+                       placeholder="_ _ _ _ _ _"
+                       maxlength="6"
+                       inputmode="numeric"
+                       autocomplete="one-time-code">
 
                 <button id="btnVerificar" class="btn-verificar">
-                    Verificar Código
+                    <span id="btnVerificarTexto">Verificar Código</span>
+                    <span id="btnVerificarSpinner" class="spinner hidden"></span>
                 </button>
 
                 <!-- ================= REENVIO COM TIMER ================= -->
@@ -144,7 +170,7 @@
 
                     <input type="tel"
                            id="telefoneAlternativo"
-                           placeholder="Digite seu telefone">
+                           placeholder="(62) 9 9999-9999">
 
                     <button id="btnEnviarTelefone"
                             class="btn-verificar">
@@ -160,8 +186,7 @@
 
 </main>
 
-<script src="/frontend/js/config.js"></script>
-    <script src="/frontend/js/footer.js" defer></script>
+<script src="/frontend/js/footer.js" defer></script>
 <script src="/frontend/js/loadHeader.js"></script>
 <script src="/frontend/js/cadastro.js"></script>
 
