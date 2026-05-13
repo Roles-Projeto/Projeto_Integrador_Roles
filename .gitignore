@@ -22,7 +22,7 @@ Thumbs.db
 desktop.ini
 
 # Arquivos de teste temporários
-test.txt
+test.txtgit add backend/db-init/backup.sql
 test2.txt
 test3.txt
 
