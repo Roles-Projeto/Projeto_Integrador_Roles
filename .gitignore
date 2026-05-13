@@ -9,8 +9,8 @@ node_modules/
 **/.env.production
 
 # Uploads de usuários (arquivos locais de cada máquina)
-backend/uploads/*
-!backend/uploads/.gitkeep
+# Uploads - rastreados pelo Git (imagens do projeto)
+# backend/uploads/*
 
 # Logs
 *.log
