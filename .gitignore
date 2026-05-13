@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Dependências
 node_modules/
 **/node_modules/
@@ -31,3 +32,7 @@ test3.txt
 
 # Docker volumes locais
 mysql_data/
+=======
+backend/node_modules
+node_modules
+>>>>>>> 7fca85d787a5a209b91053098ebcabfb12fa780f

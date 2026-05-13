@@ -251,6 +251,12 @@ confirmarBtn.addEventListener("click", async () => {
         return;
     }
 
+    // Validação CNPJ (somente se preenchido)
+    if (cnpj && !validarCNPJ(cnpj)) {
+        alert("❌ CNPJ inválido. Verifique o número informado.");
+        return;
+    }
+
     // Endereço completo
     const endereco = `${rua}${numero ? ", " + numero : ""}${bairro ? " — " + bairro : ""}, ${cidade}${estado ? " - " + estado : ""}`.trim();
 
@@ -282,7 +288,6 @@ confirmarBtn.addEventListener("click", async () => {
     // Categoria do card
     const categoria_card = mapearCategoria(tipo);
 
-    // Monta objeto para enviar
     // Fotos da galeria → array de base64
     const fotos_galeria = await Promise.all(
         fotosGaleria.map(file => new Promise(resolve => {
@@ -292,7 +297,6 @@ confirmarBtn.addEventListener("click", async () => {
         }))
     );
 
-    // Monta objeto para enviar
     // Pratos cadastrados
     const pratos = listaPratos || [];
 
@@ -305,6 +309,7 @@ confirmarBtn.addEventListener("click", async () => {
         fotos_galeria,
         pratos
     };
+
     // ── DEBUG: mostra se a imagem foi capturada ──────────────────────────────
     alert(
         `🔍 DEBUG:\n` +
@@ -442,11 +447,36 @@ if (telefoneInput) {
 }
 
 // ====================================================
-// MÁSCARA CNPJ
+// MÁSCARA E VALIDAÇÃO CNPJ
 // ====================================================
+
+function validarCNPJ(cnpj) {
+    cnpj = cnpj.replace(/\D/g, "");
+
+    if (cnpj.length !== 14) return false;
+    if (/^(\d)\1+$/.test(cnpj)) return false;
+
+    const calcDigito = (cnpj, peso) => {
+        let soma = 0;
+        for (let i = 0; i < peso.length; i++) {
+            soma += parseInt(cnpj[i]) * peso[i];
+        }
+        const resto = soma % 11;
+        return resto < 2 ? 0 : 11 - resto;
+    };
+
+    const d1 = calcDigito(cnpj, [5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2]);
+    if (d1 !== parseInt(cnpj[12])) return false;
+
+    const d2 = calcDigito(cnpj, [6, 5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2]);
+    if (d2 !== parseInt(cnpj[13])) return false;
+
+    return true;
+}
 
 const cnpjInput = document.getElementById("cnpj");
 if (cnpjInput) {
+    // Máscara
     cnpjInput.addEventListener("input", () => {
         let v = cnpjInput.value.replace(/\D/g, "");
         if (v.length > 14) v = v.slice(0, 14);
@@ -455,6 +485,25 @@ if (cnpjInput) {
         v = v.replace(/\.(\d{3})(\d)/, ".$1/$2");
         v = v.replace(/(\d{4})(\d)/, "$1-$2");
         cnpjInput.value = v;
+        cnpjInput.classList.remove("input-valido", "input-invalido");
+    });
+
+    // Validação ao sair do campo
+    cnpjInput.addEventListener("blur", () => {
+        const valor = cnpjInput.value.replace(/\D/g, "");
+
+        if (valor.length === 0) {
+            cnpjInput.classList.remove("input-valido", "input-invalido");
+            return;
+        }
+
+        if (validarCNPJ(valor)) {
+            cnpjInput.classList.remove("input-invalido");
+            cnpjInput.classList.add("input-valido");
+        } else {
+            cnpjInput.classList.remove("input-valido");
+            cnpjInput.classList.add("input-invalido");
+        }
     });
 }
 
