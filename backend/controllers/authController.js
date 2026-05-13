@@ -46,7 +46,8 @@ exports.loginUsuario = async (req, res) => {
       const token = jwt.sign(
         {
           id: usuario.id,
-          email: usuario.email
+          email: usuario.email,
+          role: usuario.role
         },
         process.env.JWT_SECRET,
         {
@@ -61,9 +62,9 @@ exports.loginUsuario = async (req, res) => {
         nome_completo: usuario.nome_completo,
         email: usuario.email,
         telefone: usuario.telefone,
-        foto_perfil: usuario.foto_perfil
+        foto_perfil: usuario.foto_perfil,
+        role: usuario.role
       });
-
     }
   );
 };

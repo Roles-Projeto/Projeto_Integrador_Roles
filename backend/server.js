@@ -62,6 +62,7 @@ const eventosRoutes          = require("./routes/eventos");
 const estabelecimentosRoutes = require("./routes/estabelecimentos");
 const contatoRoutes          = require("./routes/contato");
 const avaliacoesRoutes = require("./routes/avaliacoes");
+const adminRoutes = require("./routes/admin");
 
 app.use("/usuarios",         usuariosRoutes);
 app.use("/usuarios",         authRoutes);
@@ -69,6 +70,7 @@ app.use("/eventos",          eventosRoutes);
 app.use("/estabelecimentos", estabelecimentosRoutes);
 app.use("/contato",          contatoRoutes);
 app.use("/avaliacoes", avaliacoesRoutes);
+app.use("/admin", adminRoutes);
 
 /* ─────────────────────────────────────────────────────
    FALLBACK SPA

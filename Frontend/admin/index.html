@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Roles — Admin</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#09090b;
+  --surface:#111113;
+  --surface2:#18181b;
+  --surface3:#222226;
+  --surface4:#2a2a2f;
+  --border:rgba(255,255,255,0.06);
+  --border2:rgba(255,255,255,0.1);
+  --border3:rgba(255,255,255,0.15);
+  --text:#fafafa;
+  --text2:#a1a1aa;
+  --text3:#52525b;
+  --red:#f87171;
+  --red-s:#ef4444;
+  --red-dim:rgba(239,68,68,0.1);
+  --red-border:rgba(239,68,68,0.2);
+  --green:#4ade80;
+  --green-dim:rgba(74,222,128,0.08);
+  --green-border:rgba(74,222,128,0.2);
+  --amber:#fbbf24;
+  --amber-dim:rgba(251,191,36,0.08);
+  --amber-border:rgba(251,191,36,0.2);
+  --blue:#60a5fa;
+  --blue-dim:rgba(96,165,250,0.08);
+  --purple:#c084fc;
+  --purple-dim:rgba(192,132,252,0.08);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html,body{height:100%;}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);display:flex;font-size:13.5px;-webkit-font-smoothing:antialiased;line-height:1.5;}
+
+/* ── SIDEBAR ── */
+.sidebar{width:232px;min-height:100vh;background:var(--surface);border-right:1px solid var(--border);display:flex;flex-direction:column;position:fixed;top:0;left:0;bottom:0;z-index:200;}
+.logo{padding:22px 18px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;}
+.logo-badge{width:28px;height:28px;background:var(--red-s);border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:#fff;letter-spacing:-0.5px;flex-shrink:0;}
+.logo-info{}
+.logo-name{font-size:14px;font-weight:600;letter-spacing:-0.3px;line-height:1.2;}
+.logo-tag{font-family:'DM Mono',monospace;font-size:9px;color:var(--text3);letter-spacing:1.5px;text-transform:uppercase;}
+.nav{padding:10px 10px;flex:1;overflow-y:auto;}
+.nav-group{margin-bottom:20px;}
+.nav-group-label{font-family:'DM Mono',monospace;font-size:9px;color:var(--text3);letter-spacing:2px;text-transform:uppercase;padding:8px 8px 4px;}
+.nav-item{display:flex;align-items:center;gap:9px;padding:8px 10px;border-radius:7px;cursor:pointer;color:var(--text2);font-size:13px;font-weight:500;transition:all 0.12s;margin-bottom:1px;position:relative;}
+.nav-item:hover{color:var(--text);background:var(--surface2);}
+.nav-item.active{color:var(--text);background:var(--surface3);}
+.nav-item.active::before{content:'';position:absolute;left:0;top:50%;transform:translateY(-50%);width:2px;height:16px;background:var(--red-s);border-radius:0 2px 2px 0;}
+.nav-icon{width:16px;height:16px;opacity:0.5;flex-shrink:0;}
+.nav-item.active .nav-icon{opacity:1;}
+.nav-item:hover .nav-icon{opacity:0.8;}
+
+.sidebar-foot{padding:14px;border-top:1px solid var(--border);}
+.user-card{background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:12px;display:flex;align-items:center;gap:10px;margin-bottom:10px;}
+.user-ava{width:32px;height:32px;border-radius:8px;background:var(--red-dim);border:1px solid var(--red-border);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;color:var(--red);flex-shrink:0;}
+.user-info{min-width:0;flex:1;}
+.user-name{font-size:12px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--text);}
+.user-role{font-family:'DM Mono',monospace;font-size:9px;color:var(--red);letter-spacing:1px;margin-top:1px;}
+.btn-out{width:100%;padding:7px 12px;background:transparent;border:1px solid var(--border);color:var(--text2);font-family:'DM Sans',sans-serif;font-size:12px;font-weight:500;cursor:pointer;border-radius:7px;transition:all 0.12s;text-align:left;display:flex;align-items:center;gap:7px;}
+.btn-out:hover{border-color:var(--border2);color:var(--text);background:var(--surface2);}
+.btn-out svg{opacity:0.5;}
+
+/* ── MAIN ── */
+.main{margin-left:232px;flex:1;display:flex;flex-direction:column;min-height:100vh;}
+.topbar{height:52px;border-bottom:1px solid var(--border);background:var(--surface);display:flex;align-items:center;justify-content:space-between;padding:0 24px;position:sticky;top:0;z-index:100;flex-shrink:0;}
+.topbar-left{}
+.topbar-title{font-size:14px;font-weight:600;letter-spacing:-0.2px;}
+.topbar-sub{font-size:11px;color:var(--text3);margin-top:1px;}
+.topbar-right{display:flex;align-items:center;gap:10px;}
+.online-badge{display:flex;align-items:center;gap:5px;background:var(--green-dim);border:1px solid var(--green-border);border-radius:20px;padding:3px 10px;}
+.online-dot{width:5px;height:5px;border-radius:50%;background:var(--green);}
+.online-txt{font-family:'DM Mono',monospace;font-size:9px;color:var(--green);letter-spacing:1px;}
+.content{padding:24px;flex:1;}
+
+/* ── PAGES ── */
+.page{display:none;animation:fadeIn 0.15s ease;}
+.page.active{display:block;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(4px);}to{opacity:1;transform:translateY(0);}}
+
+/* ── LOGIN ── */
+#login-screen{position:fixed;inset:0;background:var(--bg);display:flex;align-items:center;justify-content:center;z-index:9000;}
+.login-bg{position:absolute;inset:0;background:radial-gradient(ellipse 60% 50% at 50% 0%,rgba(239,68,68,0.04) 0%,transparent 70%);}
+.login-box{position:relative;width:360px;}
+.login-logo{display:flex;align-items:center;gap:12px;justify-content:center;margin-bottom:28px;}
+.login-logo-badge{width:40px;height:40px;background:var(--red-s);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:700;color:#fff;}
+.login-logo-name{font-size:22px;font-weight:600;letter-spacing:-0.5px;}
+.login-card{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:24px;box-shadow:0 0 0 1px rgba(0,0,0,0.5),0 24px 48px rgba(0,0,0,0.4);}
+.login-card h2{font-size:15px;font-weight:600;margin-bottom:4px;}
+.login-card p{font-size:12px;color:var(--text2);margin-bottom:20px;}
+.field{margin-bottom:14px;}
+.field label{display:block;font-size:10px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:1.2px;margin-bottom:6px;}
+.field input{width:100%;padding:10px 12px;background:var(--surface2);border:1px solid var(--border2);border-radius:8px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:13.5px;outline:none;transition:border-color 0.12s;}
+.field input:focus{border-color:var(--border3);}
+.field input::placeholder{color:var(--text3);}
+.btn-login{width:100%;padding:11px;background:var(--red-s);border:none;border-radius:8px;color:#fff;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:600;cursor:pointer;margin-top:6px;transition:opacity 0.12s;letter-spacing:-0.2px;}
+.btn-login:hover{opacity:0.88;}
+.btn-login:active{opacity:0.75;}
+.login-err{color:var(--red);font-size:12px;margin-top:10px;text-align:center;display:none;font-weight:500;}
+
+/* ── STATS ── */
+.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px;}
+.stat-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:16px 18px;position:relative;overflow:hidden;cursor:default;transition:border-color 0.15s;}
+.stat-card:hover{border-color:var(--border2);}
+.stat-tag{font-size:10px;font-weight:500;color:var(--text3);text-transform:uppercase;letter-spacing:1px;margin-bottom:10px;}
+.stat-num{font-size:28px;font-weight:300;letter-spacing:-1.5px;line-height:1;color:var(--text);}
+.stat-accent{position:absolute;bottom:0;left:0;right:0;height:1.5px;}
+.stat-card:nth-child(1) .stat-accent{background:var(--blue);}
+.stat-card:nth-child(2) .stat-accent{background:var(--purple);}
+.stat-card:nth-child(3) .stat-accent{background:var(--amber);}
+.stat-card:nth-child(4) .stat-accent{background:var(--green);}
+
+/* ── TABLE ── */
+.t-wrap{background:var(--surface);border:1px solid var(--border);border-radius:12px;overflow:hidden;}
+.t-top{padding:14px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
+.t-top h3{font-size:13.5px;font-weight:600;}
+.t-count{font-family:'DM Mono',monospace;font-size:10px;color:var(--text3);background:var(--surface2);border:1px solid var(--border);padding:3px 9px;border-radius:20px;}
+table{width:100%;border-collapse:collapse;}
+th{text-align:left;padding:8px 18px;font-size:10px;text-transform:uppercase;letter-spacing:1px;color:var(--text3);font-weight:600;background:var(--surface2);border-bottom:1px solid var(--border);}
+td{padding:11px 18px;font-size:13px;border-bottom:1px solid var(--border);vertical-align:middle;}
+tr:last-child td{border-bottom:none;}
+tr:hover td{background:rgba(255,255,255,0.012);}
+.mono{font-family:'DM Mono',monospace;font-size:11px;color:var(--text3);}
+.strong{font-weight:500;color:var(--text);}
+.muted{color:var(--text2);}
+
+/* PILLS */
+.pill{font-family:'DM Mono',monospace;font-size:9.5px;font-weight:500;padding:2px 7px;border-radius:4px;display:inline-block;letter-spacing:0.3px;}
+.p-admin{background:var(--red-dim);color:var(--red);border:1px solid var(--red-border);}
+.p-user{background:var(--surface3);color:var(--text3);border:1px solid var(--border);}
+.p-ok{background:var(--green-dim);color:var(--green);border:1px solid var(--green-border);}
+.p-no{background:var(--surface3);color:var(--text3);border:1px solid var(--border);}
+.p-amber{background:var(--amber-dim);color:var(--amber);border:1px solid var(--amber-border);}
+
+/* BUTTONS */
+.actions{display:flex;align-items:center;gap:6px;}
+.btn-promote{background:var(--red-dim);border:1px solid var(--red-border);color:var(--red);padding:4px 10px;border-radius:6px;cursor:pointer;font-family:'DM Sans',sans-serif;font-size:11.5px;font-weight:500;transition:all 0.12s;white-space:nowrap;}
+.btn-promote:hover{background:rgba(239,68,68,0.18);}
+.btn-demote{background:var(--surface2);border:1px solid var(--border2);color:var(--text2);padding:4px 10px;border-radius:6px;cursor:pointer;font-family:'DM Sans',sans-serif;font-size:11.5px;font-weight:500;transition:all 0.12s;white-space:nowrap;}
+.btn-demote:hover{border-color:var(--border3);color:var(--text);}
+.btn-del{background:transparent;border:1px solid var(--border);color:var(--text3);padding:4px 10px;border-radius:6px;cursor:pointer;font-family:'DM Sans',sans-serif;font-size:11.5px;font-weight:500;transition:all 0.12s;white-space:nowrap;}
+.btn-del:hover{border-color:var(--red-border);color:var(--red);background:var(--red-dim);}
+
+.empty{text-align:center;padding:52px;color:var(--text3);font-size:13px;}
+.loading{text-align:center;padding:52px;color:var(--text3);font-family:'DM Mono',monospace;font-size:11px;letter-spacing:1px;}
+
+/* ── TOAST ── */
+.toast{position:fixed;bottom:18px;right:18px;background:var(--surface2);border:1px solid var(--border2);border-radius:10px;padding:11px 16px;font-size:12.5px;font-weight:500;z-index:9999;opacity:0;transform:translateY(6px);transition:all 0.2s;pointer-events:none;display:flex;align-items:center;gap:8px;box-shadow:0 8px 24px rgba(0,0,0,0.4);}
+.toast.show{opacity:1;transform:translateY(0);}
+.toast.success{border-left:2px solid var(--green);}
+.toast.error{border-left:2px solid var(--red);}
+.t-dot{width:5px;height:5px;border-radius:50%;flex-shrink:0;}
+.toast.success .t-dot{background:var(--green);}
+.toast.error .t-dot{background:var(--red);}
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div id="login-screen">
+  <div class="login-bg"></div>
+  <div class="login-box">
+    <div class="login-logo">
+      <div class="login-logo-badge">R</div>
+      <div class="login-logo-name">Roles</div>
+    </div>
+    <div class="login-card">
+      <h2>Entrar no painel</h2>
+      <p>Acesso restrito para administradores.</p>
+      <div class="field">
+        <label>Email</label>
+        <input type="email" id="login-email" placeholder="seu@email.com" autocomplete="email">
+      </div>
+      <div class="field">
+        <label>Senha</label>
+        <input type="password" id="login-senha" placeholder="••••••••" autocomplete="current-password">
+      </div>
+      <button class="btn-login" onclick="fazerLogin()">Continuar</button>
+      <p class="login-err" id="login-err">Email, senha ou permissão inválidos.</p>
+    </div>
+  </div>
+</div>
+
+<!-- SIDEBAR -->
+<div class="sidebar" id="sidebar" style="display:none">
+  <div class="logo">
+    <div class="logo-badge">R</div>
+    <div class="logo-info">
+      <div class="logo-name">Roles</div>
+      <div class="logo-tag">Admin Panel</div>
+    </div>
+  </div>
+  <nav class="nav">
+    <div class="nav-group">
+      <div class="nav-group-label">Geral</div>
+      <div class="nav-item active" onclick="irPara('dashboard',this)">
+        <svg class="nav-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="1" y="1" width="6" height="6" rx="1.5"/><rect x="9" y="1" width="6" height="6" rx="1.5"/><rect x="1" y="9" width="6" height="6" rx="1.5"/><rect x="9" y="9" width="6" height="6" rx="1.5"/></svg>
+        Dashboard
+      </div>
+    </div>
+    <div class="nav-group">
+      <div class="nav-group-label">Gerenciar</div>
+      <div class="nav-item" onclick="irPara('usuarios',this)">
+        <svg class="nav-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="5" r="3"/><path d="M2 14c0-3.3 2.7-6 6-6s6 2.7 6 6"/></svg>
+        Usuários
+      </div>
+      <div class="nav-item" onclick="irPara('estabelecimentos',this)">
+        <svg class="nav-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 6l6-4 6 4v8a1 1 0 01-1 1H3a1 1 0 01-1-1V6z"/><path d="M6 15V9h4v6"/></svg>
+        Estabelecimentos
+      </div>
+      <div class="nav-item" onclick="irPara('eventos',this)">
+        <svg class="nav-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="1" y="3" width="14" height="12" rx="2"/><path d="M5 1v4M11 1v4M1 7h14"/></svg>
+        Eventos
+      </div>
+      <div class="nav-item" onclick="irPara('avaliacoes',this)">
+        <svg class="nav-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M8 1l2 4.5h4.5l-3.6 2.6 1.4 4.4L8 10.1l-4.3 2.4 1.4-4.4L1.5 5.5H6z"/></svg>
+        Avaliações
+      </div>
+    </div>
+  </nav>
+  <div class="sidebar-foot">
+    <div class="user-card">
+      <div class="user-ava" id="user-initials">—</div>
+      <div class="user-info">
+        <div class="user-name" id="user-name">—</div>
+        <div class="user-role">ADMIN</div>
+      </div>
+    </div>
+    <button class="btn-out" onclick="logout()">
+      <svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 14H3a1 1 0 01-1-1V3a1 1 0 011-1h3M11 11l3-3-3-3M14 8H6"/></svg>
+      Sair da conta
+    </button>
+  </div>
+</div>
+
+<!-- MAIN -->
+<div class="main" id="main" style="display:none">
+  <div class="topbar">
+    <div class="topbar-left">
+      <div class="topbar-title" id="topbar-title">Dashboard</div>
+      <div class="topbar-sub" id="topbar-sub">Visão geral do sistema</div>
+    </div>
+    <div class="topbar-right">
+      <div class="online-badge">
+        <div class="online-dot"></div>
+        <div class="online-txt">ONLINE</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="content">
+
+    <!-- DASHBOARD -->
+    <div class="page active" id="page-dashboard">
+      <div class="stats-grid">
+        <div class="stat-card"><div class="stat-tag">Usuários</div><div class="stat-num" id="t-usuarios">—</div><div class="stat-accent"></div></div>
+        <div class="stat-card"><div class="stat-tag">Estabelecimentos</div><div class="stat-num" id="t-estabs">—</div><div class="stat-accent"></div></div>
+        <div class="stat-card"><div class="stat-tag">Eventos</div><div class="stat-num" id="t-eventos">—</div><div class="stat-accent"></div></div>
+        <div class="stat-card"><div class="stat-tag">Avaliações</div><div class="stat-num" id="t-avals">—</div><div class="stat-accent"></div></div>
+      </div>
+    </div>
+
+    <!-- USUÁRIOS -->
+    <div class="page" id="page-usuarios">
+      <div class="t-wrap">
+        <div class="t-top"><h3>Usuários</h3><span class="t-count" id="c-usuarios">—</span></div>
+        <div id="tb-usuarios"><div class="loading">carregando...</div></div>
+      </div>
+    </div>
+
+    <!-- ESTABELECIMENTOS -->
+    <div class="page" id="page-estabelecimentos">
+      <div class="t-wrap">
+        <div class="t-top"><h3>Estabelecimentos</h3><span class="t-count" id="c-estabs">—</span></div>
+        <div id="tb-estabs"><div class="loading">carregando...</div></div>
+      </div>
+    </div>
+
+    <!-- EVENTOS -->
+    <div class="page" id="page-eventos">
+      <div class="t-wrap">
+        <div class="t-top"><h3>Eventos</h3><span class="t-count" id="c-eventos">—</span></div>
+        <div id="tb-eventos"><div class="loading">carregando...</div></div>
+      </div>
+    </div>
+
+    <!-- AVALIAÇÕES -->
+    <div class="page" id="page-avaliacoes">
+      <div class="t-wrap">
+        <div class="t-top"><h3>Avaliações</h3><span class="t-count" id="c-avals">—</span></div>
+        <div id="tb-avals"><div class="loading">carregando...</div></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="toast" id="toast"><div class="t-dot"></div><span id="toast-msg"></span></div>
+
+<script>
+const API='http://localhost:3000';
+let token=localStorage.getItem('admin_token');
+
+const META={
+  dashboard:{title:'Dashboard',sub:'Visão geral do sistema'},
+  usuarios:{title:'Usuários',sub:'Gerencie os usuários cadastrados'},
+  estabelecimentos:{title:'Estabelecimentos',sub:'Gerencie os estabelecimentos'},
+  eventos:{title:'Eventos',sub:'Gerencie os eventos'},
+  avaliacoes:{title:'Avaliações',sub:'Gerencie as avaliações'},
+};
+
+if(token){
+  try{
+    const p=JSON.parse(atob(token.split('.')[1]));
+    if(p.role==='admin') mostrarPainel(p); else token=null;
+  }catch(e){token=null;}
+}
+
+async function fazerLogin(){
+  const email=document.getElementById('login-email').value;
+  const senha=document.getElementById('login-senha').value;
+  const err=document.getElementById('login-err');
+  err.style.display='none';
+  try{
+    const res=await fetch(`${API}/usuarios/login`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email,senha})});
+    const data=await res.json();
+    if(!res.ok||data.role!=='admin'){err.style.display='block';return;}
+    token=data.token;
+    localStorage.setItem('admin_token',token);
+    mostrarPainel(data);
+  }catch(e){err.style.display='block';}
+}
+
+function mostrarPainel(data){
+  document.getElementById('login-screen').style.display='none';
+  document.getElementById('sidebar').style.display='flex';
+  document.getElementById('main').style.display='flex';
+  const nome=data.nome_completo||data.email||'Admin';
+  document.getElementById('user-name').textContent=nome;
+  document.getElementById('user-initials').textContent=nome.split(' ').map(n=>n[0]).slice(0,2).join('').toUpperCase();
+  carregarDashboard();
+}
+
+function logout(){localStorage.removeItem('admin_token');location.reload();}
+
+function irPara(pagina,el){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  document.getElementById(`page-${pagina}`).classList.add('active');
+  el.classList.add('active');
+  document.getElementById('topbar-title').textContent=META[pagina].title;
+  document.getElementById('topbar-sub').textContent=META[pagina].sub;
+  if(pagina==='dashboard') carregarDashboard();
+  if(pagina==='usuarios') carregarUsuarios();
+  if(pagina==='estabelecimentos') carregarEstabs();
+  if(pagina==='eventos') carregarEventos();
+  if(pagina==='avaliacoes') carregarAvals();
+}
+
+async function get(ep){
+  const r=await fetch(`${API}/admin/${ep}`,{headers:{'Authorization':`Bearer ${token}`}});
+  return r.json();
+}
+
+async function del(ep,id,cb){
+  if(!confirm('Tem certeza? Esta ação não pode ser desfeita.')) return;
+  const r=await fetch(`${API}/admin/${ep}/${id}`,{method:'DELETE',headers:{'Authorization':`Bearer ${token}`}});
+  if(r.ok){toast('Excluído com sucesso','success');cb();}
+  else toast('Erro ao excluir','error');
+}
+
+async function alterarRole(id,role,cb){
+  const r=await fetch(`${API}/admin/usuarios/${id}/role`,{method:'PUT',headers:{'Authorization':`Bearer ${token}`,'Content-Type':'application/json'},body:JSON.stringify({role})});
+  if(r.ok){toast(role==='admin'?'Usuário promovido a admin':'Permissão de admin removida','success');cb();}
+  else toast('Erro ao alterar perfil','error');
+}
+
+async function carregarDashboard(){
+  const d=await get('dashboard');
+  document.getElementById('t-usuarios').textContent=d.usuarios??'—';
+  document.getElementById('t-estabs').textContent=d.estabelecimentos??'—';
+  document.getElementById('t-eventos').textContent=d.eventos??'—';
+  document.getElementById('t-avals').textContent=d.avaliacoes??'—';
+}
+
+async function carregarUsuarios(){
+  const data=await get('usuarios');
+  document.getElementById('c-usuarios').textContent=`${data.length} registros`;
+  if(!data.length){document.getElementById('tb-usuarios').innerHTML='<div class="empty">Nenhum usuário encontrado.</div>';return;}
+  document.getElementById('tb-usuarios').innerHTML=`<table>
+    <thead><tr><th>ID</th><th>Nome</th><th>Email</th><th>Perfil</th><th>Verificado</th><th>Cadastro</th><th></th></tr></thead>
+    <tbody>${data.map(u=>`<tr>
+      <td><span class="mono">#${u.id}</span></td>
+      <td><span class="strong">${u.nome_completo||'—'}</span></td>
+      <td><span class="muted">${u.email}</span></td>
+      <td><span class="pill ${u.role==='admin'?'p-admin':'p-user'}">${u.role||'user'}</span></td>
+      <td><span class="pill ${u.verificado?'p-ok':'p-no'}">${u.verificado?'sim':'não'}</span></td>
+      <td><span class="mono">${u.criado_em?new Date(u.criado_em).toLocaleDateString('pt-BR'):'—'}</span></td>
+      <td><div class="actions">
+        ${u.role==='admin'
+          ?`<button class="btn-demote" onclick="alterarRole(${u.id},'user',carregarUsuarios)">Remover admin</button>`
+          :`<button class="btn-promote" onclick="alterarRole(${u.id},'admin',carregarUsuarios)">Tornar admin</button>`}
+        <button class="btn-del" onclick="del('usuarios',${u.id},carregarUsuarios)">Excluir</button>
+      </div></td>
+    </tr>`).join('')}</tbody></table>`;
+}
+
+async function carregarEstabs(){
+  const data=await get('estabelecimentos');
+  document.getElementById('c-estabs').textContent=`${data.length} registros`;
+  if(!data.length){document.getElementById('tb-estabs').innerHTML='<div class="empty">Nenhum estabelecimento encontrado.</div>';return;}
+  document.getElementById('tb-estabs').innerHTML=`<table>
+    <thead><tr><th>ID</th><th>Nome</th><th>Tipo</th><th>Cidade</th><th>Nota</th><th>Avaliações</th><th></th></tr></thead>
+    <tbody>${data.map(e=>`<tr>
+      <td><span class="mono">#${e.id}</span></td>
+      <td><span class="strong">${e.nome}</span></td>
+      <td><span class="muted">${e.tipo||'—'}</span></td>
+      <td><span class="muted">${e.cidade||'—'}</span></td>
+      <td><span class="pill p-amber">★ ${e.nota||'0.0'}</span></td>
+      <td><span class="mono">${e.avaliacoes||0}</span></td>
+      <td><button class="btn-del" onclick="del('estabelecimentos',${e.id},carregarEstabs)">Excluir</button></td>
+    </tr>`).join('')}</tbody></table>`;
+}
+
+async function carregarEventos(){
+  const data=await get('eventos');
+  document.getElementById('c-eventos').textContent=`${data.length} registros`;
+  if(!data.length){document.getElementById('tb-eventos').innerHTML='<div class="empty">Nenhum evento encontrado.</div>';return;}
+  document.getElementById('tb-eventos').innerHTML=`<table>
+    <thead><tr><th>ID</th><th>Nome</th><th>Local</th><th>Data</th><th></th></tr></thead>
+    <tbody>${data.map(e=>`<tr>
+      <td><span class="mono">#${e.id}</span></td>
+      <td><span class="strong">${e.nome||e.titulo||'—'}</span></td>
+      <td><span class="muted">${e.local||e.local_nome||'—'}</span></td>
+      <td><span class="mono">${e.data?new Date(e.data).toLocaleDateString('pt-BR'):'—'}</span></td>
+      <td><button class="btn-del" onclick="del('eventos',${e.id},carregarEventos)">Excluir</button></td>
+    </tr>`).join('')}</tbody></table>`;
+}
+
+async function carregarAvals(){
+  const data=await get('avaliacoes');
+  document.getElementById('c-avals').textContent=`${data.length} registros`;
+  if(!data.length){document.getElementById('tb-avals').innerHTML='<div class="empty">Nenhuma avaliação encontrada.</div>';return;}
+  document.getElementById('tb-avals').innerHTML=`<table>
+    <thead><tr><th>ID</th><th>Estabelecimento</th><th>Usuário</th><th>Nota</th><th>Comentário</th><th></th></tr></thead>
+    <tbody>${data.map(a=>`<tr>
+      <td><span class="mono">#${a.id}</span></td>
+      <td><span class="mono">#${a.estabelecimento_id||'—'}</span></td>
+      <td><span class="mono">#${a.usuario_id||'—'}</span></td>
+      <td><span class="pill p-amber">★ ${a.nota||'—'}</span></td>
+      <td><span class="muted" style="max-width:200px;display:inline-block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;vertical-align:middle">${a.comentario||'—'}</span></td>
+      <td><button class="btn-del" onclick="del('avaliacoes',${a.id},carregarAvals)">Excluir</button></td>
+    </tr>`).join('')}</tbody></table>`;
+}
+
+function toast(msg,tipo='success'){
+  const t=document.getElementById('toast');
+  document.getElementById('toast-msg').textContent=msg;
+  t.className=`toast ${tipo} show`;
+  setTimeout(()=>t.classList.remove('show'),3200);
+}
+
+document.addEventListener('keydown',e=>{
+  if(e.key==='Enter'&&document.getElementById('login-screen').style.display!=='none') fazerLogin();
+});
+</script>
+</body>
+</html>
