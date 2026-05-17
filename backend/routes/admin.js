@@ -128,18 +128,30 @@ router.get("/eventos", authAdmin, (req, res) => {
     );
 });
 
+// DEPOIS (correto)
 router.put("/eventos/:id", authAdmin, (req, res) => {
-    const { nome, local, descricao, data } = req.body;
+    const { nome, assunto, categoria, descricao, nome_produtor, local, cidade, estado, cep, rua, data_inicio, data_fim } = req.body;
+
+    console.log("BODY RECEBIDO:", req.body); // <-- adicione isso
+
+    const fimFinal = data_fim || data_inicio;
+
     connection.query(
-        "UPDATE eventos SET nome = ?, local = ?, descricao = ?, data = ? WHERE id = ?",
-        [nome, local, descricao, data, req.params.id],
+        `UPDATE eventos SET 
+            nome = ?, assunto = ?, categoria = ?, descricao = ?, nome_produtor = ?,
+            local_nome = ?, cidade = ?, estado = ?, cep = ?, rua = ?,
+            data_inicio = ?, data_fim = ?
+         WHERE id = ?`,
+        [nome, assunto, categoria, descricao, nome_produtor, local, cidade, estado, cep, rua, data_inicio, fimFinal, req.params.id],
         (err) => {
-            if (err) return res.status(500).json({ erro: err.message });
+            if (err) {
+                console.log("ERRO SQL:", err.message); // <-- e isso
+                return res.status(500).json({ erro: err.message });
+            }
             res.json({ mensagem: "Evento atualizado com sucesso." });
         }
     );
 });
-
 router.delete("/eventos/:id", authAdmin, (req, res) => {
     connection.query(
         "DELETE FROM eventos WHERE id = ?",
