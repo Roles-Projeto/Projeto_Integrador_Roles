@@ -39,6 +39,70 @@ function initHeader() {
     loadPersistentData();
 
     // ----------------------------------------------------------
+    // BOTÃO PAINEL ADMIN (visível só para admins)
+    // ----------------------------------------------------------
+    function injetarBotaoAdmin() {
+        // Tenta pegar o role do localStorage — ajuste a chave se necessário
+        let role = localStorage.getItem('userRole');
+
+        // Fallback: tenta decodificar o token JWT se tiver
+        if (!role) {
+            try {
+                const token = localStorage.getItem('admin_token') || localStorage.getItem('token');
+                if (token) {
+                    const payload = JSON.parse(atob(token.split('.')[1]));
+                    role = payload.role;
+                }
+            } catch (e) { /* token inválido ou ausente */ }
+        }
+
+        if (role !== 'admin') return;
+
+        // Procura o menu dropdown de perfil para inserir o botão
+        const dropdownMenu = document.querySelector('.dropdown-menu');
+        if (!dropdownMenu) return;
+
+        // Evita duplicar se já existir
+        if (document.getElementById('admin-panel-btn')) return;
+
+        const adminLink = document.createElement('a');
+        adminLink.id = 'admin-panel-btn';
+        adminLink.href = '/frontend/admin/index.html';
+        adminLink.innerHTML = `
+            <i class="fas fa-shield-halved"></i>
+            Painel Admin
+        `;
+        adminLink.style.cssText = `
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 9px 16px;
+            color: #6d28d9;
+            font-weight: 600;
+            font-size: 13.5px;
+            text-decoration: none;
+            border-top: 1px solid #ede9ff;
+            border-bottom: 1px solid #ede9ff;
+            background: #f5f0ff;
+            transition: background 0.15s;
+        `;
+        adminLink.addEventListener('mouseenter', () => {
+            adminLink.style.background = '#ede9ff';
+        });
+        adminLink.addEventListener('mouseleave', () => {
+            adminLink.style.background = '#f5f0ff';
+        });
+
+        // Insere antes do botão de logout (último item do dropdown)
+        const logoutBtn = dropdownMenu.querySelector('.logout-btn');
+        if (logoutBtn) {
+            dropdownMenu.insertBefore(adminLink, logoutBtn);
+        } else {
+            dropdownMenu.appendChild(adminLink);
+        }
+    }
+
+    // ----------------------------------------------------------
     // ESTADO LOGADO / NÃO LOGADO
     // ----------------------------------------------------------
     function alternarEstadoHeader(logado) {
@@ -53,6 +117,7 @@ function initHeader() {
             logadoDiv.style.display = 'flex';
             if (hamburgerBtn) hamburgerBtn.style.display = 'flex';
             setupLogoutListener();
+            injetarBotaoAdmin(); // injeta o botão se for admin
         } else {
             naoLogado.style.display = 'flex';
             logadoDiv.style.display = 'none';
@@ -71,7 +136,7 @@ function initHeader() {
 
         logoutBtn.addEventListener('click', (e) => {
             e.preventDefault();
-            ['userIsLoggedIn', 'profilePhotoUrl', 'profileName', 'profileEmail']
+            ['userIsLoggedIn', 'profilePhotoUrl', 'profileName', 'profileEmail', 'userRole', 'token', 'admin_token']
                 .forEach(k => localStorage.removeItem(k));
             alternarEstadoHeader(false);
             window.location.href = '/frontend/login/logout.html';
@@ -123,6 +188,7 @@ function initHeader() {
             if (pc) pc.classList.toggle('active');
         });
     }
+
     // ----------------------------------------------------------
     // CARD DE CIDADE
     // ----------------------------------------------------------
