@@ -63,6 +63,8 @@ const estabelecimentosRoutes = require("./routes/estabelecimentos");
 const contatoRoutes          = require("./routes/contato");
 const avaliacoesRoutes = require("./routes/avaliacoes");
 const adminRoutes = require("./routes/admin");
+const { iniciarPoller } = require("./services/gmailPoller");
+iniciarPoller();
 
 app.use("/usuarios",         usuariosRoutes);
 app.use("/usuarios",         authRoutes);
