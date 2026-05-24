@@ -17,9 +17,18 @@
 
     <main>
         <div class="terms-banner">
+            <div class="back-button-wrapper">
+                <button class="back-btn" onclick="history.back()">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="15 18 9 12 15 6"></polyline>
+                    </svg>
+                    Voltar
+                </button>
+            </div>
             <h1>Termos de Uso e Condições Gerais</h1>
             <p>Plataforma de descoberta, eventos e ingressos em Goiânia</p>
-            <div class="update-info">
+            <div class="update-info" id="update-date">
                 Atualizado em Outubro de 2025
             </div>
         </div>
@@ -131,15 +140,24 @@
                         </span>
                         4. Criação de Eventos e Estabelecimentos
                     </h2>
-                    <p>Qualquer usuário cadastrado pode registrar estabelecimentos e criar eventos na plataforma <strong>sem nenhum custo</strong>. Ao fazer isso, você se compromete a:</p>
+
+                    <h3 class="subsection-title">4.1 Eventos</h3>
+                    <p>Qualquer usuário cadastrado pode criar eventos na plataforma <strong>sem nenhum custo</strong>. Ao criar um evento, você se compromete a:</p>
                     <ul class="simple-list bullet-list default-bullets">
-                        <li>Manter as informações do evento ou local sempre atualizadas</li>
+                        <li>Manter as informações do evento sempre atualizadas</li>
                         <li>Honrar todos os ingressos vendidos pela plataforma</li>
                         <li>Cumprir com as especificações de cada tipo de ingresso anunciado</li>
                         <li>Notificar os compradores com antecedência em caso de mudanças ou cancelamento</li>
                         <li>Ter infraestrutura adequada para validação de QR Codes na entrada</li>
                         <li>Respeitar todas as leis e regulamentações aplicáveis ao evento</li>
                     </ul>
+                    <hr class="subsection-divider">
+
+                    <h3 class="subsection-title">4.2 Estabelecimentos</h3>
+                    <p>O cadastro de estabelecimentos é exclusivo para pessoas jurídicas. Para registrar um local na plataforma, é obrigatório informar um <strong>CNPJ válido</strong>, que será verificado no momento do cadastro.</p>
+                    <div class="highlight-box service-fee-box">
+                        <p class="highlight-text">Cadastros com CNPJ inválido, inexistente ou de terceiros serão recusados ou removidos, podendo resultar no banimento da conta.</p>
+                    </div>
                 </div>
 
                 <!-- 5. Venda de Ingressos -->
@@ -512,8 +530,49 @@
     </main>
 
 </body>
+<style>
+    .terms-banner {
+        position: relative !important;
+    }
+
+    .back-button-wrapper {
+        position: absolute;
+        top: 20px;
+        left: 24px;
+    }
+
+    .back-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        background: #1e1e2e;
+        color: #fff;
+        border: none;
+        border-radius: 100px;
+        padding: 10px 18px;
+        font-family: 'Poppins', sans-serif;
+        font-size: 14px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background 0.2s;
+    }
+
+    .back-btn:hover {
+        background: #2a2a3e;
+    }
+</style>
+
 <script src="/frontend/js/config.js"></script>
 <script src="/frontend/js/loadHeader.js"></script>
 <script src="/frontend/js/footer.js" defer></script>
+<script>
+    const months = [
+        'Janeiro','Fevereiro','Março','Abril','Maio','Junho',
+        'Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'
+    ];
+    const now = new Date();
+    const formatted = `Atualizado em ${months[now.getMonth()]} de ${now.getFullYear()}`;
+    document.getElementById('update-date').textContent = formatted;
+</script>
 
 </html>
