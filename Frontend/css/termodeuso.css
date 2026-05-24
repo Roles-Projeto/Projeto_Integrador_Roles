@@ -1,471 +1,498 @@
-/* Definições Globais */
 body {
     font-family: 'Poppins', sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #f8f9fa;
-    /* Fundo cinza claro */
+    background-color: #f4f5f7;
     color: #333;
 }
 
-.terms-page-wrapper {
-    max-width: 1000px;
-    /* Largura máxima da página para o conteúdo principal */
-    margin: 0 auto;
-    /* Centraliza o conteúdo principal */
-}
-
-/* --- Banner de Termos de Uso --- */
+/* ── Banner ── */
 .terms-banner {
-    background-color: #1a1a2e;
-    /* Cor escura do banner */
+    background: linear-gradient(135deg, #16213e 0%, #1a1a2e 60%, #2d2b55 100%);
     color: #fff;
     text-align: center;
-    padding: 90px 40px;
-    /* REMOVIDA A MARGIN-BOTTOM AQUI */
-    box-sizing: border-box;
-    /* Adicionado para garantir largura total */
+    padding: 80px 40px 0;
     width: 100%;
-    margin-bottom: 30px;
-    /* Adicionado novamente aqui para dar espaço ao conteúdo abaixo */
+    box-sizing: border-box;
+    position: relative;
+    overflow: hidden;
+}
+
+.terms-banner::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 70% 60% at 50% 0%, rgba(120, 100, 255, 0.12) 0%, transparent 70%);
+    pointer-events: none;
 }
 
 .terms-banner h1 {
-    font-size: 24px;
-    font-weight: 600;
-    margin-bottom: 8px;
+    font-size: 26px;
+    font-weight: 700;
+    margin-bottom: 10px;
+    position: relative;
 }
 
-.terms-banner p {
+.terms-banner>p {
     font-size: 14px;
-    /* Tamanho 14px */
-    font-weight: 400;
-    margin-bottom: 20px;
+    color: rgba(255, 255, 255, 0.65);
+    margin-bottom: 32px;
+    position: relative;
 }
 
-.update-info {
-    background-color: #3a3a5f;
-    color: #ccc;
-    font-size: 12px;
-    /* Tamanho 12px */
-    font-weight: 400;
-    display: inline-block;
-    padding: 4px 12px;
-    border-radius: 20px;
+/* ── Botão Voltar ── */
+.back-button-wrapper {
+    position: absolute;
+    top: 24px;
+    left: 40px;
 }
 
-/* Container de conteúdo interno para padding lateral */
+.back-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(255, 255, 255, 0.08);
+    color: #fff;
+    border: 1.5px solid rgba(255, 255, 255, 0.25);
+    border-radius: 100px;
+    padding: 8px 18px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    backdrop-filter: blur(4px);
+}
+
+.back-btn:hover {
+    background: rgba(255, 255, 255, 0.15);
+    border-color: rgba(255, 255, 255, 0.45);
+}
+
+@media (max-width: 768px) {
+    .back-button-wrapper {
+        left: 20px;
+        top: 16px;
+    }
+}
+
+/* ── Abas dentro do banner ── */
+.tabs-bar {
+    display: flex;
+    justify-content: center;
+    gap: 4px;
+    position: relative;
+    padding: 0 40px;
+}
+
+.tab-btn {
+    background: transparent;
+    border: none;
+    color: rgba(255, 255, 255, 0.5);
+    font-family: 'Poppins', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    padding: 14px 22px;
+    cursor: pointer;
+    position: relative;
+    transition: color 0.2s;
+    white-space: nowrap;
+}
+
+.tab-btn::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: #7c6fff;
+    border-radius: 3px 3px 0 0;
+    transform: scaleX(0);
+    transition: transform 0.25s;
+}
+
+.tab-btn:hover {
+    color: rgba(255, 255, 255, 0.85);
+}
+
+.tab-btn.active {
+    color: #fff;
+}
+
+.tab-btn.active::after {
+    transform: scaleX(1);
+}
+
+/* ── Wrapper geral ── */
+.terms-page-wrapper {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding-bottom: 80px;
+}
+
 .content-container {
     padding: 0 40px;
-    /* Padding interno para o conteúdo (texto) */
 }
 
-/* --- Alerta Importante (Fora dos cards de seção) --- */
+/* ── Painéis de conteúdo ── */
+.tab-panel {
+    display: none;
+    padding-top: 36px;
+}
+
+.tab-panel.active {
+    display: block;
+}
+
+/* ── Alerta ── */
 .important-alert {
     display: flex;
     align-items: flex-start;
-    padding: 20px;
-    margin-bottom: 30px;
+    padding: 16px 20px;
+    margin-bottom: 24px;
     border: 1px solid #cfe2ff;
     background-color: #eaf3ff;
-    border-radius: 8px;
+    border-radius: 10px;
+    gap: 14px;
 }
 
 .alert-icon {
     color: #0d6efd;
-    margin-right: 15px;
+    flex-shrink: 0;
     padding-top: 2px;
 }
 
 .alert-text .alert-title {
     font-weight: 700;
-    font-size: 14px;
-    color: #333;
-    margin-top: 0;
-    margin-bottom: 5px;
+    font-size: 12px;
+    color: #0d6efd;
+    margin: 0 0 4px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
 }
 
 .alert-text p {
     font-size: 14px;
     line-height: 1.6;
     margin: 0;
+    color: #444;
 }
 
+.policy-alert {
+    background-color: #fff8ec;
+    border-color: #fde8bb;
+}
 
-/* --- Estilo dos Cards de Seção Individuais --- */
+.policy-alert .alert-icon,
+.policy-alert .alert-title {
+    color: #d97706;
+}
+
+/* ── Cards ── */
 .terms-section {
-    margin-bottom: 20px;
-    /* Espaço entre os cards */
-    padding: 30px;
-    /* Padding interno do card */
-    background-color: #ffffff;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-    /* Sombra suave */
-    border: 1px solid #e0e0e0;
-    /* Borda sutil */
+    margin-bottom: 14px;
+    padding: 28px 30px 22px;
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06), 0 4px 16px rgba(0, 0, 0, 0.04);
+    border: 1px solid #e8e8ee;
+    transition: box-shadow 0.2s;
+}
+
+.terms-section:hover {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08), 0 8px 24px rgba(0, 0, 0, 0.05);
 }
 
 .terms-section h2 {
-    font-size: 18px;
-    font-weight: 600;
-    color: #333;
-    margin-bottom: 15px;
+    font-size: 15px;
+    font-weight: 700;
+    color: #1a1a2e;
+    margin-bottom: 14px;
     padding-left: 30px;
-    /* Espaço para o ícone/número */
     position: relative;
     display: flex;
     align-items: center;
 }
 
-/* Reset para o título da seção de Contato */
 .contact-card h2 {
     padding-left: 0;
-    margin-bottom: 20px;
 }
 
-.terms-section h2 .section-icon {
+.section-icon {
+    color: #0d6efd;
     position: absolute;
     left: 0;
-    top: 50%;
-    transform: translateY(-50%);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 20px;
-    height: 20px;
+    top: 2px;
+}
+
+.reimbursement-section .section-icon {
+    color: #dc3545;
+}
+
+.buyer-responsibilities-section .section-icon {
+    color: #f59e0b;
+}
+
+.disclaimer-card .section-icon {
+    color: #9c21b0;
+}
+
+.changes-card .section-icon {
+    color: #28a745;
 }
 
 .terms-section p {
     font-size: 14px;
-    line-height: 1.6;
-    margin-bottom: 20px;
+    line-height: 1.7;
+    margin-bottom: 14px;
+    color: #555;
 }
 
-/* --- Títulos e Divisores de Subseção (Gerais) --- */
+/* ── Subseções ── */
 .subsection-title {
-    font-size: 14px;
-    /* Tamanho 14px */
-    font-weight: 600;
-    margin-top: 30px;
+    font-size: 11px;
+    font-weight: 700;
+    margin-top: 22px;
     margin-bottom: 10px;
-    color: #333;
+    color: #1a1a2e;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
 }
 
 .subsection-divider {
     border: 0;
     height: 1px;
-    background-color: #eee;
-    margin: 20px 0;
+    background-color: #f0f0f5;
+    margin: 18px 0;
 }
 
-/* Subtítulos de Seções (ex: Política Padrão) */
 .small-title-text {
-    font-size: 14px;
+    font-size: 13px;
     font-weight: 600;
-    margin-bottom: 5px;
+    margin-bottom: 6px;
     color: #333;
 }
 
 .sub-section-description {
     font-size: 14px;
-    margin-top: 15px;
-    margin-bottom: 10px;
+    margin-top: 14px;
+    margin-bottom: 8px;
+    color: #555;
 }
 
-
-/* --- LISTAS E MARCADORES (Gerais) --- */
-
-/* Estilo para listas simples (reutilizado em várias seções) */
+/* ── Listas ── */
 .simple-list {
-    list-style-type: none;
+    list-style: none;
     padding-left: 0;
-    margin: 10px 0 20px 0;
+    margin: 8px 0 14px;
 }
 
 .simple-list li {
     font-size: 14px;
-    /* Padrão de 14px */
     line-height: 1.8;
     position: relative;
-    padding-left: 20px;
-    margin-bottom: 5px;
+    padding-left: 18px;
+    margin-bottom: 3px;
+    color: #555;
 }
 
 .bullet-list li::before {
     content: '•';
     position: absolute;
     left: 0;
+    font-size: 16px;
+    line-height: 1.1;
     font-weight: bold;
-    font-size: 18px;
-    line-height: 1;
 }
 
-/* Bolinhas de cor padrão (preto/cinza) */
 .default-bullets li::before {
-    color: #555;
+    color: #bbb;
 }
 
-
-/* --- CAIXAS DE DESTAQUE (Gerais) --- */
-
-/* Base para caixas de destaque */
-.highlight-box {
-    padding: 15px 20px;
-    border-radius: 6px;
-    background-color: #f7f7f7;
-    /* Fundo levemente cinza */
-    border: 1px solid #e0e0e0;
-}
-
-.highlight-box .highlight-text {
-    font-size: 14px;
-    /* Tamanho 14px */
-    line-height: 1.5;
-    margin-bottom: 5px;
-}
-
-.highlight-box strong {
-    font-weight: 700;
-}
-
-.small-text {
-    font-size: 12px;
-    /* Tamanho 12px */
-    color: #666;
-    margin: 0;
-}
-
-/* --- ESTILOS ESPECÍFICOS DE ALERTA/DESTAQUE --- */
-
-/* Estilo para o texto de alerta vermelho */
-.red-text {
-    color: #dc3545 !important;
-    /* Cor vermelha para texto de aviso */
-}
-
-/* Bolinhas vermelhas */
 .red-bullets li::before {
     color: #dc3545;
 }
 
-/* Caixa de Proibições (Seção 8.3 e 11) */
-.prohibitions-box {
-    background-color: #fff0f0;
-    /* Fundo vermelho bem claro */
-    border: 1px solid #f0d0d0;
-    /* Borda vermelha clara */
-}
-
-/* Caixa de Isenção (Seção 9) */
-.disclaimer-box {
-    background-color: #faf4ff;
-    /* Fundo roxo claro (lavender) */
-    border: 1px solid #e8d0ff;
-    /* Borda roxa clara */
-}
-
-/* Bolinhas roxas para isenção */
-.purple-bullets li::before {
-    color: #9c27b0;
-    /* Roxo */
-}
-
-/* Cor do texto principal da isenção */
-.disclaimer-text-color {
-    color: #9c27b0 !important;
-}
-
-/* Bolinhas verdes para Segurança (Seção 4) e Alterações (Seção 14) */
 .green-bullets li::before {
     content: '•';
     color: #28a745;
-    /* Verde */
     font-weight: bold;
 }
 
+.blue-bullets li::before {
+    content: '•';
+    color: #0d6efd;
+    font-weight: bold;
+}
 
-/* --- SEÇÃO 2: SERVIÇOS (Descoberta e Venda) --- */
+.purple-bullets li::before {
+    color: #9c21b0;
+}
+
+.purchase-confirmation-list {
+    list-style: none;
+    padding-left: 0;
+    margin-top: 6px;
+}
+
+.purchase-confirmation-list li {
+    font-size: 14px;
+    line-height: 1.8;
+    position: relative;
+    padding-left: 20px;
+    margin-bottom: 4px;
+    color: #555;
+}
+
+.purchase-confirmation-list li::before {
+    content: '✓';
+    position: absolute;
+    left: 0;
+    color: #28a745;
+    font-weight: 700;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+/* ── Caixas de destaque ── */
+.highlight-box {
+    padding: 16px 20px;
+    border-radius: 8px;
+    background-color: #f8f9ff;
+    border: 1px solid #e4e8ff;
+    margin-top: 4px;
+}
+
+.highlight-box .highlight-text {
+    font-size: 14px;
+    line-height: 1.6;
+    margin-bottom: 6px;
+    color: #444;
+}
+
+.small-text {
+    font-size: 12px;
+    color: #888;
+    margin: 0;
+}
+
+.red-text {
+    color: #dc3545 !important;
+}
+
+.disclaimer-text-color {
+    color: #9c21b0 !important;
+}
+
+.service-fee-box {
+    background-color: #fff8ec;
+    border-color: #fde8bb;
+}
+
+.prohibitions-box {
+    background-color: #fff5f5;
+    border-color: #ffd5d5;
+}
+
+.disclaimer-box {
+    background-color: #faf4ff;
+    border-color: #e8d0ff;
+}
+
+.security-box {
+    background-color: #f0faf0;
+    border-color: #c8efc8;
+}
+
+.organizer-cancellation-box {
+    background-color: #f0f7ff;
+    border-color: #cce1ff;
+}
+
+/* ── Serviços ── */
 .services-container {
     display: flex;
-    gap: 20px;
-    margin-top: 10px;
+    gap: 16px;
+    margin-top: 12px;
 }
 
 .service-box {
     flex: 1;
-    padding: 20px;
-    border-radius: 8px;
+    padding: 18px 20px;
+    border-radius: 10px;
 }
 
 .discovery-box {
-    background-color: #f0f8ff;
-    border: 1px solid #d0e8ff;
+    background-color: #f0f7ff;
+    border: 1px solid #cce1ff;
 }
 
 .sales-box {
-    background-color: #f0fff0;
-    border: 1px solid #d0ffd0;
+    background-color: #f0fff5;
+    border: 1px solid #c8f0d8;
 }
 
 .service-title {
-    font-weight: 600;
-    font-size: 14px;
-    margin-top: 0;
-    margin-bottom: 10px;
-    color: #333;
+    font-weight: 700;
+    font-size: 12px;
+    margin: 0 0 10px;
+    color: #1a1a2e;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
 }
 
 .service-box ul {
-    list-style-type: none;
+    list-style: none;
     padding-left: 0;
     margin: 0;
 }
 
 .service-box li {
-    font-size: 12px;
-    /* Tamanho 12px para itens de lista */
-    line-height: 1.8;
+    font-size: 13px;
+    line-height: 1.9;
     position: relative;
-    padding-left: 15px;
+    padding-left: 14px;
+    color: #555;
 }
 
 .service-box li::before {
     content: '•';
     position: absolute;
     left: 0;
-    color: #555;
-    font-weight: bold;
-    font-size: 16px;
-    line-height: 1;
-}
-
-
-/* --- SEÇÃO 3: VENDA DE INGRESSOS (Lista de Confirmação) --- */
-.purchase-confirmation-list {
-    list-style-type: none;
-    padding-left: 0;
-    margin-top: 5px;
-}
-
-.purchase-confirmation-list li {
+    color: #bbb;
     font-size: 14px;
-    /* Tamanho 14px */
-    line-height: 1.8;
-    position: relative;
-    padding-left: 20px;
-    margin-bottom: 5px;
+    line-height: 1.2;
 }
 
-.purchase-confirmation-list li::before {
-    content: '•';
-    position: absolute;
-    left: 0;
-    color: #0d6efd;
-    /* Azul para destaque */
-    font-weight: bold;
-    font-size: 18px;
-    line-height: 1;
-}
-
-
-/* --- SEÇÃO 4: PAGAMENTOS (Segurança) --- */
-.security-box {
-    background-color: #eaf8ea;
-    /* Fundo verde claro */
-    border: 1px solid #d0ffd0;
-    padding: 15px 20px;
-}
-
-
-/* --- SEÇÃO 5: REEMBOLSOS E CANCELAMENTO --- */
-
-/* Alerta importante dentro da seção 5 */
-.policy-alert {
-    background-color: #fff8e8;
-    /* Amarelo/Laranja claro */
-    border: 1px solid #ffe0b2;
-    /* Borda laranja */
-}
-
-.policy-alert .alert-icon,
-.policy-alert .alert-title {
-    color: #e6a500;
-    /* Laranja para ícone e título */
-}
-
-.organizer-cancellation-box {
-    background-color: #f0f8ff;
-    /* Fundo azul claro */
-    border: 1px solid #d0e8ff;
-}
-
-/* Bolinhas azuis para lista de cancelamento do organizador */
-.blue-bullets li::before {
-    content: '•';
-    color: #0d6efd;
-    /* Azul */
-    font-weight: bold;
-}
-
-/* --- SEÇÃO 7: RESPONSABILIDADES DO ORGANIZADOR (Tabela de Taxas) --- */
-.fee-table-box {
-    background-color: #f7f7f7;
-    border: 1px solid #eee;
-    padding: 15px 20px;
-}
-
-.fee-row {
-    display: flex;
-    justify-content: space-between;
-    padding: 5px 0;
-    font-size: 14px;
-    border-bottom: 1px dashed #e0e0e0;
-}
-
-.fee-row:last-child {
-    border-bottom: none;
-}
-
-.fee-plan {
-    font-weight: 600;
-    color: #333;
-}
-
-.fee-percentage {
-    font-weight: 700;
-    color: #0d6efd;
-    /* Azul para destaque das taxas */
-}
-
-
-/* --- SEÇÃO FINAL: DÚVIDAS E CONTATO --- */
+/* ── Contato ── */
 .contact-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 15px;
-    margin-top: 20px;
+    gap: 12px;
+    margin-top: 16px;
 }
 
 .contact-box {
-    padding: 15px;
-    background-color: #f8f8f8;
-    /* Fundo levemente cinza */
-    border-radius: 6px;
-    border: 1px solid #eee;
+    padding: 16px;
+    background-color: #f8f9ff;
+    border-radius: 10px;
+    border: 1px solid #e4e8ff;
 }
 
 .contact-title {
-    font-size: 14px;
-    font-weight: 600;
-    color: #333;
-    margin-top: 0;
-    margin-bottom: 5px;
+    font-size: 11px;
+    font-weight: 700;
+    color: #0d6efd;
+    margin: 0 0 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
 }
 
 .contact-email {
     font-size: 13px;
     margin: 0;
+    color: #555;
 }
 
 .contact-email a {
@@ -480,20 +507,113 @@ body {
 
 .footer-info p {
     font-size: 12px;
-    color: #666;
+    color: #bbb;
     margin: 3px 0;
-    line-height: 1.5;
     text-align: center;
+    line-height: 1.6;
 }
 
-/* Ajuste para telas menores (Responsividade) */
+/* ── Meia-entrada cards ── */
+.meia-card {
+    background: linear-gradient(135deg, #f0f7ff 0%, #f8f9ff 100%);
+    border: 1px solid #cce1ff;
+}
+
+.benefit-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-top: 12px;
+}
+
+.benefit-item {
+    background: #fff;
+    border: 1px solid #e4e8ff;
+    border-radius: 10px;
+    padding: 14px 16px;
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+}
+
+.benefit-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    background: #eaf3ff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    font-size: 16px;
+    font-weight: 700;
+    color: #0d6efd;
+}
+
+.benefit-label {
+    font-size: 13px;
+    font-weight: 600;
+    color: #1a1a2e;
+    margin: 0 0 2px;
+}
+
+.benefit-desc {
+    font-size: 12px;
+    color: #888;
+    margin: 0;
+    line-height: 1.4;
+}
+
+/* ── Privacidade ── */
+.privacy-highlight {
+    background: linear-gradient(135deg, #faf4ff 0%, #f8f9ff 100%);
+    border: 1px solid #e8d0ff;
+    border-radius: 10px;
+    padding: 18px 20px;
+    margin-top: 12px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.privacy-highlight-icon {
+    font-size: 22px;
+    flex-shrink: 0;
+    font-weight: 700;
+    color: #9c21b0;
+}
+
+.privacy-highlight p {
+    margin: 0;
+    font-size: 14px;
+    color: #444;
+    line-height: 1.6;
+}
+
+.privacy-highlight strong {
+    color: #9c21b0;
+}
+
+/* ── Responsivo ── */
 @media (max-width: 768px) {
     .terms-banner {
-        padding: 40px 20px;
+        padding: 70px 20px 0;
+    }
+
+    .tabs-bar {
+        gap: 0;
+        overflow-x: auto;
+        padding: 0 16px;
+        justify-content: flex-start;
+    }
+
+    .tab-btn {
+        padding: 12px 16px;
+        font-size: 12px;
     }
 
     .content-container {
-        padding: 0 20px;
+        padding: 0 16px;
     }
 
     .terms-section {
@@ -504,67 +624,11 @@ body {
         flex-direction: column;
     }
 
-    .fee-row {
-        flex-direction: column;
-        align-items: flex-start;
-    }
-
-    .fee-percentage {
-        margin-top: 5px;
-        margin-bottom: 10px;
-    }
-
     .contact-grid {
         grid-template-columns: 1fr;
-        /* Mudar para coluna única em telas pequenas */
     }
 
-    .footer-info {
-        text-align: center;
+    .benefit-grid {
+        grid-template-columns: 1fr;
     }
-}
-
-footer iframe {
-    min-height: 22rem;
-    display: block;
-}
-
-
-.section-icon {
-    color: #0d6efd;
-    /* Azul do ícone */
-    margin-right: 10px;
-    position: absolute;
-    left: 0;
-    top: 4px;
-}
-
-/* Corrigir a cor do ícone na seção de Reembolso */
-.reimbursement-section .section-icon {
-    color: #dc3545;
-    /* Vermelho/Laranja para aviso */
-}
-
-/* Corrigir a cor do ícone na seção de Responsabilidades do Comprador */
-.buyer-responsibilities-section .section-icon {
-    color: #ffc107;
-    /* Amarelo/Laranja para aviso */
-}
-
-/* Corrigir a cor do ícone na seção de Responsabilidades do Organizador */
-.organizer-responsibilities-section .section-icon {
-    color: #0d6efd;
-    /* Azul Padrão */
-}
-
-/* Cor para Seção 9 - Isenção */
-.disclaimer-card .section-icon {
-    color: #9c27b0;
-    /* Roxo para destaque */
-}
-
-/* Cor para Seção 14 - Alterações */
-.changes-card .section-icon {
-    color: #28a745;
-    /* Verde para Alterações */
 }
