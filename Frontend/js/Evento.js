@@ -1,4 +1,4 @@
-// Frontend/js/evento.js
+// Frontend/js/Evento.js
 const isLocal =
   window.location.hostname === "localhost" ||
   window.location.hostname === "127.0.0.1";
@@ -9,14 +9,84 @@ const API_BASE = isLocal
 
 const API_URL = `${API_BASE}/eventos`;
 
+// =========================================================
+// IMAGENS UNSPLASH POR CATEGORIA
+// =========================================================
+const imagensPorCategoria = {
+  'todas':       'https://images.unsplash.com/photo-1742769376472-055bfe775927?w=1400&h=500&fit=crop&q=80',
+  'festa':       'https://images.unsplash.com/photo-1574391884720-bbc3740c59d1?w=1400&h=500&fit=crop&q=80',
+  'show':        'https://images.unsplash.com/photo-1501386761578-eac5c94b800a?w=1400&h=500&fit=crop&q=80',
+  'festival':    'https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?w=1400&h=500&fit=crop&q=80',
+  'gastronomia': 'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=1400&h=500&fit=crop&q=80',
+  'workshop':    'https://images.unsplash.com/photo-1524178232363-1fb2b075b655?w=1400&h=500&fit=crop&q=80',
+};
+
+// Cor de fallback enquanto a imagem carrega (por categoria)
+const coresPorCategoria = {
+  'todas':       '#1a1a2e',
+  'festa':       '#5d3fd3',
+  'show':        '#29b6f6',
+  'festival':    '#ec407a',
+  'gastronomia': '#ff8a65',
+  'workshop':    '#43a047',
+};
+
+// =========================================================
+// APLICAR IMAGEM NO HERO (.hero-section)
+// =========================================================
+function aplicarImagemHero(categoria) {
+  const hero = document.querySelector('.hero-section');
+  if (!hero) return;
+
+  const imgUrl = imagensPorCategoria[categoria] || imagensPorCategoria['todas'];
+  const cor    = coresPorCategoria[categoria]    || '#1a1a2e';
+
+  // Aplica cor imediatamente como placeholder
+  hero.style.backgroundColor = cor;
+
+  // Fade suave ao trocar
+  hero.style.transition = 'opacity 0.3s ease';
+  hero.style.opacity = '0.7';
+
+  // Aplica a imagem com overlay escuro para legibilidade
+  hero.style.backgroundImage    = `linear-gradient(rgba(0,0,0,0.50), rgba(0,0,0,0.60)), url('${imgUrl}')`;
+  hero.style.backgroundSize     = 'cover';
+  hero.style.backgroundPosition = 'center center';
+  hero.style.backgroundRepeat   = 'no-repeat';
+
+  // Restaura opacidade
+  setTimeout(() => { hero.style.opacity = '1'; }, 50);
+
+  // Fallback se imagem falhar
+  const img = new Image();
+  img.onerror = () => {
+    hero.style.backgroundImage = 'none';
+    hero.style.backgroundColor = cor;
+  };
+  img.src = imgUrl;
+
+  // Garante textos legíveis
+  hero.style.color = '#ffffff';
+  const h1 = hero.querySelector('h1');
+  const p  = hero.querySelector('p');
+  if (h1) h1.style.color = '#ffffff';
+  if (p)  p.style.color  = 'rgba(255,255,255,0.85)';
+}
+
+// =========================================================
+// INICIALIZAÇÃO
+// =========================================================
 document.addEventListener("DOMContentLoaded", async () => {
 
-  const container = document.getElementById("eventosContainer");
+  // ✅ Aplica imagem inicial ao abrir a página
+  aplicarImagemHero('todas');
+
+  const container   = document.getElementById("eventosContainer");
   const btnCarregar = document.getElementById("carregarMais");
 
   const EVENTOS_POR_PAGINA = 5;
-  let todosEventos = [];      // todos vindos da API
-  let eventosFiltrados = [];  // após aplicar filtros
+  let todosEventos      = [];
+  let eventosFiltrados  = [];
   let quantidadeVisiveis = EVENTOS_POR_PAGINA;
 
   // -------------------------------------------------------
@@ -24,7 +94,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   // -------------------------------------------------------
   async function carregarEventos() {
     try {
-      const res = await fetch(API_URL);
+      const res  = await fetch(API_URL);
       const data = await res.json();
 
       todosEventos = data;
@@ -38,13 +108,12 @@ document.addEventListener("DOMContentLoaded", async () => {
         return;
       }
 
-      // Renderiza todos os cards escondidos — filtragem e paginação controlam a visibilidade
       const carregarBtn = document.querySelector(".carregar-container");
       data.forEach(evento => {
         container.insertBefore(criarCard(evento), carregarBtn);
       });
 
-      aplicarFiltros(); // já aplica filtros E paginação na primeira carga
+      aplicarFiltros();
 
     } catch (err) {
       console.error("Erro ao carregar eventos:", err);
@@ -60,8 +129,8 @@ document.addEventListener("DOMContentLoaded", async () => {
     const article = document.createElement("article");
     article.classList.add("evento-card");
     article.setAttribute("data-categoria", (evento.assunto || "").toLowerCase());
-    article.setAttribute("data-nome", evento.nome);
-    article.setAttribute("data-id", evento.id);
+    article.setAttribute("data-nome",      evento.nome);
+    article.setAttribute("data-id",        evento.id);
 
     const dataFormatada = formatarData(evento.data_inicio);
     const preco = evento.preco_minimo > 0
@@ -107,67 +176,57 @@ document.addEventListener("DOMContentLoaded", async () => {
   // -------------------------------------------------------
   function formatarData(dataStr) {
     if (!dataStr) return "-";
-    const d = new Date(dataStr);
-    const dias = ["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sáb"];
-    const meses = ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"];
-    return `${dias[d.getDay()]}, ${d.getDate()} de ${meses[d.getMonth()]} &nbsp;<i class="fa-regular fa-clock"></i> ${d.toTimeString().slice(0, 5)}`;
+    const d     = new Date(dataStr);
+    const dias  = ["Dom","Seg","Ter","Qua","Qui","Sex","Sáb"];
+    const meses = ["Jan","Fev","Mar","Abr","Mai","Jun","Jul","Ago","Set","Out","Nov","Dez"];
+    return `${dias[d.getDay()]}, ${d.getDate()} de ${meses[d.getMonth()]} &nbsp;<i class="fa-regular fa-clock"></i> ${d.toTimeString().slice(0,5)}`;
   }
 
   // -------------------------------------------------------
   // FILTROS + PAGINAÇÃO
   // -------------------------------------------------------
-  const searchInput = document.getElementById("searchInput");
+  const searchInput    = document.getElementById("searchInput");
   const pillsContainer = document.getElementById("pillsContainer");
 
   function aplicarFiltros() {
     const categoriaAtiva = document.querySelector(".pill.active")?.getAttribute("data-cat") || "todas";
-    const termoBusca = (searchInput?.value || "").toLowerCase().trim();
+    const termoBusca     = (searchInput?.value || "").toLowerCase().trim();
 
     const todos = document.querySelectorAll(".evento-card");
 
-    // Monta lista de cards que passam no filtro
     eventosFiltrados = [];
     todos.forEach(card => {
-      const cat = (card.getAttribute("data-categoria") || "").toLowerCase();
-      const nome = card.querySelector("h3")?.textContent.toLowerCase() || "";
-      const desc = card.querySelector(".descricao")?.textContent.toLowerCase() || "";
-      const textoOk = termoBusca === "" || nome.includes(termoBusca) || desc.includes(termoBusca);
+      const cat  = (card.getAttribute("data-categoria") || "").toLowerCase();
+      const nome = card.querySelector("h3")?.textContent.toLowerCase()          || "";
+      const desc = card.querySelector(".descricao")?.textContent.toLowerCase()  || "";
+
+      const textoOk    = termoBusca === "" || nome.includes(termoBusca) || desc.includes(termoBusca);
       const categoriaOk = categoriaAtiva === "todas" || cat.includes(categoriaAtiva);
 
-      if (textoOk && categoriaOk) {
-        eventosFiltrados.push(card);
-      }
-
-      // Esconde tudo primeiro
+      if (textoOk && categoriaOk) eventosFiltrados.push(card);
       card.style.display = "none";
     });
 
-    // Reseta quantidade visível ao mudar filtro
     quantidadeVisiveis = EVENTOS_POR_PAGINA;
-
     renderizarPagina();
   }
 
   function renderizarPagina() {
-    // Esconde todos os filtrados antes de mostrar os da página atual
     eventosFiltrados.forEach((card, index) => {
       card.style.display = index < quantidadeVisiveis ? "flex" : "none";
     });
-
     atualizarContador();
     atualizarBotaoCarregar();
   }
 
   function atualizarBotaoCarregar() {
     if (!btnCarregar) return;
-
     const restantes = eventosFiltrados.length - quantidadeVisiveis;
-
     if (restantes <= 0) {
       btnCarregar.style.display = "none";
     } else {
       btnCarregar.style.display = "inline-block";
-      btnCarregar.textContent = `Carregar mais ${Math.min(restantes, EVENTOS_POR_PAGINA)} eventos`;
+      btnCarregar.textContent   = `Carregar mais ${Math.min(restantes, EVENTOS_POR_PAGINA)} eventos`;
     }
   }
 
@@ -194,8 +253,14 @@ document.addEventListener("DOMContentLoaded", async () => {
   if (pillsContainer) {
     pillsContainer.addEventListener("click", (e) => {
       if (!e.target.matches(".pill")) return;
+
       document.querySelectorAll(".pill").forEach(p => p.classList.remove("active"));
       e.target.classList.add("active");
+
+      // ✅ Troca imagem do hero ao clicar na pill
+      const categoriaSelecionada = e.target.getAttribute("data-cat") || "todas";
+      aplicarImagemHero(categoriaSelecionada);
+
       aplicarFiltros();
     });
   }
