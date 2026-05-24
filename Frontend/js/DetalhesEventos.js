@@ -1,5 +1,5 @@
 const isLocal = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1";
-const API_BASE = isLocal ? "http://localhost:3000" : window.location.origin; // ← ADICIONA
+const API_BASE = isLocal ? "http://localhost:3000" : window.location.origin;
 const API_URL = isLocal ? "http://localhost:3000/eventos" : "/eventos";
 
 function atualizarBotaoDeCompra(precoNumerico, precoFormatado) {
@@ -43,6 +43,12 @@ function inicializarLogicaSelecao() {
 
             tipoIngressoResumo.textContent = nomeIngresso;
             atualizarBotaoDeCompra(precoNumerico, precoTexto);
+
+            // Atualiza window._eventoAtual ao trocar ingresso
+            if (window._eventoAtual) {
+                window._eventoAtual.ingressoNome = nomeIngresso;
+                window._eventoAtual.ingressoPreco = precoNumerico;
+            }
         });
     });
 }
@@ -66,7 +72,7 @@ async function carregarDetalhesEvento() {
         if (bannerSection && evento.imagem) {
             const imgUrl = evento.imagem.startsWith("http")
                 ? evento.imagem
-                : `${API_BASE}${evento.imagem}`
+                : `${API_BASE}${evento.imagem}`;
             bannerSection.style.backgroundImage =
                 `linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.6)), url('${imgUrl}')`;
         }
@@ -110,9 +116,7 @@ async function carregarDetalhesEvento() {
                 ? `${evento.nome_produtor} <span class="etiqueta-verificado">Verificado</span>`
                 : 'Organizador não informado';
         }
-        if (eventosOrganizados) {
-            eventosOrganizados.textContent = '';
-        }
+        if (eventosOrganizados) eventosOrganizados.textContent = '';
 
         // Ingressos
         const ingressosContainer = document.querySelector('.ingressos-disponiveis');
@@ -154,13 +158,15 @@ async function carregarDetalhesEvento() {
             if (isSelecionado) {
                 document.querySelector('.ingresso-resumo').textContent = ingresso.titulo;
                 atualizarBotaoDeCompra(preco, precoFormatado);
+
                 window._eventoAtual = {
-                    nome: evento.nome,
-                    data: dataFormatada,
-                    hora: horaFormatada,
-                    local: evento.local_nome || '',
-                    imagem: evento.imagem || '',
-                    ingressoNome: ingresso.titulo,
+                    nome:          evento.nome,
+                    data:          dataFormatada,
+                    hora:          horaFormatada,
+                    local:         evento.local_nome || '',
+                    cidade:        evento.cidade || '',
+                    imagem:        evento.imagem || '',
+                    ingressoNome:  ingresso.titulo,
                     ingressoPreco: preco
                 };
             }
@@ -193,21 +199,26 @@ function realizarAcaoComprar() {
         ingressoPreco: precoNumerico
     };
 
+    console.log('Salvando no localStorage:', dadosParaCheckout);
+
+    localStorage.removeItem('eventoSelecionado');
     localStorage.setItem('eventoSelecionado', JSON.stringify(dadosParaCheckout));
 
+    console.log('localStorage após salvar:', localStorage.getItem('eventoSelecionado'));
+
     const botaoComprar = document.querySelector('.botao-comprar');
-    if (botaoComprar.classList.contains('botao-confirmar')) {
-        window.location.href = '/frontend/detalheseventos/presencaconfirmada.html';
-    } else {
-        window.location.href = '/frontend/detalheseventos/finalizarcompra.html';
-    }
+    setTimeout(() => {
+        if (botaoComprar.classList.contains('botao-confirmar')) {
+            window.location.href = '/frontend/detalheseventos/presencaconfirmada.html';
+        } else {
+            window.location.href = '/frontend/detalheseventos/finalizarcompra.html';
+        }
+    }, 300);
 }
 
 function inicializarAcaoBotaoComprar() {
     const botaoComprar = document.querySelector('.botao-comprar');
-    if (botaoComprar) {
-        botaoComprar.addEventListener('click', realizarAcaoComprar);
-    }
+    if (botaoComprar) botaoComprar.addEventListener('click', realizarAcaoComprar);
 }
 
 document.addEventListener('DOMContentLoaded', async function () {

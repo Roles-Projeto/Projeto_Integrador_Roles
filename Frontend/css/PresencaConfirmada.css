@@ -1,163 +1,282 @@
-/* 🎯 2. DEFINIÇÃO DA FONTE PRINCIPAL NO BODY */
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800;900&display=swap');
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+    --roxo: #6c2bd9;
+    --roxo-claro: #7c3aed;
+    --roxo-bg: #f5f0ff;
+    --roxo-borda: #ddd6fe;
+    --roxo-texto: #5b21b6;
+    --verde-bg: #f0fdf4;
+    --verde-borda: #bbf7d0;
+    --verde-texto: #15803d;
+    --cinza-bg: #f8f8f8;
+    --cinza-borda: rgba(0,0,0,0.07);
+    --cinza-sec: #888;
+    --texto: #111;
+    --card-bg: #fff;
+    --radius: 16px;
+    --radius-sm: 10px;
+    --sombra: 0 2px 16px rgba(108,43,217,0.07);
+}
+
 body {
-    font-family: 'Poppins', Arial, sans-serif;
-    margin: 0;
-    background-color: #f4f5f7;
-    display: flex;
-    flex-direction: column;
+    font-family: 'Nunito', sans-serif;
+    background: #f4f2f9;
+    color: var(--texto);
     min-height: 100vh;
 }
 
-/* Estilo para simular o header */
-header {
-    position: sticky;
-    top: 0;
-    z-index: 1000;
-    background-color: white;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-main {
-    flex-grow: 1;
-    padding: 50px 20px;
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-}
-
-.container-confirmacao {
-    padding: 40px 60px;
+/* ── HERO ROXO ───────────────────────────── */
+.pc-hero {
+    background: linear-gradient(135deg, #6c2bd9 0%, #7c3aed 60%, #9333ea 100%);
+    border-radius: 0 0 28px 28px;
+    padding: 2.5rem 1.5rem 2.8rem;
     text-align: center;
-    max-width: 600px;
-    width: 100%;
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 0;
 }
 
-.icone-check-container {
-    margin-bottom: 20px;
+.pc-hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+        radial-gradient(circle at 20% 30%, rgba(255,255,255,0.08) 0%, transparent 50%),
+        radial-gradient(circle at 80% 70%, rgba(255,255,255,0.06) 0%, transparent 50%);
+    pointer-events: none;
 }
 
-.icone-check {
-    width: 80px;
-    height: 80px;
-    color: #4CAF50;
+/* confetes decorativos */
+.pc-hero::after {
+    content: '✦ ✦ ✦';
+    position: absolute;
+    top: 18px; left: 0; right: 0;
+    text-align: center;
+    font-size: 10px;
+    color: rgba(255,255,255,0.25);
+    letter-spacing: 24px;
 }
 
-.titulo-confirmacao {
-    font-size: 26px;
-    /* Tamanho mantido para destaque */
-    color: #333;
-    font-weight: 700;
-    /* Poppins usa 700 para bold */
-    margin-bottom: 5px;
-}
-
-.mensagem-confirmacao {
-    font-size: 14px;
-    /* 🎯 Ajustado para 14px */
-    color: #666;
-    margin-bottom: 30px;
-}
-
-.card-lembrete {
-    background-color: #e6f7ff;
-    border: 1px solid #bae7ff;
-    padding: 20px;
-    border-radius: 8px;
-    text-align: left;
-    margin-bottom: 30px;
-}
-
-.card-lembrete h3 {
-    margin-top: 0;
-    font-size: 14px;
-    /* 🎯 Ajustado para 14px */
-    color: #333;
-    font-weight: 600;
-    /* Poppins usa 600 para semi-bold */
-}
-
-.card-lembrete ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    font-size: 12px;
-    /* 🎯 Ajustado para 12px */
-    color: #444;
-}
-
-.card-lembrete li {
-    margin-bottom: 8px;
-    line-height: 1.4;
-}
-
-.acoes-finais {
-    display: flex;
-    justify-content: center;
-    gap: 15px;
-}
-
-.botao-acao {
-    /* padding: 12px 25px; Removido/Comentado */
-    padding: 8px 20px;
-    /* 🎯 Ajustado para ser mais curto (8px vertical) e mais largo (30px horizontal) */
-    border: none;
-    border-radius: 6px;
-    font-size: 14px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: background-color 0.3s;
-    text-decoration: none;
+.pc-badge-confirmed {
     display: inline-flex;
     align-items: center;
-    justify-content: center;
-    width: 300px;
+    gap: 7px;
+    background: rgba(255,255,255,0.18);
+    border: 1px solid rgba(255,255,255,0.3);
+    border-radius: 20px;
+    padding: 5px 14px;
+    margin-bottom: 1.2rem;
+    animation: pop .6s cubic-bezier(.175,.885,.32,1.275) both;
 }
 
-.botao-explorar {
-    background-color: white;
-    color: #000;
-    border: 2px solid #bbb9b9;
+.pc-badge-confirmed .pc-badge-icon { font-size: 14px; color: #fff; }
+.pc-badge-confirmed span { font-size: 11px; font-weight: 800; letter-spacing: .07em; text-transform: uppercase; color: #fff; }
+
+.pc-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: #a3e635;
+    animation: blink 2s ease-in-out infinite;
+    box-shadow: 0 0 6px #a3e635;
 }
 
-.botao-explorar:hover {
-    background-color: #f0f0f0;
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:.3} }
+@keyframes pop   { from{transform:scale(.85);opacity:0} to{transform:scale(1);opacity:1} }
+@keyframes up    { from{transform:translateY(12px);opacity:0} to{transform:translateY(0);opacity:1} }
+
+.pc-hero h1 {
+    font-size: 28px; font-weight: 900;
+    color: #fff;
+    margin-bottom: .5rem;
+    animation: up .5s .1s ease both;
+    display: flex; align-items: center; justify-content: center; gap: 10px;
 }
 
-.botao-compartilhar {
-    background-color: #1a1a1a;
-    color: white;
+.pc-hero p {
+    font-size: 15px; color: rgba(255,255,255,0.82);
+    line-height: 1.65;
+    animation: up .5s .2s ease both;
 }
 
-.botao-compartilhar:hover {
-    background-color: #333;
+/* ── CONTAINER ───────────────────────────── */
+.pc-container {
+    max-width: 640px;
+    margin: 0 auto 60px;
+    padding: 0 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
 }
 
-.icone-compartilhar {
-    margin-right: 8px;
-    width: 18px;
-    height: 18px;
+/* ── DIVISOR ─────────────────────────────── */
+.pc-divider {
+    display: flex; align-items: center; gap: 12px;
+    margin: 8px 0 2px;
 }
 
-/* Estilo para simular o footer */
-footer {
+.pc-divider span {
+    font-size: 11px; font-weight: 800;
+    letter-spacing: .09em; text-transform: uppercase;
+    color: var(--roxo-texto); white-space: nowrap;
+}
+
+.pc-divider::before,
+.pc-divider::after {
+    content: ''; flex: 1;
+    height: 1px; background: var(--roxo-borda);
+}
+
+/* ── CARD BASE ───────────────────────────── */
+.pc-card {
+    background: var(--card-bg);
+    border: 1px solid var(--cinza-borda);
+    border-radius: var(--radius);
+    padding: 20px;
+    box-shadow: var(--sombra);
+    animation: up .5s ease both;
+}
+
+/* ── CARD EVENTO ─────────────────────────── */
+.pc-event-row {
+    display: flex; gap: 16px; align-items: flex-start;
+}
+
+.pc-thumb {
+    width: 72px; height: 72px;
+    border-radius: var(--radius-sm);
+    background: var(--roxo-bg);
+    border: 1px solid var(--roxo-borda);
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; overflow: hidden; font-size: 32px;
+}
+
+.pc-thumb img { width: 100%; height: 100%; object-fit: cover; border-radius: inherit; }
+
+.pc-event-tag {
+    display: inline-flex; align-items: center; gap: 5px;
+    font-size: 11px; font-weight: 800; letter-spacing: .04em;
+    background: var(--verde-bg); color: var(--verde-texto);
+    border: 1px solid var(--verde-borda);
+    padding: 3px 10px; border-radius: 20px; margin-bottom: 8px;
+}
+
+.pc-event-name {
+    font-size: 17px; font-weight: 900;
+    color: var(--texto); margin-bottom: 10px; line-height: 1.3;
+}
+
+/* Metas em linha única */
+.pc-metas {
+    display: flex; flex-wrap: wrap; gap: 6px;
+    margin-bottom: 12px;
+}
+
+.pc-meta {
+    display: flex; align-items: center; gap: 5px;
+    font-size: 12px; color: #555;
+    font-weight: 700;
+}
+
+.pc-meta i { font-size: 14px; color: var(--roxo-claro); }
+
+.pc-meta-sep { color: #ccc; font-size: 12px; }
+
+/* Pill de confirmação roxa */
+.pc-ticket {
+    display: flex; align-items: center; justify-content: center; gap: 7px;
+    background: var(--roxo-bg);
+    border: 1px solid var(--roxo-borda);
+    border-radius: var(--radius-sm);
+    padding: 10px 14px;
+    font-size: 13px; font-weight: 800;
+    color: var(--roxo-texto);
     width: 100%;
-    background-color: #1a1a1a;
-    color: white;
-    text-align: center;
-    padding: 10px 0;
 }
 
-/* Responsive adjustments */
-@media (max-width: 600px) {
-    .container-confirmacao {
-        padding: 30px 20px;
-    }
+.pc-ticket i { font-size: 15px; color: var(--roxo-claro); }
 
-    .acoes-finais {
-        flex-direction: column;
-    }
+/* ── GRID DICAS 3 COLUNAS ────────────────── */
+.pc-tips {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 8px;
+}
 
-    .botao-acao {
-        width: 100%;
-    }
+.pc-tip {
+    background: var(--roxo-bg);
+    border: 1px solid var(--roxo-borda);
+    border-radius: var(--radius-sm);
+    padding: 14px 12px;
+    display: flex; flex-direction: column; align-items: flex-start; gap: 8px;
+    transition: border-color .2s, transform .15s;
+    text-decoration: none;
+}
+
+.pc-tip.clickable { cursor: pointer; }
+.pc-tip.clickable:hover { border-color: var(--roxo-claro); transform: translateY(-2px); }
+
+.pc-tip-icon {
+    width: 36px; height: 36px;
+    background: rgba(124,58,237,0.12);
+    border-radius: 9px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 17px; color: var(--roxo-claro); flex-shrink: 0;
+}
+
+.pc-tip-title {
+    font-size: 12px; font-weight: 800;
+    color: var(--texto); margin-bottom: 2px;
+}
+
+.pc-tip-text { font-size: 11px; color: var(--cinza-sec); line-height: 1.5; font-weight: 600; }
+
+.pc-tip-link {
+    font-size: 11px; color: var(--roxo-claro);
+    margin-top: 2px;
+    display: flex; align-items: center; gap: 3px;
+    font-weight: 800;
+    text-decoration: none;
+}
+
+/* ── BOTÕES ──────────────────────────────── */
+.pc-acoes { display: flex; gap: 10px; }
+
+.pc-btn {
+    flex: 1;
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+    padding: 14px 16px;
+    border-radius: var(--radius-sm);
+    font-family: 'Nunito', sans-serif;
+    font-size: 14px; font-weight: 800;
+    cursor: pointer; text-decoration: none;
+    transition: background .15s, transform .1s;
+    border: none;
+}
+
+.pc-btn:active { transform: scale(.98); }
+.pc-btn i { font-size: 17px; }
+
+.pc-btn-outline {
+    background: var(--roxo-bg);
+    color: var(--roxo-texto);
+    border: 1px solid var(--roxo-borda);
+}
+.pc-btn-outline:hover { background: #ede9ff; }
+
+.pc-btn-solid {
+    background: var(--roxo-claro);
+    color: #fff;
+}
+.pc-btn-solid:hover { background: var(--roxo); }
+
+/* ── RESPONSIVE ──────────────────────────── */
+@media (max-width: 520px) {
+    .pc-hero h1   { font-size: 22px; }
+    .pc-tips      { grid-template-columns: 1fr 1fr; }
+    .pc-event-row { flex-direction: column; }
+    .pc-thumb     { width: 100%; height: 140px; }
+    .pc-acoes     { flex-direction: column; }
 }

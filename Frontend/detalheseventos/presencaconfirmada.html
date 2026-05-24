@@ -1,18 +1,14 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Presença Confirmada | Rolês</title>
-
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <title>Presença Confirmada 🎉 | Rolês</title>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
     <link rel="stylesheet" href="/frontend/css/footer.css">
     <link rel="stylesheet" href="/frontend/css/presencaconfirmada.css">
-
-
 </head>
-
 <body>
 
     <header>
@@ -20,47 +16,137 @@
     </header>
 
     <main>
-        <div class="container-confirmacao">
 
-            <div class="icone-check-container">
-                <svg class="icone-check" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path fill="currentColor"
-                        d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z" />
-                </svg>
+        <!-- HERO ROXO -->
+        <section class="pc-hero">
+            <div class="pc-badge-confirmed">
+                <span class="pc-dot"></span>
+                <span>Presença confirmada</span>
+                <i class="ti ti-circle-check pc-badge-icon"></i>
+            </div>
+            <h1><span>🎉</span> Você vai estar lá!</h1>
+            <p>Tudo certo. A gente mal pode esperar<br>para te ver por lá.</p>
+        </section>
+
+        <div class="pc-container">
+
+            <div class="pc-divider"><span>seu evento</span></div>
+
+            <!-- Card Evento -->
+            <div class="pc-card">
+                <div class="pc-event-row">
+                    <div class="pc-thumb" id="pc-thumb">🎪</div>
+                    <div style="flex:1;min-width:0;">
+                        <div class="pc-event-tag">
+                            <i class="ti ti-circle-check"></i>
+                            Confirmado
+                        </div>
+                        <p class="pc-event-name" id="pc-nome-evento">Carregando...</p>
+                        <div class="pc-metas">
+                            <i class="ti ti-calendar pc-meta-icon" style="color:#7c3aed;font-size:14px;"></i>
+                            <span id="pc-data-txt" style="font-size:13px;font-weight:700;color:#444;">–</span>
+                            <span class="pc-meta-sep">·</span>
+                            <i class="ti ti-clock" style="color:#7c3aed;font-size:14px;"></i>
+                            <span id="pc-hora-txt" style="font-size:13px;font-weight:700;color:#444;">–</span>
+                            <span class="pc-meta-sep">·</span>
+                            <i class="ti ti-map-pin" style="color:#7c3aed;font-size:14px;"></i>
+                            <span id="pc-local-txt" style="font-size:13px;font-weight:700;color:#444;">–</span>
+                        </div>
+                        <div class="pc-ticket">
+                            <i class="ti ti-shield-check"></i>
+                            <span>Confirmação de presença concluída com sucesso</span>
+                        </div>
+                    </div>
+                </div>
             </div>
 
-            <h1 class="titulo-confirmacao">Presença Confirmada!</h1>
-            <p class="mensagem-confirmacao">Você confirmou presença no evento. Nos vemos lá! 👋</p>
+            <div class="pc-divider"><span>lembretes</span></div>
 
-            <div class="card-lembrete">
-                <h3 style="color: #444; font-size: 16px; margin-bottom: 10px;">Lembre-se</h3>
-                <ul>
-                    <li>• Chegue 15 minutos antes do evento começar</li>
-                    <li>• Enviamos um email com todos os detalhes</li>
-                    <li>• Este não é um ingresso, apenas confirmação de interesse!</li>
-                </ul>
+            <!-- Grid Dicas -->
+            <div class="pc-card">
+                <div class="pc-tips">
+
+                    <div class="pc-tip">
+                        <div class="pc-tip-icon"><i class="ti ti-clock"></i></div>
+                        <div>
+                            <p class="pc-tip-title">Chegue cedo</p>
+                            <p class="pc-tip-text">15 min antes para não perder nada.</p>
+                        </div>
+                    </div>
+
+                    <div class="pc-tip">
+                        <div class="pc-tip-icon"><i class="ti ti-id"></i></div>
+                        <div>
+                            <p class="pc-tip-title">Documento</p>
+                            <p class="pc-tip-text">RG ou CNH obrigatório na entrada.</p>
+                        </div>
+                    </div>
+
+                    <div class="pc-tip">
+                        <div class="pc-tip-icon"><i class="ti ti-mail"></i></div>
+                        <div>
+                            <p class="pc-tip-title">Verifique o e-mail</p>
+                            <p class="pc-tip-text">Detalhes completos foram enviados.</p>
+                        </div>
+                    </div>
+
+                    <div class="pc-tip">
+                        <div class="pc-tip-icon"><i class="ti ti-car"></i></div>
+                        <div>
+                            <p class="pc-tip-title">Como chegar</p>
+                            <p class="pc-tip-text">Confirme transporte com antecedência.</p>
+                        </div>
+                    </div>
+
+                    <div class="pc-tip clickable" id="tip-dress"
+                         aria-label="Ver sugestões de dress code no Pinterest">
+                        <div class="pc-tip-icon"><i class="ti ti-hanger"></i></div>
+                        <div>
+                            <p class="pc-tip-title">Dress code</p>
+                            <p class="pc-tip-text">Casual chique. Veja inspirações.</p>
+                            <a class="pc-tip-link" id="pc-tip-dress-link" target="_blank">
+                                Ver looks no Pinterest ↗
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="pc-tip clickable" id="tip-clima"
+                         aria-label="Ver previsão do tempo">
+                        <div class="pc-tip-icon"><i class="ti ti-cloud"></i></div>
+                        <div>
+                            <p class="pc-tip-title">Clima</p>
+                            <p class="pc-tip-text" id="pc-weather-text">Carregando...</p>
+                            <a class="pc-tip-link" id="pc-clima-link" target="_blank">
+                                Ver previsão completa ↗
+                            </a>
+                        </div>
+                    </div>
+
+                </div>
             </div>
 
-            <div class="acoes-finais">
-                <a href="/frontend/eventos/eventos.html" class="botao-acao botao-explorar" role="button">
-                    Explorar Mais Eventos
+            <div class="pc-divider"><span>próximos passos</span></div>
+
+            <div class="pc-card pc-acoes">
+                <a href="/frontend/eventos/eventos.html" class="pc-btn pc-btn-outline">
+                    <i class="ti ti-search"></i>
+                    Explorar mais eventos
                 </a>
-                <button class="botao-acao botao-compartilhar" type="button">
-                    <svg class="icone-compartilhar" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                            d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.47 1.22.77 1.96.77 2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4c0 .24.04.47.09.7L7.05 11.08C6.51 10.61 5.83 10.32 5.08 10.32c-2.21 0-4 1.79-4 4s1.79 4 4 4c.75 0 1.43-.29 1.96-.77l7.05 4.11c-.05.23-.09.46-.09.7 0 2.21 1.79 4 4 4s4-1.79 4-4-1.79-4-4-4z" />
-                    </svg>
-                    Compartilhar
-                </button>
+                <a href="/frontend/meuseventos/meuseventos.html" class="pc-btn pc-btn-solid">
+                    <i class="ti ti-layout-list"></i>
+                    Ver meus eventos
+                </a>
             </div>
 
         </div>
     </main>
 
-</body>
-<script src="/frontend/js/config.js"></script>
-    <script src="/frontend/js/footer.js" defer></script>
-<script src="/frontend/js/loadHeader.js"></script>
-<script src="/frontend/js/PresencaConfirmada.js"></script>
+    <footer><div id="footer-container"></div></footer>
 
+    <script src="/frontend/js/config.js"></script>
+    <script src="/frontend/js/footer.js" defer></script>
+    <script src="/frontend/js/loadHeader.js"></script>
+    <script src="/frontend/js/PresencaConfirmada.js"></script>
+
+</body>
 </html>
