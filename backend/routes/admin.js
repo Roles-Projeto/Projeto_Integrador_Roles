@@ -3,9 +3,9 @@
 //  Versão completa com seção de MENSAGENS adicionada
 // =====================================================
 
-const express    = require("express");
-const router     = express.Router();
-const authAdmin  = require("../middleware/authAdmin");
+const express = require("express");
+const router = express.Router();
+const authAdmin = require("../middleware/authAdmin");
 const connection = require("../db/db_config");
 const nodemailer = require("nodemailer");
 
@@ -25,12 +25,12 @@ const transporter = nodemailer.createTransport({
 // ─────────────────────────────────────────────────────
 router.get("/dashboard", authAdmin, (req, res) => {
     const queries = {
-        usuarios:         "SELECT COUNT(*) as total FROM usuarios",
+        usuarios: "SELECT COUNT(*) as total FROM usuarios",
         estabelecimentos: "SELECT COUNT(*) as total FROM estabelecimentos",
-        eventos:          "SELECT COUNT(*) as total FROM eventos",
-        avaliacoes:       "SELECT COUNT(*) as total FROM avaliacoes",
-        ingressos:        "SELECT COUNT(*) as total FROM ingressos",
-        mensagens:        "SELECT COUNT(*) as total FROM contatos WHERE status = 'novo'",
+        eventos: "SELECT COUNT(*) as total FROM eventos",
+        avaliacoes: "SELECT COUNT(*) as total FROM avaliacoes",
+        ingressos: "SELECT COUNT(*) as total FROM ingressos",
+        mensagens: "SELECT COUNT(*) as total FROM contatos WHERE status = 'novo'",
     };
 
     const resultados = {};
@@ -269,8 +269,8 @@ router.post("/mensagens/:id/responder", authAdmin, async (req, res) => {
                     try {
                         await transporter.sendMail({
                             from: `"Rolês Suporte" <${process.env.EMAIL_USER}>`,
-                            to:   contato.email,
-                            subject: `Re: ${contato.assunto} – Rolês [Protocolo #${req.params.id}]`,
+                            to: contato.email,
+                            subject: `Re: [Protocolo #${req.params.id}] ${contato.assunto}`,
                             html: `
                                 <div style="font-family:sans-serif;max-width:560px;margin:0 auto;border:1px solid #e2e2e2;border-radius:10px;overflow:hidden;">
                                     <div style="background:#0c0c1d;padding:20px 28px;">
@@ -289,7 +289,9 @@ router.post("/mensagens/:id/responder", authAdmin, async (req, res) => {
                                         </p>
                                     </div>
                                     <div style="background:#fafafa;padding:12px 28px;border-top:1px solid #f0f0f0;">
-                                        <p style="margin:0;font-size:11px;color:#bbb;">Protocolo #${contato.id} — Rolês Plataforma</p>
+                                        <p style="margin:0;font-size:11px;color:#bbb;">
+  Protocolo #${contato.id} — NÃO RESPONDER fora do sistema
+</p>
                                     </div>
                                 </div>
                             `,
