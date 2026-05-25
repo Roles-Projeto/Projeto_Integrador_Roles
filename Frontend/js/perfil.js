@@ -3,7 +3,6 @@
 /* ═══════════════════════════════════════════
    CONFIG
    window.API_BASE é definido em /frontend/js/config.js
-   igual ao cadastro.js: const API_URL = window.API_BASE
 ═══════════════════════════════════════════ */
 const API_URL = window.API_BASE || '';
 
@@ -15,8 +14,6 @@ const gv = id  => g(id)?.value.trim() || '';
 
 /* ═══════════════════════════════════════════
    AVATAR PADRÃO
-   Mesmo SVG já usado no header.html como src padrão
-   de #profile-pic-header e .user-info img
 ═══════════════════════════════════════════ */
 const DEFAULT_AVATAR_URL =
     "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' " +
@@ -26,51 +23,30 @@ const DEFAULT_AVATAR_URL =
     "%3Cellipse cx='20' cy='34' rx='12' ry='8' fill='%23fff'/%3E" +
     "%3C/svg%3E";
 
-/**
- * Atualiza os elementos do header com os dados do perfil.
- * O header é injetado dinamicamente por loadHeader.js em #header-container,
- * então usamos MutationObserver para aguardar o DOM estar pronto.
- *
- * IDs reais do header.html:
- *   #profile-pic-header  — avatar no navbar
- *   .user-info img       — avatar no dropdown
- *   #profile-name-header — nome no dropdown
- *   #profile-email-header— email no dropdown
- *   #header-logado       — container visível quando logado
- *   #header-nao-logado   — container visível quando não logado
- */
 function notifyHeader(name, email, picUrl) {
-    // Persiste no localStorage para o header ler ao inicializar
     const photo = picUrl && picUrl.length > 10 ? picUrl : DEFAULT_AVATAR_URL;
     localStorage.setItem('profilePhotoUrl', photo);
     localStorage.setItem('profileName',     name  || '');
     localStorage.setItem('profileEmail',    email || '');
-
     applyHeaderData(name, email, photo);
 }
 
 function applyHeaderData(name, email, photo) {
-    // Avatar principal no navbar
     const picHeader = document.getElementById('profile-pic-header');
     if (picHeader) {
         picHeader.src     = photo;
         picHeader.onerror = () => { picHeader.src = DEFAULT_AVATAR_URL; };
     }
-
-    // Avatar no dropdown (dentro de .user-info)
     const dropdownImg = document.querySelector('#header-logado .user-info img');
     if (dropdownImg) {
         dropdownImg.src     = photo;
         dropdownImg.onerror = () => { dropdownImg.src = DEFAULT_AVATAR_URL; };
     }
-
-    // Nome e email no dropdown
     const nameEl  = document.getElementById('profile-name-header');
     const emailEl = document.getElementById('profile-email-header');
     if (nameEl  && name)  nameEl.textContent  = name;
     if (emailEl && email) emailEl.textContent = email;
 
-    // Garante que o estado "logado" esteja visível
     const logado    = document.getElementById('header-logado');
     const naoLogado = document.getElementById('header-nao-logado');
     const hamburger = document.getElementById('hamburger-btn');
@@ -79,34 +55,21 @@ function applyHeaderData(name, email, photo) {
     if (hamburger) hamburger.style.display = 'flex';
 }
 
-/**
- * Aguarda o header ser injetado no DOM e então aplica os dados.
- * Necessário porque loadHeader.js injeta o HTML de forma assíncrona.
- */
 function waitForHeaderAndApply(name, email, photo, tries = 0) {
     const picHeader = document.getElementById('profile-pic-header');
-    if (picHeader) {
-        applyHeaderData(name, email, photo);
-        return;
-    }
-    if (tries < 20) {
-        setTimeout(() => waitForHeaderAndApply(name, email, photo, tries + 1), 150);
-    }
+    if (picHeader) { applyHeaderData(name, email, photo); return; }
+    if (tries < 20) setTimeout(() => waitForHeaderAndApply(name, email, photo, tries + 1), 150);
 }
 
 /* ═══════════════════════════════════════════
-   GET USER ID — tenta todas as chaves possíveis
-   do localStorage para garantir compatibilidade
-   com qualquer implementação do login.js
+   GET USER ID
 ═══════════════════════════════════════════ */
 function getUserId() {
-    // Tenta chaves diretas
     const directKeys = ['userId', 'id', 'user_id', 'usuarioId', 'usuario_id'];
     for (const key of directKeys) {
         const val = localStorage.getItem(key);
         if (val && val !== 'undefined' && val !== 'null') return val;
     }
-    // Tenta objetos JSON salvos pelo login
     const jsonKeys = ['user', 'userData', 'usuario', 'loggedUser', 'currentUser'];
     for (const key of jsonKeys) {
         try {
@@ -136,7 +99,7 @@ function showToast(msg, type = 'success') {
 }
 
 /* ═══════════════════════════════════════════
-   SHOW/HIDE section state (loading | empty | list)
+   SHOW/HIDE section state
 ═══════════════════════════════════════════ */
 function showState(prefix, state) {
     const loading = g(`${prefix}-loading`);
@@ -161,7 +124,6 @@ document.querySelectorAll('.nav-item[data-section]').forEach(item => {
         g('section-' + item.dataset.section)?.classList.add('active');
         window.scrollTo({ top: 0, behavior: 'smooth' });
 
-        // Carrega dados na primeira visita de cada seção
         if (item.dataset.section === 'ingressos' && !_ticketsLoaded)   loadTickets();
         if (item.dataset.section === 'favoritos'  && !_favoritosLoaded) loadFavoritos();
         if (item.dataset.section === 'visitas'    && !_visitasLoaded)   loadVisitas();
@@ -183,7 +145,7 @@ function clearField(inputEl, errorEl) {
 }
 
 /* ═══════════════════════════════════════════
-   VALIDATORS — mesmos critérios do cadastro.js
+   VALIDATORS
 ═══════════════════════════════════════════ */
 function validateNome() {
     const v  = gv('nome');
@@ -200,7 +162,7 @@ function validateEmail() {
 function validateCPF() {
     const tipo = gv('tipo-doc');
     const raw  = gv('cpf');
-    if (!raw) { clearField(g('cpf'), g('erro-cpf')); return true; } // opcional
+    if (!raw) { clearField(g('cpf'), g('erro-cpf')); return true; }
     let ok = true;
     if (tipo === 'CPF') {
         const d = raw.replace(/\D/g, '');
@@ -225,7 +187,7 @@ function validateCPF() {
 }
 function validateTelefone() {
     const v = gv('telefone');
-    if (!v) { clearField(g('telefone'), g('erro-telefone')); return true; } // opcional
+    if (!v) { clearField(g('telefone'), g('erro-telefone')); return true; }
     const d  = v.replace(/\D/g, '');
     const ok = d.length === 10 || d.length === 11;
     markField(g('telefone'), g('erro-telefone'), !ok);
@@ -241,7 +203,6 @@ function validateNascimento() {
 }
 function validateSenhaNova() {
     const v  = g('senha-nova').value;
-    // Mesma regex do cadastro.js
     const ok = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&]).{8,}$/.test(v);
     markField(g('senha-nova'), g('erro-senha-nova'), !ok);
     return ok;
@@ -266,7 +227,6 @@ g('telefone').addEventListener('input', function () {
     this.value = v.replace(/-$/, '');
 });
 
-/* Blur validation */
 g('nome').addEventListener('blur',       validateNome);
 g('email').addEventListener('blur',      validateEmail);
 g('cpf').addEventListener('blur',        validateCPF);
@@ -275,15 +235,15 @@ g('nascimento').addEventListener('blur', validateNascimento);
 g('tipo-doc').addEventListener('change', () => clearField(g('cpf'), g('erro-cpf')));
 
 /* ═══════════════════════════════════════════
-   PASSWORD STRENGTH — mesmo critério do cadastro
+   PASSWORD STRENGTH
 ═══════════════════════════════════════════ */
 g('senha-nova').addEventListener('input', function () {
     const v = this.value;
     let sc  = 0;
-    if (v.length >= 8)              sc++;
-    if (/[A-Za-z]/.test(v))        sc++;
-    if (/\d/.test(v))               sc++;
-    if (/[@$!%*#?&]/.test(v))       sc++;
+    if (v.length >= 8)        sc++;
+    if (/[A-Za-z]/.test(v))  sc++;
+    if (/\d/.test(v))         sc++;
+    if (/[@$!%*#?&]/.test(v)) sc++;
 
     const levels = [
         { w: '0%',   c: '',                t: '' },
@@ -318,7 +278,6 @@ function setAvatar(src) {
     const img = g('profile-picture');
     const svg = g('avatar-default-svg');
 
-    // Se não veio src do backend, tenta o cache do localStorage
     const cached = localStorage.getItem('profilePhotoUrl') || '';
     const isRealCached = cached && cached !== DEFAULT_AVATAR_URL && cached.length > 10;
     const finalSrc = (src && src.length > 10 && !src.endsWith('/'))
@@ -328,7 +287,6 @@ function setAvatar(src) {
     if (finalSrc) {
         img.onload  = () => { img.style.display = 'block'; svg.style.display = 'none'; };
         img.onerror = () => {
-            // URL inválida ou expirada → limpa cache e mostra padrão
             localStorage.removeItem('profilePhotoUrl');
             img.style.display = 'none';
             svg.style.display = 'block';
@@ -354,21 +312,13 @@ g('picture-upload').addEventListener('change', function (e) {
     const reader = new FileReader();
     reader.onload = ev => {
         const dataUrl = ev.target.result;
-
-        // Aplica imediatamente na página
         setAvatar(dataUrl);
-
-        // Persiste no localStorage — assim a foto sobrevive a navegações
-        // enquanto o backend não confirma o upload
         localStorage.setItem('profilePhotoUrl', dataUrl);
-
-        // Notifica o header
         notifyHeader(
             localStorage.getItem('profileName')  || '',
             localStorage.getItem('profileEmail') || '',
             dataUrl
         );
-
         showToast('Foto atualizada! Clique em "Salvar alterações" para confirmar.');
     };
     reader.readAsDataURL(file);
@@ -376,10 +326,6 @@ g('picture-upload').addEventListener('change', function (e) {
 
 /* ═══════════════════════════════════════════
    LOAD PROFILE
-   Os campos que vêm do cadastro.js são:
-   nome_completo, email, telefone
-   Os demais (cpf, nascimento, sexo, foto_perfil)
-   são preenchidos aqui no perfil.
 ═══════════════════════════════════════════ */
 async function loadProfileData() {
     const userId = getUserId();
@@ -394,18 +340,15 @@ async function loadProfileData() {
         if (!res.ok) throw new Error('HTTP ' + res.status);
         const data = await res.json();
 
-        /* ── Sidebar ── */
         g('profile-name-display').textContent  = data.nome_completo || 'Usuário';
         g('profile-email-display').textContent = data.email         || '—';
         g('profile-phone-display').textContent = data.telefone      || '—';
 
-        // Cidade/estado (se o backend retornar)
         if (data.cidade || data.estado) {
             g('profile-city-display').textContent =
                 [data.cidade, data.estado].filter(Boolean).join(' — ');
         }
 
-        // Data de cadastro
         const rawDate = data.criado_em || data.data_cadastro || data.created_at;
         if (rawDate) {
             const d      = new Date(rawDate);
@@ -414,31 +357,23 @@ async function loadProfileData() {
                 `Membro desde ${months[d.getMonth()]} ${d.getFullYear()}`;
         }
 
-        // Foto: backend tem prioridade; fallback é o localStorage (upload local do usuário)
-        const backendPhoto    = data.foto_perfil || data.avatar || '';
-        const cachedPhoto     = localStorage.getItem('profilePhotoUrl') || '';
-        const isRealCached    = cachedPhoto && cachedPhoto !== DEFAULT_AVATAR_URL;
-        const photoUrl        = backendPhoto || (isRealCached ? cachedPhoto : '');
+        const backendPhoto = data.foto_perfil || data.avatar || '';
+        const cachedPhoto  = localStorage.getItem('profilePhotoUrl') || '';
+        const isRealCached = cachedPhoto && cachedPhoto !== DEFAULT_AVATAR_URL;
+        const photoUrl     = backendPhoto || (isRealCached ? cachedPhoto : '');
 
         setAvatar(photoUrl);
-
-        // Se temos foto real, garante que está salva no localStorage
         if (photoUrl) localStorage.setItem('profilePhotoUrl', photoUrl);
-
-        // Aguarda o header carregar e aplica dados
         waitForHeaderAndApply(data.nome_completo, data.email, photoUrl || DEFAULT_AVATAR_URL);
 
-        /* ── Formulário ── */
-        // nome_completo — campo exato do cadastro.js
-        if (data.nome_completo) g('nome').value = data.nome_completo;
+        if (data.nome_completo) g('nome').value      = data.nome_completo;
         if (data.sobrenome)     g('sobrenome').value = data.sobrenome;
-        if (data.email)         g('email').value = data.email;
-        if (data.telefone)      g('telefone').value = data.telefone;
-        if (data.cpf)           g('cpf').value = data.cpf;
+        if (data.email)         g('email').value     = data.email;
+        if (data.telefone)      g('telefone').value  = data.telefone;
+        if (data.cpf)           g('cpf').value       = data.cpf;
         if (data.nascimento)    g('nascimento').value = data.nascimento;
-        if (data.sexo)          g('sexo').value = data.sexo;
+        if (data.sexo)          g('sexo').value      = data.sexo;
 
-        /* ── Detecta navegador para sessão ── */
         const ua = navigator.userAgent;
         const browser = ua.includes('Firefox') ? 'Firefox'
                        : ua.includes('Edg')    ? 'Edge'
@@ -477,11 +412,10 @@ g('save-info-btn').addEventListener('click', async () => {
     btn.classList.add('loading');
 
     try {
-        // Foto: usa a exibida na página; fallback do localStorage se imagem não estiver visível
-        const picEl   = g('profile-picture');
-        const picSrc  = (picEl && picEl.style.display !== 'none' && picEl.src && picEl.src.length > 10)
-                            ? picEl.src
-                            : (localStorage.getItem('profilePhotoUrl') || '');
+        const picEl  = g('profile-picture');
+        const picSrc = (picEl && picEl.style.display !== 'none' && picEl.src && picEl.src.length > 10)
+                          ? picEl.src
+                          : (localStorage.getItem('profilePhotoUrl') || '');
 
         const body = {
             id:            userId,
@@ -502,19 +436,14 @@ g('save-info-btn').addEventListener('click', async () => {
         });
         if (!res.ok) throw new Error('HTTP ' + res.status);
 
-        // Persiste foto no localStorage para sobreviver navegações
         if (picSrc && picSrc !== DEFAULT_AVATAR_URL) {
             localStorage.setItem('profilePhotoUrl', picSrc);
         }
 
-        // Atualiza sidebar
         g('profile-name-display').textContent  = body.nome_completo;
         g('profile-email-display').textContent = body.email;
         g('profile-phone-display').textContent = body.telefone || '—';
-
-        // Notifica header
         notifyHeader(body.nome_completo, body.email, picSrc || DEFAULT_AVATAR_URL);
-
         showToast('Perfil atualizado com sucesso!', 'success');
 
     } catch (err) {
@@ -526,7 +455,7 @@ g('save-info-btn').addEventListener('click', async () => {
 });
 
 /* ═══════════════════════════════════════════
-   CHANGE PASSWORD — mesma regex do cadastro.js
+   CHANGE PASSWORD
 ═══════════════════════════════════════════ */
 g('form-senha').addEventListener('submit', async e => {
     e.preventDefault();
@@ -557,11 +486,7 @@ g('form-senha').addEventListener('submit', async e => {
         const res = await fetch(`${API_URL}/usuarios/senha`, {
             method:  'PUT',
             headers: { 'Content-Type': 'application/json' },
-            body:    JSON.stringify({
-                id:         getUserId(),
-                senhaAtual: atual,
-                novaSenha:  nova
-            })
+            body:    JSON.stringify({ id: getUserId(), senhaAtual: atual, novaSenha: nova })
         });
 
         if (res.status === 401) {
@@ -595,9 +520,7 @@ function resetSenhaForm() {
 }
 
 /* ═══════════════════════════════════════════
-   TICKETS — busca real no backend
-   Tenta os endpoints mais comuns em ordem.
-   Ajuste para o caminho real do seu backend.
+   TICKETS
 ═══════════════════════════════════════════ */
 let _ticketsLoaded  = false;
 let _allTickets     = [];
@@ -624,10 +547,7 @@ async function loadTickets() {
     }
 
     _ticketsLoaded = true;
-
-    const items = Array.isArray(raw) ? raw
-                : (raw?.ingressos || raw?.data || raw?.pedidos || []);
-
+    const items = Array.isArray(raw) ? raw : (raw?.ingressos || raw?.data || raw?.pedidos || []);
     if (!items.length) { showState('tickets', 'empty'); return; }
 
     _allTickets = items;
@@ -655,18 +575,21 @@ function renderTickets(tickets, filter) {
         const isHoje     = dataEvento && dataEvento.toDateString() === new Date().toDateString();
         const statusCls  = isHoje ? 'hoje' : (isProximo ? 'proximo' : 'passado');
         const statusTxt  = isHoje ? '🔥 Hoje!' : (isProximo ? 'Próximo' : 'Realizado');
-        const dataStr    = dataEvento
-            ? dataEvento.toLocaleDateString('pt-BR')
-            : '—';
-        const precoStr = t.preco
-            ? `R$ ${parseFloat(t.preco).toFixed(2).replace('.', ',')}`
-            : '';
+        const dataStr    = dataEvento ? dataEvento.toLocaleDateString('pt-BR') : '—';
+        const precoStr   = t.preco ? `R$ ${parseFloat(t.preco).toFixed(2).replace('.', ',')}` : '';
         const nomeEvento = t.nome_evento || t.evento || t.titulo || 'Evento';
         const local      = t.local_evento || t.local || t.endereco || '';
 
         return `
-        <div class="list-item">
-            <div class="item-icon"><i class="fas fa-ticket-alt"></i></div>
+        <div class="list-item" data-evento-id="${id}">
+            <div class="item-icon">
+                ${f.imagem
+                    ? `<img src="${f.imagem}" alt="${nome}" style="width:48px;height:48px;object-fit:cover;border-radius:8px;">`
+                    : `<i class="fas ${icon}"></i>`
+                }
+            </div>
+            <div class="item-info">
+            </div>
             <div class="item-info">
                 <div class="item-name">${nomeEvento}${t.setor ? ' — ' + t.setor : ''}</div>
                 <div class="item-sub">
@@ -692,7 +615,7 @@ function renderTickets(tickets, filter) {
 }
 
 function renderTicketSummary(tickets) {
-    const hoje = new Date(); hoje.setHours(0, 0, 0, 0);
+    const hoje     = new Date(); hoje.setHours(0, 0, 0, 0);
     const proximos = tickets.filter(t => t.data_evento && new Date(t.data_evento) >= hoje).length;
     const gasto    = tickets.reduce((s, t) => s + (parseFloat(t.preco) || 0), 0);
 
@@ -710,7 +633,6 @@ function updateNavBadge(count) {
     }
 }
 
-/* Download de ingresso */
 async function downloadTicket(ticketId) {
     try {
         const res = await fetch(`${API_URL}/ingressos/${ticketId}/download`);
@@ -726,7 +648,6 @@ async function downloadTicket(ticketId) {
     }
 }
 
-/* Filtros */
 document.querySelectorAll('.filter-btn').forEach(btn => {
     btn.addEventListener('click', () => {
         document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
@@ -785,20 +706,40 @@ g('confirm-transfer-btn').addEventListener('click', async () => {
 });
 
 /* ═══════════════════════════════════════════
-   FAVORITOS
+   FAVORITOS — lê do localStorage (roles_favoritos_dados)
+   com fallback para o backend
 ═══════════════════════════════════════════ */
 let _favoritosLoaded = false;
 
 async function loadFavoritos() {
     const userId = getUserId();
-    if (!userId) return;
     showState('favoritos', 'loading');
+
+    // ── 1. Tenta carregar do localStorage primeiro ──────────────────────
+    const localItems = getFavoritosDoStorage();
+
+    if (localItems.length > 0) {
+        renderFavoritos(localItems);
+        _favoritosLoaded = true;
+
+        // Sincroniza com o backend em segundo plano (se usuário estiver logado)
+        if (userId) sincronizarFavoritosComBackend(userId, localItems);
+        return;
+    }
+
+    // ── 2. Fallback: busca no backend ────────────────────────────────────
+    if (!userId) {
+        _favoritosLoaded = true;
+        showState('favoritos', 'empty');
+        return;
+    }
 
     const endpoints = [
         `${API_URL}/favoritos/usuario/${userId}`,
         `${API_URL}/favoritos?usuarioId=${userId}`,
         `${API_URL}/usuarios/${userId}/favoritos`,
     ];
+
     let raw = null;
     for (const url of endpoints) {
         try {
@@ -806,52 +747,140 @@ async function loadFavoritos() {
             if (res.ok) { raw = await res.json(); break; }
         } catch (_) {}
     }
-    _favoritosLoaded = true;
 
+    _favoritosLoaded = true;
     const items = Array.isArray(raw) ? raw : (raw?.favoritos || raw?.data || []);
+
     if (!items.length) { showState('favoritos', 'empty'); return; }
 
-    const iconMap = {
-        Bar: 'fa-cocktail', Restaurante: 'fa-utensils',
-        Balada: 'fa-music', Show: 'fa-star', Parque: 'fa-tree',
-        default: 'fa-map-marker-alt'
-    };
+    renderFavoritos(items);
+}
+
+/**
+ * Lê os favoritos salvos pelo favoritoCompartilhar.js no localStorage.
+ * Chave: 'roles_favoritos_dados' → { [eventoId]: { titulo, categoria, data, local, preco, imagem, url } }
+ */
+function getFavoritosDoStorage() {
+    try {
+        const raw = localStorage.getItem('roles_favoritos_dados');
+        if (!raw) return [];
+        const dados = JSON.parse(raw);
+        return Object.values(dados).filter(Boolean);
+    } catch {
+        return [];
+    }
+}
+
+/**
+ * Renderiza a lista de eventos favoritos na aba do perfil.
+ * Aceita tanto itens do localStorage quanto do backend.
+ */
+function renderFavoritos(items) {
+    if (!items.length) { showState('favoritos', 'empty'); return; }
 
     g('favoritos-list').innerHTML = items.map(f => {
-        const icon = iconMap[f.categoria] || iconMap.default;
-        const nota = parseFloat(f.avaliacao || f.nota || 0);
+        // Suporta tanto campos do localStorage quanto do backend
+        const nome      = f.titulo || f.nome || f.nome_local || '—';
+        const categoria = f.categoria || '';
+        const sub       = [f.data, f.local || f.cidade].filter(Boolean).join(' • ') || '—';
+        const preco     = f.preco || '';
+        const url       = f.url  || '#';
+        const id        = f.id   || '';
+
+        // Ícone por categoria
+        const iconMap = {
+            'Show': 'fa-star', 'Shows e Música': 'fa-music',
+            'Festa e Balada': 'fa-music', 'Balada': 'fa-music',
+            'Gastronomia': 'fa-utensils', 'Restaurante': 'fa-utensils',
+            'Bar': 'fa-cocktail', 'Parque': 'fa-tree',
+            'Esportes': 'fa-running', 'Cultura e Arte': 'fa-palette',
+            'Tecnologia': 'fa-laptop', 'Infantil e Família': 'fa-child',
+            'default': 'fa-calendar-star'
+        };
+        const icon = iconMap[categoria] || iconMap['default'];
+
         return `
-        <div class="list-item">
-            <div class="item-icon"><i class="fas ${icon}"></i></div>
+        <div class="list-item" data-evento-id="${id}">
+            <div class="item-icon">
+            ${f.imagem
+            ? `<img src="${f.imagem}" alt="${nome}" style="width:48px;height:48px;object-fit:cover;border-radius:8px;">`
+         : `<i class="fas ${icon}"></i>`
+        }
+        </div>
             <div class="item-info">
-                <div class="item-name">${f.nome || f.nome_local || '—'}</div>
-                <div class="item-sub">${[f.cidade, f.estado].filter(Boolean).join(' — ') || '—'}</div>
+                <div class="item-name">${nome}</div>
+                <div class="item-sub">${sub}${preco ? ' • ' + preco : ''}</div>
             </div>
-            ${f.categoria ? `<span class="category-tag">${f.categoria}</span>` : ''}
-            ${nota ? `<span class="rating-badge"><i class="fas fa-star star-icon"></i>${nota.toFixed(1)}</span>` : ''}
-            <button class="btn btn-ghost btn-sm" onclick="removeFavorito('${f.id}', this)" title="Remover">
-                <i class="fas fa-trash"></i>
-            </button>
+            ${categoria ? `<span class="category-tag">${categoria}</span>` : ''}
+            <div class="item-actions">
+                <a href="${url}" class="btn btn-primary btn-sm" title="Ver evento">
+                    <i class="fas fa-eye"></i> Ver
+                </a>
+                <button class="btn btn-ghost btn-sm" onclick="removeFavoritoLocal('${id}', this)" title="Remover">
+                    <i class="fas fa-trash"></i>
+                </button>
+            </div>
         </div>`;
     }).join('');
 
     showState('favoritos', 'list');
 }
 
-async function removeFavorito(id, btn) {
-    btn.classList.add('loading');
+/**
+ * Remove o favorito do localStorage e atualiza a UI.
+ */
+function removeFavoritoLocal(id, btn) {
+    // Remove dos dados detalhados
     try {
-        const res = await fetch(`${API_URL}/favoritos/${id}`, { method: 'DELETE' });
-        if (!res.ok) throw new Error();
-        const item = btn.closest('.list-item');
-        item.style.transition = 'opacity .3s';
-        item.style.opacity    = '0';
-        setTimeout(() => { item.remove(); showToast('Favorito removido.'); }, 300);
-    } catch {
-        showToast('Erro ao remover favorito.', 'error');
-    } finally {
-        btn.classList.remove('loading');
+        const dados = JSON.parse(localStorage.getItem('roles_favoritos_dados') || '{}');
+        delete dados[id];
+        localStorage.setItem('roles_favoritos_dados', JSON.stringify(dados));
+    } catch (_) {}
+
+    // Remove do Set de IDs
+    try {
+        const raw = localStorage.getItem('roles_favoritos');
+        const set = new Set(raw ? JSON.parse(raw) : []);
+        set.delete(id);
+        localStorage.setItem('roles_favoritos', JSON.stringify([...set]));
+    } catch (_) {}
+
+    // Remove o card da lista com animação
+    const item = btn.closest('.list-item');
+    item.style.transition = 'opacity .3s, transform .3s';
+    item.style.opacity    = '0';
+    item.style.transform  = 'translateX(20px)';
+    setTimeout(() => {
+        item.remove();
+        // Se a lista ficou vazia, mostra o estado vazio
+        const remaining = g('favoritos-list').querySelectorAll('.list-item');
+        if (!remaining.length) showState('favoritos', 'empty');
+        showToast('Removido dos favoritos.');
+    }, 310);
+}
+
+/**
+ * Sincroniza os favoritos locais com o backend em segundo plano.
+ * Só envia os IDs que o backend ainda não conhece.
+ */
+async function sincronizarFavoritosComBackend(userId, localItems) {
+    try {
+        for (const item of localItems) {
+            if (!item.id) continue;
+            await fetch(`${API_URL}/favoritos`, {
+                method:  'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body:    JSON.stringify({ usuarioId: userId, eventoId: item.id, ...item })
+            });
+        }
+    } catch (_) {
+        // Silencioso — sync em segundo plano; não afeta a UX
     }
+}
+
+// Mantém compatibilidade com a função antiga (caso algo ainda chame removeFavorito)
+async function removeFavorito(id, btn) {
+    removeFavoritoLocal(id, btn);
 }
 
 /* ═══════════════════════════════════════════
@@ -884,8 +913,7 @@ async function loadVisitas() {
     g('visitas-list').innerHTML = items.map(v => {
         const nota    = parseInt(v.nota || v.avaliacao || 0);
         const dataStr = v.data_visita
-            ? new Date(v.data_visita).toLocaleDateString('pt-BR')
-            : '—';
+            ? new Date(v.data_visita).toLocaleDateString('pt-BR') : '—';
         const stars   = [1,2,3,4,5].map(i =>
             `<i class="fas fa-star ${i <= nota ? 'filled' : 'empty'}"></i>`
         ).join('');
@@ -962,13 +990,17 @@ document.querySelectorAll('.faq-question').forEach(q => {
    INIT
 ═══════════════════════════════════════════ */
 document.addEventListener('DOMContentLoaded', () => {
-    // Aplica dados em cache do localStorage imediatamente (evita flash sem foto)
     const cachedName  = localStorage.getItem('profileName')     || '';
     const cachedEmail = localStorage.getItem('profileEmail')    || '';
     const cachedPhoto = localStorage.getItem('profilePhotoUrl') || DEFAULT_AVATAR_URL;
     waitForHeaderAndApply(cachedName, cachedEmail, cachedPhoto);
 
-    // Depois busca dados atualizados do backend
     loadProfileData();
     loadTickets();
+
+    // Se a URL tiver ?section=favoritos, abre a aba automaticamente
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('section') === 'favoritos') {
+        document.querySelector('.nav-item[data-section="favoritos"]')?.click();
+    }
 });
