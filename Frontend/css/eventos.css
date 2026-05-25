@@ -43,7 +43,6 @@ body {
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  /* Imagem real de festival/concerto */
   background-image: url('https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?w=1600&h=700&fit=crop&q=85');
   background-size: cover;
   background-position: center 40%;
@@ -53,7 +52,6 @@ body {
   pointer-events: none;
   position: absolute;
   inset: 0;
-  /* Overlay mais escuro e com mais profundidade de cor */
   background: linear-gradient(
     160deg,
     rgba(20,0,50,0.42) 0%,
@@ -62,7 +60,7 @@ body {
   );
 }
 
-/* ── Botão Voltar — canto superior esquerdo ── */
+/* ── Botão Voltar ── */
 .btn-voltar {
   position: absolute;
   top: 22px;
@@ -106,9 +104,7 @@ body {
   letter-spacing: -0.6px;
   line-height: 1.2;
 }
-.hero-content h1 strong {
-  font-weight: 800;
-}
+.hero-content h1 strong { font-weight: 800; }
 
 .hero-content > p {
   font-size: 15px;
@@ -186,10 +182,7 @@ body {
   color: var(--text-dark);
   letter-spacing: 0.1px;
 }
-.filtros-esquerda i {
-  color: var(--purple-600);
-  font-size: 15px;
-}
+.filtros-esquerda i { color: var(--purple-600); font-size: 15px; }
 
 .filtros-direita { display: flex; gap: 12px; flex-wrap: wrap; }
 
@@ -305,6 +298,8 @@ body {
   border-radius: var(--radius);
   overflow: hidden;
   box-shadow: var(--shadow-sm);
+  /* Card inteiro é clicável via JS delegation */
+  cursor: pointer;
   transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s;
 }
 .evento-card:hover {
@@ -422,6 +417,7 @@ body {
   font-family: 'DM Sans', sans-serif;
   font-size: 13px;
   font-weight: 600;
+  text-decoration: none;
   transition: all 0.2s;
 }
 .btn-detalhes:hover {
@@ -442,6 +438,7 @@ body {
   font-family: 'DM Sans', sans-serif;
   font-size: 13px;
   font-weight: 700;
+  text-decoration: none;
   box-shadow: 0 4px 16px rgba(91,33,182,0.32);
   transition: all 0.2s;
 }
@@ -479,11 +476,6 @@ body {
 /* ─── ESTATÍSTICAS ─── */
 .estatisticas {
   display: flex;
-  background: var(--bg-card);
-  border: 1.5px solid var(--border);
-  border-radius: var(--radius);
-  box-shadow: var(--shadow-sm);
-  overflow: hidden;
   margin-top: 8px;
 }
 
@@ -491,11 +483,7 @@ body {
   flex: 1;
   text-align: center;
   padding: 30px 20px;
-  border-right: 1.5px solid var(--border);
-  transition: background 0.2s;
 }
-.estatisticas .item:last-child { border-right: none; }
-.estatisticas .item:hover { background: var(--purple-50); }
 
 .stat-icon {
   width: 52px;
@@ -542,6 +530,4 @@ body {
   .pills { gap: 6px; }
   .pill { padding: 7px 14px; font-size: 12px; }
   .estatisticas { flex-direction: column; }
-  .estatisticas .item { border-right: none; border-bottom: 1.5px solid var(--border); }
-  .estatisticas .item:last-child { border-bottom: none; }
 }
