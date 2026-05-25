@@ -1,162 +1,273 @@
-/* 🎯 2. DEFINIÇÃO DA FONTE PRINCIPAL NO BODY */
+/* ============================================
+   VARIÁVEIS — mesmas do checkout
+============================================ */
+:root {
+    --primary:       #7C3AED;
+    --primary-dark:  #5B21B6;
+    --primary-light: #EDE9FE;
+    --primary-mid:   #A78BFA;
+    --success:       #059669;
+    --success-light: #ECFDF5;
+    --warning:       #D97706;
+    --warning-light: #FFFBEB;
+    --gray-50:       #F9FAFB;
+    --gray-100:      #F3F4F6;
+    --gray-200:      #E5E7EB;
+    --gray-400:      #9CA3AF;
+    --gray-500:      #6B7280;
+    --gray-700:      #374151;
+    --gray-800:      #1F2937;
+    --card-shadow:   0 1px 3px rgba(0,0,0,0.06), 0 4px 16px rgba(124,58,237,0.06);
+    --card-radius:   14px;
+    --btn-radius:    10px;
+    --transition:    0.2s ease;
+}
+
+/* ============================================
+   BASE
+============================================ */
 body {
     font-family: 'Poppins', Arial, sans-serif;
     margin: 0;
-    background-color: #f4f5f7;
+    background: linear-gradient(160deg, #F5F3FF 0%, #F9FAFB 60%);
+    min-height: 100vh;
     display: flex;
     flex-direction: column;
-    min-height: 100vh;
 }
 
-/* Estilo para simular o header */
 header {
     position: sticky;
     top: 0;
     z-index: 1000;
-    background-color: white;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    background: white;
+    box-shadow: 0 1px 0 var(--gray-200);
 }
 
 main {
     flex-grow: 1;
-    padding: 50px 20px;
     display: flex;
     justify-content: center;
     align-items: flex-start;
+    padding: 48px 20px 64px;
 }
 
+/* ============================================
+   CARD CENTRAL
+============================================ */
 .container-confirmacao {
-    padding: 40px 60px;
-    text-align: center;
-    max-width: 600px;
+    background: white;
+    border-radius: var(--card-radius);
+    box-shadow: var(--card-shadow);
+    border: 1px solid var(--gray-200);
+    max-width: 500px;
     width: 100%;
+    padding: 48px 52px 44px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
 }
 
+/* Barra superior colorida — igual ao card da página de checkout */
+.container-confirmacao::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--primary) 0%, var(--primary-mid) 100%);
+}
+
+/* ============================================
+   ÍCONE CHECK
+============================================ */
 .icone-check-container {
     margin-bottom: 20px;
 }
 
-.icone-check {
+.icone-check-ring {
     width: 80px;
     height: 80px;
-    color: #4CAF50;
+    border-radius: 50%;
+    background: var(--success-light);
+    border: 2px solid #A7F3D0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
 }
 
+.icone-check {
+    width: 40px;
+    height: 40px;
+    color: var(--success);
+}
+
+/* ============================================
+   TEXTOS
+============================================ */
 .titulo-confirmacao {
-    font-size: 26px;
-    /* Tamanho mantido para destaque */
-    color: #333;
+    font-size: 24px;
     font-weight: 700;
-    /* Poppins usa 700 para bold */
-    margin-bottom: 5px;
+    color: var(--gray-800);
+    margin: 0 0 8px;
+    letter-spacing: -0.3px;
 }
 
 .mensagem-confirmacao {
     font-size: 14px;
-    /* 🎯 Ajustado para 14px */
-    color: #666;
-    margin-bottom: 30px;
+    color: var(--gray-500);
+    line-height: 1.6;
+    margin: 0 0 28px;
 }
 
+/* ============================================
+   CARD LEMBRETE — mesmo estilo do card de
+   info do checkout (warning banner)
+============================================ */
 .card-lembrete {
-    background-color: #e6f7ff;
-    border: 1px solid #bae7ff;
-    padding: 20px;
-    border-radius: 8px;
+    background: var(--primary-light);
+    border: 1.5px solid #DDD6FE;
+    border-radius: 10px;
+    padding: 18px 20px;
     text-align: left;
-    margin-bottom: 30px;
+    margin-bottom: 28px;
+    position: relative;
+}
+
+.card-lembrete::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 4px;
+    background: linear-gradient(180deg, var(--primary) 0%, var(--primary-mid) 100%);
+    border-radius: 2px 0 0 2px;
 }
 
 .card-lembrete h3 {
-    margin-top: 0;
-    font-size: 14px;
-    /* 🎯 Ajustado para 14px */
-    color: #333;
-    font-weight: 600;
-    /* Poppins usa 600 para semi-bold */
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--primary-dark);
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    margin: 0 0 12px 8px;
 }
 
 .card-lembrete ul {
     list-style: none;
     padding: 0;
     margin: 0;
-    font-size: 12px;
-    /* 🎯 Ajustado para 12px */
-    color: #444;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
 }
 
 .card-lembrete li {
-    margin-bottom: 8px;
-    line-height: 1.4;
+    font-size: 13px;
+    color: var(--gray-700);
+    line-height: 1.5;
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    padding-left: 8px;
 }
 
+.card-lembrete li::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--primary);
+    flex-shrink: 0;
+    margin-top: 6px;
+}
+
+/* ============================================
+   BOTÕES — mesmos do checkout
+============================================ */
 .acoes-finais {
     display: flex;
+    flex-direction: row;
     justify-content: center;
-    gap: 15px;
+    gap: 12px;
 }
 
 .botao-acao {
-    /* padding: 12px 25px; Removido/Comentado */
-    padding: 8px 20px;
-    /* 🎯 Ajustado para ser mais curto (8px vertical) e mais largo (30px horizontal) */
-    border: none;
-    border-radius: 6px;
-    font-size: 14px;
+    padding: 11px 22px;
+    border-radius: var(--btn-radius);
+    font-size: 13px;
     font-weight: 600;
     cursor: pointer;
-    transition: background-color 0.3s;
-    text-decoration: none;
+    font-family: 'Poppins', Arial, sans-serif;
+    border: none;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 300px;
+    gap: 7px;
+    text-decoration: none;
+    letter-spacing: 0.1px;
+    transition: opacity var(--transition), transform var(--transition), box-shadow var(--transition);
+    white-space: nowrap;
 }
 
+.botao-acao:hover  { transform: translateY(-1px); }
+.botao-acao:active { transform: translateY(0); }
+
+/* Primário — gradiente violeta igual ao btn-pagar do checkout */
 .botao-explorar {
-    background-color: white;
-    color: #000;
-    border: 2px solid #bbb9b9;
+    background: linear-gradient(135deg, var(--primary) 0%, #A855F7 100%);
+    color: white;
+    box-shadow: 0 4px 14px rgba(124,58,237,0.35);
 }
 
 .botao-explorar:hover {
-    background-color: #f0f0f0;
+    opacity: 0.88;
+    box-shadow: 0 6px 20px rgba(124,58,237,0.45);
+    color: white;
 }
 
+/* Secundário — outline violeta */
 .botao-compartilhar {
-    background-color: #1a1a1a;
-    color: white;
+    background: white;
+    color: var(--primary);
+    border: 2px solid #DDD6FE;
+    box-shadow: none;
 }
 
 .botao-compartilhar:hover {
-    background-color: #333;
+    background: var(--primary-light);
+    border-color: var(--primary-mid);
+    color: var(--primary);
 }
 
 .icone-compartilhar {
-    margin-right: 8px;
-    width: 18px;
-    height: 18px;
+    width: 17px;
+    height: 17px;
 }
 
-/* Estilo para simular o footer */
+/* ============================================
+   FOOTER
+============================================ */
 footer {
     width: 100%;
-    background-color: #1a1a1a;
-    color: white;
+    background-color: var(--gray-800);
+    color: var(--gray-400);
     text-align: center;
-    padding: 10px 0;
+    padding: 12px 0;
+    font-size: 12px;
 }
 
-/* Responsive adjustments */
+/* ============================================
+   RESPONSIVO
+============================================ */
 @media (max-width: 600px) {
     .container-confirmacao {
-        padding: 30px 20px;
+        padding: 36px 24px 32px;
     }
-
+    .titulo-confirmacao {
+        font-size: 20px;
+    }
     .acoes-finais {
         flex-direction: column;
     }
-
     .botao-acao {
         width: 100%;
     }
