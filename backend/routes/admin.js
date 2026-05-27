@@ -333,4 +333,53 @@ router.get("/mensagens/:id/thread", authAdmin, (req, res) => {
     );
 });
 
+// ─────────────────────────────────────────────────────
+// ⭐ AVALIAÇÕES
+// ─────────────────────────────────────────────────────
+router.get("/avaliacoes", authAdmin, (req, res) => {
+    connection.query(
+        `SELECT a.id, a.nota, a.comentario, a.nome_autor, a.created_at,
+                e.nome AS estabelecimento_nome
+         FROM avaliacoes a
+         LEFT JOIN estabelecimentos e ON e.id = a.estabelecimento_id
+         ORDER BY a.created_at DESC`,
+        (err, rows) => {
+            if (err) return res.status(500).json({ erro: err.message });
+            res.json(rows);
+        }
+    );
+});
+
+router.delete("/avaliacoes/:id", authAdmin, (req, res) => {
+    connection.query(
+        "SELECT estabelecimento_id FROM avaliacoes WHERE id = ?",
+        [req.params.id],
+        (err, rows) => {
+            if (err) return res.status(500).json({ erro: err.message });
+            if (!rows.length) return res.status(404).json({ erro: "Avaliação não encontrada." });
+
+            const estId = rows[0].estabelecimento_id;
+
+            connection.query("DELETE FROM avaliacoes WHERE id = ?", [req.params.id], (err2) => {
+                if (err2) return res.status(500).json({ erro: err2.message });
+
+                // Recalcula média do estabelecimento
+                connection.query(
+                    "SELECT COUNT(*) AS total, AVG(nota) AS media FROM avaliacoes WHERE estabelecimento_id = ?",
+                    [estId],
+                    (err3, r) => {
+                        if (!err3 && r[0]) {
+                            connection.query(
+                                "UPDATE estabelecimentos SET nota = ?, avaliacoes = ? WHERE id = ?",
+                                [parseFloat(r[0].media || 0).toFixed(1), r[0].total, estId]
+                            );
+                        }
+                        res.json({ mensagem: "Avaliação deletada com sucesso." });
+                    }
+                );
+            });
+        }
+    );
+});
+
 module.exports = router;
