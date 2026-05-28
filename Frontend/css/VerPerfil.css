@@ -1,22 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700;9..40,800&family=DM+Serif+Display:ital@0;1&display=swap');
 
 :root {
-<<<<<<< HEAD
-<<<<<<< HEAD
-    --primary-color:cd backend; /* Cor principal, como a cor de Verificado e linha de aba */
-    --black-button-color: #000; /* Nova cor para botões 'Seguir' e 'Ver detalhes' */
-    --text-dark: #333;
-    --text-medium: #666;
-    --text-light: #999;
-    --bg-light: #f9f9f9; /* Cor de fundo da área superior */
-    --border-color: #eee;
-    --star-color: #FFC107;
-    --font-size-large: 14px;
-    --font-size-small: 12px;
-    --font-family: 'Poppins', sans-serif;
-=======
-=======
->>>>>>> 0891bf95d0d4f00e429ed3c2a80b6979f0481c21
   --p900: #2e1065; --p800: #4c1d95; --p700: #5b21b6;
   --p600: #7c3aed; --p500: #8b5cf6; --p400: #a78bfa;
   --p200: #ddd6fe; --p100: #ede9fe; --p50:  #f5f3ff;
@@ -31,10 +15,6 @@
   --radius:     14px;
   --radius-sm:  8px;
   --gold:       #f59e0b;
-<<<<<<< HEAD
->>>>>>> 0891bf95d0d4f00e429ed3c2a80b6979f0481c21
-=======
->>>>>>> 0891bf95d0d4f00e429ed3c2a80b6979f0481c21
 }
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }

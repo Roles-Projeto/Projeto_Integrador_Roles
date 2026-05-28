@@ -1,3 +1,4 @@
+
 # Dependências
 node_modules/
 **/node_modules/
@@ -8,7 +9,8 @@ node_modules/
 .env.production
 **/.env.production
 
-# Uploads
+# Uploads de usuários (arquivos locais de cada máquina)
+# Uploads - rastreados pelo Git (imagens do projeto)
 # backend/uploads/*
 
 # Logs
@@ -20,8 +22,8 @@ npm-debug.log*
 Thumbs.db
 desktop.ini
 
-# Arquivos temporários
-test.txt
+# Arquivos de teste temporários
+test.txtgit add backend/db-init/backup.sql
 test2.txt
 test3.txt
 
@@ -29,5 +31,4 @@ test3.txt
 .vscode/
 
 # Docker volumes locais
-
 mysql_data/
