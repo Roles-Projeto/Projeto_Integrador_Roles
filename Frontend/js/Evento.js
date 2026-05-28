@@ -20,10 +20,10 @@ function aplicarImagemHero(categoria) {
 
   const imgUrl = imagensPorCategoria[categoria] || imagensPorCategoria['todas'];
 
-  hero.style.transition       = 'opacity 0.35s ease';
-  hero.style.opacity          = '0.85';
-  hero.style.backgroundImage  = `url('${imgUrl}')`;
-  hero.style.backgroundSize   = 'cover';
+  hero.style.transition         = 'opacity 0.35s ease';
+  hero.style.opacity            = '0.85';
+  hero.style.backgroundImage    = `url('${imgUrl}')`;
+  hero.style.backgroundSize     = 'cover';
   hero.style.backgroundPosition = 'center 40%';
 
   setTimeout(() => { hero.style.opacity = '1'; }, 50);
@@ -36,11 +36,26 @@ function aplicarImagemHero(categoria) {
 document.addEventListener("DOMContentLoaded", async () => {
   aplicarImagemHero('todas');
 
-  const container        = document.getElementById("eventosContainer");
-  const btnCarregar      = document.getElementById("carregarMais");
+  const container          = document.getElementById("eventosContainer");
+  const btnCarregar        = document.getElementById("carregarMais");
   const EVENTOS_POR_PAGINA = 5;
-  let eventosFiltrados   = [];
-  let quantidadeVisiveis = EVENTOS_POR_PAGINA;
+  let eventosFiltrados     = [];
+  let quantidadeVisiveis   = EVENTOS_POR_PAGINA;
+
+  // ── Navegação pelo clique no card inteiro ──────────────────────────
+  container.addEventListener("click", e => {
+    // Ignora cliques em botões ou links internos
+    if (e.target.closest("button, a")) return;
+
+    const card = e.target.closest(".evento-card");
+    if (!card) return;
+
+    const id = card.getAttribute("data-id");
+    if (id) {
+      window.location.href = `/frontend/detalheseventos/detalheevento.html?id=${id}`;
+    }
+  });
+  // ──────────────────────────────────────────────────────────────────
 
   async function carregarEventos() {
     try {
@@ -51,7 +66,8 @@ document.addEventListener("DOMContentLoaded", async () => {
 
       if (data.length === 0) {
         container.insertAdjacentHTML("afterbegin", `<p style="text-align:center;padding:40px;color:#888;">Nenhum evento encontrado.</p>`);
-        atualizarContador(); return;
+        atualizarContador();
+        return;
       }
 
       const carregarBtn = document.querySelector(".carregar-container");
@@ -68,13 +84,22 @@ document.addEventListener("DOMContentLoaded", async () => {
     const article = document.createElement("article");
     article.classList.add("evento-card");
     article.setAttribute("data-categoria", (evento.assunto || "").toLowerCase());
-    article.setAttribute("data-nome", evento.nome);
-    article.setAttribute("data-id",  evento.id);
+    article.setAttribute("data-nome",      evento.nome);
+    article.setAttribute("data-id",        evento.id);
 
     const dataFormatada = formatarData(evento.data_inicio);
-    const preco = evento.preco_minimo > 0 ? `R$ ${parseFloat(evento.preco_minimo).toFixed(2)}` : "Gratuito";
-    const imagemSrc = !evento.imagem ? `${API_BASE}/frontend/imagens/jazz.png`
+    const isGratuito    = !evento.preco_minimo || parseFloat(evento.preco_minimo) === 0;
+    const preco         = isGratuito ? "Gratuito" : `R$ ${parseFloat(evento.preco_minimo).toFixed(2)}`;
+    const imagemSrc     = !evento.imagem
+      ? `${API_BASE}/frontend/imagens/jazz.png`
       : evento.imagem.startsWith("http") ? evento.imagem : `${API_BASE}${evento.imagem}`;
+
+    // Botão "Confirmar Presença" só aparece em eventos gratuitos
+    const btnConfirmar = isGratuito
+      ? `<a href="/frontend/detalheseventos/presencaconfirmada.html" class="btn-confirmar" role="button">
+           <i class="fa-solid fa-check"></i> Confirmar Presença
+         </a>`
+      : "";
 
     article.innerHTML = `
       <div class="evento-imagem">
@@ -92,17 +117,20 @@ document.addEventListener("DOMContentLoaded", async () => {
         <div class="card-footer">
           <span class="preco">${preco}</span>
           <div class="acoes">
-            <a href="/frontend/detalheseventos/detalheevento.html?id=${evento.id}" class="btn-detalhes" role="button"><i class="fa-solid fa-circle-info"></i> Detalhes</a>
-            <a href="/frontend/detalheseventos/presencaconfirmada.html" class="btn-confirmar" role="button"><i class="fa-solid fa-check"></i> Confirmar Presença</a>
+            <a href="/frontend/detalheseventos/detalheevento.html?id=${evento.id}" class="btn-detalhes" role="button">
+              <i class="fa-solid fa-circle-info"></i> Detalhes
+            </a>
+            ${btnConfirmar}
           </div>
         </div>
       </div>`;
+
     return article;
   }
 
   function formatarData(dataStr) {
     if (!dataStr) return "-";
-    const d = new Date(dataStr);
+    const d     = new Date(dataStr);
     const dias  = ["Dom","Seg","Ter","Qua","Qui","Sex","Sáb"];
     const meses = ["Jan","Fev","Mar","Abr","Mai","Jun","Jul","Ago","Set","Out","Nov","Dez"];
     return `${dias[d.getDay()]}, ${d.getDate()} de ${meses[d.getMonth()]} &nbsp;<i class="fa-regular fa-clock"></i> ${d.toTimeString().slice(0,5)}`;
@@ -154,7 +182,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     btnCarregar.addEventListener("click", () => { quantidadeVisiveis += EVENTOS_POR_PAGINA; renderizarPagina(); });
   }
 
-  if (searchInput) searchInput.addEventListener("keyup", aplicarFiltros);
+  if (searchInput)    searchInput.addEventListener("keyup", aplicarFiltros);
 
   if (pillsContainer) {
     pillsContainer.addEventListener("click", e => {
