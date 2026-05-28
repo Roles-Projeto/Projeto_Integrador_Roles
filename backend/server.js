@@ -69,6 +69,7 @@ const { ingressosRouter, pedidosRouter } = require("./routes/ingressosRoutes");
 // iniciarPoller();
 
 
+
 app.use("/usuarios",         usuariosRoutes);
 app.use("/usuarios",         authRoutes);
 app.use("/eventos",          eventosRoutes);

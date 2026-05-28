@@ -29,4 +29,5 @@ test3.txt
 .vscode/
 
 # Docker volumes locais
+
 mysql_data/

@@ -3,8 +3,13 @@
 /* ═══════════════════════════════════════════════════════════
    CONFIG
    window.API_BASE é definido em /frontend/js/config.js
+<<<<<<< HEAD
 ═══════════════════════════════════════════════════════════ */
 const API_URL = window.API_BASE || "";
+=======
+═══════════════════════════════════════════ */
+const API_URL = window.API_BASE || '';
+>>>>>>> 0891bf95d0d4f00e429ed3c2a80b6979f0481c21
 
 /* ═══════════════════════════════════════════════════════════
    ESTADO GLOBAL
@@ -20,8 +25,13 @@ const state = {
 
 /* ═══════════════════════════════════════════════════════════
    AVATAR PADRÃO
+<<<<<<< HEAD
 ═══════════════════════════════════════════════════════════ */
 const DEFAULT_AVATAR =
+=======
+═══════════════════════════════════════════ */
+const DEFAULT_AVATAR_URL =
+>>>>>>> 0891bf95d0d4f00e429ed3c2a80b6979f0481c21
     "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' " +
     "width='40' height='40' viewBox='0 0 40 40'%3E" +
     "%3Ccircle cx='20' cy='20' r='20' fill='%23ccc'/%3E" +
@@ -29,6 +39,7 @@ const DEFAULT_AVATAR =
     "%3Cellipse cx='20' cy='34' rx='12' ry='8' fill='%23fff'/%3E" +
     "%3C/svg%3E";
 
+<<<<<<< HEAD
 /* ═══════════════════════════════════════════════════════════
    UTILITÁRIOS
 ═══════════════════════════════════════════════════════════ */
@@ -46,6 +57,57 @@ function getUserId() {
         if (v && v !== "undefined" && v !== "null") return v;
     }
     for (const key of ["user", "userData", "usuario", "loggedUser", "currentUser"]) {
+=======
+function notifyHeader(name, email, picUrl) {
+    const photo = picUrl && picUrl.length > 10 ? picUrl : DEFAULT_AVATAR_URL;
+    localStorage.setItem('profilePhotoUrl', photo);
+    localStorage.setItem('profileName',     name  || '');
+    localStorage.setItem('profileEmail',    email || '');
+    applyHeaderData(name, email, photo);
+}
+
+function applyHeaderData(name, email, photo) {
+    const picHeader = document.getElementById('profile-pic-header');
+    if (picHeader) {
+        picHeader.src     = photo;
+        picHeader.onerror = () => { picHeader.src = DEFAULT_AVATAR_URL; };
+    }
+    const dropdownImg = document.querySelector('#header-logado .user-info img');
+    if (dropdownImg) {
+        dropdownImg.src     = photo;
+        dropdownImg.onerror = () => { dropdownImg.src = DEFAULT_AVATAR_URL; };
+    }
+    const nameEl  = document.getElementById('profile-name-header');
+    const emailEl = document.getElementById('profile-email-header');
+    if (nameEl  && name)  nameEl.textContent  = name;
+    if (emailEl && email) emailEl.textContent = email;
+
+    const logado    = document.getElementById('header-logado');
+    const naoLogado = document.getElementById('header-nao-logado');
+    const hamburger = document.getElementById('hamburger-btn');
+    if (logado)    logado.style.display    = 'flex';
+    if (naoLogado) naoLogado.style.display = 'none';
+    if (hamburger) hamburger.style.display = 'flex';
+}
+
+function waitForHeaderAndApply(name, email, photo, tries = 0) {
+    const picHeader = document.getElementById('profile-pic-header');
+    if (picHeader) { applyHeaderData(name, email, photo); return; }
+    if (tries < 20) setTimeout(() => waitForHeaderAndApply(name, email, photo, tries + 1), 150);
+}
+
+/* ═══════════════════════════════════════════
+   GET USER ID
+═══════════════════════════════════════════ */
+function getUserId() {
+    const directKeys = ['userId', 'id', 'user_id', 'usuarioId', 'usuario_id'];
+    for (const key of directKeys) {
+        const val = localStorage.getItem(key);
+        if (val && val !== 'undefined' && val !== 'null') return val;
+    }
+    const jsonKeys = ['user', 'userData', 'usuario', 'loggedUser', 'currentUser'];
+    for (const key of jsonKeys) {
+>>>>>>> 0891bf95d0d4f00e429ed3c2a80b6979f0481c21
         try {
             const obj = JSON.parse(localStorage.getItem(key) || "");
             const id  = obj?.id || obj?.userId || obj?.user_id;
@@ -66,6 +128,7 @@ function limparCacheSeUsuarioMudou(userId) {
     localStorage.setItem("cachedProfileUserId", String(userId));
 }
 
+<<<<<<< HEAD
 /* ═══════════════════════════════════════════════════════════
    HEADER
 ═══════════════════════════════════════════════════════════ */
@@ -125,6 +188,17 @@ function showSectionState(prefix, sectionState) {
     const list    = el(`${prefix}-list`);
     if (loading) loading.style.display = sectionState === "loading" ? "flex" : "none";
     if (empty)   empty.style.display   = sectionState === "empty"   ? "flex" : "none";
+=======
+/* ═══════════════════════════════════════════
+   SHOW/HIDE section state
+═══════════════════════════════════════════ */
+function showState(prefix, state) {
+    const loading = g(`${prefix}-loading`);
+    const empty   = g(`${prefix}-empty`);
+    const list    = g(`${prefix}-list`);
+    if (loading) loading.style.display = state === 'loading' ? 'flex'   : 'none';
+    if (empty)   empty.style.display   = state === 'empty'   ? 'flex'   : 'none';
+>>>>>>> 0891bf95d0d4f00e429ed3c2a80b6979f0481c21
     if (list) {
         list.style.display       = sectionState === "list" ? "flex" : "none";
         list.style.flexDirection = "column";
@@ -138,6 +212,7 @@ function activateSection(sectionId) {
     document.querySelectorAll(".nav-item[data-section]").forEach(n => n.classList.remove("active"));
     document.querySelectorAll(".section-panel").forEach(p => p.classList.remove("active"));
 
+<<<<<<< HEAD
     const navItem = document.querySelector(`.nav-item[data-section="${sectionId}"]`);
     const panel   = el(`section-${sectionId}`);
     if (navItem) navItem.classList.add("active");
@@ -152,6 +227,12 @@ function activateSection(sectionId) {
 
 document.querySelectorAll(".nav-item[data-section]").forEach(item => {
     item.addEventListener("click", () => activateSection(item.dataset.section));
+=======
+        if (item.dataset.section === 'ingressos' && !_ticketsLoaded)   loadTickets();
+        if (item.dataset.section === 'favoritos'  && !_favoritosLoaded) loadFavoritos();
+        if (item.dataset.section === 'visitas'    && !_visitasLoaded)   loadVisitas();
+    });
+>>>>>>> 0891bf95d0d4f00e429ed3c2a80b6979f0481c21
 });
 
 /* ═══════════════════════════════════════════════════════════
@@ -182,6 +263,7 @@ const Validador = {
     senha: (v) => /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&]).{8,}$/.test(v),
 };
 
+<<<<<<< HEAD
 function setFieldStatus(inputId, isValid, feedbackId, msgErro) {
     const input    = el(inputId);
     const feedback = el(feedbackId);
@@ -193,6 +275,70 @@ function setFieldStatus(inputId, isValid, feedbackId, msgErro) {
         feedback.classList.toggle("visible", !isValid);
     }
     return isValid;
+=======
+/* ═══════════════════════════════════════════
+   VALIDATORS
+═══════════════════════════════════════════ */
+function validateNome() {
+    const v  = gv('nome');
+    const ok = v.length >= 3;
+    markField(g('nome'), g('erro-nome'), !ok);
+    return ok;
+}
+function validateEmail() {
+    const v  = gv('email');
+    const ok = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
+    markField(g('email'), g('erro-email'), !ok);
+    return ok;
+}
+function validateCPF() {
+    const tipo = gv('tipo-doc');
+    const raw  = gv('cpf');
+    if (!raw) { clearField(g('cpf'), g('erro-cpf')); return true; }
+    let ok = true;
+    if (tipo === 'CPF') {
+        const d = raw.replace(/\D/g, '');
+        if (d.length !== 11 || /^(.)\1+$/.test(d)) { ok = false; }
+        else {
+            let s = 0, r;
+            for (let i = 0; i < 9; i++) s += +d[i] * (10 - i);
+            r = (s * 10) % 11; if (r >= 10) r = 0;
+            if (r !== +d[9]) ok = false;
+            else {
+                s = 0;
+                for (let i = 0; i < 10; i++) s += +d[i] * (11 - i);
+                r = (s * 10) % 11; if (r >= 10) r = 0;
+                ok = r === +d[10];
+            }
+        }
+    }
+    const errEl = g('erro-cpf');
+    if (errEl) errEl.textContent = tipo === 'CPF' ? 'CPF inválido.' : 'Informe o número do documento.';
+    markField(g('cpf'), errEl, !ok);
+    return ok;
+}
+function validateTelefone() {
+    const v = gv('telefone');
+    if (!v) { clearField(g('telefone'), g('erro-telefone')); return true; }
+    const d  = v.replace(/\D/g, '');
+    const ok = d.length === 10 || d.length === 11;
+    markField(g('telefone'), g('erro-telefone'), !ok);
+    return ok;
+}
+function validateNascimento() {
+    const v = g('nascimento').value;
+    if (!v) { clearField(g('nascimento'), g('erro-nascimento')); return true; }
+    const minAge = new Date(); minAge.setFullYear(minAge.getFullYear() - 13);
+    const ok = new Date(v) <= minAge;
+    markField(g('nascimento'), g('erro-nascimento'), !ok);
+    return ok;
+}
+function validateSenhaNova() {
+    const v  = g('senha-nova').value;
+    const ok = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&]).{8,}$/.test(v);
+    markField(g('senha-nova'), g('erro-senha-nova'), !ok);
+    return ok;
+>>>>>>> 0891bf95d0d4f00e429ed3c2a80b6979f0481c21
 }
 
 function clearFieldStatus(inputId, feedbackId) {
@@ -244,6 +390,7 @@ el("telefone")?.addEventListener("input", function () {
     this.value = v.replace(/-$/, "");
 });
 
+<<<<<<< HEAD
 /* ═══════════════════════════════════════════════════════════
    FORÇA DE SENHA
 ═══════════════════════════════════════════════════════════ */
@@ -254,6 +401,25 @@ el("senha-nova")?.addEventListener("input", function () {
     if (/[A-Za-z]/.test(v))  score++;
     if (/\d/.test(v))         score++;
     if (/[@$!%*#?&]/.test(v)) score++;
+=======
+g('nome').addEventListener('blur',       validateNome);
+g('email').addEventListener('blur',      validateEmail);
+g('cpf').addEventListener('blur',        validateCPF);
+g('telefone').addEventListener('blur',   validateTelefone);
+g('nascimento').addEventListener('blur', validateNascimento);
+g('tipo-doc').addEventListener('change', () => clearField(g('cpf'), g('erro-cpf')));
+
+/* ═══════════════════════════════════════════
+   PASSWORD STRENGTH
+═══════════════════════════════════════════ */
+g('senha-nova').addEventListener('input', function () {
+    const v = this.value;
+    let sc  = 0;
+    if (v.length >= 8)        sc++;
+    if (/[A-Za-z]/.test(v))  sc++;
+    if (/\d/.test(v))         sc++;
+    if (/[@$!%*#?&]/.test(v)) sc++;
+>>>>>>> 0891bf95d0d4f00e429ed3c2a80b6979f0481c21
 
     const levels = [
         { w: "0%",   c: "",               t: "" },
@@ -285,19 +451,34 @@ document.querySelectorAll(".eye-btn").forEach(btn => {
    AVATAR
 ═══════════════════════════════════════════════════════════ */
 function setAvatar(src) {
+<<<<<<< HEAD
     const img     = el("profile-picture");
     const svg     = el("avatar-default-svg");
     const cached  = localStorage.getItem("profilePhotoUrl") || "";
     const finalSrc = (src && src.length > 10 && !src.endsWith("/"))
+=======
+    const img = g('profile-picture');
+    const svg = g('avatar-default-svg');
+
+    const cached = localStorage.getItem('profilePhotoUrl') || '';
+    const isRealCached = cached && cached !== DEFAULT_AVATAR_URL && cached.length > 10;
+    const finalSrc = (src && src.length > 10 && !src.endsWith('/'))
+>>>>>>> 0891bf95d0d4f00e429ed3c2a80b6979f0481c21
                         ? src
                         : (cached && cached !== DEFAULT_AVATAR ? cached : "");
 
     if (finalSrc) {
         img.onload  = () => { img.style.display = "block"; svg.style.display = "none"; };
         img.onerror = () => {
+<<<<<<< HEAD
             localStorage.removeItem("profilePhotoUrl");
             img.style.display = "none";
             svg.style.display = "block";
+=======
+            localStorage.removeItem('profilePhotoUrl');
+            img.style.display = 'none';
+            svg.style.display = 'block';
+>>>>>>> 0891bf95d0d4f00e429ed3c2a80b6979f0481c21
         };
         img.src = finalSrc;
     } else {
@@ -319,10 +500,17 @@ el("picture-upload")?.addEventListener("change", function (e) {
     reader.onload = ev => {
         const dataUrl = ev.target.result;
         setAvatar(dataUrl);
+<<<<<<< HEAD
         localStorage.setItem("profilePhotoUrl", dataUrl);
         updateHeader(
             localStorage.getItem("profileName")  || "",
             localStorage.getItem("profileEmail") || "",
+=======
+        localStorage.setItem('profilePhotoUrl', dataUrl);
+        notifyHeader(
+            localStorage.getItem('profileName')  || '',
+            localStorage.getItem('profileEmail') || '',
+>>>>>>> 0891bf95d0d4f00e429ed3c2a80b6979f0481c21
             dataUrl
         );
         showToast('Foto atualizada! Clique em "Salvar alterações" para confirmar.');
@@ -330,9 +518,15 @@ el("picture-upload")?.addEventListener("change", function (e) {
     reader.readAsDataURL(file);
 });
 
+<<<<<<< HEAD
 /* ═══════════════════════════════════════════════════════════
    CARREGAR PERFIL
 ═══════════════════════════════════════════════════════════ */
+=======
+/* ═══════════════════════════════════════════
+   LOAD PROFILE
+═══════════════════════════════════════════ */
+>>>>>>> 0891bf95d0d4f00e429ed3c2a80b6979f0481c21
 async function loadProfileData() {
     const userId = getUserId();
     if (!userId) {
@@ -347,9 +541,15 @@ async function loadProfileData() {
         if (!res.ok) throw new Error("HTTP " + res.status);
         const data = await res.json();
 
+<<<<<<< HEAD
         el("profile-name-display").textContent  = data.nome_completo || data.nome || "Usuário";
         el("profile-email-display").textContent = data.email         || "—";
         el("profile-phone-display").textContent = data.telefone      || "—";
+=======
+        g('profile-name-display').textContent  = data.nome_completo || 'Usuário';
+        g('profile-email-display').textContent = data.email         || '—';
+        g('profile-phone-display').textContent = data.telefone      || '—';
+>>>>>>> 0891bf95d0d4f00e429ed3c2a80b6979f0481c21
 
         if (data.cidade || data.estado) {
             el("profile-city-display").textContent =
@@ -364,6 +564,7 @@ async function loadProfileData() {
                 `Membro desde ${months[d.getMonth()]} ${d.getFullYear()}`;
         }
 
+<<<<<<< HEAD
         const backendPhoto = data.foto_perfil || data.avatar || "";
         const photoUrl     = backendPhoto || "";
         setAvatar(photoUrl);
@@ -393,6 +594,34 @@ async function loadProfileData() {
         const device  = /Mobi|Android/i.test(ua) ? "Mobile" : "Desktop";
         const sessEl  = el("session-current-device");
         if (sessEl) sessEl.textContent = `${browser} — ${device}`;
+=======
+        const backendPhoto = data.foto_perfil || data.avatar || '';
+        const cachedPhoto  = localStorage.getItem('profilePhotoUrl') || '';
+        const isRealCached = cachedPhoto && cachedPhoto !== DEFAULT_AVATAR_URL;
+        const photoUrl     = backendPhoto || (isRealCached ? cachedPhoto : '');
+
+        setAvatar(photoUrl);
+        if (photoUrl) localStorage.setItem('profilePhotoUrl', photoUrl);
+        waitForHeaderAndApply(data.nome_completo, data.email, photoUrl || DEFAULT_AVATAR_URL);
+
+        if (data.nome_completo) g('nome').value      = data.nome_completo;
+        if (data.sobrenome)     g('sobrenome').value = data.sobrenome;
+        if (data.email)         g('email').value     = data.email;
+        if (data.telefone)      g('telefone').value  = data.telefone;
+        if (data.cpf)           g('cpf').value       = data.cpf;
+        if (data.nascimento)    g('nascimento').value = data.nascimento;
+        if (data.sexo)          g('sexo').value      = data.sexo;
+
+        const ua = navigator.userAgent;
+        const browser = ua.includes('Firefox') ? 'Firefox'
+                       : ua.includes('Edg')    ? 'Edge'
+                       : ua.includes('Chrome') ? 'Chrome'
+                       : ua.includes('Safari') ? 'Safari'
+                       : 'Navegador';
+        const device = /Mobi|Android/i.test(ua) ? 'Mobile' : 'Desktop';
+        const el = g('session-current-device');
+        if (el) el.textContent = `${browser} — ${device}`;
+>>>>>>> 0891bf95d0d4f00e429ed3c2a80b6979f0481c21
 
     } catch (err) {
         console.error("loadProfileData:", err);
@@ -414,10 +643,17 @@ el("save-info-btn")?.addEventListener("click", async () => {
     btn.classList.add("loading");
 
     try {
+<<<<<<< HEAD
         const picEl  = el("profile-picture");
         const picSrc = (picEl && picEl.style.display !== "none" && picEl.src?.length > 10)
                         ? picEl.src
                         : (localStorage.getItem("profilePhotoUrl") || "");
+=======
+        const picEl  = g('profile-picture');
+        const picSrc = (picEl && picEl.style.display !== 'none' && picEl.src && picEl.src.length > 10)
+                          ? picEl.src
+                          : (localStorage.getItem('profilePhotoUrl') || '');
+>>>>>>> 0891bf95d0d4f00e429ed3c2a80b6979f0481c21
 
         const body = {
             id:            userId,
@@ -438,6 +674,7 @@ el("save-info-btn")?.addEventListener("click", async () => {
         });
         if (!res.ok) throw new Error("HTTP " + res.status);
 
+<<<<<<< HEAD
         if (picSrc && picSrc !== DEFAULT_AVATAR) localStorage.setItem("profilePhotoUrl", picSrc);
 
         el("profile-name-display").textContent  = body.nome_completo;
@@ -446,6 +683,17 @@ el("save-info-btn")?.addEventListener("click", async () => {
 
         updateHeader(body.nome_completo, body.email, picSrc || DEFAULT_AVATAR);
         showToast("Perfil atualizado com sucesso!");
+=======
+        if (picSrc && picSrc !== DEFAULT_AVATAR_URL) {
+            localStorage.setItem('profilePhotoUrl', picSrc);
+        }
+
+        g('profile-name-display').textContent  = body.nome_completo;
+        g('profile-email-display').textContent = body.email;
+        g('profile-phone-display').textContent = body.telefone || '—';
+        notifyHeader(body.nome_completo, body.email, picSrc || DEFAULT_AVATAR_URL);
+        showToast('Perfil atualizado com sucesso!', 'success');
+>>>>>>> 0891bf95d0d4f00e429ed3c2a80b6979f0481c21
 
     } catch (err) {
         console.error("saveProfile:", err);
@@ -455,10 +703,17 @@ el("save-info-btn")?.addEventListener("click", async () => {
     }
 });
 
+<<<<<<< HEAD
 /* ═══════════════════════════════════════════════════════════
    ALTERAR SENHA
 ═══════════════════════════════════════════════════════════ */
 el("form-senha")?.addEventListener("submit", async (e) => {
+=======
+/* ═══════════════════════════════════════════
+   CHANGE PASSWORD
+═══════════════════════════════════════════ */
+g('form-senha').addEventListener('submit', async e => {
+>>>>>>> 0891bf95d0d4f00e429ed3c2a80b6979f0481c21
     e.preventDefault();
 
     const atual    = el("senha-atual").value;
@@ -489,9 +744,15 @@ el("form-senha")?.addEventListener("submit", async (e) => {
 
     try {
         const res = await fetch(`${API_URL}/usuarios/senha`, {
+<<<<<<< HEAD
             method:  "PUT",
             headers: { "Content-Type": "application/json" },
             body:    JSON.stringify({ id: getUserId(), senhaAtual: atual, novaSenha: nova }),
+=======
+            method:  'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body:    JSON.stringify({ id: getUserId(), senhaAtual: atual, novaSenha: nova })
+>>>>>>> 0891bf95d0d4f00e429ed3c2a80b6979f0481c21
         });
 
         if (res.status === 401) {
@@ -522,9 +783,19 @@ function resetSenhaForm() {
     el("form-senha").querySelectorAll(".field-error").forEach(e => e.classList.remove("visible"));
 }
 
+<<<<<<< HEAD
 /* ═══════════════════════════════════════════════════════════
    INGRESSOS
 ═══════════════════════════════════════════════════════════ */
+=======
+/* ═══════════════════════════════════════════
+   TICKETS
+═══════════════════════════════════════════ */
+let _ticketsLoaded  = false;
+let _allTickets     = [];
+let _currentFilter  = 'todos';
+
+>>>>>>> 0891bf95d0d4f00e429ed3c2a80b6979f0481c21
 async function loadTickets() {
     const userId = getUserId();
     if (!userId) return;
@@ -543,6 +814,7 @@ async function loadTickets() {
         } catch (_) {}
     }
 
+<<<<<<< HEAD
     state.ticketsLoaded = true;
     const items = Array.isArray(raw) ? raw : (raw?.ingressos || raw?.data || raw?.pedidos || []);
 
@@ -552,6 +824,16 @@ async function loadTickets() {
     renderTickets(state.allTickets, state.currentFilter);
     renderTicketSummary(state.allTickets);
     updateNavBadge(state.allTickets.length);
+=======
+    _ticketsLoaded = true;
+    const items = Array.isArray(raw) ? raw : (raw?.ingressos || raw?.data || raw?.pedidos || []);
+    if (!items.length) { showState('tickets', 'empty'); return; }
+
+    _allTickets = items;
+    renderTickets(_allTickets, _currentFilter);
+    renderTicketSummary(_allTickets);
+    updateNavBadge(_allTickets.length);
+>>>>>>> 0891bf95d0d4f00e429ed3c2a80b6979f0481c21
 }
 
 function renderTickets(tickets, filter) {
@@ -569,6 +851,7 @@ function renderTickets(tickets, filter) {
     el("tickets-list").innerHTML = filtered.map(t => {
         const dataEvento = t.data_evento ? new Date(t.data_evento) : null;
         const isHoje     = dataEvento && dataEvento.toDateString() === new Date().toDateString();
+<<<<<<< HEAD
         const isProximo  = dataEvento && dataEvento >= hoje;
         const statusCls  = isHoje ? "hoje" : (isProximo ? "proximo" : "passado");
         const statusTxt  = isHoje ? "🔥 Hoje!" : (isProximo ? "Próximo" : "Realizado");
@@ -583,6 +866,25 @@ function renderTickets(tickets, filter) {
         return `
         <div class="list-item" data-evento-id="${t.id || ""}">
             <div class="item-icon"><i class="fas fa-ticket-alt"></i></div>
+=======
+        const statusCls  = isHoje ? 'hoje' : (isProximo ? 'proximo' : 'passado');
+        const statusTxt  = isHoje ? '🔥 Hoje!' : (isProximo ? 'Próximo' : 'Realizado');
+        const dataStr    = dataEvento ? dataEvento.toLocaleDateString('pt-BR') : '—';
+        const precoStr   = t.preco ? `R$ ${parseFloat(t.preco).toFixed(2).replace('.', ',')}` : '';
+        const nomeEvento = t.nome_evento || t.evento || t.titulo || 'Evento';
+        const local      = t.local_evento || t.local || t.endereco || '';
+
+        return `
+        <div class="list-item" data-evento-id="${id}">
+            <div class="item-icon">
+                ${f.imagem
+                    ? `<img src="${f.imagem}" alt="${nome}" style="width:48px;height:48px;object-fit:cover;border-radius:8px;">`
+                    : `<i class="fas ${icon}"></i>`
+                }
+            </div>
+            <div class="item-info">
+            </div>
+>>>>>>> 0891bf95d0d4f00e429ed3c2a80b6979f0481c21
             <div class="item-info">
                 <div class="item-name">${nomeEvento}${t.tipo_ingresso ? " — " + t.tipo_ingresso : ""}</div>
                 <div class="item-sub">
@@ -639,12 +941,21 @@ async function downloadTicket(ticketId) {
     }
 }
 
+<<<<<<< HEAD
 document.querySelectorAll(".filter-btn").forEach(btn => {
     btn.addEventListener("click", () => {
         document.querySelectorAll(".filter-btn").forEach(b => b.classList.remove("active"));
         btn.classList.add("active");
         state.currentFilter = btn.dataset.filter;
         if (state.allTickets.length) renderTickets(state.allTickets, state.currentFilter);
+=======
+document.querySelectorAll('.filter-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        _currentFilter = btn.dataset.filter;
+        if (_allTickets.length) renderTickets(_allTickets, _currentFilter);
+>>>>>>> 0891bf95d0d4f00e429ed3c2a80b6979f0481c21
     });
 });
 
@@ -694,6 +1005,7 @@ el("confirm-transfer-btn")?.addEventListener("click", async () => {
     }
 });
 
+<<<<<<< HEAD
 /* ═══════════════════════════════════════════════════════════
    FAVORITOS
    Lê do localStorage (roles_favoritos_dados) com fallback
@@ -708,10 +1020,31 @@ async function loadFavoritos() {
     if (localItems.length > 0) {
         renderFavoritos(localItems);
         state.favoritosLoaded = true;
+=======
+/* ═══════════════════════════════════════════
+   FAVORITOS — lê do localStorage (roles_favoritos_dados)
+   com fallback para o backend
+═══════════════════════════════════════════ */
+let _favoritosLoaded = false;
+
+async function loadFavoritos() {
+    const userId = getUserId();
+    showState('favoritos', 'loading');
+
+    // ── 1. Tenta carregar do localStorage primeiro ──────────────────────
+    const localItems = getFavoritosDoStorage();
+
+    if (localItems.length > 0) {
+        renderFavoritos(localItems);
+        _favoritosLoaded = true;
+
+        // Sincroniza com o backend em segundo plano (se usuário estiver logado)
+>>>>>>> 0891bf95d0d4f00e429ed3c2a80b6979f0481c21
         if (userId) sincronizarFavoritosComBackend(userId, localItems);
         return;
     }
 
+<<<<<<< HEAD
     // 2. Fallback: busca no backend
     if (!userId) {
         state.favoritosLoaded = true;
@@ -725,12 +1058,30 @@ async function loadFavoritos() {
         `${API_URL}/favoritos?usuarioId=${userId}`,
         `${API_URL}/usuarios/${userId}/favoritos`,
     ]) {
+=======
+    // ── 2. Fallback: busca no backend ────────────────────────────────────
+    if (!userId) {
+        _favoritosLoaded = true;
+        showState('favoritos', 'empty');
+        return;
+    }
+
+    const endpoints = [
+        `${API_URL}/favoritos/usuario/${userId}`,
+        `${API_URL}/favoritos?usuarioId=${userId}`,
+        `${API_URL}/usuarios/${userId}/favoritos`,
+    ];
+
+    let raw = null;
+    for (const url of endpoints) {
+>>>>>>> 0891bf95d0d4f00e429ed3c2a80b6979f0481c21
         try {
             const res = await fetch(url);
             if (res.ok) { raw = await res.json(); break; }
         } catch (_) {}
     }
 
+<<<<<<< HEAD
     state.favoritosLoaded = true;
     const items = Array.isArray(raw) ? raw : (raw?.favoritos || raw?.data || []);
     if (!items.length) { showSectionState("favoritos", "empty"); return; }
@@ -753,6 +1104,147 @@ function getFavoritosDoStorage() {
 
 function renderFavoritos(items) {
     if (!items.length) { showSectionState("favoritos", "empty"); return; }
+=======
+    _favoritosLoaded = true;
+    const items = Array.isArray(raw) ? raw : (raw?.favoritos || raw?.data || []);
+
+    if (!items.length) { showState('favoritos', 'empty'); return; }
+
+    renderFavoritos(items);
+}
+
+/**
+ * Lê os favoritos salvos pelo favoritoCompartilhar.js no localStorage.
+ * Chave: 'roles_favoritos_dados' → { [eventoId]: { titulo, categoria, data, local, preco, imagem, url } }
+ */
+function getFavoritosDoStorage() {
+    try {
+        const raw = localStorage.getItem('roles_favoritos_dados');
+        if (!raw) return [];
+        const dados = JSON.parse(raw);
+        return Object.values(dados).filter(Boolean);
+    } catch {
+        return [];
+    }
+}
+
+/**
+ * Renderiza a lista de eventos favoritos na aba do perfil.
+ * Aceita tanto itens do localStorage quanto do backend.
+ */
+function renderFavoritos(items) {
+    if (!items.length) { showState('favoritos', 'empty'); return; }
+
+    g('favoritos-list').innerHTML = items.map(f => {
+        // Suporta tanto campos do localStorage quanto do backend
+        const nome      = f.titulo || f.nome || f.nome_local || '—';
+        const categoria = f.categoria || '';
+        const sub       = [f.data, f.local || f.cidade].filter(Boolean).join(' • ') || '—';
+        const preco     = f.preco || '';
+        const url       = f.url  || '#';
+        const id        = f.id   || '';
+
+        // Ícone por categoria
+        const iconMap = {
+            'Show': 'fa-star', 'Shows e Música': 'fa-music',
+            'Festa e Balada': 'fa-music', 'Balada': 'fa-music',
+            'Gastronomia': 'fa-utensils', 'Restaurante': 'fa-utensils',
+            'Bar': 'fa-cocktail', 'Parque': 'fa-tree',
+            'Esportes': 'fa-running', 'Cultura e Arte': 'fa-palette',
+            'Tecnologia': 'fa-laptop', 'Infantil e Família': 'fa-child',
+            'default': 'fa-calendar-star'
+        };
+        const icon = iconMap[categoria] || iconMap['default'];
+
+        return `
+        <div class="list-item" data-evento-id="${id}">
+            <div class="item-icon">
+            ${f.imagem
+            ? `<img src="${f.imagem}" alt="${nome}" style="width:48px;height:48px;object-fit:cover;border-radius:8px;">`
+         : `<i class="fas ${icon}"></i>`
+        }
+        </div>
+            <div class="item-info">
+                <div class="item-name">${nome}</div>
+                <div class="item-sub">${sub}${preco ? ' • ' + preco : ''}</div>
+            </div>
+            ${categoria ? `<span class="category-tag">${categoria}</span>` : ''}
+            <div class="item-actions">
+                <a href="${url}" class="btn btn-primary btn-sm" title="Ver evento">
+                    <i class="fas fa-eye"></i> Ver
+                </a>
+                <button class="btn btn-ghost btn-sm" onclick="removeFavoritoLocal('${id}', this)" title="Remover">
+                    <i class="fas fa-trash"></i>
+                </button>
+            </div>
+        </div>`;
+    }).join('');
+
+    showState('favoritos', 'list');
+}
+
+/**
+ * Remove o favorito do localStorage e atualiza a UI.
+ */
+function removeFavoritoLocal(id, btn) {
+    // Remove dos dados detalhados
+    try {
+        const dados = JSON.parse(localStorage.getItem('roles_favoritos_dados') || '{}');
+        delete dados[id];
+        localStorage.setItem('roles_favoritos_dados', JSON.stringify(dados));
+    } catch (_) {}
+
+    // Remove do Set de IDs
+    try {
+        const raw = localStorage.getItem('roles_favoritos');
+        const set = new Set(raw ? JSON.parse(raw) : []);
+        set.delete(id);
+        localStorage.setItem('roles_favoritos', JSON.stringify([...set]));
+    } catch (_) {}
+
+    // Remove o card da lista com animação
+    const item = btn.closest('.list-item');
+    item.style.transition = 'opacity .3s, transform .3s';
+    item.style.opacity    = '0';
+    item.style.transform  = 'translateX(20px)';
+    setTimeout(() => {
+        item.remove();
+        // Se a lista ficou vazia, mostra o estado vazio
+        const remaining = g('favoritos-list').querySelectorAll('.list-item');
+        if (!remaining.length) showState('favoritos', 'empty');
+        showToast('Removido dos favoritos.');
+    }, 310);
+}
+
+/**
+ * Sincroniza os favoritos locais com o backend em segundo plano.
+ * Só envia os IDs que o backend ainda não conhece.
+ */
+async function sincronizarFavoritosComBackend(userId, localItems) {
+    try {
+        for (const item of localItems) {
+            if (!item.id) continue;
+            await fetch(`${API_URL}/favoritos`, {
+                method:  'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body:    JSON.stringify({ usuarioId: userId, eventoId: item.id, ...item })
+            });
+        }
+    } catch (_) {
+        // Silencioso — sync em segundo plano; não afeta a UX
+    }
+}
+
+// Mantém compatibilidade com a função antiga (caso algo ainda chame removeFavorito)
+async function removeFavorito(id, btn) {
+    removeFavoritoLocal(id, btn);
+}
+
+/* ═══════════════════════════════════════════
+   VISITAS
+═══════════════════════════════════════════ */
+let _visitasLoaded = false;
+>>>>>>> 0891bf95d0d4f00e429ed3c2a80b6979f0481c21
 
     const iconMap = {
         "Show": "fa-star", "Shows e Música": "fa-music",
@@ -869,7 +1361,12 @@ async function loadVisitas() {
 
     el("visitas-list").innerHTML = items.map(v => {
         const nota    = parseInt(v.nota || v.avaliacao || 0);
+<<<<<<< HEAD
         const dataStr = v.data_visita ? new Date(v.data_visita).toLocaleDateString("pt-BR") : "—";
+=======
+        const dataStr = v.data_visita
+            ? new Date(v.data_visita).toLocaleDateString('pt-BR') : '—';
+>>>>>>> 0891bf95d0d4f00e429ed3c2a80b6979f0481c21
         const stars   = [1,2,3,4,5].map(i =>
             `<i class="fas fa-star ${i <= nota ? "filled" : "empty"}"></i>`
         ).join("");
@@ -942,6 +1439,7 @@ document.querySelectorAll(".faq-question").forEach(q => {
     });
 });
 
+<<<<<<< HEAD
 /* ═══════════════════════════════════════════════════════════
    INICIALIZAÇÃO
 ═══════════════════════════════════════════════════════════ */
@@ -969,5 +1467,23 @@ document.addEventListener("DOMContentLoaded", () => {
     if (compra) {
         sessionStorage.removeItem("compraConfirmada");
         setTimeout(() => showToast(compra.mensagem || "Compra realizada com sucesso! 🎉"), 600);
+=======
+/* ═══════════════════════════════════════════
+   INIT
+═══════════════════════════════════════════ */
+document.addEventListener('DOMContentLoaded', () => {
+    const cachedName  = localStorage.getItem('profileName')     || '';
+    const cachedEmail = localStorage.getItem('profileEmail')    || '';
+    const cachedPhoto = localStorage.getItem('profilePhotoUrl') || DEFAULT_AVATAR_URL;
+    waitForHeaderAndApply(cachedName, cachedEmail, cachedPhoto);
+
+    loadProfileData();
+    loadTickets();
+
+    // Se a URL tiver ?section=favoritos, abre a aba automaticamente
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('section') === 'favoritos') {
+        document.querySelector('.nav-item[data-section="favoritos"]')?.click();
+>>>>>>> 0891bf95d0d4f00e429ed3c2a80b6979f0481c21
     }
 });
