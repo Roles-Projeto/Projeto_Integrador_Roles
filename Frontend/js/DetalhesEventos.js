@@ -85,11 +85,14 @@ async function carregarDetalhesEvento() {
         document.querySelector('.data-hora-cabecalho').innerHTML =
             `${dataFormatada} <span class="separador-cabecalho">•</span> ${horaFormatada}`;
 
-        const precoMinimo = parseFloat(evento.preco_minimo) || 0;
+        const precoMinimo = evento.ingressos && evento.ingressos.length
+        ? Math.min(...evento.ingressos.map(i => parseFloat(i.valor) || 0))
+        : (parseFloat(evento.preco_minimo) || 0);
+
         document.querySelector('.valor-minimo').textContent =
-            precoMinimo > 0 ? `R$ ${precoMinimo.toFixed(2)}` : 'Grátis';
+        precoMinimo > 0 ? `R$ ${precoMinimo.toFixed(2).replace('.', ',')}` : 'Grátis';
         document.querySelector('.por-pessoas').textContent =
-            precoMinimo > 0 ? '+ 10% taxa' : 'por pessoa';
+        precoMinimo > 0 ? '+ 10% taxa' : 'por pessoa';
 
         // Sobre o evento
         document.querySelector('.descricao-evento').textContent = evento.descricao || '';

@@ -1,189 +1,274 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Perfil de Eventos</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-
-    <link rel="stylesheet"
-        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
-    <link rel="stylesheet" href="/frontend/css/footer.css">
-
-    <link rel="stylesheet" href="/frontend/css/verperfil.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Perfil do Organizador | Rolê.AI</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700;9..40,800&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <link rel="stylesheet" href="/frontend/css/footer.css">
+  <link rel="stylesheet" href="/frontend/css/verperfil.css">
 </head>
-
 <body>
-    <header>
-        <div id="header-container"></div>
-    </header>
 
+  <header><div id="header-container"></div></header>
 
-    <main>
-        <div class="container">
-            <div class="cabecalho-perfil">
-                <a href="javascript:history.back()" class="link-voltar">
-                    <span class="material-symbols-outlined icone">arrow_back</span> Voltar
-                </a>
-                <div class="info-perfil">
-                    <div class="detalhes-perfil">
-                        <img src="/frontend/imagens/logo3.png" alt="Avatar Organizador" class="avatar" id="avatar-organizador">
-                        <div>
-                            <h1 class="nome-empresa" id="nome-organizador">Carregando... <span class="verificado">◉
-                                    Verificado</span>
-                            </h1>
-                            <p class="descricao" id="descricao-organizador">Carregando descrição...</p>
-                            <div class="resumo-estatisticas">
-                                <span class="avaliacao"><span
-                                        class="material-symbols-outlined icone-estrela-pequena">star</span> <span
-                                        id="avaliacao-perfil">4.9</span> de avaliação</span>
-                                <span class="separador">|</span>
-                                <span id="eventos-realizados">127 eventos realizados</span>
-                                <span class="separador">|</span>
-                                <span id="participantes-totais">15.420 participantes</span>
-                            </div>
-                        </div>
-                    </div>
-                    <button class="botao-seguir">Seguir</button>
-                </div>
+  <!-- BANNER COM FOTO REAL -->
+  <div class="perfil-banner">
+    <a href="javascript:history.back()" class="btn-voltar">
+      <i class="fa-solid fa-arrow-left"></i> Voltar
+    </a>
+  </div>
+
+  <main>
+    <div class="container">
+
+      <!-- CABEÇALHO DO PERFIL -->
+      <div class="perfil-header">
+        <div class="perfil-header-left">
+          <div class="avatar-wrap">
+            <img src="/frontend/imagens/logo3.png" alt="Avatar" class="avatar" id="avatar-organizador">
+            <span class="avatar-badge"><i class="fa-solid fa-circle-check"></i></span>
+          </div>
+          <div class="perfil-info">
+            <div class="nome-row">
+              <h1 id="nome-organizador">Carregando...</h1>
+              <span class="tag-verificado"><i class="fa-solid fa-shield-halved"></i> Verificado</span>
             </div>
-
-            <div class="conteudo-principal">
-                <div class="abas-e-lista">
-                    <div class="navegacao-abas">
-                        <button class="botao-aba js-tab-button" data-tab="proximos-eventos">Próximos Eventos
-                            (8)</button>
-                        <button class="botao-aba js-tab-button ativo" data-tab="eventos-passados">Eventos Passados
-                            (119)</button>
-                        <button class="botao-aba js-tab-button" data-tab="avaliacoes">Avaliações</button>
-                    </div>
-
-                    <div class="conteudo-abas">
-                        <div id="eventos-passados" class="painel-aba ativo">
-                            <div class="cartao-evento">
-                                <div>
-                                    <h3 class="titulo-evento">Rock na Praça 2024</h3>
-                                    <p class="detalhes-evento">15/09/2024 • 933 participantes</p>
-                                </div>
-                                <span class="avaliacao-evento"><span class="material-symbols-outlined">star</span>
-                                    4.8</span>
-                            </div>
-                            <div class="cartao-evento">
-                                <div>
-                                    <h3 class="titulo-evento">Festival Gastronômico</h3>
-                                    <p class="detalhes-evento">20/08/2024 • 495 participantes</p>
-                                </div>
-                                <span class="avaliacao-evento"><span class="material-symbols-outlined">star</span>
-                                    4.9</span>
-                            </div>
-                            <div class="cartao-evento">
-                                <div>
-                                    <h3 class="titulo-evento">Sunset Session</h3>
-                                    <p class="detalhes-evento">10/07/2024 • 168 participantes</p>
-                                </div>
-                                <span class="avaliacao-evento"><span class="material-symbols-outlined">star</span>
-                                    5</span>
-                            </div>
-                        </div>
-
-                        <div id="proximos-eventos" class="painel-aba">
-                            <div class="cartao-proximo-evento">
-                                <img src="/frontend/imagens/7º imagem card.png" alt="Festival de Jazz ao Ar Livre">
-                                <div class="info-evento">
-                                    <h3 class="titulo-evento">Festival de Jazz ao Ar Livre</h3>
-                                    <p class="detalhes-evento">25/10/2025 • 19:00</p>
-                                    <p class="local-evento">Parque Vaca Brava</p>
-                                    <p class="confirmados-evento">145 confirmados</p>
-                                    <p class="preco-evento">R$ 50</p>
-                                </div>
-                                <button class="botao-ver-detalhes">Ver detalhes</button>
-                            </div>
-                            <div class="cartao-proximo-evento">
-                                <img src="/frontend/imagens/4º imagem cad.png" alt="Noite de Stand-up Comedy">
-                                <div class="info-evento">
-                                    <h3 class="titulo-evento">Noite de Stand-up Comedy</h3>
-                                    <p class="detalhes-evento">28/10/2025 • 20:30</p>
-                                    <p class="local-evento">Teatro Goiânia</p>
-                                    <p class="confirmados-evento">88 confirmados</p>
-                                    <p class="preco-evento">R$ 45</p>
-                                </div>
-                                <button class="botao-ver-detalhes">Ver detalhes</button>
-                            </div>
-                        </div>
-
-                        <div id="avaliacoes" class="painel-aba">
-
-                            <div class="cartao-avaliacao">
-                                <div class="cabecalho-avaliacao">
-                                    <div class="inicial-avaliador">M</div>
-                                    <div class="meta-avaliacao">
-                                        <span class="nome-avaliador">Maiara Santos</span>
-                                        <span class="data-avaliacao">03/10/2025</span>
-                                        <div class="estrelas-avaliacao">★★★☆☆</div>
-                                    </div>
-                                </div>
-                                <p class="texto-avaliacao">Eventos sempre bem organizados! Super recomendo.</p>
-                            </div>
-                            <div class="cartao-avaliacao">
-                                <div class="cabecalho-avaliacao">
-                                    <div class="inicial-avaliador">C</div>
-                                    <div class="meta-avaliacao">
-                                        <span class="nome-avaliador">Carlos Oliveira</span>
-                                        <span class="data-avaliacao">05/10/2025</span>
-                                        <div class="estrelas-avaliacao">★★★★★</div>
-                                    </div>
-                                </div>
-                                <p class="texto-avaliacao">Experiência incrível em todos os eventos que participei.</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="barra-lateral">
-                    <div class="caixa-estatisticas">
-                        <h3 class="titulo-caixa">Estatísticas</h3>
-                        <div class="item-estatistica">
-                            <span>Seguidores</span>
-                            <span class="valor-estatistica" id="seguidores">2.340</span>
-                        </div>
-                        <div class="item-estatistica">
-                            <span>Eventos Ativos</span>
-                            <span class="valor-estatistica" id="eventos-ativos">8</span>
-                        </div>
-                        <div class="item-estatistica">
-                            <span>Total de Eventos</span>
-                            <span class="valor-estatistica" id="total-eventos-estatistica">127</span>
-                        </div>
-                        <div class="item-estatistica">
-                            <span>Membro desde</span>
-                            <span class="valor-estatistica" id="membro-desde">Janeiro de 2020</span>
-                        </div>
-                    </div>
-
-                    <div class="caixa-contato">
-                        <h3 class="titulo-caixa">Contato</h3>
-                        <p class="detalhe-contato"><span class="material-symbols-outlined icone-contato">mail</span>
-                            <span id="email-contato">contato@eventosgp.com.br</span>
-                        </p>
-                        <p class="detalhe-contato"><span class="material-symbols-outlined icone-contato">call</span>
-                            <span id="telefone-contato">(62) 98765-4321</span>
-                        </p>
-                        <button class="botao-enviar-mensagem"><span
-                                class="material-symbols-outlined icone-botao">send</span> Enviar Mensagem</button>
-                    </div>
-                </div>
+            <p class="perfil-desc" id="descricao-organizador">Carregando...</p>
+            <div class="stats-row">
+              <div class="stat-chip">
+                <i class="fa-solid fa-star"></i>
+                <strong id="avaliacao-perfil">4.9</strong>
+                <span>avaliação</span>
+              </div>
+              <div class="stat-chip">
+                <i class="fa-solid fa-calendar-check"></i>
+                <strong id="eventos-realizados">127</strong>
+                <span>eventos</span>
+              </div>
+              <div class="stat-chip">
+                <i class="fa-solid fa-users"></i>
+                <strong id="participantes-totais">15.420</strong>
+                <span>participantes</span>
+              </div>
             </div>
+          </div>
         </div>
 
-    </main>
+        <div class="perfil-header-actions">
+          <button class="btn-mensagem" onclick="alert('Funcionalidade de mensagem em breve!')">
+            <i class="fa-solid fa-paper-plane"></i> Mensagem
+          </button>
+          <button class="btn-seguir" id="btn-seguir" onclick="toggleSeguir(this)">
+            <i class="fa-solid fa-plus"></i> Seguir
+          </button>
+        </div>
+      </div>
 
+      <!-- GRADE PRINCIPAL -->
+      <div class="grade-principal">
 
+        <!-- COLUNA ESQUERDA — Abas + Conteúdo -->
+        <div class="coluna-conteudo">
+
+          <!-- ABAS -->
+          <nav class="abas-nav">
+            <button class="aba js-tab-button ativo" data-tab="proximos-eventos">
+              <i class="fa-solid fa-calendar-days"></i> Próximos
+              <span class="aba-badge">8</span>
+            </button>
+            <button class="aba js-tab-button" data-tab="eventos-passados">
+              <i class="fa-solid fa-clock-rotate-left"></i> Passados
+              <span class="aba-badge">119</span>
+            </button>
+            <button class="aba js-tab-button" data-tab="avaliacoes">
+              <i class="fa-solid fa-star"></i> Avaliações
+            </button>
+          </nav>
+
+          <!-- PRÓXIMOS EVENTOS -->
+          <div id="proximos-eventos" class="painel-aba ativo">
+            <div class="evento-proximo-card">
+              <img src="/frontend/imagens/7º imagem card.png" alt="Festival de Jazz">
+              <div class="ep-info">
+                <span class="ep-badge">Em breve</span>
+                <h3>Festival de Jazz ao Ar Livre</h3>
+                <p class="ep-meta"><i class="fa-regular fa-calendar"></i> 25/10/2025 · <i class="fa-regular fa-clock"></i> 19:00</p>
+                <p class="ep-meta"><i class="fa-solid fa-location-dot"></i> Parque Vaca Brava, Goiânia</p>
+                <div class="ep-footer">
+                  <span class="ep-confirmados"><i class="fa-solid fa-circle-check"></i> 145 confirmados</span>
+                  <strong class="ep-preco">R$ 50</strong>
+                </div>
+              </div>
+              <button class="btn-ver-detalhes" onclick="alert('Em breve!')">
+                Ver detalhes <i class="fa-solid fa-arrow-right"></i>
+              </button>
+            </div>
+
+            <div class="evento-proximo-card">
+              <img src="/frontend/imagens/4º imagem cad.png" alt="Stand-up">
+              <div class="ep-info">
+                <span class="ep-badge">Em breve</span>
+                <h3>Noite de Stand-up Comedy</h3>
+                <p class="ep-meta"><i class="fa-regular fa-calendar"></i> 28/10/2025 · <i class="fa-regular fa-clock"></i> 20:30</p>
+                <p class="ep-meta"><i class="fa-solid fa-location-dot"></i> Teatro Goiânia</p>
+                <div class="ep-footer">
+                  <span class="ep-confirmados"><i class="fa-solid fa-circle-check"></i> 88 confirmados</span>
+                  <strong class="ep-preco">R$ 45</strong>
+                </div>
+              </div>
+              <button class="btn-ver-detalhes" onclick="alert('Em breve!')">
+                Ver detalhes <i class="fa-solid fa-arrow-right"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- EVENTOS PASSADOS -->
+          <div id="eventos-passados" class="painel-aba">
+            <div class="evento-passado-card">
+              <div class="ep-icone"><i class="fa-solid fa-music"></i></div>
+              <div class="ep-texto">
+                <h4>Rock na Praça 2024</h4>
+                <p><i class="fa-regular fa-calendar"></i> 15/09/2024 · <i class="fa-solid fa-users"></i> 933 participantes</p>
+              </div>
+              <div class="ep-nota"><i class="fa-solid fa-star"></i> 4.8</div>
+            </div>
+            <div class="evento-passado-card">
+              <div class="ep-icone"><i class="fa-solid fa-utensils"></i></div>
+              <div class="ep-texto">
+                <h4>Festival Gastronômico</h4>
+                <p><i class="fa-regular fa-calendar"></i> 20/08/2024 · <i class="fa-solid fa-users"></i> 495 participantes</p>
+              </div>
+              <div class="ep-nota"><i class="fa-solid fa-star"></i> 4.9</div>
+            </div>
+            <div class="evento-passado-card">
+              <div class="ep-icone"><i class="fa-solid fa-sun"></i></div>
+              <div class="ep-texto">
+                <h4>Sunset Session</h4>
+                <p><i class="fa-regular fa-calendar"></i> 10/07/2024 · <i class="fa-solid fa-users"></i> 168 participantes</p>
+              </div>
+              <div class="ep-nota perfeita"><i class="fa-solid fa-star"></i> 5.0</div>
+            </div>
+          </div>
+
+          <!-- AVALIAÇÕES -->
+          <div id="avaliacoes" class="painel-aba">
+
+            <!-- Resumo de notas -->
+            <div class="avaliacoes-resumo">
+              <div class="nota-grande">
+                <span class="nota-num">4.9</span>
+                <div class="estrelas-grandes">★★★★★</div>
+                <small>Baseado em 48 avaliações</small>
+              </div>
+              <div class="nota-barras">
+                <div class="barra-linha"><span>5 ★</span><div class="barra-track"><div class="barra-fill" style="width:78%"></div></div><span>78%</span></div>
+                <div class="barra-linha"><span>4 ★</span><div class="barra-track"><div class="barra-fill" style="width:15%"></div></div><span>15%</span></div>
+                <div class="barra-linha"><span>3 ★</span><div class="barra-track"><div class="barra-fill" style="width:5%"></div></div><span>5%</span></div>
+                <div class="barra-linha"><span>2 ★</span><div class="barra-track"><div class="barra-fill" style="width:2%"></div></div><span>2%</span></div>
+                <div class="barra-linha"><span>1 ★</span><div class="barra-track"><div class="barra-fill" style="width:0%"></div></div><span>0%</span></div>
+              </div>
+            </div>
+
+            <!-- Formulário de nova avaliação -->
+            <div class="form-avaliacao">
+              <h4><i class="fa-solid fa-pen-to-square"></i> Deixar uma avaliação</h4>
+              <div class="star-picker" id="starPicker">
+                <i class="fa-regular fa-star" data-val="1"></i>
+                <i class="fa-regular fa-star" data-val="2"></i>
+                <i class="fa-regular fa-star" data-val="3"></i>
+                <i class="fa-regular fa-star" data-val="4"></i>
+                <i class="fa-regular fa-star" data-val="5"></i>
+              </div>
+              <input type="text" id="nome-avaliador-input" placeholder="Seu nome" class="input-avaliacao">
+              <textarea id="texto-avaliacao-input" placeholder="Conte sua experiência com este organizador..." class="textarea-avaliacao" rows="3"></textarea>
+              <button class="btn-enviar-avaliacao" onclick="enviarAvaliacao()">
+                <i class="fa-solid fa-paper-plane"></i> Enviar avaliação
+              </button>
+            </div>
+
+            <!-- Lista de avaliações -->
+            <div id="lista-avaliacoes">
+              <div class="cartao-avaliacao">
+                <div class="avaliacao-topo">
+                  <div class="avaliador-inicial">M</div>
+                  <div class="avaliador-info">
+                    <strong>Maiara Santos</strong>
+                    <span>03/10/2025</span>
+                  </div>
+                  <div class="avaliacao-estrelas">★★★☆☆</div>
+                </div>
+                <p>Eventos sempre bem organizados! Super recomendo.</p>
+              </div>
+              <div class="cartao-avaliacao">
+                <div class="avaliacao-topo">
+                  <div class="avaliador-inicial">C</div>
+                  <div class="avaliador-info">
+                    <strong>Carlos Oliveira</strong>
+                    <span>05/10/2025</span>
+                  </div>
+                  <div class="avaliacao-estrelas">★★★★★</div>
+                </div>
+                <p>Experiência incrível em todos os eventos que participei.</p>
+              </div>
+            </div>
+          </div>
+
+        </div><!-- /coluna-conteudo -->
+
+        <!-- COLUNA DIREITA — Sidebar -->
+        <aside class="coluna-sidebar">
+
+          <div class="sidebar-card">
+            <h3 class="sidebar-title"><i class="fa-solid fa-chart-simple"></i> Estatísticas</h3>
+            <div class="stat-item">
+              <span><i class="fa-solid fa-users"></i> Seguidores</span>
+              <strong id="seguidores">2.340</strong>
+            </div>
+            <div class="stat-item">
+              <span><i class="fa-solid fa-calendar-check"></i> Eventos Ativos</span>
+              <strong id="eventos-ativos">8</strong>
+            </div>
+            <div class="stat-item">
+              <span><i class="fa-solid fa-layer-group"></i> Total de Eventos</span>
+              <strong id="total-eventos-estatistica">127</strong>
+            </div>
+            <div class="stat-item last">
+              <span><i class="fa-solid fa-clock"></i> Membro desde</span>
+              <strong id="membro-desde">Jan 2020</strong>
+            </div>
+          </div>
+
+          <div class="sidebar-card">
+            <h3 class="sidebar-title"><i class="fa-solid fa-address-card"></i> Contato</h3>
+            <div class="contato-row">
+              <i class="fa-solid fa-envelope"></i>
+              <span id="email-contato">contato@eventosgp.com.br</span>
+            </div>
+            <div class="contato-row">
+              <i class="fa-solid fa-phone"></i>
+              <span id="telefone-contato">(62) 98765-4321</span>
+            </div>
+          </div>
+
+          <div class="sidebar-card sidebar-share">
+            <h3 class="sidebar-title"><i class="fa-solid fa-share-nodes"></i> Compartilhar</h3>
+            <div class="share-btns">
+              <button class="share-btn whatsapp" onclick="compartilhar('whatsapp')"><i class="fa-brands fa-whatsapp"></i> WhatsApp</button>
+              <button class="share-btn copy" onclick="compartilhar('copy')"><i class="fa-solid fa-link"></i> Copiar link</button>
+            </div>
+          </div>
+
+        </aside>
+
+      </div><!-- /grade-principal -->
+    </div><!-- /container -->
+  </main>
+
+  <script src="/frontend/js/config.js"></script>
+  <script src="/frontend/js/footer.js" defer></script>
+  <script src="/frontend/js/loadHeader.js"></script>
+  <script src="/frontend/js/VerPerfil.js"></script>
 </body>
-<script src="/frontend/js/config.js"></script>
-    <script src="/frontend/js/footer.js" defer></script>
-<script src="/frontend/js/loadHeader.js"></script>
-<script src="/frontend/js/VerPerfil.js"></script>
-
-
 </html>

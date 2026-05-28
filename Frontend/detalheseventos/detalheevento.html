@@ -1,191 +1,190 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rolês - Ver mais detalhes/Eventos</title>
-    <link rel="stylesheet" href="/frontend/css/footer.css">
-    <link rel="stylesheet" href="/frontend/css/detalheseventos.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Detalhes do Evento | Rolê.AI</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700;9..40,800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <link rel="stylesheet" href="/frontend/css/footer.css">
+  <link rel="stylesheet" href="/frontend/css/detalheseventos.css">
 </head>
-
 <body>
-    <header>
-        <div id="header-container"></div>
-    </header>
+  <header><div id="header-container"></div></header>
 
-    <main class="conteudo-principal-evento">
-        <section class="banner-evento"
-            style="background-image: url(''); background-size: cover; background-position: center;">
-            <a href="javascript:history.back()" class="botao-voltar" role="button">
-                <svg class="icone-voltar" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M15 18L9 12L15 6" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                        stroke-linejoin="round" />
-                </svg>
-                Voltar
-            </a>
+  <main class="conteudo-principal-evento">
 
-            <div class="informacoes-cabecalho">
-                <span class="etiqueta-categoria">Música</span>
-                <h1 class="titulo-evento">Carregando Evento...</h1>
-                <p class="data-hora-cabecalho">--</p>
+    <!-- BANNER -->
+    <section class="banner-evento" style="background-image: url(''); background-size: cover; background-position: center;">
+      <div class="banner-overlay"></div>
+
+      <!-- Botão voltar — canto superior esquerdo -->
+      <a href="javascript:history.back()" class="botao-voltar" role="button">
+        <i class="fa-solid fa-arrow-left"></i> Voltar
+      </a>
+
+      <!-- Ações — canto superior direito -->
+      <div class="acoes-cabecalho">
+        <button class="icone-acao" aria-label="Favoritar" onclick="toggleFavorito(this)">
+          <i class="fa-regular fa-heart"></i>
+        </button>
+        <button class="icone-acao" aria-label="Compartilhar" onclick="compartilharEvento()">
+          <i class="fa-solid fa-share-nodes"></i>
+        </button>
+      </div>
+
+      <!-- Info inferior -->
+      <div class="informacoes-cabecalho">
+        <span class="etiqueta-categoria">Música</span>
+        <h1 class="titulo-evento">Carregando Evento...</h1>
+        <p class="data-hora-cabecalho">--</p>
+      </div>
+
+      <div class="preco-cabecalho">
+        <span class="label-preco">A partir de</span>
+        <span class="valor-minimo">R$ --</span>
+        <span class="por-pessoas">por pessoa</span>
+      </div>
+    </section>
+
+    <!-- CONTEÚDO -->
+    <div class="conteudo-evento">
+
+      <!-- COLUNA ESQUERDA -->
+      <div class="detalhes-evento">
+
+        <!-- Sobre -->
+        <section class="card-informacoes sobre-evento">
+          <h2 class="titulo-secao"><i class="fa-solid fa-circle-info"></i> Sobre o Evento</h2>
+          <p class="descricao-evento">Carregando descrição...</p>
+
+          <div class="informacoes-extras">
+            <div class="info-item local-evento">
+              <div class="info-icone-wrap"><i class="fa-solid fa-location-dot"></i></div>
+              <div class="texto-info">
+                <p class="nome-local">Carregando...</p>
+                <p class="endereco-local">Carregando...</p>
+              </div>
             </div>
-
-            <div class="acoes-cabecalho">
-                <button class="icone-acao" aria-label="Favoritar Evento">
-                    <svg class="icone-coracao" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path
-                            d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"
-                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                    </svg>
-                </button>
-                <button class="icone-acao" aria-label="Compartilhar Evento">
-                    <svg class="icone-compartilhar" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path
-                            d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.47 1.22.77 1.96.77 2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4c0 .24.04.47.09.7L7.05 11.08C6.51 10.61 5.83 10.32 5.08 10.32c-2.21 0-4 1.79-4 4s1.79 4 4 4c.75 0 1.43-.29 1.96-.77l7.05 4.11c-.05.23-.09.46-.09.7 0 2.21 1.79 4 4 4s4-1.79 4-4-1.79-4-4-4z"
-                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                    </svg>
-                </button>
+            <div class="info-item confirmados">
+              <div class="info-icone-wrap"><i class="fa-solid fa-users"></i></div>
+              <div class="texto-info">
+                <span class="numero-confirmados">--</span>
+                <span class="texto-confirmacao">confirmaram presença</span>
+              </div>
             </div>
-
-            <div class="preco-cabecalho">
-                A partir de <span class="valor-minimo">R$ --</span>
-                <span class="por-pessoas">por pessoa</span>
-            </div>
+          </div>
         </section>
 
-        <div class="conteudo-evento">
-
-            <div class="detalhes-evento">
-
-                <section class="card-informacoes sobre-evento">
-                    <h2 class="titulo-secao">Sobre o Evento</h2>
-                    <p class="descricao-evento">
-                        Carregando descrição...
-                    </p>
-                    <div class="informacoes-extras">
-                        <div class="info-item local-evento">
-                            <svg class="icone-info" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path
-                                    d="M12 21.7C17.3 17 20 13 20 10C20 6.7 17.3 4 14 4C12.7 4 11.4 4.4 10.3 5.2L12 7H7V2L8.7 3.2C6.4 4.8 5 7.2 5 10C5 13 7.7 17 13 21.7L12 21.7Z"
-                                    stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                    stroke-linejoin="round" />
-                            </svg>
-                            <div class="texto-info">
-                                <p class="nome-local">Carregando...</p>
-                                <p class="endereco-local">Carregando...</p>
-                            </div>
-                        </div>
-                        <div class="info-item confirmados">
-                            <svg class="icone-info" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path
-                                    d="M16 21V19C16 17.9391 15.5786 16.9217 14.8284 16.1716C14.0783 15.4214 13.0609 15 12 15H8C6.93913 15 5.92172 15.4214 5.17157 16.1716C4.42143 16.9217 4 17.9391 4 19V21M12 7C14.2091 7 16 5.20914 16 3C16 0.790861 14.2091 -1 12 -1C9.79086 -1 8 0.790861 8 3C8 5.20914 9.79086 7 12 7Z"
-                                    stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                    stroke-linejoin="round" />
-                            </svg>
-                            <div class="texto-info">
-                                <span class="numero-confirmados">--</span>
-                                <span class="texto-confirmacao">confirmaram presença</span>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-
-                <section class="card-informacoes organizador">
-                    <h2 class="titulo-secao">Organizador</h2>
-                    <div class="perfil-organizador">
-                        <img src="/frontend/imagens/logo3.png" alt="Logo do Organizador" class="avatar-organizador"
-                            id="avatar-organizador">
-                        <div class="dados-organizador">
-                            <p class="nome-produtora" id="nome-produtora">
-                                Carregando...
-                                <span class="etiqueta-verificado">Verificado</span>
-                            </p>
-                            <p class="eventos-organizados" id="eventos-organizados">-- eventos organizados</p>
-                        </div>
-                        <a href="/frontend/eventos/VerPerfil.html" class="botao-ver-perfil js-link-ver-perfil">Ver Perfil</a>
-                    </div>
-                </section>
-
-                <section class="ingressos-disponiveis">
-                    <h3 class="titulo-ingressos">
-                        <span class="icone-ingresso">🎟️</span> Ingressos Disponíveis
-                    </h3>
-                    <p id="loading-ingressos">Carregando opções de ingressos...</p>
-
-                </section>
-
-                <div class="card-transparencia">
-                    <span class="icone-info-taxa">ⓘ</span>
-                    <div class="texto-transparencia">
-                        <p class="titulo-transparencia">Transparência Total</p>
-                        <p class="detalhe-taxa">
-                            Taxa de serviço de <span class="destaque-taxa">apenas 10%</span> será adicionada no
-                            checkout. Esta taxa cobre processamento de pagamento, emissão de ingresso digital e suporte.
-                        </p>
-                    </div>
-                </div>
-
-                <section class="card-informacoes avaliacoes">
-                    <h2 class="titulo-secao">Avaliações</h2>
-                    <div class="lista-avaliacoes">
-                        <p>Nenhuma avaliação encontrada para este evento. Seja o primeiro!</p>
-                    </div>
-                </section>
-
+        <!-- Organizador -->
+        <section class="card-informacoes organizador">
+          <h2 class="titulo-secao"><i class="fa-solid fa-user-tie"></i> Organizador</h2>
+          <div class="perfil-organizador">
+            <img src="/frontend/imagens/logo3.png" alt="Logo do Organizador" class="avatar-organizador" id="avatar-organizador">
+            <div class="dados-organizador">
+              <p class="nome-produtora" id="nome-produtora">
+                Carregando... <span class="etiqueta-verificado"><i class="fa-solid fa-shield-halved"></i> Verificado</span>
+              </p>
+              <p class="eventos-organizados" id="eventos-organizados"></p>
             </div>
+            <a href="/frontend/eventos/VerPerfil.html" class="botao-ver-perfil js-link-ver-perfil">
+              Ver Perfil <i class="fa-solid fa-arrow-right"></i>
+            </a>
+          </div>
+        </section>
 
-            <aside class="compra-ingresso">
+        <!-- Ingressos -->
+        <section class="ingressos-disponiveis">
+          <h3 class="titulo-ingressos"><i class="fa-solid fa-ticket"></i> Ingressos Disponíveis</h3>
+          <p id="loading-ingressos">Carregando opções de ingressos...</p>
+        </section>
 
-                <div class="card-garantia-ingresso">
-                    <h2 class="titulo-secao">Garanta seu Ingresso</h2>
-
-                    <div class="detalhes-data-local">
-                        <div class="linha-detalhe">
-                            <span class="label-detalhe">Data</span>
-                            <span class="valor-detalhe data-resumo">--</span>
-                        </div>
-                        <div class="linha-detalhe">
-                            <span class="label-detalhe">Horário</span>
-                            <span class="valor-detalhe hora-resumo">--</span>
-                        </div>
-                        <div class="linha-detalhe">
-                            <span class="label-detalhe">Local</span>
-                            <span class="valor-detalhe local-resumo">--</span>
-                        </div>
-                        <div class="linha-detalhe">
-                            <span class="label-detalhe">Ingresso</span>
-                            <span class="valor-detalhe ingresso-resumo">--</span>
-                        </div>
-                    </div>
-
-                    <div class="detalhe-valor-total">
-                        <span class="label-valor">Valor</span>
-                        <span class="valor-ingresso">R$ 0,00</span>
-                    </div>
-
-                    <button class="botao-comprar" type="button">Comprar Ingresso</button>
-
-                    <div class="beneficios-compra">
-                        <div class="beneficio-item">
-                            <span class="icone-check">✔</span> Confirmação imediata
-                        </div>
-                        <div class="beneficio-item">
-                            <span class="icone-check">✔</span> Ingresso por email e app
-                        </div>
-                        <div class="beneficio-item">
-                            <span class="icone-check">✔</span> Pagamento seguro
-                        </div>
-                    </div>
-                </div>
-            </aside>
+        <!-- Transparência -->
+        <div class="card-transparencia">
+          <div class="transparencia-icone"><i class="fa-solid fa-shield-halved"></i></div>
+          <div class="texto-transparencia">
+            <p class="titulo-transparencia">Transparência Total</p>
+            <p class="detalhe-taxa">Taxa de serviço de <span class="destaque-taxa">apenas 10%</span> será adicionada no checkout. Esta taxa cobre processamento de pagamento, emissão de ingresso digital e suporte ao cliente.</p>
+          </div>
         </div>
-    </main>
 
+        <!-- Avaliações -->
+        <section class="card-informacoes avaliacoes">
+          <h2 class="titulo-secao"><i class="fa-solid fa-star"></i> Avaliações</h2>
+          <div class="lista-avaliacoes">
+            <p class="sem-avaliacoes">Nenhuma avaliação para este evento. Seja o primeiro!</p>
+          </div>
+        </section>
+
+      </div><!-- /detalhes-evento -->
+
+      <!-- COLUNA DIREITA — Compra -->
+      <aside class="compra-ingresso">
+        <div class="card-garantia-ingresso">
+          <h2 class="titulo-secao">Garanta seu Ingresso</h2>
+
+          <div class="detalhes-data-local">
+            <div class="linha-detalhe">
+              <span class="label-detalhe"><i class="fa-regular fa-calendar"></i> Data</span>
+              <span class="valor-detalhe data-resumo">--</span>
+            </div>
+            <div class="linha-detalhe">
+              <span class="label-detalhe"><i class="fa-regular fa-clock"></i> Horário</span>
+              <span class="valor-detalhe hora-resumo">--</span>
+            </div>
+            <div class="linha-detalhe">
+              <span class="label-detalhe"><i class="fa-solid fa-location-dot"></i> Local</span>
+              <span class="valor-detalhe local-resumo">--</span>
+            </div>
+            <div class="linha-detalhe">
+              <span class="label-detalhe"><i class="fa-solid fa-ticket"></i> Ingresso</span>
+              <span class="valor-detalhe ingresso-resumo">--</span>
+            </div>
+          </div>
+
+          <div class="detalhe-valor-total">
+            <span class="label-valor">Total</span>
+            <span class="valor-ingresso">R$ 0,00</span>
+          </div>
+
+          <button class="botao-comprar" type="button">Comprar Ingresso</button>
+
+          <div class="beneficios-compra">
+            <div class="beneficio-item"><i class="fa-solid fa-circle-check"></i> Confirmação imediata</div>
+            <div class="beneficio-item"><i class="fa-solid fa-circle-check"></i> Ingresso por email e app</div>
+            <div class="beneficio-item"><i class="fa-solid fa-circle-check"></i> Pagamento seguro</div>
+          </div>
+        </div>
+      </aside>
+
+    </div><!-- /conteudo-evento -->
+  </main>
+
+  <script src="/frontend/js/config.js"></script>
+  <script src="/frontend/js/footer.js" defer></script>
+  <script src="/frontend/js/loadHeader.js"></script>
+  <script src="/frontend/js/detalhesEventos.js"></script>
+  <script>
+    function toggleFavorito(btn) {
+      const icon = btn.querySelector('i');
+      const ativo = icon.classList.toggle('fa-solid');
+      icon.classList.toggle('fa-regular', !ativo);
+      btn.style.color = ativo ? '#ef4444' : '';
+    }
+    function compartilharEvento() {
+      if (navigator.share) {
+        navigator.share({ title: document.querySelector('.titulo-evento')?.textContent, url: window.location.href });
+      } else {
+        navigator.clipboard.writeText(window.location.href).then(() => alert('✅ Link copiado!'));
+      }
+    }
+  </script>
 </body>
+
 <script src="/frontend/js/config.js"></script>
     <script src="/frontend/js/footer.js" defer></script>
 <script src="/frontend/js/loadHeader.js"></script>
 <script src="/frontend/js/detalhesEventos.js"></script>
+<script src="/frontend/js/favoritoCompartilhar.js"></script>
 
 </html>

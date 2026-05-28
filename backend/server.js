@@ -61,20 +61,26 @@ const authRoutes             = require("./routes/auth");
 const eventosRoutes          = require("./routes/eventos");
 const estabelecimentosRoutes = require("./routes/estabelecimentos");
 const contatoRoutes          = require("./routes/contato");
-const avaliacoesRoutes = require("./routes/avaliacoes");
-const adminRoutes = require("./routes/admin");
+const avaliacoesRoutes       = require("./routes/avaliacoes");
+const adminRoutes            = require("./routes/admin");
+const { ingressosRouter, pedidosRouter } = require("./routes/ingressosRoutes");
+
+// const { iniciarPoller } = require("./services/gmailPoller");
+// iniciarPoller();
+
 
 app.use("/usuarios",         usuariosRoutes);
 app.use("/usuarios",         authRoutes);
 app.use("/eventos",          eventosRoutes);
 app.use("/estabelecimentos", estabelecimentosRoutes);
 app.use("/contato",          contatoRoutes);
-app.use("/avaliacoes", avaliacoesRoutes);
-app.use("/admin", adminRoutes);
+app.use("/avaliacoes",       avaliacoesRoutes);
+app.use("/admin",            adminRoutes);
+app.use("/ingressos",        ingressosRouter);
+app.use("/pedidos",          pedidosRouter);
 
 /* ─────────────────────────────────────────────────────
    FALLBACK SPA
-   Usa app.use() — funciona no Express 4 E 5 sem bug do path-to-regexp
 ───────────────────────────────────────────────────── */
 app.use((req, res) => {
   res.sendFile(path.join(__dirname, "frontend", "index.html"));
