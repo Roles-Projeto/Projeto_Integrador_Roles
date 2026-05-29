@@ -9,8 +9,8 @@ const API_URL = window.API_BASE || '';
 /* ═══════════════════════════════════════════
    SHORTCUTS
 ═══════════════════════════════════════════ */
-const g  = id  => document.getElementById(id);
-const gv = id  => g(id)?.value.trim() || '';
+const g  = id => document.getElementById(id);
+const gv = id => g(id)?.value.trim() || '';
 
 /* ═══════════════════════════════════════════
    AVATAR PADRÃO
@@ -105,8 +105,8 @@ function showState(prefix, state) {
     const loading = g(`${prefix}-loading`);
     const empty   = g(`${prefix}-empty`);
     const list    = g(`${prefix}-list`);
-    if (loading) loading.style.display = state === 'loading' ? 'flex'   : 'none';
-    if (empty)   empty.style.display   = state === 'empty'   ? 'flex'   : 'none';
+    if (loading) loading.style.display = state === 'loading' ? 'flex' : 'none';
+    if (empty)   empty.style.display   = state === 'empty'   ? 'flex' : 'none';
     if (list) {
         list.style.display       = state === 'list' ? 'flex' : 'none';
         list.style.flexDirection = 'column';
@@ -246,11 +246,11 @@ g('senha-nova').addEventListener('input', function () {
     if (/[@$!%*#?&]/.test(v)) sc++;
 
     const levels = [
-        { w: '0%',   c: '',                t: '' },
-        { w: '25%',  c: 'var(--danger)',   t: 'Fraca' },
-        { w: '50%',  c: 'var(--warning)',  t: 'Moderada' },
-        { w: '75%',  c: '#85c200',         t: 'Boa' },
-        { w: '100%', c: 'var(--success)',  t: 'Forte 🔒' },
+        { w: '0%',   c: '',               t: '' },
+        { w: '25%',  c: 'var(--danger)',  t: 'Fraca' },
+        { w: '50%',  c: 'var(--warning)', t: 'Moderada' },
+        { w: '75%',  c: '#85c200',        t: 'Boa' },
+        { w: '100%', c: 'var(--success)', t: 'Forte 🔒' },
     ][sc];
 
     g('strength-fill').style.width      = levels.w;
@@ -278,11 +278,11 @@ function setAvatar(src) {
     const img = g('profile-picture');
     const svg = g('avatar-default-svg');
 
-    const cached = localStorage.getItem('profilePhotoUrl') || '';
+    const cached      = localStorage.getItem('profilePhotoUrl') || '';
     const isRealCached = cached && cached !== DEFAULT_AVATAR_URL && cached.length > 10;
-    const finalSrc = (src && src.length > 10 && !src.endsWith('/'))
-                        ? src
-                        : (isRealCached ? cached : '');
+    const finalSrc    = (src && src.length > 10 && !src.endsWith('/'))
+                            ? src
+                            : (isRealCached ? cached : '');
 
     if (finalSrc) {
         img.onload  = () => { img.style.display = 'block'; svg.style.display = 'none'; };
@@ -366,22 +366,22 @@ async function loadProfileData() {
         if (photoUrl) localStorage.setItem('profilePhotoUrl', photoUrl);
         waitForHeaderAndApply(data.nome_completo, data.email, photoUrl || DEFAULT_AVATAR_URL);
 
-        if (data.nome_completo) g('nome').value      = data.nome_completo;
-        if (data.sobrenome)     g('sobrenome').value = data.sobrenome;
-        if (data.email)         g('email').value     = data.email;
-        if (data.telefone)      g('telefone').value  = data.telefone;
-        if (data.cpf)           g('cpf').value       = data.cpf;
+        if (data.nome_completo) g('nome').value       = data.nome_completo;
+        if (data.sobrenome)     g('sobrenome').value  = data.sobrenome;
+        if (data.email)         g('email').value      = data.email;
+        if (data.telefone)      g('telefone').value   = data.telefone;
+        if (data.cpf)           g('cpf').value        = data.cpf;
         if (data.nascimento)    g('nascimento').value = data.nascimento;
-        if (data.sexo)          g('sexo').value      = data.sexo;
+        if (data.sexo)          g('sexo').value       = data.sexo;
 
-        const ua = navigator.userAgent;
+        const ua      = navigator.userAgent;
         const browser = ua.includes('Firefox') ? 'Firefox'
-                       : ua.includes('Edg')    ? 'Edge'
-                       : ua.includes('Chrome') ? 'Chrome'
-                       : ua.includes('Safari') ? 'Safari'
-                       : 'Navegador';
-        const device = /Mobi|Android/i.test(ua) ? 'Mobile' : 'Desktop';
-        const el = g('session-current-device');
+                      : ua.includes('Edg')     ? 'Edge'
+                      : ua.includes('Chrome')  ? 'Chrome'
+                      : ua.includes('Safari')  ? 'Safari'
+                      : 'Navegador';
+        const device  = /Mobi|Android/i.test(ua) ? 'Mobile' : 'Desktop';
+        const el      = g('session-current-device');
         if (el) el.textContent = `${browser} — ${device}`;
 
     } catch (err) {
@@ -522,9 +522,9 @@ function resetSenhaForm() {
 /* ═══════════════════════════════════════════
    TICKETS
 ═══════════════════════════════════════════ */
-let _ticketsLoaded  = false;
-let _allTickets     = [];
-let _currentFilter  = 'todos';
+let _ticketsLoaded = false;
+let _allTickets    = [];
+let _currentFilter = 'todos';
 
 async function loadTickets() {
     const userId = getUserId();
@@ -581,14 +581,12 @@ function renderTickets(tickets, filter) {
         const local      = t.local_evento || t.local || t.endereco || '';
 
         return `
-        <div class="list-item" data-evento-id="${id}">
+        <div class="list-item" data-evento-id="${t.id || ''}">
             <div class="item-icon">
-                ${f.imagem
-                    ? `<img src="${f.imagem}" alt="${nome}" style="width:48px;height:48px;object-fit:cover;border-radius:8px;">`
-                    : `<i class="fas ${icon}"></i>`
+                ${t.imagem
+                    ? `<img src="${t.imagem}" alt="${nomeEvento}" style="width:48px;height:48px;object-fit:cover;border-radius:8px;">`
+                    : `<i class="fas fa-ticket-alt"></i>`
                 }
-            </div>
-            <div class="item-info">
             </div>
             <div class="item-info">
                 <div class="item-name">${nomeEvento}${t.setor ? ' — ' + t.setor : ''}</div>
@@ -604,7 +602,7 @@ function renderTickets(tickets, filter) {
                     </button>` : ''}
                 ${isProximo ? `
                     <button class="btn btn-ghost btn-sm"
-                        onclick="openTransferModal('${t.id}','${nomeEvento.replace(/'/g,"\\'")}')">
+                        onclick="openTransferModal('${t.id}','${nomeEvento.replace(/'/g, "\\'")}')">
                         <i class="fas fa-exchange-alt"></i> Transferir
                     </button>` : ''}
             </div>
@@ -619,9 +617,9 @@ function renderTicketSummary(tickets) {
     const proximos = tickets.filter(t => t.data_evento && new Date(t.data_evento) >= hoje).length;
     const gasto    = tickets.reduce((s, t) => s + (parseFloat(t.preco) || 0), 0);
 
-    g('summary-total').textContent    = tickets.length;
-    g('summary-proximos').textContent = proximos;
-    g('summary-gasto').textContent    = `R$ ${gasto.toFixed(2).replace('.', ',')}`;
+    g('summary-total').textContent     = tickets.length;
+    g('summary-proximos').textContent  = proximos;
+    g('summary-gasto').textContent     = `R$ ${gasto.toFixed(2).replace('.', ',')}`;
     g('tickets-summary').style.display = 'block';
 }
 
@@ -721,8 +719,6 @@ async function loadFavoritos() {
     if (localItems.length > 0) {
         renderFavoritos(localItems);
         _favoritosLoaded = true;
-
-        // Sincroniza com o backend em segundo plano (se usuário estiver logado)
         if (userId) sincronizarFavoritosComBackend(userId, localItems);
         return;
     }
@@ -750,7 +746,6 @@ async function loadFavoritos() {
 
     _favoritosLoaded = true;
     const items = Array.isArray(raw) ? raw : (raw?.favoritos || raw?.data || []);
-
     if (!items.length) { showState('favoritos', 'empty'); return; }
 
     renderFavoritos(items);
@@ -779,7 +774,6 @@ function renderFavoritos(items) {
     if (!items.length) { showState('favoritos', 'empty'); return; }
 
     g('favoritos-list').innerHTML = items.map(f => {
-        // Suporta tanto campos do localStorage quanto do backend
         const nome      = f.titulo || f.nome || f.nome_local || '—';
         const categoria = f.categoria || '';
         const sub       = [f.data, f.local || f.cidade].filter(Boolean).join(' • ') || '—';
@@ -787,7 +781,6 @@ function renderFavoritos(items) {
         const url       = f.url  || '#';
         const id        = f.id   || '';
 
-        // Ícone por categoria
         const iconMap = {
             'Show': 'fa-star', 'Shows e Música': 'fa-music',
             'Festa e Balada': 'fa-music', 'Balada': 'fa-music',
@@ -802,11 +795,11 @@ function renderFavoritos(items) {
         return `
         <div class="list-item" data-evento-id="${id}">
             <div class="item-icon">
-            ${f.imagem
-            ? `<img src="${f.imagem}" alt="${nome}" style="width:48px;height:48px;object-fit:cover;border-radius:8px;">`
-         : `<i class="fas ${icon}"></i>`
-        }
-        </div>
+                ${f.imagem
+                    ? `<img src="${f.imagem}" alt="${nome}" style="width:48px;height:48px;object-fit:cover;border-radius:8px;">`
+                    : `<i class="fas ${icon}"></i>`
+                }
+            </div>
             <div class="item-info">
                 <div class="item-name">${nome}</div>
                 <div class="item-sub">${sub}${preco ? ' • ' + preco : ''}</div>
@@ -830,14 +823,12 @@ function renderFavoritos(items) {
  * Remove o favorito do localStorage e atualiza a UI.
  */
 function removeFavoritoLocal(id, btn) {
-    // Remove dos dados detalhados
     try {
         const dados = JSON.parse(localStorage.getItem('roles_favoritos_dados') || '{}');
         delete dados[id];
         localStorage.setItem('roles_favoritos_dados', JSON.stringify(dados));
     } catch (_) {}
 
-    // Remove do Set de IDs
     try {
         const raw = localStorage.getItem('roles_favoritos');
         const set = new Set(raw ? JSON.parse(raw) : []);
@@ -845,14 +836,12 @@ function removeFavoritoLocal(id, btn) {
         localStorage.setItem('roles_favoritos', JSON.stringify([...set]));
     } catch (_) {}
 
-    // Remove o card da lista com animação
     const item = btn.closest('.list-item');
     item.style.transition = 'opacity .3s, transform .3s';
     item.style.opacity    = '0';
     item.style.transform  = 'translateX(20px)';
     setTimeout(() => {
         item.remove();
-        // Se a lista ficou vazia, mostra o estado vazio
         const remaining = g('favoritos-list').querySelectorAll('.list-item');
         if (!remaining.length) showState('favoritos', 'empty');
         showToast('Removido dos favoritos.');
@@ -861,7 +850,6 @@ function removeFavoritoLocal(id, btn) {
 
 /**
  * Sincroniza os favoritos locais com o backend em segundo plano.
- * Só envia os IDs que o backend ainda não conhece.
  */
 async function sincronizarFavoritosComBackend(userId, localItems) {
     try {
@@ -878,7 +866,7 @@ async function sincronizarFavoritosComBackend(userId, localItems) {
     }
 }
 
-// Mantém compatibilidade com a função antiga (caso algo ainda chame removeFavorito)
+// Mantém compatibilidade com chamadas antigas de removeFavorito
 async function removeFavorito(id, btn) {
     removeFavoritoLocal(id, btn);
 }
@@ -914,7 +902,7 @@ async function loadVisitas() {
         const nota    = parseInt(v.nota || v.avaliacao || 0);
         const dataStr = v.data_visita
             ? new Date(v.data_visita).toLocaleDateString('pt-BR') : '—';
-        const stars   = [1,2,3,4,5].map(i =>
+        const stars   = [1, 2, 3, 4, 5].map(i =>
             `<i class="fas fa-star ${i <= nota ? 'filled' : 'empty'}"></i>`
         ).join('');
         return `

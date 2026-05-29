@@ -1,9 +1,14 @@
 // Frontend/js/Evento.js
-const isLocal = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1";
+const isLocal =
+  window.location.hostname === "localhost" ||
+  window.location.hostname === "127.0.0.1";
+
 const API_BASE = isLocal ? "http://localhost:3000" : window.location.origin;
 const API_URL  = `${API_BASE}/eventos`;
 
-// ── Fotos reais por categoria (SEM overlay no backgroundImage) ──
+// =========================================================
+// IMAGENS UNSPLASH POR CATEGORIA (SEM overlay inline — fica no CSS .hero-overlay)
+// =========================================================
 const imagensPorCategoria = {
   'todas':       'https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?w=1600&h=700&fit=crop&q=85',
   'festa':       'https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=1600&h=700&fit=crop&q=85',
@@ -13,32 +18,67 @@ const imagensPorCategoria = {
   'workshop':    'https://images.unsplash.com/photo-1524178232363-1fb2b075b655?w=1600&h=700&fit=crop&q=85',
 };
 
-// ── Aplica SOMENTE a foto — overlay fica no CSS (.hero-overlay) ──
+// Cor de fallback enquanto a imagem carrega (por categoria)
+const coresPorCategoria = {
+  'todas':       '#1a1a2e',
+  'festa':       '#5d3fd3',
+  'show':        '#29b6f6',
+  'festival':    '#ec407a',
+  'gastronomia': '#ff8a65',
+  'workshop':    '#43a047',
+};
+
+// =========================================================
+// APLICAR IMAGEM NO HERO (.hero-section)
+// =========================================================
 function aplicarImagemHero(categoria) {
   const hero = document.querySelector('.hero-section');
   if (!hero) return;
 
   const imgUrl = imagensPorCategoria[categoria] || imagensPorCategoria['todas'];
+  const cor    = coresPorCategoria[categoria]    || '#1a1a2e';
 
+  // Aplica cor imediatamente como placeholder
+  hero.style.backgroundColor = cor;
+
+  // Fade suave ao trocar
   hero.style.transition         = 'opacity 0.35s ease';
   hero.style.opacity            = '0.85';
   hero.style.backgroundImage    = `url('${imgUrl}')`;
   hero.style.backgroundSize     = 'cover';
   hero.style.backgroundPosition = 'center 40%';
+  hero.style.backgroundRepeat   = 'no-repeat';
 
+  // Restaura opacidade
   setTimeout(() => { hero.style.opacity = '1'; }, 50);
 
+  // Fallback se imagem falhar
   const img = new Image();
-  img.onerror = () => { hero.style.backgroundImage = 'none'; hero.style.backgroundColor = '#2e1065'; };
+  img.onerror = () => {
+    hero.style.backgroundImage  = 'none';
+    hero.style.backgroundColor  = cor;
+  };
   img.src = imgUrl;
+
+  // Garante textos legíveis
+  hero.style.color = '#ffffff';
+  const h1 = hero.querySelector('h1');
+  const p  = hero.querySelector('p');
+  if (h1) h1.style.color = '#ffffff';
+  if (p)  p.style.color  = 'rgba(255,255,255,0.85)';
 }
 
+// =========================================================
+// INICIALIZAÇÃO
+// =========================================================
 document.addEventListener("DOMContentLoaded", async () => {
+
   aplicarImagemHero('todas');
 
   const container          = document.getElementById("eventosContainer");
   const btnCarregar        = document.getElementById("carregarMais");
   const EVENTOS_POR_PAGINA = 5;
+  let todosEventos         = [];
   let eventosFiltrados     = [];
   let quantidadeVisiveis   = EVENTOS_POR_PAGINA;
 
@@ -57,15 +97,21 @@ document.addEventListener("DOMContentLoaded", async () => {
   });
   // ──────────────────────────────────────────────────────────────────
 
+  // -------------------------------------------------------
+  // CARREGAR EVENTOS
+  // -------------------------------------------------------
   async function carregarEventos() {
     try {
       const res  = await fetch(API_URL);
       const data = await res.json();
 
+      todosEventos = data;
+
       document.querySelectorAll(".evento-card").forEach(c => c.remove());
 
       if (data.length === 0) {
-        container.insertAdjacentHTML("afterbegin", `<p style="text-align:center;padding:40px;color:#888;">Nenhum evento encontrado.</p>`);
+        container.insertAdjacentHTML("afterbegin",
+          `<p style="text-align:center;padding:40px;color:#888;">Nenhum evento encontrado.</p>`);
         atualizarContador();
         return;
       }
@@ -76,10 +122,14 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     } catch (err) {
       console.error("Erro ao carregar eventos:", err);
-      container.insertAdjacentHTML("afterbegin", `<p style="text-align:center;padding:40px;color:red;">Erro ao carregar eventos.</p>`);
+      container.insertAdjacentHTML("afterbegin",
+        `<p style="text-align:center;padding:40px;color:red;">Erro ao carregar eventos. Verifique o servidor.</p>`);
     }
   }
 
+  // -------------------------------------------------------
+  // CRIAR CARD
+  // -------------------------------------------------------
   function criarCard(evento) {
     const article = document.createElement("article");
     article.classList.add("evento-card");
@@ -88,13 +138,17 @@ document.addEventListener("DOMContentLoaded", async () => {
     article.setAttribute("data-id",        evento.id);
 
     const dataFormatada = formatarData(evento.data_inicio);
-    const isGratuito    = !evento.preco_minimo || parseFloat(evento.preco_minimo) === 0;
-    const preco         = isGratuito ? "Gratuito" : `R$ ${parseFloat(evento.preco_minimo).toFixed(2)}`;
-    const imagemSrc     = !evento.imagem
-      ? `${API_BASE}/frontend/imagens/jazz.png`
-      : evento.imagem.startsWith("http") ? evento.imagem : `${API_BASE}${evento.imagem}`;
 
-    // Botão "Confirmar Presença" só aparece em eventos gratuitos
+    // Botão "Confirmar Presença" só aparece em eventos gratuitos (v1)
+    const isGratuito = !evento.preco_minimo || parseFloat(evento.preco_minimo) === 0;
+    const preco      = isGratuito ? "Gratuito" : `R$ ${parseFloat(evento.preco_minimo).toFixed(2)}`;
+
+    const imagemSrc = !evento.imagem
+      ? `${API_BASE}/frontend/imagens/jazz.png`
+      : evento.imagem.startsWith("http")
+        ? evento.imagem
+        : `${API_BASE}${evento.imagem}`;
+
     const btnConfirmar = isGratuito
       ? `<a href="/frontend/detalheseventos/presencaconfirmada.html" class="btn-confirmar" role="button">
            <i class="fa-solid fa-check"></i> Confirmar Presença
@@ -128,6 +182,9 @@ document.addEventListener("DOMContentLoaded", async () => {
     return article;
   }
 
+  // -------------------------------------------------------
+  // FORMATAR DATA
+  // -------------------------------------------------------
   function formatarData(dataStr) {
     if (!dataStr) return "-";
     const d     = new Date(dataStr);
@@ -136,6 +193,9 @@ document.addEventListener("DOMContentLoaded", async () => {
     return `${dias[d.getDay()]}, ${d.getDate()} de ${meses[d.getMonth()]} &nbsp;<i class="fa-regular fa-clock"></i> ${d.toTimeString().slice(0,5)}`;
   }
 
+  // -------------------------------------------------------
+  // FILTROS + PAGINAÇÃO
+  // -------------------------------------------------------
   const searchInput    = document.getElementById("searchInput");
   const pillsContainer = document.getElementById("pillsContainer");
 
@@ -160,7 +220,9 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 
   function renderizarPagina() {
-    eventosFiltrados.forEach((card, i) => { card.style.display = i < quantidadeVisiveis ? "flex" : "none"; });
+    eventosFiltrados.forEach((card, i) => {
+      card.style.display = i < quantidadeVisiveis ? "flex" : "none";
+    });
     atualizarContador();
     atualizarBotaoCarregar();
   }
@@ -168,7 +230,10 @@ document.addEventListener("DOMContentLoaded", async () => {
   function atualizarBotaoCarregar() {
     if (!btnCarregar) return;
     const restantes = eventosFiltrados.length - quantidadeVisiveis;
-    if (restantes <= 0) { btnCarregar.style.display = "none"; return; }
+    if (restantes <= 0) {
+      btnCarregar.style.display = "none";
+      return;
+    }
     btnCarregar.style.display = "inline-flex";
     btnCarregar.innerHTML = `<i class="fa-solid fa-rotate"></i> Carregar mais ${Math.min(restantes, EVENTOS_POR_PAGINA)} eventos`;
   }
@@ -178,11 +243,20 @@ document.addEventListener("DOMContentLoaded", async () => {
     if (el) el.textContent = eventosFiltrados.length || document.querySelectorAll(".evento-card").length;
   }
 
+  // -------------------------------------------------------
+  // BOTÃO CARREGAR MAIS
+  // -------------------------------------------------------
   if (btnCarregar) {
-    btnCarregar.addEventListener("click", () => { quantidadeVisiveis += EVENTOS_POR_PAGINA; renderizarPagina(); });
+    btnCarregar.addEventListener("click", () => {
+      quantidadeVisiveis += EVENTOS_POR_PAGINA;
+      renderizarPagina();
+    });
   }
 
-  if (searchInput)    searchInput.addEventListener("keyup", aplicarFiltros);
+  // -------------------------------------------------------
+  // EVENTOS DE FILTRO
+  // -------------------------------------------------------
+  if (searchInput) searchInput.addEventListener("keyup", aplicarFiltros);
 
   if (pillsContainer) {
     pillsContainer.addEventListener("click", e => {
@@ -195,5 +269,8 @@ document.addEventListener("DOMContentLoaded", async () => {
     });
   }
 
+  // -------------------------------------------------------
+  // INICIAR
+  // -------------------------------------------------------
   await carregarEventos();
 });
