@@ -539,12 +539,21 @@ async function loadTickets() {
     ];
 
     let raw = null;
-    for (const url of endpoints) {
-        try {
-            const res = await fetch(url);
-            if (res.ok) { raw = await res.json(); break; }
-        } catch (_) {}
+for (const url of endpoints) {
+    try {
+        const res = await fetch(url);
+        console.log(`🔍 ${url} → status ${res.status}`);
+        if (res.ok) {
+            raw = await res.json();
+            console.log('✅ Dados recebidos:', raw);
+            break;
+        }
+    } catch (err) {
+        console.warn(`❌ Falhou: ${url}`, err);
     }
+}
+console.log('👤 userId:', getUserId());
+console.log('📦 Items:', Array.isArray(raw) ? raw : (raw?.ingressos || raw?.data || raw?.pedidos || []));
 
     _ticketsLoaded = true;
     const items = Array.isArray(raw) ? raw : (raw?.ingressos || raw?.data || raw?.pedidos || []);
@@ -570,41 +579,69 @@ function renderTickets(tickets, filter) {
 
     const list = g('tickets-list');
     list.innerHTML = filtered.map(t => {
-        const dataEvento = t.data_evento ? new Date(t.data_evento) : null;
-        const isProximo  = dataEvento && dataEvento >= hoje;
-        const isHoje     = dataEvento && dataEvento.toDateString() === new Date().toDateString();
-        const statusCls  = isHoje ? 'hoje' : (isProximo ? 'proximo' : 'passado');
-        const statusTxt  = isHoje ? '🔥 Hoje!' : (isProximo ? 'Próximo' : 'Realizado');
-        const dataStr    = dataEvento ? dataEvento.toLocaleDateString('pt-BR') : '—';
-        const precoStr   = t.preco ? `R$ ${parseFloat(t.preco).toFixed(2).replace('.', ',')}` : '';
+        const dataEvento  = t.data_evento ? new Date(t.data_evento) : null;
+        const isProximo   = dataEvento && dataEvento >= hoje;
+        const isHoje      = dataEvento && dataEvento.toDateString() === new Date().toDateString();
+        const isPendente  = (t.status_pagamento || t.status) === 'pendente';
+        const isUsado     = !isProximo && !isHoje;
+
+        const accentColor = isPendente ? '#f57f17'
+            : isHoje    ? '#E24B4A'
+            : isProximo ? '#6C1DCE'
+            : '#B4B2A9';
+
+        let statusPill;
+        if (isPendente)     statusPill = `<span class="tc-status tc-pendente"><i class="fas fa-clock"></i> Pendente</span>`;
+        else if (isHoje)    statusPill = `<span class="tc-status tc-hoje"><i class="fas fa-fire"></i> Hoje!</span>`;
+        else if (isProximo) statusPill = `<span class="tc-status tc-proximo"><i class="fas fa-check-circle"></i> Próximo</span>`;
+        else                statusPill = `<span class="tc-status tc-passado"><i class="fas fa-check"></i> Realizado</span>`;
+
         const nomeEvento = t.nome_evento || t.evento || t.titulo || 'Evento';
-        const local      = t.local_evento || t.local || t.endereco || '';
+        const local      = t.local_evento || t.local || t.cidade || '';
+        const tipo       = t.tipo_ingresso || '';
+        const dataStr    = dataEvento ? dataEvento.toLocaleDateString('pt-BR', { day: '2-digit', month: 'short', year: 'numeric' }) : '—';
+        const horaStr    = dataEvento ? dataEvento.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' }) : '';
+        const precoStr   = t.preco ? `R$ ${parseFloat(t.preco).toFixed(2).replace('.', ',')}` : '';
+        const stubLabel  = isPendente ? 'PEND.' : isUsado ? 'USADO' : 'SCAN';
+        const imgSrc     = t.img_capa ? `${API_URL}/uploads/${t.img_capa}` : '';
 
         return `
-        <div class="list-item" data-evento-id="${t.id || ''}">
-            <div class="item-icon">
-                ${t.imagem
-                    ? `<img src="${t.imagem}" alt="${nomeEvento}" style="width:48px;height:48px;object-fit:cover;border-radius:8px;">`
-                    : `<i class="fas fa-ticket-alt"></i>`
-                }
+        <div class="ticket-card" style="${isUsado ? 'opacity:0.65' : ''}"
+             onclick="openTicketDetail('${t.id}')">
+            <div class="tc-accent" style="background:${accentColor}"></div>
+            <div class="tc-image">
+                ${imgSrc
+                    ? `<img src="${imgSrc}" alt="${nomeEvento}">`
+                    : `<div class="tc-image-placeholder"><i class="fas fa-music"></i></div>`}
             </div>
-            <div class="item-info">
-                <div class="item-name">${nomeEvento}${t.setor ? ' — ' + t.setor : ''}</div>
-                <div class="item-sub">
-                    ${dataStr}${local ? ' &bull; ' + local : ''}${precoStr ? ' &bull; ' + precoStr : ''}
+            <div class="tc-body">
+                <div class="tc-top">
+                    <div>
+                        <div class="tc-event-name">${nomeEvento}</div>
+                        ${tipo ? `<div class="tc-event-sub">${tipo}${precoStr ? ' • ' + precoStr : ''}</div>` : ''}
+                    </div>
+                    ${tipo ? `<span class="tc-badge">${tipo}</span>` : ''}
+                </div>
+                <div class="tc-meta-row">
+                    ${statusPill}
+                    <span class="tc-meta-item"><i class="fas fa-calendar-alt"></i>${dataStr}${horaStr ? ' • ' + horaStr : ''}</span>
+                    ${local ? `<span class="tc-meta-item"><i class="fas fa-map-marker-alt"></i>${local}</span>` : ''}
+                </div>
+                <div class="tc-actions">
+                    ${(isProximo || isHoje) && !isPendente ? `
+                        <button class="btn btn-primary btn-sm" onclick="event.stopPropagation(); downloadTicket('${t.id}')">
+                            <i class="fas fa-download"></i> Baixar
+                        </button>` : ''}
+                    ${isProximo && !isPendente ? `
+                        <button class="btn btn-ghost btn-sm" onclick="event.stopPropagation(); openTransferModal('${t.id}','${nomeEvento.replace(/'/g, "\\'")}')">
+                            <i class="fas fa-exchange-alt"></i> Transferir
+                        </button>` : ''}
+                    ${isPendente ? `<span style="font-size:11px;color:#f57f17;"><i class="fas fa-info-circle"></i> Aguardando confirmação</span>` : ''}
                 </div>
             </div>
-            <span class="ticket-status ${statusCls}">${statusTxt}</span>
-            <div class="item-actions">
-                ${(isProximo || isHoje) ? `
-                    <button class="btn btn-primary btn-sm" onclick="downloadTicket('${t.id}')">
-                        <i class="fas fa-download"></i> Baixar
-                    </button>` : ''}
-                ${isProximo ? `
-                    <button class="btn btn-ghost btn-sm"
-                        onclick="openTransferModal('${t.id}','${nomeEvento.replace(/'/g, "\\'")}')">
-                        <i class="fas fa-exchange-alt"></i> Transferir
-                    </button>` : ''}
+            <div class="tc-stub">
+                <div class="tc-qr"><i class="fas fa-qrcode"></i></div>
+                <span class="tc-stub-label">${stubLabel}</span>
             </div>
         </div>`;
     }).join('');
@@ -612,49 +649,78 @@ function renderTickets(tickets, filter) {
     showState('tickets', 'list');
 }
 
-function renderTicketSummary(tickets) {
-    const hoje     = new Date(); hoje.setHours(0, 0, 0, 0);
-    const proximos = tickets.filter(t => t.data_evento && new Date(t.data_evento) >= hoje).length;
-    const gasto    = tickets.reduce((s, t) => s + (parseFloat(t.preco) || 0), 0);
+/* ── Modal de detalhes do ingresso ── */
+function openTicketDetail(ticketId) {
+    const t = _allTickets.find(x => String(x.id) === String(ticketId));
+    if (!t) return;
 
-    g('summary-total').textContent     = tickets.length;
-    g('summary-proximos').textContent  = proximos;
-    g('summary-gasto').textContent     = `R$ ${gasto.toFixed(2).replace('.', ',')}`;
-    g('tickets-summary').style.display = 'block';
-}
+    const dataEvento = t.data_evento ? new Date(t.data_evento) : null;
+    const hoje       = new Date(); hoje.setHours(0,0,0,0);
+    const isProximo  = dataEvento && dataEvento >= hoje;
+    const isHoje     = dataEvento && dataEvento.toDateString() === new Date().toDateString();
+    const isPendente = (t.status_pagamento || t.status) === 'pendente';
+    const nomeEvento = t.nome_evento || t.evento || t.titulo || 'Evento';
+    const imgSrc     = t.img_capa ? `${API_URL}/uploads/${t.img_capa}` : '';
+    const dataStr    = dataEvento ? dataEvento.toLocaleDateString('pt-BR', { day: '2-digit', month: 'long', year: 'numeric' }) : '—';
+    const horaStr    = dataEvento ? dataEvento.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' }) : '—';
+    const precoStr   = t.preco ? `R$ ${parseFloat(t.preco).toFixed(2).replace('.', ',')}` : '—';
+    const local      = t.local_evento || t.local || t.cidade || '—';
+    const tipo       = t.tipo_ingresso || '—';
+    const pedidoNum  = `#${String(t.id).padStart(5, '0')}`;
 
-function updateNavBadge(count) {
-    const badge = g('nav-ticket-count');
-    if (badge && count > 0) {
-        badge.textContent   = count;
-        badge.style.display = 'inline';
+    // Cria modal se não existir
+    let overlay = g('ticket-detail-overlay');
+    if (!overlay) {
+        overlay = document.createElement('div');
+        overlay.id = 'ticket-detail-overlay';
+        overlay.className = 'ticket-detail-overlay';
+        overlay.innerHTML = `<div class="ticket-detail-modal" id="ticket-detail-modal"></div>`;
+        overlay.addEventListener('click', e => { if (e.target === overlay) overlay.classList.remove('open'); });
+        document.body.appendChild(overlay);
     }
+
+    g('ticket-detail-modal').innerHTML = `
+        <div class="tdm-header">
+            ${imgSrc ? `<img src="${imgSrc}" alt="${nomeEvento}">` : ''}
+            <button class="tdm-close" onclick="document.getElementById('ticket-detail-overlay').classList.remove('open')">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="tdm-header-info">
+                <h3>${nomeEvento}</h3>
+            </div>
+        </div>
+        <div class="tdm-body">
+            <div class="tdm-info-grid">
+                <div class="tdm-info-item"><label>Pedido</label><span>${pedidoNum}</span></div>
+                <div class="tdm-info-item"><label>Status</label><span>${isPendente ? '⏳ Pendente' : '✅ Confirmado'}</span></div>
+                <div class="tdm-info-item"><label>Data</label><span>${dataStr}</span></div>
+                <div class="tdm-info-item"><label>Horário</label><span>${horaStr}</span></div>
+                <div class="tdm-info-item"><label>Local</label><span>${local}</span></div>
+                <div class="tdm-info-item"><label>Tipo</label><span>${tipo}</span></div>
+                <div class="tdm-info-item"><label>Valor pago</label><span>${precoStr}</span></div>
+                <div class="tdm-info-item"><label>Pagamento</label><span>${t.forma_pagamento || '—'}</span></div>
+            </div>
+            <div class="tdm-qr">
+                <i class="fas fa-qrcode"></i>
+                <p>Apresente este QR Code na entrada do evento</p>
+            </div>
+            <div class="tdm-actions">
+                ${(isProximo || isHoje) && !isPendente ? `
+                    <button class="btn btn-primary" onclick="downloadTicket('${t.id}')">
+                        <i class="fas fa-download"></i> Baixar PDF
+                    </button>` : ''}
+                ${isProximo && !isPendente ? `
+                    <button class="btn btn-ghost" onclick="openTransferModal('${t.id}','${nomeEvento.replace(/'/g, "\\'")}'); document.getElementById('ticket-detail-overlay').classList.remove('open')">
+                        <i class="fas fa-exchange-alt"></i> Transferir
+                    </button>` : ''}
+                <button class="btn btn-ghost" onclick="document.getElementById('ticket-detail-overlay').classList.remove('open')">
+                    Fechar
+                </button>
+            </div>
+        </div>`;
+
+    overlay.classList.add('open');
 }
-
-async function downloadTicket(ticketId) {
-    try {
-        const res = await fetch(`${API_URL}/ingressos/${ticketId}/download`);
-        if (!res.ok) throw new Error();
-        const blob = await res.blob();
-        const url  = URL.createObjectURL(blob);
-        const a    = Object.assign(document.createElement('a'), { href: url, download: `ingresso-${ticketId}.pdf` });
-        a.click();
-        URL.revokeObjectURL(url);
-        showToast('Download iniciado!');
-    } catch {
-        showToast('Erro ao baixar o ingresso. Tente novamente.', 'error');
-    }
-}
-
-document.querySelectorAll('.filter-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        _currentFilter = btn.dataset.filter;
-        if (_allTickets.length) renderTickets(_allTickets, _currentFilter);
-    });
-});
-
 /* ═══════════════════════════════════════════
    TRANSFER MODAL
 ═══════════════════════════════════════════ */

@@ -20,8 +20,6 @@ let tipoAtual   = null;
 
 /* ==================================================
    GET USER ID
-   Tenta todas as chaves possíveis do localStorage
-   para ser compatível com qualquer implementação de login
 ================================================== */
 function getUserId() {
     for (const key of ["userId", "id", "user_id", "usuarioId", "usuario_id"]) {
@@ -217,7 +215,6 @@ function aplicarMascaras() {
     addMask("validade", masks.validade);
     addMask("cvv",      masks.cvv);
 
-    // Cartão + detecção de bandeira
     addMask("numero-cartao", masks.cartao, (campo) => {
         const icon = document.getElementById("card-brand-icon");
         const num  = campo.value.replace(/\D/g, "");
@@ -229,7 +226,6 @@ function aplicarMascaras() {
         else { icon.className = "input-icon fas fa-credit-card"; icon.style.color = ""; }
     });
 
-    // CEP com chamada automática ao atingir 8 dígitos
     addMask("cep-boleto", masks.cep, (campo) => {
         if (campo.value.replace(/\D/g, "").length === 8) buscarCEP(campo);
         else document.getElementById("endereco-box").style.display = "none";
@@ -376,14 +372,12 @@ function changeQuantity(change) {
 
 /* ==================================================
    CARREGA DADOS DO EVENTO
-   Prioridade: URL params → API → localStorage (fallback)
 ================================================== */
 async function loadEventData() {
     const params           = new URLSearchParams(window.location.search);
     const evento_id        = params.get("evento_id");
     const tipo_ingresso_id = params.get("tipo_ingresso_id");
 
-    // ── Tenta carregar via API ──────────────────────────
     if (evento_id && tipo_ingresso_id) {
         try {
             const res    = await fetch(`${BASE_URL}/eventos/${evento_id}`);
@@ -402,15 +396,16 @@ async function loadEventData() {
             const img = document.getElementById("event-image");
             if (img && evento.img_capa) img.src = `${BASE_URL}/uploads/${evento.img_capa}`;
 
-            document.getElementById("event-name").textContent     = evento.titulo     || "—";
+            document.getElementById("event-name").textContent     = evento.titulo     || evento.nome || "—";
             document.getElementById("event-location").textContent = evento.local_nome || "—";
             document.getElementById("ticket-type").textContent    = tipo.nome         || "—";
 
             const disponEl = document.querySelector(".quantity-control span");
             if (disponEl) disponEl.textContent = `${disponivel} ingressos disponíveis`;
 
-            if (evento.data_evento) {
-                const d = new Date(evento.data_evento);
+            const dataEvento = evento.data_inicio || evento.data_evento;
+            if (dataEvento) {
+                const d = new Date(dataEvento);
                 document.getElementById("event-date").textContent = d.toLocaleDateString("pt-BR");
                 document.getElementById("event-time").textContent = d.toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" });
             }
@@ -419,7 +414,7 @@ async function loadEventData() {
             updatePrice(1);
             return;
         } catch (err) {
-            console.warn("API indisponível, usando localStorage:", err.message);
+            console.warn("API falhou ao carregar evento:", err.message);
         }
     }
 
@@ -434,6 +429,10 @@ async function loadEventData() {
         document.getElementById("event-location").textContent = ev.local        || "Local Desconhecido";
         document.getElementById("ticket-type").textContent    = ev.ingressoNome || "Ingresso Padrão";
         PRICE_PER_TICKET = parseFloat(ev.ingressoPreco) || 30.00;
+
+        // ← Salva evento_id e tipo no estado global para o finalizarCompra usar
+        eventoAtual = { id: ev.evento_id, titulo: ev.nome };
+        tipoAtual   = { id: ev.tipo_ingresso_id, nome: ev.ingressoNome };
     } else {
         PRICE_PER_TICKET = 30.00;
     }
@@ -441,11 +440,10 @@ async function loadEventData() {
 }
 
 /* ==================================================
-   FINALIZAR COMPRA — CHAMADA REAL À API
+   FINALIZAR COMPRA
 ================================================== */
 async function finalizarCompra(forma_pagamento) {
 
-    // ✅ Tenta todas as chaves possíveis — resolve o erro "precisa estar logado"
     const usuarioId = getUserId();
     if (!usuarioId) {
         alert("Você precisa estar logado para comprar ingressos.");
@@ -460,76 +458,72 @@ async function finalizarCompra(forma_pagamento) {
 
     const quantidade = parseInt(document.getElementById("quantidade").value) || 1;
 
+    // Pega IDs — prioridade: estado global → URL params → localStorage
+    const params         = new URLSearchParams(window.location.search);
+    const storedEvento   = JSON.parse(localStorage.getItem("eventoSelecionado") || "{}");
+    const eventoId       = eventoAtual?.id       || params.get("evento_id")        || storedEvento?.evento_id;
+    const tipoIngressoId = tipoAtual?.id         || params.get("tipo_ingresso_id") || storedEvento?.tipo_ingresso_id;
+
+    console.log("🛒 finalizarCompra →", { usuarioId, eventoId, tipoIngressoId, forma_pagamento, quantidade });
+
+    if (!eventoId || !tipoIngressoId) {
+        alert("Erro: dados do evento não encontrados. Volte e selecione o ingresso novamente.");
+        if (btnAtivo) { btnAtivo.disabled = false; btnAtivo.textContent = "Tentar novamente"; }
+        return;
+    }
+
     const body = {
         usuario_id:      usuarioId,
-        evento_id:       eventoAtual?.id || new URLSearchParams(window.location.search).get("evento_id"),
+        evento_id:       eventoId,
         forma_pagamento,
-        itens: [{
-            tipo_ingresso_id: tipoAtual?.id || new URLSearchParams(window.location.search).get("tipo_ingresso_id"),
-            quantidade,
-        }],
+        itens: [{ tipo_ingresso_id: tipoIngressoId, quantidade }],
     };
 
-    let data;
-
     try {
-        const res = await fetch(`${BASE_URL}/ingressos/comprar`, {
+        const res  = await fetch(`${BASE_URL}/ingressos/comprar`, {
             method:  "POST",
             headers: { "Content-Type": "application/json" },
             body:    JSON.stringify(body),
         });
-        data = await res.json();
-        if (!res.ok) throw new Error(data.erro || "Erro ao processar compra.");
+        const data = await res.json();
+
+        if (!res.ok) {
+            console.error("❌ Erro da API:", data);
+            alert("Erro ao processar compra: " + (data.erro || "Tente novamente."));
+            if (btnAtivo) { btnAtivo.disabled = false; btnAtivo.textContent = "Tentar novamente"; }
+            return;
+        }
+
+        if (pixTimerInterval) clearInterval(pixTimerInterval);
+
+        const subtotal = quantidade * PRICE_PER_TICKET;
+        const taxa     = subtotal * SERVICE_TAX_RATE;
+
+        sessionStorage.setItem("compraConfirmada", JSON.stringify({
+            pedido_id:     data.pedido_id,
+            status:        data.status,
+            mensagem:      data.mensagem,
+            ingressos:     data.ingressos,
+            nome:          eventoAtual?.titulo || eventoAtual?.nome || document.getElementById("event-name").textContent,
+            data:          document.getElementById("event-date").textContent,
+            hora:          document.getElementById("event-time").textContent,
+            local:         document.getElementById("event-location").textContent,
+            ingressoNome:  tipoAtual?.nome || document.getElementById("ticket-type").textContent,
+            ingressoPreco: PRICE_PER_TICKET,
+            quantidade,
+            subtotal,
+            taxaServico:   taxa,
+            totalPago:     subtotal + taxa,
+            forma_pagamento,
+        }));
+
+        window.location.href = "../ResumoDaCompra/CompraConfirmada.html";
 
     } catch (err) {
-        console.warn("API indisponível — simulação local:", err.message);
-
-        // ✅ Simulação local: mesmo comportamento do backend
-        const status = forma_pagamento === "boleto" ? "pendente" : "aprovado";
-        data = {
-            pedido_id: Math.floor(Math.random() * 9e7 + 1e7),
-            status,
-            mensagem:  status === "aprovado"
-                ? "Compra realizada com sucesso!"
-                : "Pagamento pendente. Aguardando confirmação.",
-            ingressos: status === "aprovado"
-                ? Array.from({ length: quantidade }, () => ({
-                    tipo:      tipoAtual?.nome || document.getElementById("ticket-type").textContent,
-                    codigo_qr: crypto.randomUUID
-                        ? crypto.randomUUID()
-                        : Math.random().toString(36).slice(2),
-                }))
-                : [],
-        };
+        console.error("❌ Erro na requisição:", err);
+        alert("Erro de conexão com o servidor. Verifique se o backend está rodando.");
+        if (btnAtivo) { btnAtivo.disabled = false; btnAtivo.textContent = "Tentar novamente"; }
     }
-
-    // ✅ Sempre chega aqui — com resposta real ou simulada
-    if (pixTimerInterval) clearInterval(pixTimerInterval);
-
-    const subtotal = quantidade * PRICE_PER_TICKET;
-    const taxa     = subtotal * SERVICE_TAX_RATE;
-
-    sessionStorage.setItem("compraConfirmada", JSON.stringify({
-        pedido_id:     data.pedido_id,
-        status:        data.status,
-        mensagem:      data.mensagem,
-        ingressos:     data.ingressos,
-        nome:          eventoAtual?.titulo || document.getElementById("event-name").textContent,
-        data:          document.getElementById("event-date").textContent,
-        hora:          document.getElementById("event-time").textContent,
-        local:         document.getElementById("event-location").textContent,
-        ingressoNome:  tipoAtual?.nome    || document.getElementById("ticket-type").textContent,
-        ingressoPreco: PRICE_PER_TICKET,
-        quantidade,
-        subtotal,
-        taxaServico:   taxa,
-        totalPago:     subtotal + taxa,
-        forma_pagamento,
-    }));
-
-    // ✅ Redireciona para a tela de confirmação de compra
-   // correto
-window.location.href = "../ResumoDaCompra/CompraConfirmada.html";
 }
 
 /* ==================================================
