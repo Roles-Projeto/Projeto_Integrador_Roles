@@ -61,8 +61,23 @@ const authRoutes             = require("./routes/auth");
 const eventosRoutes          = require("./routes/eventos");
 const estabelecimentosRoutes = require("./routes/estabelecimentos");
 const contatoRoutes          = require("./routes/contato");
-const avaliacoesRoutes = require("./routes/avaliacoes");
-const adminRoutes = require("./routes/admin");
+const avaliacoesRoutes       = require("./routes/avaliacoes");
+const adminRoutes            = require("./routes/admin");
+const { ingressosRouter, pedidosRouter } = require("./routes/ingressosRoutes");
+
+// Rotas opcionais — carregadas só se o arquivo existir
+function tryRequire(routePath) {
+  const full = path.join(__dirname, routePath);
+  if (fs.existsSync(full)) return require(full);
+  console.warn(`⚠️  Rota não encontrada (ignorada): ${routePath}`);
+  return null;
+}
+
+const favoritosRoutes = tryRequire("./routes/favoritos");
+const visitasRoutes   = tryRequire("./routes/visitas");
+const comprasRoutes   = tryRequire("./routes/compras");
+const historicoRoutes = tryRequire("./routes/historico");
+
 // const { iniciarPoller } = require("./services/gmailPoller");
 // iniciarPoller();
 
@@ -71,15 +86,40 @@ app.use("/usuarios",         authRoutes);
 app.use("/eventos",          eventosRoutes);
 app.use("/estabelecimentos", estabelecimentosRoutes);
 app.use("/contato",          contatoRoutes);
-app.use("/avaliacoes", avaliacoesRoutes);
-app.use("/admin", adminRoutes);
+app.use("/avaliacoes",       avaliacoesRoutes);
+app.use("/admin",            adminRoutes);
+app.use("/ingressos",        ingressosRouter);
+app.use("/pedidos",          pedidosRouter);
+
+if (favoritosRoutes) app.use("/favoritos", favoritosRoutes);
+if (visitasRoutes)   app.use("/visitas",   visitasRoutes);
+if (comprasRoutes)   app.use("/compras",   comprasRoutes);
+if (historicoRoutes) app.use("/historico", historicoRoutes);
 
 /* ─────────────────────────────────────────────────────
    FALLBACK SPA
-   Usa app.use() — funciona no Express 4 E 5 sem bug do path-to-regexp
+   Serve o index.html APENAS para rotas de frontend.
+   Rotas de API desconhecidas retornam 404 JSON.
 ───────────────────────────────────────────────────── */
+const API_PREFIXES = [
+  "/usuarios", "/auth", "/eventos", "/estabelecimentos",
+  "/contato", "/avaliacoes", "/admin", "/ingressos",
+  "/pedidos", "/favoritos", "/visitas", "/compras", "/historico",
+];
+
 app.use((req, res) => {
-  res.sendFile(path.join(__dirname, "frontend", "index.html"));
+  const isApiRoute = API_PREFIXES.some(prefix => req.path.startsWith(prefix));
+
+  if (isApiRoute) {
+    return res.status(404).json({ erro: `Rota não encontrada: ${req.method} ${req.path}` });
+  }
+
+  const indexPath = path.join(__dirname, "frontend", "index.html");
+  if (fs.existsSync(indexPath)) {
+    res.sendFile(indexPath);
+  } else {
+    res.status(404).json({ erro: "Frontend não encontrado." });
+  }
 });
 
 /* ─── Handler de erros ─── */

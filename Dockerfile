@@ -7,7 +7,7 @@ RUN npm install
 
 COPY backend/ .
 
-COPY Frontend/ ./frontend/
+COPY Frontend/ /Frontend/
 
 EXPOSE 3000
 
