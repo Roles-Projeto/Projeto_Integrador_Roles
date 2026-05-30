@@ -1,19 +1,228 @@
 'use strict';
 
 // ─────────────────────────────────────────────
+// FLAG GLOBAL DE ESTADOS VAZIOS
+// ─────────────────────────────────────────────
+let _dashboardVazio       = false;
+let _estabelecimentosVazio = false;
+let _eventosVazio          = false;
+let _vendasVazio           = false;
+let _notificacoesVazio     = false;
+
+// ─────────────────────────────────────────────
+// ESTADOS VAZIOS DO DASHBOARD
+// ─────────────────────────────────────────────
+async function verificarEstadosVazios() {
+    const userId = localStorage.getItem('userId');
+    const token  = localStorage.getItem('token');
+    if (!userId || !token) {
+        _mostrarVazioTodos();
+        return;
+    }
+
+    const headers = { 'Authorization': 'Bearer ' + token };
+
+    try {
+        const [resEventos, resEstabs] = await Promise.all([
+            fetch(`/eventos?criador_id=${userId}`, { headers }),
+            fetch(`/estabelecimentos?usuario_id=${userId}`, { headers })
+        ]);
+
+        const eventos = resEventos.ok ? await resEventos.json() : [];
+        const estabs  = resEstabs.ok  ? await resEstabs.json()  : [];
+
+        const qtdEventos = Array.isArray(eventos) ? eventos.length : (eventos.data?.length || 0);
+        const qtdEstabs  = Array.isArray(estabs)  ? estabs.length  : (estabs.data?.length  || 0);
+
+        // Visão Geral — vazio se não tiver nenhum dos dois
+        if (qtdEventos === 0 && qtdEstabs === 0) {
+            _dashboardVazio = true;
+            _mostrarVazio('dashboard', 'visao-geral');
+            document.querySelectorAll('.kpi-grid, .charts-row, .bottom-row').forEach(el => el.style.display = 'none');
+            const banner = document.getElementById('alertBanner');
+            if (banner) banner.style.display = 'none';
+        }
+
+        // Estabelecimentos — vazio se não tiver nenhum
+        if (qtdEstabs === 0) {
+            _estabelecimentosVazio = true;
+            _mostrarVazio('estabelecimentos', 'estabelecimentos');
+            document.querySelectorAll('#estabelecimentos .ev-card').forEach(el => el.style.display = 'none');
+        }
+
+        // Eventos — vazio se não tiver nenhum
+        if (qtdEventos === 0) {
+            _eventosVazio = true;
+            _mostrarVazio('eventos', 'eventos');
+            document.querySelectorAll('#eventos .ev-card').forEach(el => el.style.display = 'none');
+        }
+
+        // Vendas — vazio se não tiver nenhum evento (sem evento = sem venda)
+        if (qtdEventos === 0 && qtdEstabs === 0) {
+            _vendasVazio = true;
+            _mostrarVazio('vendas', 'vendas');
+            const tableWrap = document.querySelector('#vendas .table-wrap');
+            if (tableWrap) tableWrap.style.display = 'none';
+        }
+
+        // Notificações — vazio se não tiver nenhum dos dois
+        if (qtdEventos === 0 && qtdEstabs === 0) {
+            _notificacoesVazio = true;
+            _mostrarVazio('notificacoes', 'notificacoes');
+            document.querySelector('#notifList')?.querySelectorAll('.notif-item, .notif-group-label').forEach(el => el.style.display = 'none');
+        }
+
+    } catch (e) {
+        console.warn('Erro ao verificar estados vazios:', e);
+        _mostrarVazioTodos();
+    }
+}
+
+// Mostra estado vazio em todas as abas (fallback de erro de rede)
+function _mostrarVazioTodos() {
+    _dashboardVazio        = true;
+    _estabelecimentosVazio = true;
+    _eventosVazio          = true;
+    _vendasVazio           = true;
+    _notificacoesVazio     = true;
+
+    ['dashboard', 'estabelecimentos', 'eventos', 'vendas', 'notificacoes'].forEach(id => {
+        _mostrarVazio(id, id);
+    });
+    document.querySelectorAll('.kpi-grid, .charts-row, .bottom-row, .table-wrap, #notifList').forEach(el => el.style.display = 'none');
+    const banner = document.getElementById('alertBanner');
+    if (banner) banner.style.display = 'none';
+    document.querySelectorAll('.ev-card').forEach(el => el.style.display = 'none');
+}
+
+// Configurações por aba
+const _configVazio = {
+    'visao-geral': {
+        icone: `<rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/>`,
+        titulo: 'Seu dashboard está vazio',
+        descricao: 'Crie um evento ou cadastre um estabelecimento para começar a ver seus relatórios, vendas e métricas aqui.',
+        botoes: true
+    },
+    'estabelecimentos': {
+        icone: `<path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>`,
+        titulo: 'Nenhum estabelecimento cadastrado',
+        descricao: 'Cadastre seu primeiro estabelecimento para gerenciar seu negócio, receber avaliações e acompanhar as métricas.',
+        botoes: false,
+        botaoUnico: { label: 'Cadastrar estabelecimento', href: '/frontend/criarEstabelecimentos/criarEstabelecimentos.html' }
+    },
+    'eventos': {
+        icone: `<rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>`,
+        titulo: 'Nenhum evento criado',
+        descricao: 'Crie seu primeiro evento para começar a vender ingressos e acompanhar as métricas de ocupação.',
+        botoes: false,
+        botaoUnico: { label: 'Criar meu primeiro evento', href: '/frontend/criareventos/criareventos.html' }
+    },
+    'vendas': {
+        icone: `<polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>`,
+        titulo: 'Nenhuma venda ainda',
+        descricao: 'Quando seus ingressos começarem a ser vendidos, todas as transações aparecerão aqui.',
+        botoes: true
+    },
+    'notificacoes': {
+        icone: `<path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/>`,
+        titulo: 'Nenhuma notificação',
+        descricao: 'Você receberá notificações de vendas, avaliações e atualizações do seu negócio aqui.',
+        botoes: false
+    }
+};
+
+function _mostrarVazio(secaoId, tipo) {
+    const secao = document.getElementById(secaoId);
+    if (!secao || secao.querySelector('.empty-state-box')) return;
+
+    const cfg = _configVazio[tipo] || _configVazio['visao-geral'];
+
+    // Monta os botões
+    let botoesHTML = '';
+    if (cfg.botoes) {
+        botoesHTML = `
+            <div style="display:flex; gap:14px; flex-wrap:wrap; justify-content:center;">
+                <a href="/frontend/criareventos/criareventos.html" style="
+                    display:inline-flex; align-items:center; gap:8px;
+                    background:linear-gradient(135deg,#a78bfa,#7c3aed);
+                    color:#fff; text-decoration:none;
+                    padding:12px 24px; border-radius:10px;
+                    font-family:'Poppins',sans-serif; font-size:14px; font-weight:600;
+                    box-shadow:0 4px 14px rgba(124,58,237,0.3);"
+                    onmouseover="this.style.opacity='.85'" onmouseout="this.style.opacity='1'">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                        <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
+                    </svg>
+                    Criar evento
+                </a>
+                <a href="/frontend/criarEstabelecimentos/criarEstabelecimentos.html" style="
+                    display:inline-flex; align-items:center; gap:8px;
+                    background:#fff; color:#7c3aed; text-decoration:none;
+                    padding:12px 24px; border-radius:10px;
+                    border:1.5px solid #7c3aed;
+                    font-family:'Poppins',sans-serif; font-size:14px; font-weight:600;"
+                    onmouseover="this.style.background='#f5f0ff'" onmouseout="this.style.background='#fff'">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                        <polyline points="9 22 9 12 15 12 15 22"/>
+                    </svg>
+                    Cadastrar estabelecimento
+                </a>
+            </div>`;
+    } else if (cfg.botaoUnico) {
+        botoesHTML = `
+            <a href="${cfg.botaoUnico.href}" style="
+                display:inline-flex; align-items:center; gap:8px;
+                background:linear-gradient(135deg,#a78bfa,#7c3aed);
+                color:#fff; text-decoration:none;
+                padding:12px 28px; border-radius:10px;
+                font-family:'Poppins',sans-serif; font-size:14px; font-weight:600;
+                box-shadow:0 4px 14px rgba(124,58,237,0.3);"
+                onmouseover="this.style.opacity='.85'" onmouseout="this.style.opacity='1'">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                    <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
+                </svg>
+                ${cfg.botaoUnico.label}
+            </a>`;
+    }
+
+    const vazio = document.createElement('div');
+    vazio.className = 'empty-state-box';
+    vazio.style.cssText = `
+        display:flex; flex-direction:column; align-items:center;
+        justify-content:center; padding:80px 24px; text-align:center;
+    `;
+    vazio.innerHTML = `
+        <div style="
+            width:80px; height:80px; border-radius:50%;
+            background:#f5f0ff; display:flex; align-items:center;
+            justify-content:center; margin-bottom:24px;">
+            <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="1.8">
+                ${cfg.icone}
+            </svg>
+        </div>
+        <h2 style="font-family:'Poppins',sans-serif; font-size:22px; font-weight:700;
+                   color:#111827; margin:0 0 8px;">${cfg.titulo}</h2>
+        <p style="font-family:'Poppins',sans-serif; font-size:14px; color:#6b7280;
+                  max-width:420px; line-height:1.7; margin:0 0 40px;">${cfg.descricao}</p>
+        ${botoesHTML}
+    `;
+
+    secao.appendChild(vazio);
+}
+
+// ─────────────────────────────────────────────
 // ESTADO GLOBAL DE NOTIFICAÇÕES
 // ─────────────────────────────────────────────
 let unreadCount = 3;
 
 function setUnreadCount(n) {
   unreadCount = Math.max(0, n);
-  // Atualiza badge na tab
   const badge = document.querySelector('.dnav-badge');
   if (badge) {
     badge.textContent = unreadCount;
     badge.style.display = unreadCount > 0 ? 'inline-flex' : 'none';
   }
-  // Atualiza alerta de topo
   const banner = document.getElementById('alertBanner');
   if (banner) {
     if (unreadCount === 0) {
@@ -24,7 +233,6 @@ function setUnreadCount(n) {
       if (strong) strong.textContent = unreadCount + ' notificaç' + (unreadCount === 1 ? 'ão não lida' : 'ões não lidas');
     }
   }
-  // Atualiza label no topo da lista
   const groupLabel = document.querySelector('#notifList .notif-group-label');
   if (groupLabel) {
     groupLabel.textContent = 'Não lidas · ' + unreadCount;
@@ -150,6 +358,9 @@ function setPeriod(btn, period) {
 
 // ─────────────────────────────────────────────
 // NAVEGAÇÃO ENTRE SEÇÕES
+// BUG FIX: ao voltar para dashboard, restaura corretamente
+// o estado vazio (se aplicável) sem duplicar elementos,
+// e só recria gráficos quando há dados para exibir.
 // ─────────────────────────────────────────────
 function showSection(sectionId, btn) {
   document.querySelectorAll('.dsection').forEach(s => s.classList.remove('active-section'));
@@ -166,13 +377,53 @@ function showSection(sectionId, btn) {
     });
   }
 
-  // ⚠️ FIX: gráficos precisam ser recriados DEPOIS que a seção fica visível
-  // pois o canvas tem dimensão 0 quando display:none
   if (sectionId === 'dashboard') {
-    // aguarda o DOM pintar a seção antes de criar o chart
-    requestAnimationFrame(() => {
-      requestAnimationFrame(() => { criarGraficos(); });
-    });
+    if (_dashboardVazio) {
+      // ── ESTADO VAZIO: garante que os elementos continuam ocultos
+      // e que o empty-state-box não seja inserido duplicado
+      document.querySelectorAll('.kpi-grid, .charts-row, .bottom-row').forEach(el => el.style.display = 'none');
+      const banner = document.getElementById('alertBanner');
+      if (banner) banner.style.display = 'none';
+      // Só insere o empty-state-box se ainda não existir
+      if (!document.querySelector('#dashboard .empty-state-box')) {
+        _mostrarVazio('dashboard', 'visao-geral');
+      }
+    } else {
+      // ── COM DADOS: aguarda o DOM pintar antes de recriar os gráficos
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => { criarGraficos(); });
+      });
+    }
+  }
+
+  // Restaura estado vazio nas outras abas ao navegar de volta
+  if (sectionId === 'estabelecimentos' && _estabelecimentosVazio) {
+    document.querySelectorAll('#estabelecimentos .ev-card').forEach(el => el.style.display = 'none');
+    if (!document.querySelector('#estabelecimentos .empty-state-box')) {
+      _mostrarVazio('estabelecimentos', 'estabelecimentos');
+    }
+  }
+
+  if (sectionId === 'eventos' && _eventosVazio) {
+    document.querySelectorAll('#eventos .ev-card').forEach(el => el.style.display = 'none');
+    if (!document.querySelector('#eventos .empty-state-box')) {
+      _mostrarVazio('eventos', 'eventos');
+    }
+  }
+
+  if (sectionId === 'vendas' && _vendasVazio) {
+    const tableWrap = document.querySelector('#vendas .table-wrap');
+    if (tableWrap) tableWrap.style.display = 'none';
+    if (!document.querySelector('#vendas .empty-state-box')) {
+      _mostrarVazio('vendas', 'vendas');
+    }
+  }
+
+  if (sectionId === 'notificacoes' && _notificacoesVazio) {
+    document.querySelector('#notifList')?.querySelectorAll('.notif-item, .notif-group-label').forEach(el => el.style.display = 'none');
+    if (!document.querySelector('#notificacoes .empty-state-box')) {
+      _mostrarVazio('notificacoes', 'notificacoes');
+    }
   }
 }
 
@@ -252,7 +503,6 @@ function markAllRead() {
 
 // ─────────────────────────────────────────────
 // NOTIFICAÇÕES INDIVIDUAIS CLICÁVEIS
-// Ao clicar em uma notificação não lida, marca como lida
 // ─────────────────────────────────────────────
 function initNotifClicks() {
   document.querySelectorAll('#notifList .notif-item').forEach(item => {
@@ -275,7 +525,6 @@ function initNotifClicks() {
 // MODAL DE EDIÇÃO GENÉRICO
 // ─────────────────────────────────────────────
 function openEditModal(tipo, nome) {
-  // Cria modal dinamicamente se não existir
   let overlay = document.getElementById('editModalOverlay');
   if (!overlay) {
     overlay = document.createElement('div');
@@ -355,7 +604,6 @@ function saveEditModal(nome) {
 // SISTEMA DE TOAST (feedback visual)
 // ─────────────────────────────────────────────
 function showToast(msg, tipo) {
-  // Remove toasts antigos
   document.querySelectorAll('.dash-toast').forEach(t => t.remove());
 
   const colors = { success:'#16a34a', error:'#ef4444', info:'#7c3aed', warn:'#f59e0b' };
@@ -382,7 +630,6 @@ function showToast(msg, tipo) {
   toast.appendChild(document.createTextNode(msg));
   document.body.appendChild(toast);
 
-  // Injetar keyframes uma vez
   if (!document.getElementById('toastStyle')) {
     const s = document.createElement('style');
     s.id = 'toastStyle';
@@ -419,7 +666,6 @@ document.addEventListener('click', e => {
 
 // ─────────────────────────────────────────────
 // BOTÕES DE EDITAR (delegação de eventos)
-// Detecta clique em qualquer botão ev-btn--purple dentro de ev-card
 // ─────────────────────────────────────────────
 function initEditButtons() {
   document.addEventListener('click', e => {
@@ -428,15 +674,13 @@ function initEditButtons() {
     const card = btn.closest('.ev-card');
     if (!card) return;
     const titulo = card.querySelector('.ev-title')?.textContent?.trim() || 'Item';
-
-    // Descobre se é evento ou estabelecimento
     const secao = card.closest('#eventos') ? 'Evento' : 'Estabelecimento';
     openEditModal(secao, titulo);
   });
 }
 
 // ─────────────────────────────────────────────
-// EXPORTAÇÃO EXCEL (lógica original preservada)
+// EXPORTAÇÃO EXCEL
 // ─────────────────────────────────────────────
 function initExport() {
   const btn = document.getElementById('btnExport');
@@ -478,59 +722,28 @@ function initExport() {
 
 // ─────────────────────────────────────────────
 // BOTÕES DE NAVEGAÇÃO (Criar Evento / Novo Estabelecimento)
-// Ajuste os caminhos abaixo conforme sua estrutura de pastas
 // ─────────────────────────────────────────────
 function initNavButtons() {
-  // AJUSTE: Verifique se os nomes das pastas no VS Code são exatamente esses.
-  // Servidores web diferenciam 'Criar' de 'criar'.
   const PATHS = {
     criarEvento: '/frontend/criareventos/criareventos.html',
     criarEstabelecimento: '/frontend/criarEstabelecimentos/criarEstabelecimentos.html',
   };
 
-  // Função auxiliar para evitar repetição de código (DRY - Don't Repeat Yourself)
   const setupClickEvents = (selector) => {
     const buttons = document.querySelectorAll(selector);
-    
     buttons.forEach(btn => {
-      const txt = btn.textContent.trim().toLowerCase(); // Convertendo para minúsculo para facilitar a busca
-
+      const txt = btn.textContent.trim().toLowerCase();
       if (txt.includes('evento')) {
-        btn.addEventListener('click', () => {
-          window.location.href = PATHS.criarEvento;
-        });
+        btn.addEventListener('click', () => { window.location.href = PATHS.criarEvento; });
       } else if (txt.includes('estabelecimento')) {
-        btn.addEventListener('click', () => {
-          window.location.href = PATHS.criarEstabelecimento;
-        });
+        btn.addEventListener('click', () => { window.location.href = PATHS.criarEstabelecimento; });
       }
     });
   };
 
-  // Aplica a lógica para os dois tipos de botões
   setupClickEvents('.btn-quick');
   setupClickEvents('.btn-create');
 }
-
-// Não esqueça de chamar a função!
-initNavButtons();
-
-  // Botões dentro das seções
-  document.querySelectorAll('.btn-create').forEach(btn => {
-    const txt = btn.textContent.trim();
-
-    if (txt.includes('Criar Evento')) {
-      btn.addEventListener('click', () => {
-        window.location.href = PATHS.criarEvento;
-      });
-    }
-
-    if (txt.includes('Estabelecimento')) {
-      btn.addEventListener('click', () => {
-        window.location.href = PATHS.criarEstabelecimento;
-      });
-    }
-  });
 
 // ─────────────────────────────────────────────
 // BOTÃO SALVAR INGRESSOS no modal
@@ -548,17 +761,14 @@ function initSaveTickets() {
 // INICIALIZAÇÃO
 // ─────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', () => {
-  // Gráficos
-  criarGraficos();
+    criarGraficos();
+    initTicketInput();
+    initExport();
+    initNavButtons();
+    initEditButtons();
+    initNotifClicks();
+    initSaveTickets();
+    setUnreadCount(3);
 
-  // Interatividade
-  initTicketInput();
-  initExport();
-  initNavButtons();
-  initEditButtons();
-  initNotifClicks();
-  initSaveTickets();
-
-  // Badge e alerta iniciais
-  setUnreadCount(3);
+    verificarEstadosVazios();
 });
