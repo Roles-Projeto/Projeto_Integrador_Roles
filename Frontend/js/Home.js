@@ -26,6 +26,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
             track.innerHTML = "";
 
+            // Pega o evento com mais cliques
+            const cliques = JSON.parse(localStorage.getItem('eventosCliques') || '{}');
+            const maisClicadoId = Object.entries(cliques).sort((a, b) => b[1] - a[1])[0]?.[0];
+
             eventos.forEach(evento => {
                 const data = evento.data_inicio
                     ? new Date(evento.data_inicio).toLocaleDateString('pt-BR', {
@@ -34,28 +38,30 @@ document.addEventListener("DOMContentLoaded", () => {
                     : '';
                 const hora = evento.hora_inicio ? evento.hora_inicio.slice(0, 5) : '';
 
-                // FIX: monta URL da imagem corretamente
-                // O banco salva "/uploads/filename.jpg" (caminho relativo)
-                // Precisamos de "http://localhost:3000/uploads/filename.jpg" para exibir
                 let imagem = '/frontend/imagens/1º imagem cad.png'; // fallback
 
                 if (evento.imagem) {
                     if (evento.imagem.startsWith('http')) {
-                        // URL absoluta — usa direto
                         imagem = evento.imagem;
                     } else {
-                        // Caminho relativo como "/uploads/xxx.jpg" — adiciona API_BASE
                         imagem = `${window.API_BASE}${evento.imagem.startsWith('/') ? '' : '/'}${evento.imagem}`;
                     }
                 }
 
                 const link = `/frontend/detalheseventos/detalheevento.html?id=${evento.id}`;
 
+                // Badge "Em Alta" para o evento mais clicado
+                const isEmAlta = String(evento.id) === maisClicadoId;
+                const badgeEmAlta = isEmAlta
+                    ? `<div class="badge-em-alta"><i class="fa-solid fa-fire"></i> Em Alta</div>`
+                    : '';
+
                 const card = document.createElement('a');
                 card.href            = link;
                 card.className       = 'carousel-card';
                 card.dataset.eventoId = String(evento.id);
                 card.innerHTML = `
+                    ${badgeEmAlta}
                     <img src="${imagem}" 
                          alt="${evento.nome}"
                          onerror="this.onerror=null; this.src='/frontend/imagens/1º imagem cad.png'">
@@ -169,6 +175,70 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     iniciarCarrossel();
+
+    /* ==================================================
+    ================= EVENTOS PRÓXIMOS ==================
+    ================================================== */
+
+    async function carregarEventosProximos() {
+        const grid = document.getElementById("eventosGrid");
+        if (!grid) return;
+
+        try {
+            const res = await fetch(`${window.API_BASE}/eventos`);
+            const eventos = await res.json();
+
+            if (!eventos || eventos.length === 0) {
+                grid.innerHTML = '<p style="text-align:center;padding:40px;color:#888;">Nenhum evento encontrado.</p>';
+                return;
+            }
+
+            grid.innerHTML = "";
+
+            eventos.slice(0, 6).forEach(evento => {
+                const data = evento.data_inicio
+                    ? new Date(evento.data_inicio).toLocaleDateString('pt-BR', {
+                        weekday: 'short', day: '2-digit', month: 'short'
+                      })
+                    : '';
+                const hora = evento.hora_inicio ? evento.hora_inicio.slice(0, 5) : '';
+
+                let imagem = '/frontend/imagens/1º imagem cad.png';
+                if (evento.imagem) {
+                    imagem = evento.imagem.startsWith('http')
+                        ? evento.imagem
+                        : `${window.API_BASE}${evento.imagem.startsWith('/') ? '' : '/'}${evento.imagem}`;
+                }
+
+                const card = document.createElement('a');
+                card.href = `/frontend/detalheseventos/detalheevento.html?id=${evento.id}`;
+                card.className = 'card-evento';
+                card.innerHTML = `
+                    <div class="evento-imagem-wrap">
+                        <img src="${imagem}" alt="${evento.nome}" 
+                             onerror="this.onerror=null;this.src='/frontend/imagens/1º imagem cad.png'">
+                        <span class="tag-evento">${evento.assunto || 'Evento'}</span>
+                    </div>
+                    <div class="evento-content">
+                        <h3>${evento.nome}</h3>
+                        <div class="evento-data-local">
+                            <p><i class="fas fa-calendar-alt"></i> ${data}${hora ? ' - ' + hora : ''}</p>
+                        </div>
+                        <p class="evento-local">
+                            <i class="fas fa-map-marker-alt"></i> 
+                            ${evento.local_nome || ''}${evento.cidade ? ' — ' + evento.cidade : ''}
+                        </p>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+
+        } catch (err) {
+            console.error('Erro ao carregar eventos próximos:', err);
+        }
+    }
+
+    carregarEventosProximos();
 
     /* ==================================================
     ================= CARROSSEL CATEGORIAS =============
