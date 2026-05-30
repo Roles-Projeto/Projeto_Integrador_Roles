@@ -49,8 +49,8 @@ function caseInsensitiveStatic(baseDir) {
   };
 }
 
-app.use("/frontend", caseInsensitiveStatic(path.join(__dirname, "frontend")));
-app.use("/frontend", express.static(path.join(__dirname, "frontend")));
+app.use("/frontend", caseInsensitiveStatic(path.join(__dirname, "..", "Frontend")));
+app.use("/frontend", express.static(path.join(__dirname, "..", "Frontend")));
 app.use("/uploads",  express.static(path.join(__dirname, "uploads")));
 
 /* ─────────────────────────────────────────────────────
@@ -114,7 +114,7 @@ app.use((req, res) => {
     return res.status(404).json({ erro: `Rota não encontrada: ${req.method} ${req.path}` });
   }
 
-  const indexPath = path.join(__dirname, "frontend", "index.html");
+  const indexPath = path.join(__dirname, "..", "Frontend", "index.html");
   if (fs.existsSync(indexPath)) {
     res.sendFile(indexPath);
   } else {
