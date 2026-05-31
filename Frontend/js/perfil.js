@@ -12,7 +12,7 @@ const API_URL = window.API_BASE || '';
 const g  = id => document.getElementById(id);
 const gv = id => g(id)?.value.trim() || '';
 
-/* ═══════════════════════════════════════════
+/* ═══════════════════════════════════════════s
    AVATAR PADRÃO
 ═══════════════════════════════════════════ */
 const DEFAULT_AVATAR_URL =
@@ -371,7 +371,7 @@ async function loadProfileData() {
         if (data.email)         g('email').value      = data.email;
         if (data.telefone)      g('telefone').value   = data.telefone;
         if (data.cpf)           g('cpf').value        = data.cpf;
-        if (data.nascimento)    g('nascimento').value = data.nascimento;
+        if (data.nascimento)    g('nascimento').value = data.nascimento.split('T')[0];
         if (data.sexo)          g('sexo').value       = data.sexo;
 
         const ua      = navigator.userAgent;
@@ -1044,6 +1044,7 @@ document.querySelectorAll('.faq-question').forEach(q => {
    INIT
 ═══════════════════════════════════════════ */
 document.addEventListener('DOMContentLoaded', () => {
+    requireLogin();
     const cachedName  = localStorage.getItem('profileName')     || '';
     const cachedEmail = localStorage.getItem('profileEmail')    || '';
     const cachedPhoto = localStorage.getItem('profilePhotoUrl') || DEFAULT_AVATAR_URL;
