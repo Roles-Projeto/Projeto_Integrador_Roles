@@ -173,15 +173,15 @@ function listarUsuarios(req, res) {
 // ATUALIZAR USUÁRIO
 // ========================
 function atualizarUsuario(req, res) {
-  const { id, nome_completo, email, telefone } = req.body;
+  const { id, nome_completo, sobrenome, email, telefone, foto_perfil, cpf, nascimento, sexo } = req.body;
 
   if (!id) {
     return res.status(400).json({ erro: "ID do usuário é obrigatório." });
   }
 
   connection.query(
-    "UPDATE usuarios SET nome_completo = ?, email = ?, telefone = ? WHERE id = ?",
-    [nome_completo, email, telefone || null, id],
+    "UPDATE usuarios SET nome_completo = ?, sobrenome = ?, email = ?, telefone = ?, foto_perfil = ?, cpf = ?, nascimento = ?, sexo = ? WHERE id = ?",
+[nome_completo, sobrenome || null, email, telefone || null, foto_perfil || null, cpf || null, nascimento || null, sexo || null, id],
     (err) => {
       if (err) {
         return res.status(500).json({
@@ -207,7 +207,7 @@ function buscarUsuarioPorId(req, res) {
   }
 
   connection.query(
-    "SELECT id, nome_completo, email, telefone, foto_perfil FROM usuarios WHERE id = ?",
+    "SELECT id, nome_completo, sobrenome, email, telefone, foto_perfil, cpf, nascimento, sexo FROM usuarios WHERE id = ?",
     [id],
     (err, results) => {
 
