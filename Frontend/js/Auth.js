@@ -111,4 +111,5 @@ function _resolverBase() {
     return idx !== -1
         ? '/' + parts.slice(0, idx + 1).join('/').replace(/^\//, '')
         : '/frontend';
+        
 }

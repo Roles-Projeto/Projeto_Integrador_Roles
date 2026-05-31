@@ -12,7 +12,20 @@ services:
       - "3307:3306"
     volumes:
       - mysql_data:/var/lib/mysql
-      - ./backend/db-init:/docker-entrypoint-initdb.d   # apenas uma fonte de init
+      - ./backend/db-init:/docker-entrypoint-initdb.d
+
+  postgres:
+    image: postgres:16
+    container_name: roles_postgres
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 265
+      POSTGRES_DB: roles_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
 
   backend:
     build: .
@@ -23,9 +36,10 @@ services:
     depends_on:
       - mysql
     env_file:
-      - ./backend/.env                                   # todas as variáveis vêm do .env
+      - ./backend/.env
     volumes:
       - ./backend/uploads:/app/uploads
 
 volumes:
   mysql_data:
+  postgres_data:
