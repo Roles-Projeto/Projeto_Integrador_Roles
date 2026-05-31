@@ -1,9 +1,9 @@
-ï»¿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Criar Conta â€” RolÃªs</title>
+    <title>Criar Conta — Rolês</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -23,8 +23,8 @@
                 <div class="orb orb-2"></div>
                 <div class="orb orb-3"></div>
                 <div class="hero-content">
-                    <div class="hero-logo">RolÃªs</div>
-                    <h1 class="hero-headline">Crie sua<br><em>conta grÃ¡tis</em></h1>
+                    <div class="hero-logo">Rolês</div>
+                    <h1 class="hero-headline">Crie sua<br><em>conta grátis</em></h1>
                     <p class="hero-sub">Descubra eventos, compre ingressos e encontre os melhores lugares para sair e se divertir.</p>
                 </div>
             </div>
@@ -96,7 +96,7 @@
                             <label>Senha</label>
                             <div class="input-wrap">
                                 <i class="fa-solid fa-lock input-icon"></i>
-                                <input type="password" id="senha" placeholder="MÃ­nimo 8 caracteres" required minlength="8">
+                                <input type="password" id="senha" placeholder="Mínimo 8 caracteres" required minlength="8">
                                 <button type="button" class="btn-olho" id="toggleSenha">
                                     <i class="fa-regular fa-eye" id="iconeSenha"></i>
                                 </button>
@@ -133,10 +133,10 @@
                     </form>
 
                     <p class="register-link" style="margin-top:16px;">
-                        JÃ¡ tem uma conta? <a href="/Frontend/login/login.html">Fazer login</a>
+                        Já tem uma conta? <a href="/Frontend/login/login.html">Fazer login</a>
                     </p>
                     <p class="register-link" style="margin-top:8px;font-size:11px;">
-                        Ao criar uma conta, vocÃª concorda com nossos
+                        Ao criar uma conta, você concorda com nossos
                         <a href="/Frontend/termodeuso/termodeuso.html">Termos de Uso</a>.
                     </p>
 
@@ -145,26 +145,26 @@
         </div>
     </main>
 
-    <!-- MODAL VERIFICAÃ‡ÃƒO -->
+    <!-- MODAL VERIFICAÇÃO -->
     <div id="modalCodigo" class="modal hidden">
         <div class="modal-card">
-            <button class="fechar" onclick="fecharModal()">Ã—</button>
+            <button class="fechar" onclick="fecharModal()">×</button>
             <div class="icone-seguranca"><i class="fa-solid fa-shield-halved"></i></div>
-            <h2>VerificaÃ§Ã£o de SeguranÃ§a</h2>
+            <h2>Verificação de Segurança</h2>
             <div id="escolhaMetodo">
-                <p>Como deseja receber o cÃ³digo?</p>
-                <button class="btn-opcao" id="btnEmail">ðŸ“§ Receber por Email</button>
-                <button class="btn-opcao" id="btnTelefone">ðŸ“± Receber por Telefone</button>
+                <p>Como deseja receber o código?</p>
+                <button class="btn-opcao" id="btnEmail">?? Receber por Email</button>
+                <button class="btn-opcao" id="btnTelefone">?? Receber por Telefone</button>
             </div>
             <div id="areaCodigo" style="display:none;">
-                <p id="mensagemEnvio">Enviamos um cÃ³digo de verificaÃ§Ã£o</p>
+                <p id="mensagemEnvio">Enviamos um código de verificação</p>
                 <input type="text" id="codigo" placeholder="_ _ _ _ _ _" maxlength="6" inputmode="numeric" autocomplete="one-time-code">
                 <button id="btnVerificar" class="btn-verificar">
-                    <span id="btnVerificarTexto">Verificar CÃ³digo</span>
+                    <span id="btnVerificarTexto">Verificar Código</span>
                     <span id="btnVerificarSpinner" class="spinner hidden"></span>
                 </button>
                 <p class="reenviar">
-                    NÃ£o recebeu o cÃ³digo?
+                    Não recebeu o código?
                     <button id="reenviarCodigo" class="btn-reenviar" disabled>Reenviar em <span id="timer">60</span>s</button>
                     <br><span id="outraForma">Tente outra forma</span>
                 </p>
@@ -178,6 +178,7 @@
 
     <script src="/Frontend/js/footer.js" defer></script>
     <script src="/Frontend/js/loadHeader.js"></script>
+    <script src="/Frontend/js/config.js"></script>
     <script src="/Frontend/js/cadastro.js"></script>
 </body>
 </html>
