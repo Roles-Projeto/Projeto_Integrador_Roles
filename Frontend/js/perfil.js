@@ -603,7 +603,7 @@ function renderTickets(tickets, filter) {
         const horaStr    = dataEvento ? dataEvento.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' }) : '';
         const precoStr   = t.preco ? `R$ ${parseFloat(t.preco).toFixed(2).replace('.', ',')}` : '';
         const stubLabel  = isPendente ? 'PEND.' : isUsado ? 'USADO' : 'SCAN';
-        const imgSrc     = t.img_capa ? `${API_URL}/uploads/${t.img_capa}` : '';
+        const imgSrc     = t.img_capa ? `${API_URL}${t.img_capa.startsWith('/') ? t.img_capa : '/uploads/' + t.img_capa}` : ''
 
         return `
         <div class="ticket-card" style="${isUsado ? 'opacity:0.65' : ''}"
@@ -660,7 +660,7 @@ function openTicketDetail(ticketId) {
     const isHoje     = dataEvento && dataEvento.toDateString() === new Date().toDateString();
     const isPendente = (t.status_pagamento || t.status) === 'pendente';
     const nomeEvento = t.nome_evento || t.evento || t.titulo || 'Evento';
-    const imgSrc     = t.img_capa ? `${API_URL}/uploads/${t.img_capa}` : '';
+    const imgSrc     = t.img_capa ? `${API_URL}${t.img_capa.startsWith('/') ? t.img_capa : '/uploads/' + t.img_capa}` : ''
     const dataStr    = dataEvento ? dataEvento.toLocaleDateString('pt-BR', { day: '2-digit', month: 'long', year: 'numeric' }) : '—';
     const horaStr    = dataEvento ? dataEvento.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' }) : '—';
     const precoStr   = t.preco ? `R$ ${parseFloat(t.preco).toFixed(2).replace('.', ',')}` : '—';
@@ -1054,6 +1054,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Se a URL tiver ?section=favoritos, abre a aba automaticamente
     const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('section') === 'ingressos') {
+        document.querySelector('.nav-item[data-section="ingressos"]')?.click();
+    }
     if (urlParams.get('section') === 'favoritos') {
         document.querySelector('.nav-item[data-section="favoritos"]')?.click();
     }

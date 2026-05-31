@@ -1,4 +1,4 @@
-console.log("🔥 CONTROLLER CARREGADO - CAMINHO:", __filename);
+﻿console.log("ðŸ”¥ CONTROLLER CARREGADO - CAMINHO:", __filename);
 
 const bcrypt = require("bcrypt");
 const connection = require("../db/db_config");
@@ -21,52 +21,52 @@ const transporter = nodemailer.createTransport({
 });
 
 // ========================
-// GERAR CÓDIGO ALEATÓRIO
+// GERAR CÃ“DIGO ALEATÃ“RIO
 // ========================
 function gerarCodigo() {
   return Math.floor(100000 + Math.random() * 900000).toString();
 }
 
 // ========================
-// ENVIAR EMAIL (REUTILIZÁVEL INTERNAMENTE)
+// ENVIAR EMAIL (REUTILIZÃVEL INTERNAMENTE)
 // ========================
 async function enviarEmailCodigo(email, codigo) {
-  console.log("📩 TENTANDO ENVIAR EMAIL PARA:", email);
-  console.log("🔑 CÓDIGO GERADO:", codigo);
+  console.log("ðŸ“© TENTANDO ENVIAR EMAIL PARA:", email);
+  console.log("ðŸ”‘ CÃ“DIGO GERADO:", codigo);
 
   const info = await transporter.sendMail({
-    from: `"Rolês App" <${process.env.EMAIL_USER}>`,
+    from: `"RolÃªs App" <${process.env.EMAIL_USER}>`,
     to: email,
-    subject: "Seu código de verificação - Rolês",
+    subject: "Seu cÃ³digo de verificaÃ§Ã£o - RolÃªs",
     html: `
       <div style="font-family: Arial, sans-serif; max-width: 480px; margin: 0 auto; padding: 32px; background: #f9f9f9; border-radius: 12px;">
-        <h2 style="color: #333;">Verificação de Conta 🎉</h2>
-        <p style="color: #555;">Use o código abaixo para ativar sua conta:</p>
+        <h2 style="color: #333;">VerificaÃ§Ã£o de Conta ðŸŽ‰</h2>
+        <p style="color: #555;">Use o cÃ³digo abaixo para ativar sua conta:</p>
         <div style="text-align: center; margin: 24px 0;">
           <span style="font-size: 40px; font-weight: bold; letter-spacing: 8px; color: #6c3dff;">${codigo}</span>
         </div>
-        <p style="color: #999; font-size: 13px;">Este código expira em 10 minutos. Se você não solicitou isso, ignore este email.</p>
+        <p style="color: #999; font-size: 13px;">Este cÃ³digo expira em 10 minutos. Se vocÃª nÃ£o solicitou isso, ignore este email.</p>
       </div>
     `
   });
 
-  console.log("✅ EMAIL ENVIADO! Message ID:", info.messageId);
+  console.log("âœ… EMAIL ENVIADO! Message ID:", info.messageId);
   return info;
 }
 
 
 // ========================
-// CADASTRAR USUÁRIO (2FA)
+// CADASTRAR USUÃRIO (2FA)
 // ========================
 async function cadastrarUsuario(req, res) {
-  console.log("🔥 CHEGOU NO CONTROLLER cadastrarUsuario");
+  console.log("ðŸ”¥ CHEGOU NO CONTROLLER cadastrarUsuario");
 
   try {
     const { nome_completo, email, telefone, senha } = req.body;
 
     if (!nome_completo || !email || !senha) {
       return res.status(400).json({
-        erro: "Preencha todos os campos obrigatórios."
+        erro: "Preencha todos os campos obrigatÃ³rios."
       });
     }
 
@@ -76,7 +76,7 @@ async function cadastrarUsuario(req, res) {
       async (err, results) => {
 
         if (err) {
-          console.log("❌ ERRO SELECT:", err);
+          console.log("âŒ ERRO SELECT:", err);
           return res.status(500).json({
             erro: "Erro no servidor.",
             detalhes: err.message
@@ -85,15 +85,15 @@ async function cadastrarUsuario(req, res) {
 
         if (results.length > 0) {
           return res.status(400).json({
-            erro: "E-mail já cadastrado!"
+            erro: "E-mail jÃ¡ cadastrado!"
           });
         }
 
         const senhaHash = await bcrypt.hash(senha, 10);
         const codigo = gerarCodigo();
 
-        console.log("🔑 CÓDIGO GERADO:", codigo);
-        console.log("🔥 VAI INSERIR USUÁRIO...");
+        console.log("ðŸ”‘ CÃ“DIGO GERADO:", codigo);
+        console.log("ðŸ”¥ VAI INSERIR USUÃRIO...");
 
         connection.query(
           `INSERT INTO usuarios 
@@ -102,33 +102,33 @@ async function cadastrarUsuario(req, res) {
           [nome_completo, email, telefone || null, senhaHash, codigo],
           async (err, insertResult) => {
 
-            console.log("🔥 ENTROU NO CALLBACK DO INSERT");
+            console.log("ðŸ”¥ ENTROU NO CALLBACK DO INSERT");
 
             if (err) {
-              console.log("❌ ERRO INSERT:", err);
+              console.log("âŒ ERRO INSERT:", err);
               return res.status(500).json({
-                erro: "Erro no banco ao cadastrar usuário.",
+                erro: "Erro no banco ao cadastrar usuÃ¡rio.",
                 detalhes: err.message
               });
             }
 
-            console.log("✅ USUÁRIO INSERIDO COM SUCESSO");
+            console.log("âœ… USUÃRIO INSERIDO COM SUCESSO");
 
             try {
               await enviarEmailCodigo(email, codigo);
 
               return res.status(201).json({
-                mensagem: "Usuário criado! Código enviado por email.",
+                mensagem: "UsuÃ¡rio criado! CÃ³digo enviado por email.",
                 id: insertResult.insertId
               });
 
             } catch (erroEmail) {
-              console.error("❌ ERRO AO ENVIAR EMAIL:", erroEmail.message);
-              console.error("❌ DETALHES ERRO EMAIL:", erroEmail);
+              console.error("âŒ ERRO AO ENVIAR EMAIL:", erroEmail.message);
+              console.error("âŒ DETALHES ERRO EMAIL:", erroEmail);
 
-              // Usuário foi criado, mas email falhou — retorna aviso
+              // UsuÃ¡rio foi criado, mas email falhou â€” retorna aviso
               return res.status(201).json({
-                mensagem: "Usuário criado, mas houve erro ao enviar o email. Use o reenvio.",
+                mensagem: "UsuÃ¡rio criado, mas houve erro ao enviar o email. Use o reenvio.",
                 id: insertResult.insertId,
                 avisoEmail: erroEmail.message
               });
@@ -139,7 +139,7 @@ async function cadastrarUsuario(req, res) {
     );
 
   } catch (erro) {
-    console.log("❌ ERRO GERAL:", erro);
+    console.log("âŒ ERRO GERAL:", erro);
 
     return res.status(500).json({
       erro: "Erro interno do servidor",
@@ -150,7 +150,7 @@ async function cadastrarUsuario(req, res) {
 
 
 // ========================
-// LISTAR USUÁRIOS
+// LISTAR USUÃRIOS
 // ========================
 function listarUsuarios(req, res) {
   connection.query(
@@ -170,40 +170,40 @@ function listarUsuarios(req, res) {
 
 
 // ========================
-// ATUALIZAR USUÁRIO
+// ATUALIZAR USUÃRIO
 // ========================
 function atualizarUsuario(req, res) {
-  const { id, nome_completo, email, telefone } = req.body;
+  const { id, nome_completo, sobrenome, email, telefone, foto_perfil, cpf, nascimento, sexo } = req.body;
 
   if (!id) {
-    return res.status(400).json({ erro: "ID do usuário é obrigatório." });
+    return res.status(400).json({ erro: "ID do usuÃ¡rio Ã© obrigatÃ³rio." });
   }
 
   connection.query(
-    "UPDATE usuarios SET nome_completo = ?, email = ?, telefone = ? WHERE id = ?",
-    [nome_completo, email, telefone || null, id],
+    "UPDATE usuarios SET nome_completo = ?, sobrenome = ?, email = ?, telefone = ?, foto_perfil = ?, cpf = ?, nascimento = ?, sexo = ? WHERE id = ?",
+[nome_completo, sobrenome || null, email, telefone || null, foto_perfil || null, cpf || null, nascimento || null, sexo || null, id],
     (err) => {
       if (err) {
         return res.status(500).json({
-          erro: "Erro ao atualizar usuário.",
+          erro: "Erro ao atualizar usuÃ¡rio.",
           detalhes: err.message
         });
       }
 
-      res.json({ mensagem: "Usuário atualizado com sucesso!" });
+      res.json({ mensagem: "UsuÃ¡rio atualizado com sucesso!" });
     }
   );
 }
 
 
 // ========================
-// BUSCAR USUÁRIO POR ID
+// BUSCAR USUÃRIO POR ID
 // ========================
 function buscarUsuarioPorId(req, res) {
   const { id } = req.params;
 
   if (!id) {
-    return res.status(400).json({ erro: "ID do usuário é obrigatório." });
+    return res.status(400).json({ erro: "ID do usuÃ¡rio Ã© obrigatÃ³rio." });
   }
 
   connection.query(
@@ -213,13 +213,13 @@ function buscarUsuarioPorId(req, res) {
 
       if (err) {
         return res.status(500).json({
-          erro: "Erro ao buscar usuário.",
+          erro: "Erro ao buscar usuÃ¡rio.",
           detalhes: err.message
         });
       }
 
       if (results.length === 0) {
-        return res.status(404).json({ erro: "Usuário não encontrado." });
+        return res.status(404).json({ erro: "UsuÃ¡rio nÃ£o encontrado." });
       }
 
       res.json(results[0]);
@@ -229,13 +229,13 @@ function buscarUsuarioPorId(req, res) {
 
 
 // ========================
-// ENVIAR CÓDIGO (REENVIO)
+// ENVIAR CÃ“DIGO (REENVIO)
 // ========================
 function enviarCodigo(req, res) {
   const { email } = req.body;
 
   if (!email) {
-    return res.status(400).json({ erro: "E-mail obrigatório." });
+    return res.status(400).json({ erro: "E-mail obrigatÃ³rio." });
   }
 
   const codigo = gerarCodigo();
@@ -253,15 +253,15 @@ function enviarCodigo(req, res) {
       }
 
       if (result.affectedRows === 0) {
-        return res.status(404).json({ erro: "Usuário não encontrado." });
+        return res.status(404).json({ erro: "UsuÃ¡rio nÃ£o encontrado." });
       }
 
       try {
         await enviarEmailCodigo(email, codigo);
-        res.json({ mensagem: "Código enviado com sucesso!" });
+        res.json({ mensagem: "CÃ³digo enviado com sucesso!" });
 
       } catch (erroEmail) {
-        console.error("❌ ERRO AO REENVIAR EMAIL:", erroEmail.message);
+        console.error("âŒ ERRO AO REENVIAR EMAIL:", erroEmail.message);
         res.status(500).json({
           erro: "Erro ao enviar e-mail.",
           detalhes: erroEmail.message
@@ -273,14 +273,14 @@ function enviarCodigo(req, res) {
 
 
 // ========================
-// VERIFICAR CÓDIGO
+// VERIFICAR CÃ“DIGO
 // ========================
 function verificarCodigo(req, res) {
   const { email, codigo } = req.body;
 
   if (!email || !codigo) {
     return res.status(400).json({
-      erro: "Email e código são obrigatórios"
+      erro: "Email e cÃ³digo sÃ£o obrigatÃ³rios"
     });
   }
 
@@ -298,7 +298,7 @@ function verificarCodigo(req, res) {
 
       if (results.length === 0) {
         return res.status(404).json({
-          erro: "Usuário não encontrado"
+          erro: "UsuÃ¡rio nÃ£o encontrado"
         });
       }
 
@@ -319,7 +319,7 @@ function verificarCodigo(req, res) {
 
           if (err) {
             return res.status(500).json({
-              erro: "Erro ao atualizar usuário"
+              erro: "Erro ao atualizar usuÃ¡rio"
             });
           }
 
@@ -338,7 +338,7 @@ async function recuperarSenha(req, res) {
 
   if (!email) {
     return res.status(400).json({
-      erro: "E-mail obrigatório."
+      erro: "E-mail obrigatÃ³rio."
     });
   }
 
@@ -365,21 +365,21 @@ async function recuperarSenha(req, res) {
 
       if (result.affectedRows === 0) {
         return res.status(404).json({
-          erro: "Usuário não encontrado"
+          erro: "UsuÃ¡rio nÃ£o encontrado"
         });
       }
 
       try {
 
         await transporter.sendMail({
-          from: `"Rolês App" <${process.env.EMAIL_USER}>`,
+          from: `"RolÃªs App" <${process.env.EMAIL_USER}>`,
           to: email,
-          subject: "Recuperação de senha - Rolês",
+          subject: "RecuperaÃ§Ã£o de senha - RolÃªs",
           html: `
             <div style="font-family: Arial; padding: 30px;">
-              <h2>Recuperação de senha</h2>
+              <h2>RecuperaÃ§Ã£o de senha</h2>
 
-              <p>Use o código abaixo para redefinir sua senha:</p>
+              <p>Use o cÃ³digo abaixo para redefinir sua senha:</p>
 
               <div style="
                 font-size: 40px;
@@ -392,14 +392,14 @@ async function recuperarSenha(req, res) {
               </div>
 
               <p>
-                Esse código expira em 10 minutos.
+                Esse cÃ³digo expira em 10 minutos.
               </p>
             </div>
           `
         });
 
         res.json({
-          mensagem: "Código enviado no e-mail."
+          mensagem: "CÃ³digo enviado no e-mail."
         });
 
       } catch (erroEmail) {
@@ -447,7 +447,7 @@ async function redefinirSenha(req, res) {
 
       if (results.length === 0) {
         return res.status(404).json({
-          erro: "Usuário não encontrado"
+          erro: "UsuÃ¡rio nÃ£o encontrado"
         });
       }
 
@@ -455,13 +455,13 @@ async function redefinirSenha(req, res) {
 
       if (usuario.codigo_recuperacao !== codigo) {
         return res.status(400).json({
-          erro: "Código inválido"
+          erro: "CÃ³digo invÃ¡lido"
         });
       }
 
       if (new Date() > new Date(usuario.codigo_expira_em)) {
         return res.status(400).json({
-          erro: "Código expirado"
+          erro: "CÃ³digo expirado"
         });
       }
 
