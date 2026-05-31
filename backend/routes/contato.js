@@ -12,6 +12,7 @@ const nodemailer = require("nodemailer");
 // No seu .env defina:  EMAIL_USER=seu@gmail.com  EMAIL_PASS=sua_senha_de_app
 const transporter = nodemailer.createTransport({
     host: "smtp.gmail.com",
+  family: 4,
     port: 465,
     secure: true,
     auth: {
