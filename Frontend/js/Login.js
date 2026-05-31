@@ -228,7 +228,7 @@ if (btnCadastrar) {
         e.preventDefault();
 
         window.parent.location.href =
-            "../cadastro/Cadastro.html";
+            "/Frontend/Cadastro/cadastro.html";
 
     });
 
