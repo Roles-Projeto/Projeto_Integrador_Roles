@@ -560,9 +560,7 @@ console.log('📦 Items:', Array.isArray(raw) ? raw : (raw?.ingressos || raw?.da
     if (!items.length) { showState('tickets', 'empty'); return; }
 
     _allTickets = items;
-    renderTickets(_allTickets, _currentFilter);
-    renderTicketSummary(_allTickets);
-    updateNavBadge(_allTickets.length);
+renderTickets(_allTickets, _currentFilter);
 }
 
 function renderTickets(tickets, filter) {
@@ -721,6 +719,104 @@ function openTicketDetail(ticketId) {
 
     overlay.classList.add('open');
 }
+
+/* ═══════════════════════════════════════════
+   DOWNLOAD PDF DO INGRESSO
+═══════════════════════════════════════════ */
+async function downloadTicket(ticketId) {
+    const t = _allTickets.find(x => String(x.id) === String(ticketId));
+    if (!t) return;
+
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF({ unit: 'mm', format: 'a4' });
+
+    const nomeEvento = t.nome_evento || t.evento || t.titulo || 'Evento';
+    const dataEvento = t.data_evento ? new Date(t.data_evento) : null;
+    const dataStr    = dataEvento ? dataEvento.toLocaleDateString('pt-BR', { day: '2-digit', month: 'long', year: 'numeric' }) : '—';
+    const horaStr    = dataEvento ? dataEvento.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' }) : '—';
+    const local      = t.local_evento || t.local || t.cidade || '—';
+    const tipo       = t.tipo_ingresso || '—';
+    const preco      = t.preco ? `R$ ${parseFloat(t.preco).toFixed(2).replace('.', ',')}` : '—';
+    const pedido     = `#${String(t.id).padStart(5, '0')}`;
+    const pagamento  = t.forma_pagamento || '—';
+
+    // Fundo roxo no topo
+    doc.setFillColor(108, 29, 206);
+    doc.rect(0, 0, 210, 45, 'F');
+
+    // Título
+    doc.setTextColor(255, 255, 255);
+    doc.setFontSize(22);
+    doc.setFont('helvetica', 'bold');
+    doc.text('INGRESSO', 105, 18, { align: 'center' });
+
+    doc.setFontSize(14);
+    doc.setFont('helvetica', 'normal');
+    doc.text(nomeEvento, 105, 30, { align: 'center' });
+
+    doc.setFontSize(10);
+    doc.text('Rolés — Sua plataforma de eventos', 105, 40, { align: 'center' });
+
+    // Linha divisória
+    doc.setDrawColor(108, 29, 206);
+    doc.setLineWidth(0.5);
+    doc.line(15, 52, 195, 52);
+
+    // Informações do ingresso
+    doc.setTextColor(50, 50, 50);
+    doc.setFontSize(11);
+
+    const campos = [
+        ['Pedido',     pedido],
+        ['Status',     'Confirmado'],
+        ['Data',       dataStr],
+        ['Horário',    horaStr],
+        ['Local',      local],
+        ['Tipo',       tipo],
+        ['Valor pago', preco],
+        ['Pagamento',  pagamento],
+    ];
+
+    let y = 65;
+    campos.forEach(([label, valor]) => {
+        doc.setFont('helvetica', 'bold');
+        doc.setTextColor(108, 29, 206);
+        doc.text(label + ':', 20, y);
+
+        doc.setFont('helvetica', 'normal');
+        doc.setTextColor(50, 50, 50);
+        doc.text(String(valor), 70, y);
+
+        y += 12;
+    });
+
+    // Caixa QR Code
+    doc.setDrawColor(200, 200, 200);
+    doc.setFillColor(245, 245, 245);
+    doc.roundedRect(55, y + 5, 100, 50, 4, 4, 'FD');
+
+    doc.setTextColor(108, 29, 206);
+    doc.setFontSize(12);
+    doc.setFont('helvetica', 'bold');
+    doc.text('[ QR CODE ]', 105, y + 34, { align: 'center' });
+
+    doc.setTextColor(120, 120, 120);
+    doc.setFontSize(9);
+    doc.setFont('helvetica', 'normal');
+    doc.text('Apresente este ingresso na entrada do evento', 105, y + 48, { align: 'center' });
+
+    // Rodapé
+    doc.setFillColor(240, 240, 240);
+    doc.rect(0, 275, 210, 22, 'F');
+    doc.setTextColor(150, 150, 150);
+    doc.setFontSize(8);
+    doc.text('Este ingresso é pessoal e intransferível. Gerado em ' + new Date().toLocaleDateString('pt-BR'), 105, 284, { align: 'center' });
+    doc.text('Rolés © ' + new Date().getFullYear(), 105, 290, { align: 'center' });
+
+    doc.save(`ingresso-${pedido}.pdf`);
+    showToast('PDF baixado com sucesso! 🎉', 'success');
+}
+
 /* ═══════════════════════════════════════════
    TRANSFER MODAL
 ═══════════════════════════════════════════ */
