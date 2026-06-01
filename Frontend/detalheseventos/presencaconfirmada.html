@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <<<<<<< HEAD
+<<<<<<< HEAD
     <title>Presença Confirmada | Rolês</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
@@ -12,6 +13,11 @@
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
 >>>>>>> 1584ca1 (feat: nova tela de confirmação de presença)
+=======
+    <title>Presença Confirmada | Rolês</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&display=swap" rel="stylesheet">
+>>>>>>> 24c2029 (feat: reformula tela de confirmação de presença)
     <link rel="stylesheet" href="/frontend/css/footer.css">
     <link rel="stylesheet" href="/frontend/css/presencaconfirmada.css">
 </head>
@@ -21,6 +27,7 @@
     <div id="header-container"></div>
 </header>
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 <main>
     <div class="container-confirmacao">
@@ -34,130 +41,219 @@
             </div>
 =======
     <main>
+=======
+    <main class="pc-main">
+>>>>>>> 24c2029 (feat: reformula tela de confirmação de presença)
 
-        <!-- HERO ROXO -->
-        <section class="pc-hero">
-            <div class="pc-badge-confirmed">
-                <span class="pc-dot"></span>
-                <span>Presença confirmada</span>
-                <i class="ti ti-circle-check pc-badge-icon"></i>
-            </div>
-            <h1><span>🎉</span> Você vai estar lá!</h1>
-            <p>Tudo certo. A gente mal pode esperar<br>para te ver por lá.</p>
-        </section>
+        <!-- CARD PRINCIPAL -->
+        <div class="pc-top-card">
 
-        <div class="pc-container">
-
-            <div class="pc-divider"><span>seu evento</span></div>
-
-            <!-- Card Evento -->
-            <div class="pc-card">
-                <div class="pc-event-row">
-                    <div class="pc-thumb" id="pc-thumb">🎪</div>
-                    <div style="flex:1;min-width:0;">
-                        <div class="pc-event-tag">
-                            <i class="ti ti-circle-check"></i>
-                            Confirmado
-                        </div>
-                        <p class="pc-event-name" id="pc-nome-evento">Carregando...</p>
-                        <div class="pc-metas">
-                            <i class="ti ti-calendar pc-meta-icon" style="color:#7c3aed;font-size:14px;"></i>
-                            <span id="pc-data-txt" style="font-size:13px;font-weight:700;color:#444;">–</span>
-                            <span class="pc-meta-sep">·</span>
-                            <i class="ti ti-clock" style="color:#7c3aed;font-size:14px;"></i>
-                            <span id="pc-hora-txt" style="font-size:13px;font-weight:700;color:#444;">–</span>
-                            <span class="pc-meta-sep">·</span>
-                            <i class="ti ti-map-pin" style="color:#7c3aed;font-size:14px;"></i>
-                            <span id="pc-local-txt" style="font-size:13px;font-weight:700;color:#444;">–</span>
-                        </div>
-                        <div class="pc-ticket">
-                            <i class="ti ti-shield-check"></i>
-                            <span>Confirmação de presença concluída com sucesso</span>
-                        </div>
-                    </div>
+            <!-- LADO ESQUERDO — ícone + mensagem -->
+            <div class="pc-left">
+                <div class="pc-check-circle">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2.5"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="20 6 9 17 4 12"/>
+                    </svg>
+                </div>
+                <div class="pc-left-text">
+                    <p class="pc-inscricao-label">Inscrição Confirmada</p>
+                    <h1 class="pc-h1">Você está confirmado!</h1>
+                    <p class="pc-sub">Sua presença está garantida.</p>
                 </div>
             </div>
 
-            <div class="pc-divider"><span>lembretes</span></div>
+            <!-- DIVISOR VERTICAL -->
+            <div class="pc-divider"></div>
 
-            <!-- Grid Dicas -->
-            <div class="pc-card">
-                <div class="pc-tips">
-
-                    <div class="pc-tip">
-                        <div class="pc-tip-icon"><i class="ti ti-clock"></i></div>
-                        <div>
-                            <p class="pc-tip-title">Chegue cedo</p>
-                            <p class="pc-tip-text">15 min antes para não perder nada.</p>
-                        </div>
+            <!-- LADO DIREITO — dados do evento -->
+            <div class="pc-right">
+                <div class="pc-info-row">
+                    <div class="pc-info-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
+                            fill="none" stroke="currentColor" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                            <line x1="16" y1="2" x2="16" y2="6"/>
+                            <line x1="8" y1="2" x2="8" y2="6"/>
+                            <line x1="3" y1="10" x2="21" y2="10"/>
+                        </svg>
                     </div>
-
-                    <div class="pc-tip">
-                        <div class="pc-tip-icon"><i class="ti ti-id"></i></div>
-                        <div>
-                            <p class="pc-tip-title">Documento</p>
-                            <p class="pc-tip-text">RG ou CNH obrigatório na entrada.</p>
-                        </div>
+                    <span class="pc-info-text" id="pc-data-txt">–</span>
+                </div>
+                <div class="pc-info-row">
+                    <div class="pc-info-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
+                            fill="none" stroke="currentColor" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10"/>
+                            <polyline points="12 6 12 12 16 14"/>
+                        </svg>
                     </div>
-
-                    <div class="pc-tip">
-                        <div class="pc-tip-icon"><i class="ti ti-mail"></i></div>
-                        <div>
-                            <p class="pc-tip-title">Verifique o e-mail</p>
-                            <p class="pc-tip-text">Detalhes completos foram enviados.</p>
-                        </div>
+                    <span class="pc-info-text" id="pc-hora-txt">–</span>
+                </div>
+                <div class="pc-info-row">
+                    <div class="pc-info-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
+                            fill="none" stroke="currentColor" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0 1 18 0z"/>
+                            <circle cx="12" cy="10" r="3"/>
+                        </svg>
                     </div>
-
-                    <div class="pc-tip">
-                        <div class="pc-tip-icon"><i class="ti ti-car"></i></div>
-                        <div>
-                            <p class="pc-tip-title">Como chegar</p>
-                            <p class="pc-tip-text">Confirme transporte com antecedência.</p>
-                        </div>
+                    <span class="pc-info-text" id="pc-local-txt">–</span>
+                </div>
+                <div class="pc-info-row">
+                    <div class="pc-info-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
+                            fill="none" stroke="currentColor" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                            <circle cx="9" cy="7" r="4"/>
+                            <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+                            <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                        </svg>
                     </div>
-
-                    <div class="pc-tip clickable" id="tip-dress"
-                         aria-label="Ver sugestões de dress code no Pinterest">
-                        <div class="pc-tip-icon"><i class="ti ti-hanger"></i></div>
-                        <div>
-                            <p class="pc-tip-title">Dress code</p>
-                            <p class="pc-tip-text">Casual chique. Veja inspirações.</p>
-                            <a class="pc-tip-link" id="pc-tip-dress-link" target="_blank">
-                                Ver looks no Pinterest ↗
-                            </a>
-                        </div>
-                    </div>
-
-                    <div class="pc-tip clickable" id="tip-clima"
-                         aria-label="Ver previsão do tempo">
-                        <div class="pc-tip-icon"><i class="ti ti-cloud"></i></div>
-                        <div>
-                            <p class="pc-tip-title">Clima</p>
-                            <p class="pc-tip-text" id="pc-weather-text">Carregando...</p>
-                            <a class="pc-tip-link" id="pc-clima-link" target="_blank">
-                                Ver previsão completa ↗
-                            </a>
-                        </div>
-                    </div>
-
+                    <span class="pc-info-text" id="pc-nome-txt">–</span>
                 </div>
             </div>
 
-            <div class="pc-divider"><span>próximos passos</span></div>
+        </div>
 
-            <div class="pc-card pc-acoes">
+        <!-- CORPO -->
+        <div class="pc-body">
+
+            <!-- Barra de confirmação -->
+            <div class="pc-confirm-bar">
+                <div class="pc-confirm-bar-left">
+                    <div class="pc-confirm-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
+                            fill="none" stroke="currentColor" stroke-width="2.5"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="20 6 9 17 4 12"/>
+                        </svg>
+                    </div>
+                    <span class="pc-confirm-text">Presença confirmada com sucesso</span>
+                </div>
+                <span class="pc-confirm-warn">Esta confirmação não é um ingresso</span>
+            </div>
+
+            <!-- Lembretes -->
+            <p class="pc-section-label">Lembretes</p>
+            <div class="pc-tips">
+
+                <div class="pc-tip">
+                    <div class="pc-tip-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24"
+                            fill="none" stroke="currentColor" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10"/>
+                            <polyline points="12 6 12 12 16 14"/>
+                        </svg>
+                    </div>
+                    <div class="pc-tip-body">
+                        <p class="pc-tip-title">Chegue cedo</p>
+                        <p class="pc-tip-text">15 min antes para não perder nada.</p>
+                    </div>
+                </div>
+
+                <div class="pc-tip">
+                    <div class="pc-tip-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24"
+                            fill="none" stroke="currentColor" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="2" y="5" width="20" height="14" rx="2"/>
+                            <line x1="2" y1="10" x2="22" y2="10"/>
+                        </svg>
+                    </div>
+                    <div class="pc-tip-body">
+                        <p class="pc-tip-title">Documento</p>
+                        <p class="pc-tip-text">RG ou CNH obrigatório na entrada.</p>
+                    </div>
+                </div>
+
+                <div class="pc-tip">
+                    <div class="pc-tip-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24"
+                            fill="none" stroke="currentColor" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                            <polyline points="22,6 12,13 2,6"/>
+                        </svg>
+                    </div>
+                    <div class="pc-tip-body">
+                        <p class="pc-tip-title">Verifique seu e-mail</p>
+                        <p class="pc-tip-text">Detalhes completos foram enviados.</p>
+                    </div>
+                </div>
+
+                <div class="pc-tip pc-tip-click" id="tip-clima">
+                    <div class="pc-tip-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24"
+                            fill="none" stroke="currentColor" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M14 14.76V3.5a2.5 2.5 0 0 0-5 0v11.26a4.5 4.5 0 1 0 5 0z"/>
+                        </svg>
+                    </div>
+                    <div class="pc-tip-body">
+                        <p class="pc-tip-title">Clima</p>
+                        <p class="pc-tip-text" id="pc-weather-text">Carregando...</p>
+                        <a class="pc-tip-link" id="pc-clima-link" target="_blank">Ver previsão completa →</a>
+                    </div>
+                </div>
+
+                <div class="pc-tip pc-tip-click" id="tip-dress">
+                    <div class="pc-tip-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24"
+                            fill="none" stroke="currentColor" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M20.38 3.46L16 2a4 4 0 01-8 0L3.62 3.46a2 2 0 00-1.34 2.23l.58 3.57a1 1 0 00.99.84H6v10c0 1.1.9 2 2 2h8a2 2 0 002-2V10h2.15a1 1 0 00.99-.84l.58-3.57a2 2 0 00-1.34-2.23z"/>
+                        </svg>
+                    </div>
+                    <div class="pc-tip-body">
+                        <p class="pc-tip-title">Dress code</p>
+                        <p class="pc-tip-text">Casual chique. Veja inspirações.</p>
+                        <a class="pc-tip-link" id="pc-tip-dress-link" target="_blank">Ver looks no Pinterest →</a>
+                    </div>
+                </div>
+
+                <div class="pc-tip pc-tip-click" id="tip-maps">
+                    <div class="pc-tip-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24"
+                            fill="none" stroke="currentColor" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0 1 18 0z"/>
+                            <circle cx="12" cy="10" r="3"/>
+                        </svg>
+                    </div>
+                    <div class="pc-tip-body">
+                        <p class="pc-tip-title">Como chegar</p>
+                        <p class="pc-tip-text">Confirme transporte com antecedência.</p>
+                        <a class="pc-tip-link" id="pc-maps-link" target="_blank">Ver no Google Maps →</a>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Próximos passos -->
+            <p class="pc-section-label">Próximos Passos</p>
+            <div class="pc-acoes">
                 <a href="/frontend/eventos/eventos.html" class="pc-btn pc-btn-outline">
-                    <i class="ti ti-search"></i>
                     Explorar mais eventos
                 </a>
                 <a href="/frontend/meuseventos/meuseventos.html" class="pc-btn pc-btn-solid">
-                    <i class="ti ti-layout-list"></i>
                     Ver meus eventos
                 </a>
             </div>
 
 >>>>>>> 1584ca1 (feat: nova tela de confirmação de presença)
         </div>
+<<<<<<< HEAD
+=======
+
+    </main>
+>>>>>>> 24c2029 (feat: reformula tela de confirmação de presença)
 
 <<<<<<< HEAD
         <h1 class="titulo-confirmacao">Presença Confirmada!</h1>

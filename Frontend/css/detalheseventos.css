@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700;9..40,800&display=swap');
 
 :root {
@@ -26,11 +27,54 @@ body {
   font-size: 14px;
   line-height: 1.6;
 }
+=======
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500;600&display=swap');
+
+:root {
+    --cor-texto-claro:        #FFFFFF;
+    --cor-primaria:           #0d0b14;
+    --cor-destaque:           #7c3aed;
+    --cor-destaque-hover:     #6c2bd9;
+    --cor-fundo:              #f5f4f8;
+    --cor-card:               #ffffff;
+    --cor-borda:              rgba(0,0,0,0.07);
+    --cor-secundaria:         #444;
+    --cor-muted:              #888;
+    --font-display:           'Syne', sans-serif;
+    --font-body:              'DM Sans', sans-serif;
+    --radius-sm:              8px;
+    --radius-md:              14px;
+    --radius-lg:              20px;
+    --shadow-card:            0 1px 3px rgba(0,0,0,0.05), 0 6px 20px rgba(108,43,217,0.07);
+    --tamanho-fonte-grande:   1rem;
+    --tamanho-fonte-media:    0.875rem;
+    --tamanho-fonte-pequena:  0.75rem;
+    --tamanho-borda-arredondada: 0.5rem;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+header { margin: 0; padding: 0; }
+
+body {
+    font-family: var(--font-body);
+    margin: 0;
+    padding: 0;
+    background-color: var(--cor-fundo);
+    font-size: 13px;
+    color: var(--cor-primaria);
+    -webkit-font-smoothing: antialiased;
+}
+
+/* ── BANNER ──────────────────────────────────────── */
+.conteudo-principal-evento { margin: 0; padding-bottom: 3em; }
+>>>>>>> 24c2029 (feat: reformula tela de confirmação de presença)
 
 /* ═══════════════════════════════════════
    BANNER
 ═══════════════════════════════════════ */
 .banner-evento {
+<<<<<<< HEAD
   position: relative;
   width: 100%;
   height: 58vh;
@@ -83,10 +127,93 @@ body {
   background: rgba(255,255,255,0.10);
   backdrop-filter: blur(10px);
   transition: all 0.2s;
+=======
+    position: relative;
+    width: 100%;
+    height: 55vh;
+    min-height: 420px;
+    background-size: cover;
+    background-position: center 15%;
+    background-repeat: no-repeat;
+    background-color: #1a1625;
+    color: var(--cor-texto-claro);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 1.5em 2em;
+    overflow: hidden;
+}
+
+.banner-evento::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(13,11,20,0.92) 0%, rgba(13,11,20,0.3) 50%, transparent 100%);
+    z-index: 1;
+}
+
+.banner-evento > * { z-index: 2; }
+
+/* ── BOTÃO VOLTAR ────────────────────────────────── */
+.botao-voltar {
+    align-self: flex-start;
+    background-color: rgba(255,255,255,0.15);
+    backdrop-filter: blur(8px);
+    color: var(--cor-texto-claro);
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: var(--radius-sm);
+    padding: 0.5em 1em;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+    transition: background-color 0.2s;
+    text-decoration: none;
+    font-size: var(--tamanho-fonte-media);
+    font-weight: 500;
+}
+
+.botao-voltar:hover { background-color: rgba(255,255,255,0.25); }
+.icone-voltar { width: 1.1em; height: 1.1em; }
+
+/* ── CABEÇALHO BANNER ────────────────────────────── */
+.informacoes-cabecalho { margin-bottom: 0.5em; }
+
+.etiqueta-categoria {
+    display: inline-block;
+    background: rgba(124,58,237,0.85);
+    color: #fff;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 4px 12px;
+    border-radius: 99px;
+    margin-bottom: 0.6em;
+}
+
+.titulo-evento {
+    font-family: var(--font-display);
+    font-size: clamp(1.8em, 4vw, 2.6em);
+    font-weight: 800;
+    margin: 0.15em 0;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+>>>>>>> 24c2029 (feat: reformula tela de confirmação de presença)
 }
 .botao-voltar:hover { background: rgba(255,255,255,0.20); color: #fff; }
 
+<<<<<<< HEAD
 /* ── Ações topo direito ── */
+=======
+.data-hora-cabecalho {
+    font-size: var(--tamanho-fonte-media);
+    opacity: 0.8;
+    margin: 0;
+}
+
+/* ── AÇÕES E PREÇO ───────────────────────────────── */
+>>>>>>> 24c2029 (feat: reformula tela de confirmação de presença)
 .acoes-cabecalho {
   position: absolute;
   top: 20px;
@@ -97,6 +224,7 @@ body {
 }
 
 .icone-acao {
+<<<<<<< HEAD
   width: 40px; height: 40px;
   border-radius: 50%;
   background: rgba(255,255,255,0.12);
@@ -129,6 +257,23 @@ body {
   margin-bottom: 10px;
   box-shadow: 0 2px 10px rgba(91,33,182,0.40);
 }
+=======
+    background-color: rgba(255,255,255,0.15);
+    backdrop-filter: blur(8px);
+    color: var(--cor-texto-claro);
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 50%;
+    width: 2.5em;
+    height: 2.5em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.icone-acao:hover { background-color: rgba(255,255,255,0.3); }
+>>>>>>> 24c2029 (feat: reformula tela de confirmação de presença)
 
 .titulo-evento {
   font-family: 'DM Sans', sans-serif;
@@ -180,6 +325,7 @@ body {
   align-items: flex-start;
 }
 
+<<<<<<< HEAD
 .detalhes-evento { flex: 2; min-width: 0; }
 
 .compra-ingresso {
@@ -278,9 +424,123 @@ body {
   border: 1px solid var(--p200);
   border-radius: 99px; padding: 2px 9px;
   font-size: 10.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.3px;
+=======
+.valor-minimo {
+    font-family: var(--font-display);
+    font-size: 2em;
+    font-weight: 800;
+    display: block;
+    line-height: 1;
+}
+
+.por-pessoas {
+    font-size: var(--tamanho-fonte-pequena);
+    opacity: 0.7;
+    margin-top: 0.3em;
+}
+
+/* ── LAYOUT CONTEÚDO ─────────────────────────────── */
+.conteudo-evento {
+    max-width: 1200px;
+    margin: 2em auto;
+    padding: 0 2em;
+    display: flex;
+    gap: 2em;
+}
+
+.detalhes-evento  { flex: 2; min-width: 60%; }
+
+.compra-ingresso {
+    flex: 1;
+    min-width: 300px;
+    position: sticky;
+    top: 90px;
+    align-self: flex-start;
+}
+
+/* ── CARDS ───────────────────────────────────────── */
+.card-informacoes,
+.card-garantia-ingresso,
+.ingressos-disponiveis {
+    background-color: var(--cor-card);
+    padding: 1.5em;
+    border-radius: var(--radius-lg);
+    margin-bottom: 1.5em;
+    border: 1px solid var(--cor-borda);
+    box-shadow: var(--shadow-card);
+}
+
+.titulo-secao {
+    font-family: var(--font-display);
+    font-size: 1.15em;
+    font-weight: 700;
+    margin-top: 0;
+    margin-bottom: 1em;
+    color: var(--cor-primaria);
+}
+
+/* ── SOBRE O EVENTO ──────────────────────────────── */
+.descricao-evento {
+    font-size: var(--tamanho-fonte-grande);
+    line-height: 1.7;
+    margin-bottom: 1.5em;
+    color: #444;
+}
+
+.informacoes-extras { display: flex; gap: 3em; }
+
+.info-item {
+    display: flex;
+    align-items: center;
+    gap: 0.8em;
+    font-size: var(--tamanho-fonte-media);
+}
+
+.icone-info { width: 1.4em; height: 1.4em; color: var(--cor-destaque); flex-shrink: 0; }
+
+.texto-info { display: flex; flex-direction: column; }
+.texto-info p, .texto-info span { margin: 0; padding: 0; }
+
+.nome-local, .numero-confirmados { font-weight: 600; line-height: 1.3; font-size: var(--tamanho-fonte-grande); }
+.endereco-local, .texto-confirmacao { color: var(--cor-muted); font-size: var(--tamanho-fonte-pequena); line-height: 1.3; }
+
+/* ── ORGANIZADOR ─────────────────────────────────── */
+.perfil-organizador { display: flex; align-items: center; gap: 1em; }
+
+.avatar-organizador {
+    width: 3.2em; height: 3.2em;
+    border-radius: 50%;
+    object-fit: cover;
+    flex-shrink: 0;
+    border: 2px solid var(--cor-borda);
+}
+
+.dados-organizador { flex-grow: 1; }
+
+.nome-produtora {
+    font-weight: 600;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+    font-size: var(--tamanho-fonte-grande);
+}
+
+.etiqueta-verificado {
+    background: rgba(124,58,237,0.1);
+    color: var(--cor-destaque);
+    border: 1px solid rgba(124,58,237,0.2);
+    border-radius: 99px;
+    padding: 2px 8px;
+    font-size: 0.62em;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+>>>>>>> 24c2029 (feat: reformula tela de confirmação de presença)
 }
 .etiqueta-verificado i { font-size: 9px; }
 
+<<<<<<< HEAD
 .eventos-organizados { font-size: 12.5px; color: var(--text-light); }
 
 .botao-ver-perfil {
@@ -301,19 +561,57 @@ body {
   display: flex; align-items: center; gap: 9px;
   font-size: 15px; font-weight: 700; color: var(--text-dark);
   margin-bottom: 18px;
+=======
+.eventos-organizados { color: var(--cor-muted); margin: 2px 0 0; font-size: var(--tamanho-fonte-pequena); }
+
+.botao-ver-perfil {
+    background-color: var(--cor-primaria);
+    color: var(--cor-texto-claro);
+    padding: 0.5em 1.1em;
+    border-radius: var(--radius-sm);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: var(--tamanho-fonte-pequena);
+    flex-shrink: 0;
+    transition: background-color 0.2s;
+}
+
+.botao-ver-perfil:hover { background-color: #333; }
+
+/* ── INGRESSOS ───────────────────────────────────── */
+.titulo-ingressos {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1em;
+    margin-top: 0;
+    margin-bottom: 1.5em;
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+    color: var(--cor-primaria);
+>>>>>>> 24c2029 (feat: reformula tela de confirmação de presença)
 }
 .titulo-ingressos i { color: var(--p600); }
 
 .opcao-ingresso {
+<<<<<<< HEAD
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
   padding: 18px 0;
   border-top: 1.5px solid var(--border);
   gap: 16px;
+=======
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 1.2em 0;
+    border-top: 1px solid #f0eef8;
+>>>>>>> 24c2029 (feat: reformula tela de confirmação de presença)
 }
 .opcao-ingresso:first-of-type { border-top: none; padding-top: 0; }
 
+<<<<<<< HEAD
 .detalhes-opcao { flex: 1; min-width: 0; }
 
 .nome-ingresso { font-size: 14px; font-weight: 700; color: var(--text-dark); margin-bottom: 4px; }
@@ -325,8 +623,32 @@ body {
   height: 5px;
   background: var(--p100);
   border-radius: 99px; overflow: hidden;
+=======
+.opcao-ingresso:first-of-type { border-top: none; padding-top: 0; }
+
+.detalhes-opcao { flex-grow: 1; margin-right: 1em; }
+
+.nome-ingresso {
+    font-weight: 700;
+    margin: 0 0 0.2em;
+    color: var(--cor-primaria);
+    font-size: var(--tamanho-fonte-grande);
+}
+
+.descricao-ingresso { color: var(--cor-muted); margin: 0 0 0.6em; font-size: var(--tamanho-fonte-pequena); }
+
+.quantidade-restante { color: #aaa; display: block; margin-bottom: 0.4em; font-size: var(--tamanho-fonte-pequena); }
+
+.barra-progresso {
+    background-color: #f0eef8;
+    height: 4px;
+    border-radius: 99px;
+    overflow: hidden;
+    max-width: 160px;
+>>>>>>> 24c2029 (feat: reformula tela de confirmação de presença)
 }
 .progresso {
+<<<<<<< HEAD
   height: 100%;
   background: linear-gradient(90deg, var(--p700), var(--p500));
   border-radius: 99px;
@@ -353,9 +675,44 @@ body {
   font-size: 13px; font-weight: 600;
   cursor: pointer; min-width: 110px;
   transition: all 0.2s;
+=======
+    height: 100%;
+    background: linear-gradient(90deg, var(--cor-destaque), #b5f23d);
+    transition: width 0.5s ease;
+}
+
+.acao-opcao {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    flex-shrink: 0;
+    margin-left: 1em;
+    gap: 0.5em;
+}
+
+.preco-ingresso {
+    font-family: var(--font-display);
+    font-size: 1.15em;
+    font-weight: 700;
+    color: var(--cor-primaria);
+}
+
+.botao-selecionar {
+    background-color: var(--cor-card);
+    color: var(--cor-primaria);
+    border: 1px solid rgba(0,0,0,0.2);
+    border-radius: var(--radius-sm);
+    padding: 0.5em 1em;
+    font-weight: 600;
+    font-size: var(--tamanho-fonte-pequena);
+    cursor: pointer;
+    min-width: 6.5rem;
+    transition: all 0.2s;
+>>>>>>> 24c2029 (feat: reformula tela de confirmação de presença)
 }
 .botao-selecionar:hover:not(.selecionado) { background: var(--p100); border-color: var(--p600); }
 .botao-selecionar.selecionado {
+<<<<<<< HEAD
   background: linear-gradient(135deg, var(--p800), var(--p500));
   color: #fff; border-color: transparent;
   box-shadow: 0 3px 12px rgba(91,33,182,0.28);
@@ -375,11 +732,39 @@ body {
   background: var(--p100); border: 1.5px solid var(--p200);
   display: flex; align-items: center; justify-content: center;
   color: var(--p600); font-size: 16px;
+=======
+    background-color: var(--cor-primaria);
+    color: var(--cor-texto-claro);
+    border-color: var(--cor-primaria);
+}
+
+.botao-selecionar:hover:not(.selecionado) { background-color: #f5f4f8; border-color: var(--cor-destaque); }
+
+/* ── TRANSPARÊNCIA ───────────────────────────────── */
+.card-transparencia {
+    background: rgba(124,58,237,0.05);
+    border: 1px solid rgba(124,58,237,0.18);
+    border-radius: var(--radius-md);
+    padding: 1.2em 1.5em;
+    display: flex;
+    gap: 1em;
+    align-items: flex-start;
+    margin-bottom: 1.5em;
+}
+
+.icone-info-taxa {
+    font-size: 1.1em;
+    color: var(--cor-destaque);
+    font-weight: 700;
+    line-height: 1.2;
+    flex-shrink: 0;
+>>>>>>> 24c2029 (feat: reformula tela de confirmação de presença)
 }
 .titulo-transparencia { font-size: 13.5px; font-weight: 700; color: var(--p700); margin-bottom: 5px; }
 .detalhe-taxa { font-size: 13px; color: var(--text-mid); line-height: 1.55; }
 .destaque-taxa { font-weight: 800; color: var(--p600); }
 
+<<<<<<< HEAD
 /* Avaliações */
 .sem-avaliacoes { font-size: 13.5px; color: var(--text-light); text-align: center; padding: 16px 0; }
 
@@ -406,9 +791,44 @@ body {
   border-radius: var(--radius);
   padding: 24px;
   box-shadow: var(--shadow-md);
+=======
+.titulo-transparencia {
+    font-weight: 700;
+    margin: 0 0 0.2em;
+    color: var(--cor-destaque);
+    font-size: var(--tamanho-fonte-grande);
+>>>>>>> 24c2029 (feat: reformula tela de confirmação de presença)
 }
 
+.detalhe-taxa { margin: 0; color: #555; line-height: 1.5; font-size: var(--tamanho-fonte-pequena); }
+.destaque-taxa { font-weight: 700; color: var(--cor-destaque); }
+
+/* ── AVALIAÇÕES ──────────────────────────────────── */
+.lista-avaliacoes { display: flex; flex-direction: column; gap: 1.5em; }
+
+.item-avaliacao { padding-bottom: 1.5em; border-bottom: 1px solid #f0eef8; }
+.item-avaliacao:last-child { border-bottom: none; padding-bottom: 0; }
+
+.cabecalho-avaliacao { display: flex; align-items: center; gap: 1em; margin-bottom: 0.5em; }
+
+.avatar-inicial {
+    width: 2.4em; height: 2.4em;
+    border-radius: 50%;
+    background: var(--cor-primaria);
+    color: var(--cor-texto-claro);
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 700;
+    font-size: var(--tamanho-fonte-grande);
+    flex-shrink: 0;
+}
+
+.nome-usuario { font-weight: 600; margin: 0; font-size: var(--tamanho-fonte-grande); }
+.texto-avaliacao { line-height: 1.6; margin: 0.4em 0; color: #444; }
+.data-avaliacao { font-size: 0.7rem; color: #bbb; }
+
+/* ── CARD COMPRA (ASIDE) ─────────────────────────── */
 .detalhes-data-local {
+<<<<<<< HEAD
   background: var(--p50);
   border: 1.5px solid var(--p200);
   border-radius: var(--radius-sm);
@@ -423,9 +843,23 @@ body {
   padding: 7px 0;
   border-bottom: 1px solid var(--p200);
   font-size: 13px;
+=======
+    margin-bottom: 1.2em;
+    padding-bottom: 1.2em;
+    border-bottom: 1px solid #f0eef8;
+}
+
+.linha-detalhe {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5em;
+    font-size: var(--tamanho-fonte-pequena);
+>>>>>>> 24c2029 (feat: reformula tela de confirmação de presença)
 }
 .linha-detalhe:last-child { border-bottom: none; }
 
+<<<<<<< HEAD
 .label-detalhe {
   display: flex; align-items: center; gap: 6px;
   color: var(--text-light); font-weight: 500;
@@ -497,3 +931,104 @@ body {
   .titulo-evento { font-size: 1.5rem; }
   .card-informacoes, .card-garantia-ingresso, .ingressos-disponiveis { padding: 20px 16px; }
 }
+=======
+.label-detalhe { color: var(--cor-muted); }
+.valor-detalhe { font-weight: 600; color: var(--cor-primaria); }
+
+.detalhe-valor-total {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.2em;
+}
+
+.label-valor { font-weight: 600; color: #333; font-size: var(--tamanho-fonte-grande); }
+
+.valor-ingresso {
+    font-family: var(--font-display);
+    font-size: 1.3em;
+    font-weight: 800;
+    color: var(--cor-primaria);
+}
+
+.botao-comprar {
+    width: 100%;
+    background-color: var(--cor-primaria);
+    color: var(--cor-texto-claro);
+    border: none;
+    border-radius: var(--radius-md);
+    padding: 0.9em 1.5em;
+    font-family: var(--font-display);
+    font-size: var(--tamanho-fonte-grande);
+    font-weight: 700;
+    cursor: pointer;
+    margin-bottom: 1em;
+    transition: background-color 0.2s, transform 0.1s;
+    position: relative;
+    overflow: hidden;
+}
+
+.botao-comprar::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, var(--cor-destaque), #9b5cf6);
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+
+.botao-comprar:hover::before { opacity: 1; }
+.botao-comprar:active { transform: scale(0.98); }
+.botao-comprar span { position: relative; z-index: 1; }
+
+/* Quando é gratuito — botão confirmar */
+.botao-confirmar {
+    background-color: var(--cor-destaque) !important;
+}
+.botao-confirmar::before {
+    background: linear-gradient(135deg, #6c2bd9, #b5f23d) !important;
+}
+
+.beneficios-compra { padding-top: 0.8em; border-top: 1px solid #f0eef8; }
+
+.beneficio-item {
+    color: var(--cor-muted);
+    margin-top: 0.5em;
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+    font-size: var(--tamanho-fonte-pequena);
+}
+
+.icone-check { color: #22c55e; font-weight: 700; font-size: 1em; }
+
+/* ── RESPONSIVO ──────────────────────────────────── */
+@media (max-width: 900px) {
+    .banner-evento { padding: 1em; }
+    .acoes-cabecalho { top: 1em; right: 1em; }
+    .preco-cabecalho { bottom: 1em; right: 1em; }
+
+    .conteudo-evento {
+        flex-direction: column;
+        padding: 0 1em;
+        gap: 1em;
+    }
+
+    .compra-ingresso {
+        position: static;
+        width: 100%;
+        min-width: auto;
+        order: -1;
+    }
+
+    .detalhes-evento { min-width: auto; }
+    .informacoes-extras { flex-direction: column; gap: 1em; }
+}
+
+@media (max-width: 600px) {
+    .titulo-evento { font-size: 1.8em; }
+    .valor-minimo  { font-size: 1.5em; }
+}
+
+footer iframe { min-height: 22rem; display: block; }
+>>>>>>> 24c2029 (feat: reformula tela de confirmação de presença)

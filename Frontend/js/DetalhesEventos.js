@@ -1,8 +1,17 @@
+// detalhesEventos.js
+
 const isLocal = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1";
 const API_BASE = isLocal ? "http://localhost:3000" : window.location.origin;
+<<<<<<< HEAD
 const API_URL = isLocal ? "http://localhost:3000/eventos" : "/eventos";
+=======
+const API_URL  = isLocal ? "http://localhost:3000/eventos" : "/eventos";
+
+// ─── HELPERS ─────────────────────────────────────────────────────────────────
+
+>>>>>>> 24c2029 (feat: reformula tela de confirmação de presença)
 function atualizarBotaoDeCompra(precoNumerico, precoFormatado) {
-    const botaoComprar = document.querySelector('.botao-comprar');
+    const botaoComprar        = document.querySelector('.botao-comprar');
     const valorIngressoElement = document.querySelector('.card-garantia-ingresso .valor-ingresso');
     if (!botaoComprar || !valorIngressoElement) return;
 
@@ -19,13 +28,16 @@ function atualizarBotaoDeCompra(precoNumerico, precoFormatado) {
     }
 }
 
+// ─── SELEÇÃO DE INGRESSO ──────────────────────────────────────────────────────
+
 function inicializarLogicaSelecao() {
-    const botoesSelecionar = document.querySelectorAll('.botao-selecionar');
+    const botoesSelecionar  = document.querySelectorAll('.botao-selecionar');
     const tipoIngressoResumo = document.querySelector('.ingresso-resumo');
     if (!botoesSelecionar.length || !tipoIngressoResumo) return;
 
     botoesSelecionar.forEach(botao => {
         botao.addEventListener('click', (event) => {
+            // Desseleciona todos
             botoesSelecionar.forEach(btn => {
                 btn.classList.remove('selecionado');
                 btn.textContent = 'Selecionar';
@@ -35,10 +47,10 @@ function inicializarLogicaSelecao() {
             botaoClicado.classList.add('selecionado');
             botaoClicado.textContent = 'Selecionado';
 
-            const opcaoPai = botaoClicado.closest('.opcao-ingresso');
-            const nomeIngresso = opcaoPai.querySelector('.nome-ingresso').textContent;
-            const precoTexto = opcaoPai.querySelector('.preco-ingresso').textContent;
-            const precoNumerico = parseFloat(precoTexto.replace('R$', '').replace(',', '.').trim()) || 0;
+            const opcaoPai        = botaoClicado.closest('.opcao-ingresso');
+            const nomeIngresso    = opcaoPai.querySelector('.nome-ingresso').textContent;
+            const precoTexto      = opcaoPai.querySelector('.preco-ingresso').textContent;
+            const precoNumerico   = parseFloat(precoTexto.replace('R$', '').replace(',', '.').trim()) || 0;
 
             // Atualiza ingresso selecionado no estado global
             if (window._eventoAtual) {
@@ -51,17 +63,19 @@ function inicializarLogicaSelecao() {
             tipoIngressoResumo.textContent = nomeIngresso;
             atualizarBotaoDeCompra(precoNumerico, precoTexto);
 
-            // Atualiza window._eventoAtual ao trocar ingresso
+            // ✅ Atualiza _eventoAtual ao trocar ingresso
             if (window._eventoAtual) {
-                window._eventoAtual.ingressoNome = nomeIngresso;
+                window._eventoAtual.ingressoNome  = nomeIngresso;
                 window._eventoAtual.ingressoPreco = precoNumerico;
             }
         });
     });
 }
 
+// ─── CARREGAR EVENTO DA API ───────────────────────────────────────────────────
+
 async function carregarDetalhesEvento() {
-    const params = new URLSearchParams(window.location.search);
+    const params  = new URLSearchParams(window.location.search);
     const eventId = params.get('id');
 
     if (!eventId) {
@@ -70,7 +84,7 @@ async function carregarDetalhesEvento() {
     }
 
     try {
-        const res = await fetch(`${API_URL}/${eventId}`);
+        const res   = await fetch(`${API_URL}/${eventId}`);
         if (!res.ok) throw new Error('Evento não encontrado');
         const evento = await res.json();
 
@@ -86,7 +100,7 @@ async function carregarDetalhesEvento() {
 
         // Cabeçalho
         document.querySelector('.etiqueta-categoria').textContent = evento.assunto || 'Evento';
-        document.querySelector('.titulo-evento').textContent = evento.nome;
+        document.querySelector('.titulo-evento').textContent      = evento.nome;
 
         const dataFormatada = evento.data_inicio
             ? new Date(evento.data_inicio).toLocaleDateString('pt-BR', { weekday: 'short', day: '2-digit', month: 'short' })
@@ -107,19 +121,19 @@ async function carregarDetalhesEvento() {
         document.querySelector('.por-pessoas').textContent =
             precoMinimo > 0 ? '+ 10% taxa' : 'por pessoa';
 
-        // Sobre o evento
-        document.querySelector('.descricao-evento').textContent = evento.descricao || '';
-        document.querySelector('.nome-local').textContent = evento.local_nome || '';
-        document.querySelector('.endereco-local').textContent = evento.cidade || '';
+        // Sobre
+        document.querySelector('.descricao-evento').textContent  = evento.descricao  || '';
+        document.querySelector('.nome-local').textContent        = evento.local_nome || '';
+        document.querySelector('.endereco-local').textContent    = evento.cidade     || '';
         document.querySelector('.numero-confirmados').textContent = `${evento.confirmados || 0} pessoas`;
 
         // Resumo lateral
-        document.querySelector('.data-resumo').textContent = dataFormatada;
-        document.querySelector('.hora-resumo').textContent = horaFormatada;
+        document.querySelector('.data-resumo').textContent  = dataFormatada;
+        document.querySelector('.hora-resumo').textContent  = horaFormatada;
         document.querySelector('.local-resumo').textContent = evento.local_nome || '';
 
         // Organizador
-        const nomeProdutora = document.getElementById('nome-produtora');
+        const nomeProdutora    = document.getElementById('nome-produtora');
         const eventosOrganizados = document.getElementById('eventos-organizados');
         if (nomeProdutora) {
             nomeProdutora.innerHTML = evento.nome_produtor
@@ -128,9 +142,9 @@ async function carregarDetalhesEvento() {
         }
         if (eventosOrganizados) eventosOrganizados.textContent = '';
 
-        // Ingressos
+        // ─── INGRESSOS ────────────────────────────────────────────────────────
         const ingressosContainer = document.querySelector('.ingressos-disponiveis');
-        const loadingIngressos = document.getElementById('loading-ingressos');
+        const loadingIngressos   = document.getElementById('loading-ingressos');
         if (loadingIngressos) loadingIngressos.remove();
 
         const ingressos = (evento.ingressos && evento.ingressos.length > 0)
@@ -138,10 +152,10 @@ async function carregarDetalhesEvento() {
             : [{ titulo: 'Ingresso Geral', tipo: 'gratuito', valor: 0, quantidade_total: 100 }];
 
         ingressos.forEach((ingresso, index) => {
-            const preco = parseFloat(ingresso.valor) || 0;
+            const preco          = parseFloat(ingresso.valor) || 0;
             const precoFormatado = preco > 0 ? `R$ ${preco.toFixed(2).replace('.', ',')}` : 'R$ 0,00';
-            const total = ingresso.quantidade_total ?? 100;
-            const isSelecionado = index === 0;
+            const total          = ingresso.quantidade_total ?? 100;
+            const isSelecionado  = index === 0;
 
             const html = `
                 <div class="opcao-ingresso" data-tipo="${ingresso.titulo}" data-id="${ingresso.id}">
@@ -165,11 +179,14 @@ async function carregarDetalhesEvento() {
 
             if (ingressosContainer) ingressosContainer.insertAdjacentHTML('beforeend', html);
 
+            // ✅ Sempre popula _eventoAtual com o primeiro ingresso logo ao carregar
             if (isSelecionado) {
                 document.querySelector('.ingresso-resumo').textContent = ingresso.titulo;
                 atualizarBotaoDeCompra(preco, precoFormatado);
 
+                // Dados completos do evento guardados globalmente
                 window._eventoAtual = {
+<<<<<<< HEAD
 <<<<<<< HEAD
                     nome:             evento.nome,
                     data:             dataFormatada,
@@ -188,6 +205,15 @@ async function carregarDetalhesEvento() {
                     cidade:        evento.cidade || '',
                     imagem:        evento.imagem || '',
                     ingressoNome:  ingresso.titulo,
+=======
+                    nome:          evento.nome          || '',
+                    data:          dataFormatada        || '',
+                    hora:          horaFormatada        || '',
+                    local:         evento.local_nome    || '',
+                    cidade:        evento.cidade        || '',
+                    imagem:        evento.imagem        || '',
+                    ingressoNome:  ingresso.titulo      || '',
+>>>>>>> 24c2029 (feat: reformula tela de confirmação de presença)
                     ingressoPreco: preco
 >>>>>>> 1584ca1 (feat: nova tela de confirmação de presença)
                 };
@@ -199,10 +225,12 @@ async function carregarDetalhesEvento() {
 
     } catch (err) {
         console.error('Erro ao carregar evento:', err);
-        document.querySelector('.titulo-evento').textContent = 'Erro ao carregar evento';
-        document.querySelector('.descricao-evento').textContent = 'Não foi possível buscar os dados. Verifique o servidor.';
+        document.querySelector('.titulo-evento').textContent     = 'Erro ao carregar evento';
+        document.querySelector('.descricao-evento').textContent  = 'Não foi possível buscar os dados. Verifique o servidor.';
     }
 }
+
+// ─── AÇÃO DO BOTÃO COMPRAR / CONFIRMAR ───────────────────────────────────────
 
 function realizarAcaoComprar() {
     const ingressoSelecionado = document.querySelector('.opcao-ingresso .botao-selecionar.selecionado');
@@ -211,25 +239,48 @@ function realizarAcaoComprar() {
         return;
     }
 
-    const opcaoPai = ingressoSelecionado.closest('.opcao-ingresso');
-    const nomeIngresso = opcaoPai.querySelector('.nome-ingresso').textContent;
-    const precoTexto = opcaoPai.querySelector('.preco-ingresso').textContent;
+    const opcaoPai      = ingressoSelecionado.closest('.opcao-ingresso');
+    const nomeIngresso  = opcaoPai.querySelector('.nome-ingresso').textContent.trim();
+    const precoTexto    = opcaoPai.querySelector('.preco-ingresso').textContent.trim();
     const precoNumerico = parseFloat(precoTexto.replace('R$', '').replace(',', '.').trim()) || 0;
 
+    // ✅ Garante que _eventoAtual sempre existe antes de salvar
+    if (!window._eventoAtual) {
+        console.warn('_eventoAtual não encontrado, reconstruindo...');
+        window._eventoAtual = {
+            nome:  document.querySelector('.titulo-evento')?.textContent  || '',
+            data:  document.querySelector('.data-resumo')?.textContent    || '',
+            hora:  document.querySelector('.hora-resumo')?.textContent    || '',
+            local: document.querySelector('.local-resumo')?.textContent   || '',
+            cidade: '',
+            imagem: '',
+        };
+    }
+
     const dadosParaCheckout = {
+<<<<<<< HEAD
         ...(window._eventoAtual || {}),
         ingressoNome:     nomeIngresso,
         ingressoPreco:    precoNumerico,
         evento_id:        window._eventoAtual?.evento_id,
         tipo_ingresso_id: opcaoPai?.dataset?.id || window._eventoAtual?.tipo_ingresso_id
+=======
+        ...window._eventoAtual,
+        ingressoNome:  nomeIngresso,
+        ingressoPreco: precoNumerico
+>>>>>>> 24c2029 (feat: reformula tela de confirmação de presença)
     };
 
-    console.log('Salvando no localStorage:', dadosParaCheckout);
-
+    // Limpa e salva
     localStorage.removeItem('eventoSelecionado');
     localStorage.setItem('eventoSelecionado', JSON.stringify(dadosParaCheckout));
 
-    console.log('localStorage após salvar:', localStorage.getItem('eventoSelecionado'));
+    // ✅ Confirma que salvou antes de redirecionar
+    const salvo = localStorage.getItem('eventoSelecionado');
+    if (!salvo) {
+        alert('Erro ao salvar dados. Tente novamente.');
+        return;
+    }
 
     const botaoComprar = document.querySelector('.botao-comprar');
     setTimeout(() => {
@@ -245,6 +296,8 @@ function inicializarAcaoBotaoComprar() {
     const botaoComprar = document.querySelector('.botao-comprar');
     if (botaoComprar) botaoComprar.addEventListener('click', realizarAcaoComprar);
 }
+
+// ─── INIT ─────────────────────────────────────────────────────────────────────
 
 document.addEventListener('DOMContentLoaded', async function () {
     await carregarDetalhesEvento();
