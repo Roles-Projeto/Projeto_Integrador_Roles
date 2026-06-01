@@ -2,23 +2,8 @@ console.log("🔥 CONTROLLER CARREGADO - CAMINHO:", __filename);
 
 const bcrypt = require("bcrypt");
 const connection = require("../db/db_config");
-const nodemailer = require("nodemailer");
-
-// ========================
-// TRANSPORTER EMAIL
-// ========================
-const transporter = nodemailer.createTransport({
-  host: "smtp.gmail.com",
-  port: 587,
-  secure: false, // true para 465, false para 587
-  auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASS
-  },
-  tls: {
-    rejectUnauthorized: false // evita erros de certificado em dev
-  }
-});
+const { Resend } = require("resend");
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 // ========================
 // GERAR CÓDIGO ALEATÓRIO
@@ -28,32 +13,32 @@ function gerarCodigo() {
 }
 
 // ========================
-// ENVIAR EMAIL (REUTILIZÁVEL INTERNAMENTE)
+// ENVIAR EMAIL (RESEND)
 // ========================
 async function enviarEmailCodigo(email, codigo) {
   console.log("📩 TENTANDO ENVIAR EMAIL PARA:", email);
   console.log("🔑 CÓDIGO GERADO:", codigo);
 
-  const info = await transporter.sendMail({
-    from: `"Rolês App" <${process.env.EMAIL_USER}>`,
+  const { data, error } = await resend.emails.send({
+    from: "Roles App <onboarding@resend.dev>",
     to: email,
-    subject: "Seu código de verificação - Rolês",
+    subject: "Seu codigo de verificacao - Roles",
     html: `
       <div style="font-family: Arial, sans-serif; max-width: 480px; margin: 0 auto; padding: 32px; background: #f9f9f9; border-radius: 12px;">
-        <h2 style="color: #333;">Verificação de Conta 🎉</h2>
-        <p style="color: #555;">Use o código abaixo para ativar sua conta:</p>
+        <h2 style="color: #333;">Verificacao de Conta 🎉</h2>
+        <p style="color: #555;">Use o codigo abaixo para ativar sua conta:</p>
         <div style="text-align: center; margin: 24px 0;">
           <span style="font-size: 40px; font-weight: bold; letter-spacing: 8px; color: #6c3dff;">${codigo}</span>
         </div>
-        <p style="color: #999; font-size: 13px;">Este código expira em 10 minutos. Se você não solicitou isso, ignore este email.</p>
+        <p style="color: #999; font-size: 13px;">Este codigo expira em 10 minutos. Se voce nao solicitou isso, ignore este email.</p>
       </div>
     `
   });
 
-  console.log("✅ EMAIL ENVIADO! Message ID:", info.messageId);
-  return info;
+  if (error) throw new Error(error.message);
+  console.log("✅ EMAIL ENVIADO!", data);
+  return data;
 }
-
 
 // ========================
 // CADASTRAR USUÁRIO (2FA)
@@ -65,136 +50,85 @@ async function cadastrarUsuario(req, res) {
     const { nome_completo, email, telefone, senha } = req.body;
 
     if (!nome_completo || !email || !senha) {
-      return res.status(400).json({
-        erro: "Preencha todos os campos obrigatórios."
-      });
+      return res.status(400).json({ erro: "Preencha todos os campos obrigatorios." });
     }
 
-    connection.query(
-      "SELECT * FROM usuarios WHERE email = ?",
-      [email],
-      async (err, results) => {
-
-        if (err) {
-          console.log("❌ ERRO SELECT:", err);
-          return res.status(500).json({
-            erro: "Erro no servidor.",
-            detalhes: err.message
-          });
-        }
-
-        if (results.length > 0) {
-          return res.status(400).json({
-            erro: "E-mail já cadastrado!"
-          });
-        }
-
-        const senhaHash = await bcrypt.hash(senha, 10);
-        const codigo = gerarCodigo();
-
-        console.log("🔑 CÓDIGO GERADO:", codigo);
-        console.log("🔥 VAI INSERIR USUÁRIO...");
-
-        connection.query(
-          `INSERT INTO usuarios 
-          (nome_completo, email, telefone, senha, codigo_verificacao, verificado) 
-          VALUES (?, ?, ?, ?, ?, 0)`,
-          [nome_completo, email, telefone || null, senhaHash, codigo],
-          async (err, insertResult) => {
-
-            console.log("🔥 ENTROU NO CALLBACK DO INSERT");
-
-            if (err) {
-              console.log("❌ ERRO INSERT:", err);
-              return res.status(500).json({
-                erro: "Erro no banco ao cadastrar usuário.",
-                detalhes: err.message
-              });
-            }
-
-            console.log("✅ USUÁRIO INSERIDO COM SUCESSO");
-
-            try {
-              await enviarEmailCodigo(email, codigo);
-
-              return res.status(201).json({
-                mensagem: "Usuário criado! Código enviado por email.",
-                id: insertResult.insertId
-              });
-
-            } catch (erroEmail) {
-              console.error("❌ ERRO AO ENVIAR EMAIL:", erroEmail.message);
-              console.error("❌ DETALHES ERRO EMAIL:", erroEmail);
-
-              // Usuário foi criado, mas email falhou — retorna aviso
-              return res.status(201).json({
-                mensagem: "Usuário criado, mas houve erro ao enviar o email. Use o reenvio.",
-                id: insertResult.insertId,
-                avisoEmail: erroEmail.message
-              });
-            }
-          }
-        );
+    connection.query("SELECT * FROM usuarios WHERE email = ?", [email], async (err, results) => {
+      if (err) {
+        console.log("❌ ERRO SELECT:", err);
+        return res.status(500).json({ erro: "Erro no servidor.", detalhes: err.message });
       }
-    );
 
+      if (results.length > 0) {
+        return res.status(400).json({ erro: "E-mail ja cadastrado!" });
+      }
+
+      const senhaHash = await bcrypt.hash(senha, 10);
+      const codigo = gerarCodigo();
+
+      console.log("🔑 CÓDIGO GERADO:", codigo);
+      console.log("🔥 VAI INSERIR USUÁRIO...");
+
+      connection.query(
+        `INSERT INTO usuarios (nome_completo, email, telefone, senha, codigo_verificacao, verificado) VALUES (?, ?, ?, ?, ?, 0)`,
+        [nome_completo, email, telefone || null, senhaHash, codigo],
+        async (err, insertResult) => {
+          console.log("🔥 ENTROU NO CALLBACK DO INSERT");
+
+          if (err) {
+            console.log("❌ ERRO INSERT:", err);
+            return res.status(500).json({ erro: "Erro no banco ao cadastrar usuario.", detalhes: err.message });
+          }
+
+          console.log("✅ USUÁRIO INSERIDO COM SUCESSO");
+
+          try {
+            await enviarEmailCodigo(email, codigo);
+            return res.status(201).json({ mensagem: "Usuario criado! Codigo enviado por email.", id: insertResult.insertId });
+          } catch (erroEmail) {
+            console.error("❌ ERRO AO ENVIAR EMAIL:", erroEmail.message);
+            return res.status(201).json({
+              mensagem: "Usuario criado, mas houve erro ao enviar o email. Use o reenvio.",
+              id: insertResult.insertId,
+              avisoEmail: erroEmail.message
+            });
+          }
+        }
+      );
+    });
   } catch (erro) {
     console.log("❌ ERRO GERAL:", erro);
-
-    return res.status(500).json({
-      erro: "Erro interno do servidor",
-      detalhes: erro.message
-    });
+    return res.status(500).json({ erro: "Erro interno do servidor", detalhes: erro.message });
   }
 }
-
 
 // ========================
 // LISTAR USUÁRIOS
 // ========================
 function listarUsuarios(req, res) {
-  connection.query(
-    "SELECT id, nome_completo, email, telefone, criado_em FROM usuarios",
-    (err, results) => {
-      if (err) {
-        return res.status(500).json({
-          erro: "Erro no servidor.",
-          detalhes: err.message
-        });
-      }
-
-      res.json(results);
-    }
-  );
+  connection.query("SELECT id, nome_completo, email, telefone, criado_em FROM usuarios", (err, results) => {
+    if (err) return res.status(500).json({ erro: "Erro no servidor.", detalhes: err.message });
+    res.json(results);
+  });
 }
-
 
 // ========================
 // ATUALIZAR USUÁRIO
 // ========================
 function atualizarUsuario(req, res) {
-  const { id, nome_completo, email, telefone } = req.body;
+  const { id, nome_completo, sobrenome, email, telefone, foto_perfil, cpf, nascimento, sexo } = req.body;
 
-  if (!id) {
-    return res.status(400).json({ erro: "ID do usuário é obrigatório." });
-  }
+  if (!id) return res.status(400).json({ erro: "ID do usuario e obrigatorio." });
 
   connection.query(
-    "UPDATE usuarios SET nome_completo = ?, email = ?, telefone = ? WHERE id = ?",
-    [nome_completo, email, telefone || null, id],
+    "UPDATE usuarios SET nome_completo = ?, sobrenome = ?, email = ?, telefone = ?, foto_perfil = ?, cpf = ?, nascimento = ?, sexo = ? WHERE id = ?",
+    [nome_completo, sobrenome || null, email, telefone || null, foto_perfil || null, cpf || null, nascimento || null, sexo || null, id],
     (err) => {
-      if (err) {
-        return res.status(500).json({
-          erro: "Erro ao atualizar usuário.",
-          detalhes: err.message
-        });
-      }
-
-      res.json({ mensagem: "Usuário atualizado com sucesso!" });
+      if (err) return res.status(500).json({ erro: "Erro ao atualizar usuario.", detalhes: err.message });
+      res.json({ mensagem: "Usuario atualizado com sucesso!" });
     }
   );
 }
-
 
 // ========================
 // BUSCAR USUÁRIO POR ID
@@ -202,298 +136,132 @@ function atualizarUsuario(req, res) {
 function buscarUsuarioPorId(req, res) {
   const { id } = req.params;
 
-  if (!id) {
-    return res.status(400).json({ erro: "ID do usuário é obrigatório." });
-  }
+  if (!id) return res.status(400).json({ erro: "ID do usuario e obrigatorio." });
 
   connection.query(
-    "SELECT id, nome_completo, email, telefone, foto_perfil FROM usuarios WHERE id = ?",
+    "SELECT id, nome_completo, sobrenome, email, telefone, foto_perfil, cpf, nascimento, sexo FROM usuarios WHERE id = ?",
     [id],
     (err, results) => {
-
-      if (err) {
-        return res.status(500).json({
-          erro: "Erro ao buscar usuário.",
-          detalhes: err.message
-        });
-      }
-
-      if (results.length === 0) {
-        return res.status(404).json({ erro: "Usuário não encontrado." });
-      }
-
+      if (err) return res.status(500).json({ erro: "Erro ao buscar usuario.", detalhes: err.message });
+      if (results.length === 0) return res.status(404).json({ erro: "Usuario nao encontrado." });
       res.json(results[0]);
     }
   );
 }
-
 
 // ========================
 // ENVIAR CÓDIGO (REENVIO)
 // ========================
 function enviarCodigo(req, res) {
   const { email } = req.body;
-
-  if (!email) {
-    return res.status(400).json({ erro: "E-mail obrigatório." });
-  }
+  if (!email) return res.status(400).json({ erro: "E-mail obrigatorio." });
 
   const codigo = gerarCodigo();
 
-  connection.query(
-    "UPDATE usuarios SET codigo_verificacao = ? WHERE email = ?",
-    [codigo, email],
-    async (err, result) => {
+  connection.query("UPDATE usuarios SET codigo_verificacao = ? WHERE email = ?", [codigo, email], async (err, result) => {
+    if (err) return res.status(500).json({ erro: "Erro no banco.", detalhes: err.message });
+    if (result.affectedRows === 0) return res.status(404).json({ erro: "Usuario nao encontrado." });
 
-      if (err) {
-        return res.status(500).json({
-          erro: "Erro no banco.",
-          detalhes: err.message
-        });
-      }
-
-      if (result.affectedRows === 0) {
-        return res.status(404).json({ erro: "Usuário não encontrado." });
-      }
-
-      try {
-        await enviarEmailCodigo(email, codigo);
-        res.json({ mensagem: "Código enviado com sucesso!" });
-
-      } catch (erroEmail) {
-        console.error("❌ ERRO AO REENVIAR EMAIL:", erroEmail.message);
-        res.status(500).json({
-          erro: "Erro ao enviar e-mail.",
-          detalhes: erroEmail.message
-        });
-      }
+    try {
+      await enviarEmailCodigo(email, codigo);
+      res.json({ mensagem: "Codigo enviado com sucesso!" });
+    } catch (erroEmail) {
+      console.error("❌ ERRO AO REENVIAR EMAIL:", erroEmail.message);
+      res.status(500).json({ erro: "Erro ao enviar e-mail.", detalhes: erroEmail.message });
     }
-  );
+  });
 }
-
 
 // ========================
 // VERIFICAR CÓDIGO
 // ========================
 function verificarCodigo(req, res) {
   const { email, codigo } = req.body;
+  if (!email || !codigo) return res.status(400).json({ erro: "Email e codigo sao obrigatorios" });
 
-  if (!email || !codigo) {
-    return res.status(400).json({
-      erro: "Email e código são obrigatórios"
+  connection.query("SELECT codigo_verificacao, verificado FROM usuarios WHERE email = ?", [email], (err, results) => {
+    if (err) return res.status(500).json({ erro: "Erro no servidor", detalhes: err.message });
+    if (results.length === 0) return res.status(404).json({ erro: "Usuario nao encontrado" });
+
+    const usuario = results[0];
+    if (usuario.verificado) return res.json({ verificado: true });
+    if (usuario.codigo_verificacao !== codigo) return res.json({ verificado: false });
+
+    connection.query("UPDATE usuarios SET verificado = 1, codigo_verificacao = NULL WHERE email = ?", [email], (err) => {
+      if (err) return res.status(500).json({ erro: "Erro ao atualizar usuario" });
+      return res.json({ verificado: true });
     });
-  }
-
-  connection.query(
-    "SELECT codigo_verificacao, verificado FROM usuarios WHERE email = ?",
-    [email],
-    (err, results) => {
-
-      if (err) {
-        return res.status(500).json({
-          erro: "Erro no servidor",
-          detalhes: err.message
-        });
-      }
-
-      if (results.length === 0) {
-        return res.status(404).json({
-          erro: "Usuário não encontrado"
-        });
-      }
-
-      const usuario = results[0];
-
-      if (usuario.verificado) {
-        return res.json({ verificado: true });
-      }
-
-      if (usuario.codigo_verificacao !== codigo) {
-        return res.json({ verificado: false });
-      }
-
-      connection.query(
-        "UPDATE usuarios SET verificado = 1, codigo_verificacao = NULL WHERE email = ?",
-        [email],
-        (err) => {
-
-          if (err) {
-            return res.status(500).json({
-              erro: "Erro ao atualizar usuário"
-            });
-          }
-
-          return res.json({ verificado: true });
-        }
-      );
-    }
-  );
+  });
 }
+
 // ========================
 // RECUPERAR SENHA
 // ========================
 async function recuperarSenha(req, res) {
-
   const { email } = req.body;
-
-  if (!email) {
-    return res.status(400).json({
-      erro: "E-mail obrigatório."
-    });
-  }
+  if (!email) return res.status(400).json({ erro: "E-mail obrigatorio." });
 
   const codigo = gerarCodigo();
-
-  // expira em 10 min
   const expira = new Date(Date.now() + 10 * 60 * 1000);
 
   connection.query(
-    `
-    UPDATE usuarios
-    SET codigo_recuperacao = ?, codigo_expira_em = ?
-    WHERE email = ?
-    `,
+    "UPDATE usuarios SET codigo_recuperacao = ?, codigo_expira_em = ? WHERE email = ?",
     [codigo, expira, email],
     async (err, result) => {
-
-      if (err) {
-        return res.status(500).json({
-          erro: "Erro no servidor",
-          detalhes: err.message
-        });
-      }
-
-      if (result.affectedRows === 0) {
-        return res.status(404).json({
-          erro: "Usuário não encontrado"
-        });
-      }
+      if (err) return res.status(500).json({ erro: "Erro no servidor", detalhes: err.message });
+      if (result.affectedRows === 0) return res.status(404).json({ erro: "Usuario nao encontrado" });
 
       try {
-
-        await transporter.sendMail({
-          from: `"Rolês App" <${process.env.EMAIL_USER}>`,
+        await resend.emails.send({
+          from: "Roles App <onboarding@resend.dev>",
           to: email,
-          subject: "Recuperação de senha - Rolês",
+          subject: "Recuperacao de senha - Roles",
           html: `
             <div style="font-family: Arial; padding: 30px;">
-              <h2>Recuperação de senha</h2>
-
-              <p>Use o código abaixo para redefinir sua senha:</p>
-
-              <div style="
-                font-size: 40px;
-                font-weight: bold;
-                letter-spacing: 8px;
-                color: #6c3dff;
-                margin: 20px 0;
-              ">
+              <h2>Recuperacao de senha</h2>
+              <p>Use o codigo abaixo para redefinir sua senha:</p>
+              <div style="font-size: 40px; font-weight: bold; letter-spacing: 8px; color: #6c3dff; margin: 20px 0;">
                 ${codigo}
               </div>
-
-              <p>
-                Esse código expira em 10 minutos.
-              </p>
+              <p>Esse codigo expira em 10 minutos.</p>
             </div>
           `
         });
-
-        res.json({
-          mensagem: "Código enviado no e-mail."
-        });
-
+        res.json({ mensagem: "Codigo enviado no e-mail." });
       } catch (erroEmail) {
-
         console.log(erroEmail);
-
-        res.status(500).json({
-          erro: "Erro ao enviar e-mail."
-        });
-
+        res.status(500).json({ erro: "Erro ao enviar e-mail." });
       }
-
     }
   );
-
 }
 
 // ========================
 // REDEFINIR SENHA
 // ========================
 async function redefinirSenha(req, res) {
-
   const { email, codigo, novaSenha } = req.body;
+  if (!email || !codigo || !novaSenha) return res.status(400).json({ erro: "Preencha todos os campos." });
 
-  if (!email || !codigo || !novaSenha) {
-    return res.status(400).json({
-      erro: "Preencha todos os campos."
-    });
-  }
+  connection.query("SELECT codigo_recuperacao, codigo_expira_em FROM usuarios WHERE email = ?", [email], async (err, results) => {
+    if (err) return res.status(500).json({ erro: "Erro no servidor" });
+    if (results.length === 0) return res.status(404).json({ erro: "Usuario nao encontrado" });
 
-  connection.query(
-    `
-    SELECT codigo_recuperacao, codigo_expira_em
-    FROM usuarios
-    WHERE email = ?
-    `,
-    [email],
-    async (err, results) => {
+    const usuario = results[0];
+    if (usuario.codigo_recuperacao !== codigo) return res.status(400).json({ erro: "Codigo invalido" });
+    if (new Date() > new Date(usuario.codigo_expira_em)) return res.status(400).json({ erro: "Codigo expirado" });
 
-      if (err) {
-        return res.status(500).json({
-          erro: "Erro no servidor"
-        });
+    const senhaHash = await bcrypt.hash(novaSenha, 10);
+
+    connection.query(
+      "UPDATE usuarios SET senha = ?, codigo_recuperacao = NULL, codigo_expira_em = NULL WHERE email = ?",
+      [senhaHash, email],
+      (err) => {
+        if (err) return res.status(500).json({ erro: "Erro ao atualizar senha" });
+        res.json({ mensagem: "Senha redefinida com sucesso!" });
       }
-
-      if (results.length === 0) {
-        return res.status(404).json({
-          erro: "Usuário não encontrado"
-        });
-      }
-
-      const usuario = results[0];
-
-      if (usuario.codigo_recuperacao !== codigo) {
-        return res.status(400).json({
-          erro: "Código inválido"
-        });
-      }
-
-      if (new Date() > new Date(usuario.codigo_expira_em)) {
-        return res.status(400).json({
-          erro: "Código expirado"
-        });
-      }
-
-      const senhaHash = await bcrypt.hash(novaSenha, 10);
-
-      connection.query(
-        `
-        UPDATE usuarios
-        SET senha = ?,
-            codigo_recuperacao = NULL,
-            codigo_expira_em = NULL
-        WHERE email = ?
-        `,
-        [senhaHash, email],
-        (err) => {
-
-          if (err) {
-            return res.status(500).json({
-              erro: "Erro ao atualizar senha"
-            });
-          }
-
-          res.json({
-            mensagem: "Senha redefinida com sucesso!"
-          });
-
-        }
-      );
-
-    }
-  );
-
+    );
+  });
 }
 
 // ========================
@@ -506,7 +274,6 @@ module.exports = {
   buscarUsuarioPorId,
   enviarCodigo,
   verificarCodigo,
-
   recuperarSenha,
   redefinirSenha
 };

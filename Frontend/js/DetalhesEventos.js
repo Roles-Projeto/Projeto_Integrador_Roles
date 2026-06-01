@@ -1,7 +1,6 @@
 const isLocal = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1";
 const API_BASE = isLocal ? "http://localhost:3000" : window.location.origin; // ← ADICIONA
 const API_URL = isLocal ? "http://localhost:3000/eventos" : "/eventos";
-
 function atualizarBotaoDeCompra(precoNumerico, precoFormatado) {
     const botaoComprar = document.querySelector('.botao-comprar');
     const valorIngressoElement = document.querySelector('.card-garantia-ingresso .valor-ingresso');
@@ -41,6 +40,14 @@ function inicializarLogicaSelecao() {
             const precoTexto = opcaoPai.querySelector('.preco-ingresso').textContent;
             const precoNumerico = parseFloat(precoTexto.replace('R$', '').replace(',', '.').trim()) || 0;
 
+            // Atualiza ingresso selecionado no estado global
+            if (window._eventoAtual) {
+                window._eventoAtual.ingressoNome     = nomeIngresso;
+                window._eventoAtual.ingressoPreco    = precoNumerico;
+                window._eventoAtual.tipo_ingresso_id = opcaoPai.dataset.id || window._eventoAtual.tipo_ingresso_id;
+                localStorage.setItem('eventoSelecionado', JSON.stringify(window._eventoAtual));
+            }
+
             tipoIngressoResumo.textContent = nomeIngresso;
             atualizarBotaoDeCompra(precoNumerico, precoTexto);
         });
@@ -66,7 +73,7 @@ async function carregarDetalhesEvento() {
         if (bannerSection && evento.imagem) {
             const imgUrl = evento.imagem.startsWith("http")
                 ? evento.imagem
-                : `${API_BASE}${evento.imagem}`
+                : `${API_BASE}${evento.imagem}`;
             bannerSection.style.backgroundImage =
                 `linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.6)), url('${imgUrl}')`;
         }
@@ -86,13 +93,13 @@ async function carregarDetalhesEvento() {
             `${dataFormatada} <span class="separador-cabecalho">•</span> ${horaFormatada}`;
 
         const precoMinimo = evento.ingressos && evento.ingressos.length
-        ? Math.min(...evento.ingressos.map(i => parseFloat(i.valor) || 0))
-        : (parseFloat(evento.preco_minimo) || 0);
+            ? Math.min(...evento.ingressos.map(i => parseFloat(i.valor) || 0))
+            : (parseFloat(evento.preco_minimo) || 0);
 
         document.querySelector('.valor-minimo').textContent =
-        precoMinimo > 0 ? `R$ ${precoMinimo.toFixed(2).replace('.', ',')}` : 'Grátis';
+            precoMinimo > 0 ? `R$ ${precoMinimo.toFixed(2).replace('.', ',')}` : 'Grátis';
         document.querySelector('.por-pessoas').textContent =
-        precoMinimo > 0 ? '+ 10% taxa' : 'por pessoa';
+            precoMinimo > 0 ? '+ 10% taxa' : 'por pessoa';
 
         // Sobre o evento
         document.querySelector('.descricao-evento').textContent = evento.descricao || '';
@@ -133,7 +140,7 @@ async function carregarDetalhesEvento() {
             const isSelecionado = index === 0;
 
             const html = `
-                <div class="opcao-ingresso" data-tipo="${ingresso.titulo}">
+                <div class="opcao-ingresso" data-tipo="${ingresso.titulo}" data-id="${ingresso.id}">
                     <div class="detalhes-opcao">
                         <h4 class="nome-ingresso">${ingresso.titulo}</h4>
                         <p class="descricao-ingresso">${ingresso.tipo === 'gratuito' ? 'Entrada gratuita' : 'Ingresso pago'}</p>
@@ -158,16 +165,19 @@ async function carregarDetalhesEvento() {
                 document.querySelector('.ingresso-resumo').textContent = ingresso.titulo;
                 atualizarBotaoDeCompra(preco, precoFormatado);
                 window._eventoAtual = {
-                    nome: evento.nome,
-                    data: dataFormatada,
-                    hora: horaFormatada,
-                    local: evento.local_nome || '',
-                    imagem: evento.imagem || '',
-                    ingressoNome: ingresso.titulo,
-                    ingressoPreco: preco
+                    nome:             evento.nome,
+                    data:             dataFormatada,
+                    hora:             horaFormatada,
+                    local:            evento.local_nome || '',
+                    imagem:           evento.imagem || '',
+                    ingressoNome:     ingresso.titulo,
+                    ingressoPreco:    preco,
+                    evento_id:        evento.id,       // ← ID do evento
+                    tipo_ingresso_id: ingresso.id      // ← ID do tipo de ingresso
                 };
+                localStorage.setItem('eventoSelecionado', JSON.stringify(window._eventoAtual));
             }
-        });
+        }); // ← fecha forEach
 
         inicializarLogicaSelecao();
 
@@ -192,8 +202,10 @@ function realizarAcaoComprar() {
 
     const dadosParaCheckout = {
         ...(window._eventoAtual || {}),
-        ingressoNome: nomeIngresso,
-        ingressoPreco: precoNumerico
+        ingressoNome:     nomeIngresso,
+        ingressoPreco:    precoNumerico,
+        evento_id:        window._eventoAtual?.evento_id,
+        tipo_ingresso_id: opcaoPai?.dataset?.id || window._eventoAtual?.tipo_ingresso_id
     };
 
     localStorage.setItem('eventoSelecionado', JSON.stringify(dadosParaCheckout));

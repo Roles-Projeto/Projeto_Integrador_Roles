@@ -1,5 +1,4 @@
 document.addEventListener("DOMContentLoaded", () => {
-
     fetch("/frontend/header/header.html")
         .then(response => response.text())
         .then(data => {
@@ -9,7 +8,6 @@ document.addEventListener("DOMContentLoaded", () => {
         .catch(error => {
             console.error("Erro ao carregar header:", error);
         });
-
 });
 
 function initHeader() {
@@ -19,20 +17,20 @@ function initHeader() {
     // ----------------------------------------------------------
     function loadPersistentData() {
         const photoUrl = localStorage.getItem('profilePhotoUrl');
-        const name = localStorage.getItem('profileName');
-        const email = localStorage.getItem('profileEmail');
+        const name     = localStorage.getItem('profileName');
+        const email    = localStorage.getItem('profileEmail');
 
-        const headerPic = document.getElementById('profile-pic-header');
+        const headerPic    = document.getElementById('profile-pic-header');
         const dropdownName = document.querySelector('.dropdown-menu .user-info strong');
-        const dropdownEmail = document.querySelector('.dropdown-menu .user-info span');
-        const dropdownImg = document.querySelector('.dropdown-menu .user-info img');
+        const dropdownEmail= document.querySelector('.dropdown-menu .user-info span');
+        const dropdownImg  = document.querySelector('.dropdown-menu .user-info img');
 
         const defaultAvatar = `data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewBox='0 0 40 40'%3E%3Ccircle cx='20' cy='20' r='20' fill='%23ede9ff'/%3E%3Ccircle cx='20' cy='16' r='7' fill='%236C1DCE'/%3E%3Cellipse cx='20' cy='34' rx='12' ry='8' fill='%236C1DCE'/%3E%3C/svg%3E`;
 
         const avatarUrl = photoUrl || defaultAvatar;
-        if (headerPic) headerPic.src = avatarUrl;
-        if (dropdownImg) dropdownImg.src = avatarUrl;
-        if (name && dropdownName) dropdownName.textContent = name;
+        if (headerPic)     headerPic.src = avatarUrl;
+        if (dropdownImg)   dropdownImg.src = avatarUrl;
+        if (name  && dropdownName)  dropdownName.textContent  = name;
         if (email && dropdownEmail) dropdownEmail.textContent = email;
     }
 
@@ -42,10 +40,7 @@ function initHeader() {
     // BOTÃO PAINEL ADMIN (visível só para admins)
     // ----------------------------------------------------------
     function injetarBotaoAdmin() {
-        // Tenta pegar o role do localStorage — ajuste a chave se necessário
         let role = localStorage.getItem('userRole');
-
-        // Fallback: tenta decodificar o token JWT se tiver
         if (!role) {
             try {
                 const token = localStorage.getItem('admin_token') || localStorage.getItem('token');
@@ -53,61 +48,38 @@ function initHeader() {
                     const payload = JSON.parse(atob(token.split('.')[1]));
                     role = payload.role;
                 }
-            } catch (e) { /* token inválido ou ausente */ }
+            } catch (e) {}
         }
-
         if (role !== 'admin') return;
 
-        // Procura o menu dropdown de perfil para inserir o botão
         const dropdownMenu = document.querySelector('.dropdown-menu');
-        if (!dropdownMenu) return;
-
-        // Evita duplicar se já existir
-        if (document.getElementById('admin-panel-btn')) return;
+        if (!dropdownMenu || document.getElementById('admin-panel-btn')) return;
 
         const adminLink = document.createElement('a');
         adminLink.id = 'admin-panel-btn';
         adminLink.href = '/frontend/admin/index.html';
-        adminLink.innerHTML = `
-            <i class="fas fa-shield-halved"></i>
-            Painel Admin
-        `;
+        adminLink.innerHTML = `<i class="fas fa-shield-halved"></i> Painel Admin`;
         adminLink.style.cssText = `
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            padding: 9px 16px;
-            color: #6d28d9;
-            font-weight: 600;
-            font-size: 13.5px;
-            text-decoration: none;
-            border-top: 1px solid #ede9ff;
-            border-bottom: 1px solid #ede9ff;
-            background: #f5f0ff;
-            transition: background 0.15s;
+            display:flex;align-items:center;gap:8px;padding:9px 16px;
+            color:#6d28d9;font-weight:600;font-size:13.5px;text-decoration:none;
+            border-top:1px solid #ede9ff;border-bottom:1px solid #ede9ff;
+            background:#f5f0ff;transition:background 0.15s;
         `;
-        adminLink.addEventListener('mouseenter', () => {
-            adminLink.style.background = '#ede9ff';
-        });
-        adminLink.addEventListener('mouseleave', () => {
-            adminLink.style.background = '#f5f0ff';
-        });
+        adminLink.addEventListener('mouseenter', () => adminLink.style.background = '#ede9ff');
+        adminLink.addEventListener('mouseleave', () => adminLink.style.background = '#f5f0ff');
 
-        // Insere antes do botão de logout (último item do dropdown)
         const logoutBtn = dropdownMenu.querySelector('.logout-btn');
-        if (logoutBtn) {
-            dropdownMenu.insertBefore(adminLink, logoutBtn);
-        } else {
-            dropdownMenu.appendChild(adminLink);
-        }
+        logoutBtn
+            ? dropdownMenu.insertBefore(adminLink, logoutBtn)
+            : dropdownMenu.appendChild(adminLink);
     }
 
     // ----------------------------------------------------------
     // ESTADO LOGADO / NÃO LOGADO
     // ----------------------------------------------------------
     function alternarEstadoHeader(logado) {
-        const naoLogado = document.getElementById('header-nao-logado');
-        const logadoDiv = document.getElementById('header-logado');
+        const naoLogado    = document.getElementById('header-nao-logado');
+        const logadoDiv    = document.getElementById('header-logado');
         const hamburgerBtn = document.getElementById('hamburger-btn');
 
         if (!naoLogado || !logadoDiv) return;
@@ -117,7 +89,7 @@ function initHeader() {
             logadoDiv.style.display = 'flex';
             if (hamburgerBtn) hamburgerBtn.style.display = 'flex';
             setupLogoutListener();
-            injetarBotaoAdmin(); // injeta o botão se for admin
+            injetarBotaoAdmin();
         } else {
             naoLogado.style.display = 'flex';
             logadoDiv.style.display = 'none';
@@ -125,7 +97,14 @@ function initHeader() {
         }
     }
 
-    alternarEstadoHeader(localStorage.getItem('userIsLoggedIn') === 'true');
+    const logado = localStorage.getItem('userIsLoggedIn') === 'true';
+    alternarEstadoHeader(logado);
+
+    // ✅ Controla visibilidade do link Dashboard
+    // (função definida em auth.js — carregado antes deste arquivo)
+    if (typeof controlarLinkDashboard === 'function') {
+        controlarLinkDashboard();
+    }
 
     // ----------------------------------------------------------
     // LOGOUT
@@ -136,7 +115,9 @@ function initHeader() {
 
         logoutBtn.addEventListener('click', (e) => {
             e.preventDefault();
-            ['userIsLoggedIn', 'profilePhotoUrl', 'profileName', 'profileEmail', 'userRole', 'token', 'admin_token']
+            // ✅ 'temDashboard' incluído para limpar o cache
+            ['userIsLoggedIn','profilePhotoUrl','profileName','profileEmail',
+             'userRole','token','admin_token','temDashboard']
                 .forEach(k => localStorage.removeItem(k));
             alternarEstadoHeader(false);
             window.location.href = '/frontend/login/logout.html';
@@ -192,25 +173,19 @@ function initHeader() {
     // ----------------------------------------------------------
     // CARD DE CIDADE
     // ----------------------------------------------------------
-    const cityBtn = document.querySelector('.city-btn');
-    const cityCard = document.getElementById('city-card');
-    const overlay = document.getElementById('city-overlay');
-    const closeCard = document.getElementById('close-card');
+    const cityBtn    = document.querySelector('.city-btn');
+    const cityCard   = document.getElementById('city-card');
+    const overlay    = document.getElementById('city-overlay');
+    const closeCard  = document.getElementById('close-card');
     const citySearch = document.getElementById('city-search');
-    const useLocation = document.getElementById('use-location');
-    const cityItems = document.querySelectorAll('.city-list li');
+    const useLocation= document.getElementById('use-location');
+    const cityItems  = document.querySelectorAll('.city-list li');
 
     if (cityCard) document.body.appendChild(cityCard);
-    if (overlay) document.body.appendChild(overlay);
+    if (overlay)  document.body.appendChild(overlay);
 
-    const abrirCard = () => {
-        if (cityCard) cityCard.style.display = 'block';
-        if (overlay) overlay.style.display = 'block';
-    };
-    const fecharCard = () => {
-        if (cityCard) cityCard.style.display = 'none';
-        if (overlay) overlay.style.display = 'none';
-    };
+    const abrirCard  = () => { if (cityCard) cityCard.style.display = 'block'; if (overlay) overlay.style.display = 'block'; };
+    const fecharCard = () => { if (cityCard) cityCard.style.display = 'none';  if (overlay) overlay.style.display = 'none';  };
 
     function selecionarCidade(nome) {
         if (cityBtn) cityBtn.innerHTML = `<i class="fas fa-map-marker-alt"></i> ${nome}`;
@@ -233,13 +208,9 @@ function initHeader() {
         });
     });
 
-    // USAR LOCALIZAÇÃO
     if (useLocation) {
         useLocation.addEventListener('click', () => {
-            if (!navigator.geolocation) {
-                alert('Geolocalização não suportada pelo seu navegador.');
-                return;
-            }
+            if (!navigator.geolocation) { alert('Geolocalização não suportada pelo seu navegador.'); return; }
             if (cityBtn) cityBtn.innerHTML = `<i class="fas fa-spinner fa-spin"></i> Buscando...`;
 
             navigator.geolocation.getCurrentPosition(
@@ -250,13 +221,9 @@ function initHeader() {
                             { headers: { Accept: 'application/json' } }
                         );
                         const data = await res.json();
-                        const cityName =
-                            data.address?.city ||
-                            data.address?.town ||
-                            data.address?.village ||
-                            data.address?.municipality ||
-                            data.address?.state ||
-                            'Localização atual';
+                        const cityName = data.address?.city || data.address?.town ||
+                            data.address?.village || data.address?.municipality ||
+                            data.address?.state || 'Localização atual';
                         selecionarCidade(cityName);
                     } catch (err) {
                         console.error('Erro ao buscar cidade:', err);
@@ -276,28 +243,25 @@ function initHeader() {
     // ----------------------------------------------------------
     // DROPDOWN DE BUSCA
     // ----------------------------------------------------------
-    const searchInput = document.getElementById('search-input');
+    const searchInput   = document.getElementById('search-input');
     const searchWrapper = document.getElementById('search-bar-wrapper');
-    const suggestionsBox = document.getElementById('search-suggestions');
-    const btnBuscar = document.getElementById('btn-buscar');
+    const suggestionsBox= document.getElementById('search-suggestions');
+    const btnBuscar     = document.getElementById('btn-buscar');
 
     const CHAVE_RECENTES = 'buscasRecentes';
-    const MAX_RECENTES = 5;
-    const MAX_SUGESTOES = 6;
+    const MAX_RECENTES   = 5;
+    const MAX_SUGESTOES  = 6;
 
     const icones = {
-        'show': 'fa-music', 'música': 'fa-music', 'festa': 'fa-glass-cheers',
-        'bar': 'fa-cocktail', 'restaurante': 'fa-utensils',
-        'teatro': 'fa-theater-masks', 'esporte': 'fa-futbol',
-        'balada': 'fa-music', 'stand-up': 'fa-microphone',
-        'arte': 'fa-palette', 'default': 'fa-calendar-alt',
+        'show':'fa-music','música':'fa-music','festa':'fa-glass-cheers',
+        'bar':'fa-cocktail','restaurante':'fa-utensils','teatro':'fa-theater-masks',
+        'esporte':'fa-futbol','balada':'fa-music','stand-up':'fa-microphone',
+        'arte':'fa-palette','default':'fa-calendar-alt',
     };
-    const getIcone = (cat) => icones[(cat || '').toLowerCase()] || icones['default'];
-    const norm = (s) => (s || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+    const getIcone = (cat) => icones[(cat||'').toLowerCase()] || icones['default'];
+    const norm = (s) => (s||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
 
-    function getRecentes() {
-        try { return JSON.parse(localStorage.getItem(CHAVE_RECENTES)) || []; } catch { return []; }
-    }
+    function getRecentes() { try { return JSON.parse(localStorage.getItem(CHAVE_RECENTES)) || []; } catch { return []; } }
     function salvarRecente(termo) {
         if (!termo.trim()) return;
         let r = getRecentes().filter(x => norm(x) !== norm(termo));
@@ -305,18 +269,17 @@ function initHeader() {
         localStorage.setItem(CHAVE_RECENTES, JSON.stringify(r.slice(0, MAX_RECENTES)));
     }
     function removerRecente(termo) {
-        localStorage.setItem(CHAVE_RECENTES,
-            JSON.stringify(getRecentes().filter(x => norm(x) !== norm(termo))));
+        localStorage.setItem(CHAVE_RECENTES, JSON.stringify(getRecentes().filter(x => norm(x) !== norm(termo))));
     }
 
     function lerCardsDaPagina() {
         const itens = [];
         document.querySelectorAll('.card-local, .card-evento, .card').forEach(card => {
-            const nome = card.querySelector('h3')?.textContent.trim() || '';
-            const local = card.querySelector('.evento-local, .local')?.textContent.trim() || '';
-            const tagEl = card.querySelector('[class*="tag"]');
+            const nome      = card.querySelector('h3')?.textContent.trim() || '';
+            const local     = card.querySelector('.evento-local, .local')?.textContent.trim() || '';
+            const tagEl     = card.querySelector('[class*="tag"]');
             const categoria = tagEl?.textContent.trim() || card.getAttribute('data-categoria-card') || '';
-            const data = card.querySelector('.evento-data-local p, .local-meta p')?.textContent.trim() || '';
+            const data      = card.querySelector('.evento-data-local p, .local-meta p')?.textContent.trim() || '';
             if (nome) itens.push({ nome, local, categoria, data });
         });
         return itens;
@@ -331,45 +294,24 @@ function initHeader() {
 
     function destacar(txt, termo) {
         if (!termo) return txt;
-        return txt.replace(new RegExp(`(${termo.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi'), '<mark>$1</mark>');
+        return txt.replace(new RegExp(`(${termo.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')})`,'gi'),'<mark>$1</mark>');
     }
 
-    const abrirDropdown = () => suggestionsBox?.classList.add('active');
+    const abrirDropdown  = () => suggestionsBox?.classList.add('active');
     const fecharDropdown = () => suggestionsBox?.classList.remove('active');
 
     function renderVazio() {
         if (!suggestionsBox) return;
         const recentes = getRecentes();
         if (!recentes.length) { fecharDropdown(); return; }
-
-        suggestionsBox.innerHTML = `
-            <div class="sug-section-title"><span>Buscas recentes</span></div>
-            <ul class="sug-list" id="sug-recentes-list"></ul>
-        `;
+        suggestionsBox.innerHTML = `<div class="sug-section-title"><span>Buscas recentes</span></div><ul class="sug-list" id="sug-recentes-list"></ul>`;
         const ul = suggestionsBox.querySelector('#sug-recentes-list');
-
         recentes.forEach(termo => {
             const li = document.createElement('li');
             li.className = 'sug-item sug-recente';
-            li.innerHTML = `
-                <div class="sug-left">
-                    <i class="fas fa-clock-rotate-left sug-icon-recente"></i>
-                    <span class="sug-texto">${termo}</span>
-                </div>
-                <button class="sug-remover" aria-label="Remover">
-                    <i class="fas fa-times"></i>
-                </button>
-            `;
-            li.querySelector('.sug-left').addEventListener('click', () => {
-                if (searchInput) searchInput.value = termo;
-                fecharDropdown();
-                dispararBusca();
-            });
-            li.querySelector('.sug-remover').addEventListener('click', (e) => {
-                e.stopPropagation();
-                removerRecente(termo);
-                renderVazio();
-            });
+            li.innerHTML = `<div class="sug-left"><i class="fas fa-clock-rotate-left sug-icon-recente"></i><span class="sug-texto">${termo}</span></div><button class="sug-remover" aria-label="Remover"><i class="fas fa-times"></i></button>`;
+            li.querySelector('.sug-left').addEventListener('click', () => { if (searchInput) searchInput.value = termo; fecharDropdown(); dispararBusca(); });
+            li.querySelector('.sug-remover').addEventListener('click', (e) => { e.stopPropagation(); removerRecente(termo); renderVazio(); });
             ul.appendChild(li);
         });
         abrirDropdown();
@@ -379,115 +321,54 @@ function initHeader() {
         if (!suggestionsBox) return;
         const resultados = filtrarSugestoes(termo);
         suggestionsBox.innerHTML = '';
-
         if (resultados.length) {
             const secTitle = document.createElement('div');
             secTitle.className = 'sug-section-title';
             secTitle.innerHTML = '<span>Sugestões</span>';
             suggestionsBox.appendChild(secTitle);
-
             const ul = document.createElement('ul');
             ul.className = 'sug-list';
-
             resultados.forEach(item => {
                 const li = document.createElement('li');
                 li.className = 'sug-item sug-evento';
-                li.innerHTML = `
-                    <div class="sug-left">
-                        <div class="sug-icon-evento">
-                            <i class="fas ${getIcone(item.categoria)}"></i>
-                        </div>
-                        <div class="sug-info">
-                            <span class="sug-nome">${destacar(item.nome, termo)}</span>
-                            <span class="sug-meta">
-                                ${item.categoria ? `<span class="sug-badge">${item.categoria}</span>` : ''}
-                                ${item.local ? `<i class="fas fa-map-marker-alt"></i>${item.local}` : ''}
-                            </span>
-                        </div>
-                    </div>
-                    <i class="fas fa-arrow-up-left sug-completar"></i>
-                `;
-                li.querySelector('.sug-left').addEventListener('click', () => {
-                    if (searchInput) searchInput.value = item.nome;
-                    salvarRecente(item.nome);
-                    fecharDropdown();
-                    dispararBusca();
-                });
-                li.querySelector('.sug-completar').addEventListener('click', (e) => {
-                    e.stopPropagation();
-                    if (searchInput) searchInput.value = item.nome;
-                    searchInput?.focus();
-                    renderSugestoes(item.nome);
-                });
+                li.innerHTML = `<div class="sug-left"><div class="sug-icon-evento"><i class="fas ${getIcone(item.categoria)}"></i></div><div class="sug-info"><span class="sug-nome">${destacar(item.nome,termo)}</span><span class="sug-meta">${item.categoria?`<span class="sug-badge">${item.categoria}</span>`:''} ${item.local?`<i class="fas fa-map-marker-alt"></i>${item.local}`:''}</span></div></div><i class="fas fa-arrow-up-left sug-completar"></i>`;
+                li.querySelector('.sug-left').addEventListener('click', () => { if (searchInput) searchInput.value = item.nome; salvarRecente(item.nome); fecharDropdown(); dispararBusca(); });
+                li.querySelector('.sug-completar').addEventListener('click', (e) => { e.stopPropagation(); if (searchInput) searchInput.value = item.nome; searchInput?.focus(); renderSugestoes(item.nome); });
                 ul.appendChild(li);
             });
             suggestionsBox.appendChild(ul);
         }
-
         const rodape = document.createElement('div');
         rodape.className = 'sug-rodape';
         rodape.innerHTML = `<i class="fas fa-search"></i><span>Buscar por <strong>"${termo}"</strong></span>`;
-        rodape.addEventListener('click', () => {
-            salvarRecente(termo);
-            fecharDropdown();
-            dispararBusca();
-        });
+        rodape.addEventListener('click', () => { salvarRecente(termo); fecharDropdown(); dispararBusca(); });
         suggestionsBox.appendChild(rodape);
         abrirDropdown();
     }
 
     if (searchInput) {
-        searchInput.addEventListener('focus', () => {
-            const t = searchInput.value.trim();
-            if (t.length < 2) renderVazio(); else renderSugestoes(t);
-        });
-        searchInput.addEventListener('input', () => {
-            const t = searchInput.value.trim();
-            dispararFiltroDireto(t);
-            if (t.length < 2) renderVazio(); else renderSugestoes(t);
-        });
+        searchInput.addEventListener('focus', () => { const t = searchInput.value.trim(); if (t.length < 2) renderVazio(); else renderSugestoes(t); });
+        searchInput.addEventListener('input', () => { const t = searchInput.value.trim(); dispararFiltroDireto(t); if (t.length < 2) renderVazio(); else renderSugestoes(t); });
         searchInput.addEventListener('keydown', (e) => {
             if (e.key === 'Enter') { salvarRecente(searchInput.value.trim()); fecharDropdown(); dispararBusca(); }
             if (e.key === 'Escape') fecharDropdown();
         });
     }
 
-    document.addEventListener('click', (e) => {
-        if (searchWrapper && !searchWrapper.contains(e.target)) fecharDropdown();
-    });
+    document.addEventListener('click', (e) => { if (searchWrapper && !searchWrapper.contains(e.target)) fecharDropdown(); });
+    btnBuscar?.addEventListener('click', () => { if (searchInput?.value.trim()) salvarRecente(searchInput.value.trim()); fecharDropdown(); dispararBusca(); });
 
-    btnBuscar?.addEventListener('click', () => {
-        if (searchInput?.value.trim()) salvarRecente(searchInput.value.trim());
-        fecharDropdown();
-        dispararBusca();
-    });
-
-    // ----------------------------------------------------------
-    // FILTRO DIRETO NA PÁGINA
-    // ----------------------------------------------------------
     function dispararFiltroDireto(termo) {
-        window.dispatchEvent(new CustomEvent('roles:filtrar', {
-            detail: { termo: termo.trim() }
-        }));
+        window.dispatchEvent(new CustomEvent('roles:filtrar', { detail: { termo: termo.trim() } }));
     }
 
-    // ----------------------------------------------------------
-    // BUSCA GLOBAL
-    // ----------------------------------------------------------
     function dispararBusca() {
-        const termo = searchInput?.value.trim() || '';
+        const termo  = searchInput?.value.trim() || '';
         const cidade = localStorage.getItem('cidade') || 'Minha localização';
-
         localStorage.setItem('filtrosRoles', JSON.stringify({ termo, cidade }));
-
-        const naHome = window.location.pathname.endsWith('index.html')
-            || window.location.pathname.endsWith('/');
-
-        if (naHome) {
-            dispararFiltroDireto(termo);
-        } else {
-            window.location.href = '/frontend/index.html';
-        }
+        const naHome = window.location.pathname.endsWith('index.html') || window.location.pathname.endsWith('/');
+        if (naHome) dispararFiltroDireto(termo);
+        else window.location.href = '/frontend/index.html';
     }
 
     window.dispararBusca = dispararBusca;
