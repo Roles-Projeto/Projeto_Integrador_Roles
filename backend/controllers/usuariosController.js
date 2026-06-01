@@ -138,13 +138,32 @@ function buscarUsuarioPorId(req, res) {
 
   if (!id) return res.status(400).json({ erro: "ID do usuario e obrigatorio." });
 
+  // Primeiro busca as colunas que certamente existem
   connection.query(
-    "SELECT id, nome_completo, sobrenome, email, telefone, foto_perfil, cpf, nascimento, sexo FROM usuarios WHERE id = ?",
+    "SELECT id, nome_completo, email, telefone, criado_em FROM usuarios WHERE id = ?",
     [id],
     (err, results) => {
-      if (err) return res.status(500).json({ erro: "Erro ao buscar usuario.", detalhes: err.message });
-      if (results.length === 0) return res.status(404).json({ erro: "Usuario nao encontrado." });
-      res.json(results[0]);
+      if (err) {
+        console.error("❌ ERRO buscarUsuarioPorId:", err.message);
+        return res.status(500).json({ erro: "Erro ao buscar usuario.", detalhes: err.message });
+      }
+      if (results.length === 0) {
+        return res.status(404).json({ erro: "Usuario nao encontrado." });
+      }
+
+      const usuario = results[0];
+
+      // Busca colunas opcionais que podem não existir ainda na tabela
+      connection.query(
+        "SELECT sobrenome, foto_perfil, cpf, nascimento, sexo, cidade, estado FROM usuarios WHERE id = ?",
+        [id],
+        (err2, results2) => {
+          if (!err2 && results2.length > 0) {
+            Object.assign(usuario, results2[0]);
+          }
+          res.json(usuario);
+        }
+      );
     }
   );
 }
@@ -265,6 +284,28 @@ async function redefinirSenha(req, res) {
 }
 
 // ========================
+// ALTERAR SENHA
+// ========================
+async function alterarSenha(req, res) {
+  const { id, senhaAtual, novaSenha } = req.body;
+  if (!id || !senhaAtual || !novaSenha) return res.status(400).json({ erro: "Preencha todos os campos." });
+
+  connection.query("SELECT senha FROM usuarios WHERE id = ?", [id], async (err, results) => {
+    if (err) return res.status(500).json({ erro: "Erro no servidor" });
+    if (results.length === 0) return res.status(404).json({ erro: "Usuario nao encontrado" });
+
+    const ok = await bcrypt.compare(senhaAtual, results[0].senha);
+    if (!ok) return res.status(401).json({ erro: "Senha atual incorreta." });
+
+    const senhaHash = await bcrypt.hash(novaSenha, 10);
+    connection.query("UPDATE usuarios SET senha = ? WHERE id = ?", [senhaHash, id], (err) => {
+      if (err) return res.status(500).json({ erro: "Erro ao atualizar senha" });
+      res.json({ mensagem: "Senha alterada com sucesso!" });
+    });
+  });
+}
+
+// ========================
 // EXPORTS
 // ========================
 module.exports = {
@@ -275,5 +316,6 @@ module.exports = {
   enviarCodigo,
   verificarCodigo,
   recuperarSenha,
-  redefinirSenha
+  redefinirSenha,
+  alterarSenha
 };
