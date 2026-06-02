@@ -315,6 +315,27 @@ body {
     margin: 0 auto;
 }
 
+/* ── BOTÃO VOLTAR ────────────────────────────────── */
+.pc-back-wrap {
+    margin-bottom: 16px;
+}
+
+.pc-btn-back {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: var(--font);
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--violet);
+    text-decoration: none;
+    transition: opacity 0.2s;
+}
+
+.pc-btn-back:hover {
+    opacity: 0.7;
+}
+
 /* ── CARD PRINCIPAL (topo) ───────────────────────── */
 .pc-top-card {
     background: var(--card);
@@ -623,10 +644,9 @@ body {
     }
 
     .pc-divider {
-        width: 100%;
+        width: calc(100% - 48px);
         height: 1px;
         margin: 0 24px;
-        width: calc(100% - 48px);
     }
 
     .pc-left { padding: 28px 24px; }
