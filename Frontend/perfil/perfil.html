@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link rel="stylesheet" href="/frontend/css/footer.css">
     <link rel="stylesheet" href="/frontend/css/perfil.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 </head>
 
 <body>
@@ -66,7 +67,7 @@
                 <p class="nav-section-title">Meu conteúdo</p>
 
                 <div class="nav-item" data-section="favoritos">
-                    <i class="fas fa-heart"></i> Lugares Favoritos
+                    <i class="fas fa-heart"></i> Eventos Favoritos
                 </div>
                 <div class="nav-item" data-section="visitas">
                     <i class="fas fa-history"></i> Visitas Recentes
@@ -311,7 +312,7 @@
             <div class="section-panel" id="section-favoritos">
                 <div class="content-card">
                     <div class="card-header">
-                        <span class="card-title"><i class="fas fa-heart"></i> Lugares Favoritos</span>
+                        <span class="card-title"><i class="fas fa-heart"></i> Eventos Favoritos</span>
                     </div>
                     <div id="favoritos-loading" class="loading-state">
                         <div class="spinner"></div><span>Carregando...</span>
@@ -470,6 +471,7 @@
     <script src="/frontend/js/config.js"></script>
     <script src="/frontend/js/footer.js" defer></script>
     <script src="/frontend/js/loadHeader.js"></script>
+    <script src="/Frontend/js/auth.js"></script>
     <script src="/frontend/js/perfil.js"></script>
 </body>
 </html>

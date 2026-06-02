@@ -561,7 +561,7 @@ tbody tr:hover td{background:var(--accent-light);}
 <div class="toast" id="toast"><div class="toast-dot"></div><span id="toast-msg"></span></div>
 
 <script>
-const API = "http://localhost:3000";
+const API = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1" ? "http://localhost:3000" : "https://projeto-integrador-roles.onrender.com";
 let token = localStorage.getItem("admin_token");
 let cur = "dashboard";
 let allMsgs = [];

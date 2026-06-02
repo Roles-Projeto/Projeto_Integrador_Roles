@@ -3,20 +3,17 @@
 /* ═══════════════════════════════════════════
    CONFIG
    window.API_BASE é definido em /frontend/js/config.js
-   igual ao cadastro.js: const API_URL = window.API_BASE
 ═══════════════════════════════════════════ */
 const API_URL = window.API_BASE || '';
 
 /* ═══════════════════════════════════════════
    SHORTCUTS
 ═══════════════════════════════════════════ */
-const g  = id  => document.getElementById(id);
-const gv = id  => g(id)?.value.trim() || '';
+const g  = id => document.getElementById(id);
+const gv = id => g(id)?.value.trim() || '';
 
-/* ═══════════════════════════════════════════
+/* ═══════════════════════════════════════════s
    AVATAR PADRÃO
-   Mesmo SVG já usado no header.html como src padrão
-   de #profile-pic-header e .user-info img
 ═══════════════════════════════════════════ */
 const DEFAULT_AVATAR_URL =
     "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' " +
@@ -26,51 +23,30 @@ const DEFAULT_AVATAR_URL =
     "%3Cellipse cx='20' cy='34' rx='12' ry='8' fill='%23fff'/%3E" +
     "%3C/svg%3E";
 
-/**
- * Atualiza os elementos do header com os dados do perfil.
- * O header é injetado dinamicamente por loadHeader.js em #header-container,
- * então usamos MutationObserver para aguardar o DOM estar pronto.
- *
- * IDs reais do header.html:
- *   #profile-pic-header  — avatar no navbar
- *   .user-info img       — avatar no dropdown
- *   #profile-name-header — nome no dropdown
- *   #profile-email-header— email no dropdown
- *   #header-logado       — container visível quando logado
- *   #header-nao-logado   — container visível quando não logado
- */
 function notifyHeader(name, email, picUrl) {
-    // Persiste no localStorage para o header ler ao inicializar
     const photo = picUrl && picUrl.length > 10 ? picUrl : DEFAULT_AVATAR_URL;
     localStorage.setItem('profilePhotoUrl', photo);
     localStorage.setItem('profileName',     name  || '');
     localStorage.setItem('profileEmail',    email || '');
-
     applyHeaderData(name, email, photo);
 }
 
 function applyHeaderData(name, email, photo) {
-    // Avatar principal no navbar
     const picHeader = document.getElementById('profile-pic-header');
     if (picHeader) {
         picHeader.src     = photo;
         picHeader.onerror = () => { picHeader.src = DEFAULT_AVATAR_URL; };
     }
-
-    // Avatar no dropdown (dentro de .user-info)
     const dropdownImg = document.querySelector('#header-logado .user-info img');
     if (dropdownImg) {
         dropdownImg.src     = photo;
         dropdownImg.onerror = () => { dropdownImg.src = DEFAULT_AVATAR_URL; };
     }
-
-    // Nome e email no dropdown
     const nameEl  = document.getElementById('profile-name-header');
     const emailEl = document.getElementById('profile-email-header');
     if (nameEl  && name)  nameEl.textContent  = name;
     if (emailEl && email) emailEl.textContent = email;
 
-    // Garante que o estado "logado" esteja visível
     const logado    = document.getElementById('header-logado');
     const naoLogado = document.getElementById('header-nao-logado');
     const hamburger = document.getElementById('hamburger-btn');
@@ -79,34 +55,21 @@ function applyHeaderData(name, email, photo) {
     if (hamburger) hamburger.style.display = 'flex';
 }
 
-/**
- * Aguarda o header ser injetado no DOM e então aplica os dados.
- * Necessário porque loadHeader.js injeta o HTML de forma assíncrona.
- */
 function waitForHeaderAndApply(name, email, photo, tries = 0) {
     const picHeader = document.getElementById('profile-pic-header');
-    if (picHeader) {
-        applyHeaderData(name, email, photo);
-        return;
-    }
-    if (tries < 20) {
-        setTimeout(() => waitForHeaderAndApply(name, email, photo, tries + 1), 150);
-    }
+    if (picHeader) { applyHeaderData(name, email, photo); return; }
+    if (tries < 20) setTimeout(() => waitForHeaderAndApply(name, email, photo, tries + 1), 150);
 }
 
 /* ═══════════════════════════════════════════
-   GET USER ID — tenta todas as chaves possíveis
-   do localStorage para garantir compatibilidade
-   com qualquer implementação do login.js
+   GET USER ID
 ═══════════════════════════════════════════ */
 function getUserId() {
-    // Tenta chaves diretas
     const directKeys = ['userId', 'id', 'user_id', 'usuarioId', 'usuario_id'];
     for (const key of directKeys) {
         const val = localStorage.getItem(key);
         if (val && val !== 'undefined' && val !== 'null') return val;
     }
-    // Tenta objetos JSON salvos pelo login
     const jsonKeys = ['user', 'userData', 'usuario', 'loggedUser', 'currentUser'];
     for (const key of jsonKeys) {
         try {
@@ -136,14 +99,14 @@ function showToast(msg, type = 'success') {
 }
 
 /* ═══════════════════════════════════════════
-   SHOW/HIDE section state (loading | empty | list)
+   SHOW/HIDE section state
 ═══════════════════════════════════════════ */
 function showState(prefix, state) {
     const loading = g(`${prefix}-loading`);
     const empty   = g(`${prefix}-empty`);
     const list    = g(`${prefix}-list`);
-    if (loading) loading.style.display = state === 'loading' ? 'flex'   : 'none';
-    if (empty)   empty.style.display   = state === 'empty'   ? 'flex'   : 'none';
+    if (loading) loading.style.display = state === 'loading' ? 'flex' : 'none';
+    if (empty)   empty.style.display   = state === 'empty'   ? 'flex' : 'none';
     if (list) {
         list.style.display       = state === 'list' ? 'flex' : 'none';
         list.style.flexDirection = 'column';
@@ -161,7 +124,6 @@ document.querySelectorAll('.nav-item[data-section]').forEach(item => {
         g('section-' + item.dataset.section)?.classList.add('active');
         window.scrollTo({ top: 0, behavior: 'smooth' });
 
-        // Carrega dados na primeira visita de cada seção
         if (item.dataset.section === 'ingressos' && !_ticketsLoaded)   loadTickets();
         if (item.dataset.section === 'favoritos'  && !_favoritosLoaded) loadFavoritos();
         if (item.dataset.section === 'visitas'    && !_visitasLoaded)   loadVisitas();
@@ -183,7 +145,7 @@ function clearField(inputEl, errorEl) {
 }
 
 /* ═══════════════════════════════════════════
-   VALIDATORS — mesmos critérios do cadastro.js
+   VALIDATORS
 ═══════════════════════════════════════════ */
 function validateNome() {
     const v  = gv('nome');
@@ -200,7 +162,7 @@ function validateEmail() {
 function validateCPF() {
     const tipo = gv('tipo-doc');
     const raw  = gv('cpf');
-    if (!raw) { clearField(g('cpf'), g('erro-cpf')); return true; } // opcional
+    if (!raw) { clearField(g('cpf'), g('erro-cpf')); return true; }
     let ok = true;
     if (tipo === 'CPF') {
         const d = raw.replace(/\D/g, '');
@@ -225,7 +187,7 @@ function validateCPF() {
 }
 function validateTelefone() {
     const v = gv('telefone');
-    if (!v) { clearField(g('telefone'), g('erro-telefone')); return true; } // opcional
+    if (!v) { clearField(g('telefone'), g('erro-telefone')); return true; }
     const d  = v.replace(/\D/g, '');
     const ok = d.length === 10 || d.length === 11;
     markField(g('telefone'), g('erro-telefone'), !ok);
@@ -241,7 +203,6 @@ function validateNascimento() {
 }
 function validateSenhaNova() {
     const v  = g('senha-nova').value;
-    // Mesma regex do cadastro.js
     const ok = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&]).{8,}$/.test(v);
     markField(g('senha-nova'), g('erro-senha-nova'), !ok);
     return ok;
@@ -266,7 +227,6 @@ g('telefone').addEventListener('input', function () {
     this.value = v.replace(/-$/, '');
 });
 
-/* Blur validation */
 g('nome').addEventListener('blur',       validateNome);
 g('email').addEventListener('blur',      validateEmail);
 g('cpf').addEventListener('blur',        validateCPF);
@@ -275,22 +235,22 @@ g('nascimento').addEventListener('blur', validateNascimento);
 g('tipo-doc').addEventListener('change', () => clearField(g('cpf'), g('erro-cpf')));
 
 /* ═══════════════════════════════════════════
-   PASSWORD STRENGTH — mesmo critério do cadastro
+   PASSWORD STRENGTH
 ═══════════════════════════════════════════ */
 g('senha-nova').addEventListener('input', function () {
     const v = this.value;
     let sc  = 0;
-    if (v.length >= 8)              sc++;
-    if (/[A-Za-z]/.test(v))        sc++;
-    if (/\d/.test(v))               sc++;
-    if (/[@$!%*#?&]/.test(v))       sc++;
+    if (v.length >= 8)        sc++;
+    if (/[A-Za-z]/.test(v))  sc++;
+    if (/\d/.test(v))         sc++;
+    if (/[@$!%*#?&]/.test(v)) sc++;
 
     const levels = [
-        { w: '0%',   c: '',                t: '' },
-        { w: '25%',  c: 'var(--danger)',   t: 'Fraca' },
-        { w: '50%',  c: 'var(--warning)',  t: 'Moderada' },
-        { w: '75%',  c: '#85c200',         t: 'Boa' },
-        { w: '100%', c: 'var(--success)',  t: 'Forte 🔒' },
+        { w: '0%',   c: '',               t: '' },
+        { w: '25%',  c: 'var(--danger)',  t: 'Fraca' },
+        { w: '50%',  c: 'var(--warning)', t: 'Moderada' },
+        { w: '75%',  c: '#85c200',        t: 'Boa' },
+        { w: '100%', c: 'var(--success)', t: 'Forte 🔒' },
     ][sc];
 
     g('strength-fill').style.width      = levels.w;
@@ -318,17 +278,15 @@ function setAvatar(src) {
     const img = g('profile-picture');
     const svg = g('avatar-default-svg');
 
-    // Se não veio src do backend, tenta o cache do localStorage
-    const cached = localStorage.getItem('profilePhotoUrl') || '';
+    const cached      = localStorage.getItem('profilePhotoUrl') || '';
     const isRealCached = cached && cached !== DEFAULT_AVATAR_URL && cached.length > 10;
-    const finalSrc = (src && src.length > 10 && !src.endsWith('/'))
-                        ? src
-                        : (isRealCached ? cached : '');
+    const finalSrc    = (src && src.length > 10 && !src.endsWith('/'))
+                            ? src
+                            : (isRealCached ? cached : '');
 
     if (finalSrc) {
         img.onload  = () => { img.style.display = 'block'; svg.style.display = 'none'; };
         img.onerror = () => {
-            // URL inválida ou expirada → limpa cache e mostra padrão
             localStorage.removeItem('profilePhotoUrl');
             img.style.display = 'none';
             svg.style.display = 'block';
@@ -354,21 +312,13 @@ g('picture-upload').addEventListener('change', function (e) {
     const reader = new FileReader();
     reader.onload = ev => {
         const dataUrl = ev.target.result;
-
-        // Aplica imediatamente na página
         setAvatar(dataUrl);
-
-        // Persiste no localStorage — assim a foto sobrevive a navegações
-        // enquanto o backend não confirma o upload
         localStorage.setItem('profilePhotoUrl', dataUrl);
-
-        // Notifica o header
         notifyHeader(
             localStorage.getItem('profileName')  || '',
             localStorage.getItem('profileEmail') || '',
             dataUrl
         );
-
         showToast('Foto atualizada! Clique em "Salvar alterações" para confirmar.');
     };
     reader.readAsDataURL(file);
@@ -376,10 +326,6 @@ g('picture-upload').addEventListener('change', function (e) {
 
 /* ═══════════════════════════════════════════
    LOAD PROFILE
-   Os campos que vêm do cadastro.js são:
-   nome_completo, email, telefone
-   Os demais (cpf, nascimento, sexo, foto_perfil)
-   são preenchidos aqui no perfil.
 ═══════════════════════════════════════════ */
 async function loadProfileData() {
     const userId = getUserId();
@@ -394,18 +340,15 @@ async function loadProfileData() {
         if (!res.ok) throw new Error('HTTP ' + res.status);
         const data = await res.json();
 
-        /* ── Sidebar ── */
         g('profile-name-display').textContent  = data.nome_completo || 'Usuário';
         g('profile-email-display').textContent = data.email         || '—';
         g('profile-phone-display').textContent = data.telefone      || '—';
 
-        // Cidade/estado (se o backend retornar)
         if (data.cidade || data.estado) {
             g('profile-city-display').textContent =
                 [data.cidade, data.estado].filter(Boolean).join(' — ');
         }
 
-        // Data de cadastro
         const rawDate = data.criado_em || data.data_cadastro || data.created_at;
         if (rawDate) {
             const d      = new Date(rawDate);
@@ -414,39 +357,31 @@ async function loadProfileData() {
                 `Membro desde ${months[d.getMonth()]} ${d.getFullYear()}`;
         }
 
-        // Foto: backend tem prioridade; fallback é o localStorage (upload local do usuário)
-        const backendPhoto    = data.foto_perfil || data.avatar || '';
-        const cachedPhoto     = localStorage.getItem('profilePhotoUrl') || '';
-        const isRealCached    = cachedPhoto && cachedPhoto !== DEFAULT_AVATAR_URL;
-        const photoUrl        = backendPhoto || (isRealCached ? cachedPhoto : '');
+        const backendPhoto = data.foto_perfil || data.avatar || '';
+        const cachedPhoto  = localStorage.getItem('profilePhotoUrl') || '';
+        const isRealCached = cachedPhoto && cachedPhoto !== DEFAULT_AVATAR_URL;
+        const photoUrl     = backendPhoto || (isRealCached ? cachedPhoto : '');
 
         setAvatar(photoUrl);
-
-        // Se temos foto real, garante que está salva no localStorage
         if (photoUrl) localStorage.setItem('profilePhotoUrl', photoUrl);
-
-        // Aguarda o header carregar e aplica dados
         waitForHeaderAndApply(data.nome_completo, data.email, photoUrl || DEFAULT_AVATAR_URL);
 
-        /* ── Formulário ── */
-        // nome_completo — campo exato do cadastro.js
-        if (data.nome_completo) g('nome').value = data.nome_completo;
-        if (data.sobrenome)     g('sobrenome').value = data.sobrenome;
-        if (data.email)         g('email').value = data.email;
-        if (data.telefone)      g('telefone').value = data.telefone;
-        if (data.cpf)           g('cpf').value = data.cpf;
-        if (data.nascimento)    g('nascimento').value = data.nascimento;
-        if (data.sexo)          g('sexo').value = data.sexo;
+        if (data.nome_completo) g('nome').value       = data.nome_completo;
+        if (data.sobrenome)     g('sobrenome').value  = data.sobrenome;
+        if (data.email)         g('email').value      = data.email;
+        if (data.telefone)      g('telefone').value   = data.telefone;
+        if (data.cpf)           g('cpf').value        = data.cpf;
+        if (data.nascimento)    g('nascimento').value = data.nascimento.split('T')[0];
+        if (data.sexo)          g('sexo').value       = data.sexo;
 
-        /* ── Detecta navegador para sessão ── */
-        const ua = navigator.userAgent;
+        const ua      = navigator.userAgent;
         const browser = ua.includes('Firefox') ? 'Firefox'
-                       : ua.includes('Edg')    ? 'Edge'
-                       : ua.includes('Chrome') ? 'Chrome'
-                       : ua.includes('Safari') ? 'Safari'
-                       : 'Navegador';
-        const device = /Mobi|Android/i.test(ua) ? 'Mobile' : 'Desktop';
-        const el = g('session-current-device');
+                      : ua.includes('Edg')     ? 'Edge'
+                      : ua.includes('Chrome')  ? 'Chrome'
+                      : ua.includes('Safari')  ? 'Safari'
+                      : 'Navegador';
+        const device  = /Mobi|Android/i.test(ua) ? 'Mobile' : 'Desktop';
+        const el      = g('session-current-device');
         if (el) el.textContent = `${browser} — ${device}`;
 
     } catch (err) {
@@ -477,11 +412,10 @@ g('save-info-btn').addEventListener('click', async () => {
     btn.classList.add('loading');
 
     try {
-        // Foto: usa a exibida na página; fallback do localStorage se imagem não estiver visível
-        const picEl   = g('profile-picture');
-        const picSrc  = (picEl && picEl.style.display !== 'none' && picEl.src && picEl.src.length > 10)
-                            ? picEl.src
-                            : (localStorage.getItem('profilePhotoUrl') || '');
+        const picEl  = g('profile-picture');
+        const picSrc = (picEl && picEl.style.display !== 'none' && picEl.src && picEl.src.length > 10)
+                          ? picEl.src
+                          : (localStorage.getItem('profilePhotoUrl') || '');
 
         const body = {
             id:            userId,
@@ -502,19 +436,14 @@ g('save-info-btn').addEventListener('click', async () => {
         });
         if (!res.ok) throw new Error('HTTP ' + res.status);
 
-        // Persiste foto no localStorage para sobreviver navegações
         if (picSrc && picSrc !== DEFAULT_AVATAR_URL) {
             localStorage.setItem('profilePhotoUrl', picSrc);
         }
 
-        // Atualiza sidebar
         g('profile-name-display').textContent  = body.nome_completo;
         g('profile-email-display').textContent = body.email;
         g('profile-phone-display').textContent = body.telefone || '—';
-
-        // Notifica header
         notifyHeader(body.nome_completo, body.email, picSrc || DEFAULT_AVATAR_URL);
-
         showToast('Perfil atualizado com sucesso!', 'success');
 
     } catch (err) {
@@ -526,7 +455,7 @@ g('save-info-btn').addEventListener('click', async () => {
 });
 
 /* ═══════════════════════════════════════════
-   CHANGE PASSWORD — mesma regex do cadastro.js
+   CHANGE PASSWORD
 ═══════════════════════════════════════════ */
 g('form-senha').addEventListener('submit', async e => {
     e.preventDefault();
@@ -557,11 +486,7 @@ g('form-senha').addEventListener('submit', async e => {
         const res = await fetch(`${API_URL}/usuarios/senha`, {
             method:  'PUT',
             headers: { 'Content-Type': 'application/json' },
-            body:    JSON.stringify({
-                id:         getUserId(),
-                senhaAtual: atual,
-                novaSenha:  nova
-            })
+            body:    JSON.stringify({ id: getUserId(), senhaAtual: atual, novaSenha: nova })
         });
 
         if (res.status === 401) {
@@ -595,13 +520,11 @@ function resetSenhaForm() {
 }
 
 /* ═══════════════════════════════════════════
-   TICKETS — busca real no backend
-   Tenta os endpoints mais comuns em ordem.
-   Ajuste para o caminho real do seu backend.
+   TICKETS
 ═══════════════════════════════════════════ */
-let _ticketsLoaded  = false;
-let _allTickets     = [];
-let _currentFilter  = 'todos';
+let _ticketsLoaded = false;
+let _allTickets    = [];
+let _currentFilter = 'todos';
 
 async function loadTickets() {
     const userId = getUserId();
@@ -616,24 +539,28 @@ async function loadTickets() {
     ];
 
     let raw = null;
-    for (const url of endpoints) {
-        try {
-            const res = await fetch(url);
-            if (res.ok) { raw = await res.json(); break; }
-        } catch (_) {}
+for (const url of endpoints) {
+    try {
+        const res = await fetch(url);
+        console.log(`🔍 ${url} → status ${res.status}`);
+        if (res.ok) {
+            raw = await res.json();
+            console.log('✅ Dados recebidos:', raw);
+            break;
+        }
+    } catch (err) {
+        console.warn(`❌ Falhou: ${url}`, err);
     }
+}
+console.log('👤 userId:', getUserId());
+console.log('📦 Items:', Array.isArray(raw) ? raw : (raw?.ingressos || raw?.data || raw?.pedidos || []));
 
     _ticketsLoaded = true;
-
-    const items = Array.isArray(raw) ? raw
-                : (raw?.ingressos || raw?.data || raw?.pedidos || []);
-
+    const items = Array.isArray(raw) ? raw : (raw?.ingressos || raw?.data || raw?.pedidos || []);
     if (!items.length) { showState('tickets', 'empty'); return; }
 
     _allTickets = items;
-    renderTickets(_allTickets, _currentFilter);
-    renderTicketSummary(_allTickets);
-    updateNavBadge(_allTickets.length);
+renderTickets(_allTickets, _currentFilter);
 }
 
 function renderTickets(tickets, filter) {
@@ -650,40 +577,69 @@ function renderTickets(tickets, filter) {
 
     const list = g('tickets-list');
     list.innerHTML = filtered.map(t => {
-        const dataEvento = t.data_evento ? new Date(t.data_evento) : null;
-        const isProximo  = dataEvento && dataEvento >= hoje;
-        const isHoje     = dataEvento && dataEvento.toDateString() === new Date().toDateString();
-        const statusCls  = isHoje ? 'hoje' : (isProximo ? 'proximo' : 'passado');
-        const statusTxt  = isHoje ? '🔥 Hoje!' : (isProximo ? 'Próximo' : 'Realizado');
-        const dataStr    = dataEvento
-            ? dataEvento.toLocaleDateString('pt-BR')
-            : '—';
-        const precoStr = t.preco
-            ? `R$ ${parseFloat(t.preco).toFixed(2).replace('.', ',')}`
-            : '';
+        const dataEvento  = t.data_evento ? new Date(t.data_evento) : null;
+        const isProximo   = dataEvento && dataEvento >= hoje;
+        const isHoje      = dataEvento && dataEvento.toDateString() === new Date().toDateString();
+        const isPendente  = (t.status_pagamento || t.status) === 'pendente';
+        const isUsado     = !isProximo && !isHoje;
+
+        const accentColor = isPendente ? '#f57f17'
+            : isHoje    ? '#E24B4A'
+            : isProximo ? '#6C1DCE'
+            : '#B4B2A9';
+
+        let statusPill;
+        if (isPendente)     statusPill = `<span class="tc-status tc-pendente"><i class="fas fa-clock"></i> Pendente</span>`;
+        else if (isHoje)    statusPill = `<span class="tc-status tc-hoje"><i class="fas fa-fire"></i> Hoje!</span>`;
+        else if (isProximo) statusPill = `<span class="tc-status tc-proximo"><i class="fas fa-check-circle"></i> Próximo</span>`;
+        else                statusPill = `<span class="tc-status tc-passado"><i class="fas fa-check"></i> Realizado</span>`;
+
         const nomeEvento = t.nome_evento || t.evento || t.titulo || 'Evento';
-        const local      = t.local_evento || t.local || t.endereco || '';
+        const local      = t.local_evento || t.local || t.cidade || '';
+        const tipo       = t.tipo_ingresso || '';
+        const dataStr    = dataEvento ? dataEvento.toLocaleDateString('pt-BR', { day: '2-digit', month: 'short', year: 'numeric' }) : '—';
+        const horaStr    = dataEvento ? dataEvento.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' }) : '';
+        const precoStr   = t.preco ? `R$ ${parseFloat(t.preco).toFixed(2).replace('.', ',')}` : '';
+        const stubLabel  = isPendente ? 'PEND.' : isUsado ? 'USADO' : 'SCAN';
+        const imgSrc     = t.img_capa ? `${API_URL}${t.img_capa.startsWith('/') ? t.img_capa : '/uploads/' + t.img_capa}` : ''
 
         return `
-        <div class="list-item">
-            <div class="item-icon"><i class="fas fa-ticket-alt"></i></div>
-            <div class="item-info">
-                <div class="item-name">${nomeEvento}${t.setor ? ' — ' + t.setor : ''}</div>
-                <div class="item-sub">
-                    ${dataStr}${local ? ' &bull; ' + local : ''}${precoStr ? ' &bull; ' + precoStr : ''}
+        <div class="ticket-card" style="${isUsado ? 'opacity:0.65' : ''}"
+             onclick="openTicketDetail('${t.id}')">
+            <div class="tc-accent" style="background:${accentColor}"></div>
+            <div class="tc-image">
+                ${imgSrc
+                    ? `<img src="${imgSrc}" alt="${nomeEvento}">`
+                    : `<div class="tc-image-placeholder"><i class="fas fa-music"></i></div>`}
+            </div>
+            <div class="tc-body">
+                <div class="tc-top">
+                    <div>
+                        <div class="tc-event-name">${nomeEvento}</div>
+                        ${tipo ? `<div class="tc-event-sub">${tipo}${precoStr ? ' • ' + precoStr : ''}</div>` : ''}
+                    </div>
+                    ${tipo ? `<span class="tc-badge">${tipo}</span>` : ''}
+                </div>
+                <div class="tc-meta-row">
+                    ${statusPill}
+                    <span class="tc-meta-item"><i class="fas fa-calendar-alt"></i>${dataStr}${horaStr ? ' • ' + horaStr : ''}</span>
+                    ${local ? `<span class="tc-meta-item"><i class="fas fa-map-marker-alt"></i>${local}</span>` : ''}
+                </div>
+                <div class="tc-actions">
+                    ${(isProximo || isHoje) && !isPendente ? `
+                        <button class="btn btn-primary btn-sm" onclick="event.stopPropagation(); downloadTicket('${t.id}')">
+                            <i class="fas fa-download"></i> Baixar
+                        </button>` : ''}
+                    ${isProximo && !isPendente ? `
+                        <button class="btn btn-ghost btn-sm" onclick="event.stopPropagation(); openTransferModal('${t.id}','${nomeEvento.replace(/'/g, "\\'")}')">
+                            <i class="fas fa-exchange-alt"></i> Transferir
+                        </button>` : ''}
+                    ${isPendente ? `<span style="font-size:11px;color:#f57f17;"><i class="fas fa-info-circle"></i> Aguardando confirmação</span>` : ''}
                 </div>
             </div>
-            <span class="ticket-status ${statusCls}">${statusTxt}</span>
-            <div class="item-actions">
-                ${(isProximo || isHoje) ? `
-                    <button class="btn btn-primary btn-sm" onclick="downloadTicket('${t.id}')">
-                        <i class="fas fa-download"></i> Baixar
-                    </button>` : ''}
-                ${isProximo ? `
-                    <button class="btn btn-ghost btn-sm"
-                        onclick="openTransferModal('${t.id}','${nomeEvento.replace(/'/g,"\\'")}')">
-                        <i class="fas fa-exchange-alt"></i> Transferir
-                    </button>` : ''}
+            <div class="tc-stub">
+                <div class="tc-qr"><i class="fas fa-qrcode"></i></div>
+                <span class="tc-stub-label">${stubLabel}</span>
             </div>
         </div>`;
     }).join('');
@@ -691,50 +647,175 @@ function renderTickets(tickets, filter) {
     showState('tickets', 'list');
 }
 
-function renderTicketSummary(tickets) {
-    const hoje = new Date(); hoje.setHours(0, 0, 0, 0);
-    const proximos = tickets.filter(t => t.data_evento && new Date(t.data_evento) >= hoje).length;
-    const gasto    = tickets.reduce((s, t) => s + (parseFloat(t.preco) || 0), 0);
+/* ── Modal de detalhes do ingresso ── */
+function openTicketDetail(ticketId) {
+    const t = _allTickets.find(x => String(x.id) === String(ticketId));
+    if (!t) return;
 
-    g('summary-total').textContent    = tickets.length;
-    g('summary-proximos').textContent = proximos;
-    g('summary-gasto').textContent    = `R$ ${gasto.toFixed(2).replace('.', ',')}`;
-    g('tickets-summary').style.display = 'block';
-}
+    const dataEvento = t.data_evento ? new Date(t.data_evento) : null;
+    const hoje       = new Date(); hoje.setHours(0,0,0,0);
+    const isProximo  = dataEvento && dataEvento >= hoje;
+    const isHoje     = dataEvento && dataEvento.toDateString() === new Date().toDateString();
+    const isPendente = (t.status_pagamento || t.status) === 'pendente';
+    const nomeEvento = t.nome_evento || t.evento || t.titulo || 'Evento';
+    const imgSrc     = t.img_capa ? `${API_URL}${t.img_capa.startsWith('/') ? t.img_capa : '/uploads/' + t.img_capa}` : ''
+    const dataStr    = dataEvento ? dataEvento.toLocaleDateString('pt-BR', { day: '2-digit', month: 'long', year: 'numeric' }) : '—';
+    const horaStr    = dataEvento ? dataEvento.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' }) : '—';
+    const precoStr   = t.preco ? `R$ ${parseFloat(t.preco).toFixed(2).replace('.', ',')}` : '—';
+    const local      = t.local_evento || t.local || t.cidade || '—';
+    const tipo       = t.tipo_ingresso || '—';
+    const pedidoNum  = `#${String(t.id).padStart(5, '0')}`;
 
-function updateNavBadge(count) {
-    const badge = g('nav-ticket-count');
-    if (badge && count > 0) {
-        badge.textContent   = count;
-        badge.style.display = 'inline';
+    // Cria modal se não existir
+    let overlay = g('ticket-detail-overlay');
+    if (!overlay) {
+        overlay = document.createElement('div');
+        overlay.id = 'ticket-detail-overlay';
+        overlay.className = 'ticket-detail-overlay';
+        overlay.innerHTML = `<div class="ticket-detail-modal" id="ticket-detail-modal"></div>`;
+        overlay.addEventListener('click', e => { if (e.target === overlay) overlay.classList.remove('open'); });
+        document.body.appendChild(overlay);
     }
+
+    g('ticket-detail-modal').innerHTML = `
+        <div class="tdm-header">
+            ${imgSrc ? `<img src="${imgSrc}" alt="${nomeEvento}">` : ''}
+            <button class="tdm-close" onclick="document.getElementById('ticket-detail-overlay').classList.remove('open')">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="tdm-header-info">
+                <h3>${nomeEvento}</h3>
+            </div>
+        </div>
+        <div class="tdm-body">
+            <div class="tdm-info-grid">
+                <div class="tdm-info-item"><label>Pedido</label><span>${pedidoNum}</span></div>
+                <div class="tdm-info-item"><label>Status</label><span>${isPendente ? '⏳ Pendente' : '✅ Confirmado'}</span></div>
+                <div class="tdm-info-item"><label>Data</label><span>${dataStr}</span></div>
+                <div class="tdm-info-item"><label>Horário</label><span>${horaStr}</span></div>
+                <div class="tdm-info-item"><label>Local</label><span>${local}</span></div>
+                <div class="tdm-info-item"><label>Tipo</label><span>${tipo}</span></div>
+                <div class="tdm-info-item"><label>Valor pago</label><span>${precoStr}</span></div>
+                <div class="tdm-info-item"><label>Pagamento</label><span>${t.forma_pagamento || '—'}</span></div>
+            </div>
+            <div class="tdm-qr">
+                <i class="fas fa-qrcode"></i>
+                <p>Apresente este QR Code na entrada do evento</p>
+            </div>
+            <div class="tdm-actions">
+                ${(isProximo || isHoje) && !isPendente ? `
+                    <button class="btn btn-primary" onclick="downloadTicket('${t.id}')">
+                        <i class="fas fa-download"></i> Baixar PDF
+                    </button>` : ''}
+                ${isProximo && !isPendente ? `
+                    <button class="btn btn-ghost" onclick="openTransferModal('${t.id}','${nomeEvento.replace(/'/g, "\\'")}'); document.getElementById('ticket-detail-overlay').classList.remove('open')">
+                        <i class="fas fa-exchange-alt"></i> Transferir
+                    </button>` : ''}
+                <button class="btn btn-ghost" onclick="document.getElementById('ticket-detail-overlay').classList.remove('open')">
+                    Fechar
+                </button>
+            </div>
+        </div>`;
+
+    overlay.classList.add('open');
 }
 
-/* Download de ingresso */
+/* ═══════════════════════════════════════════
+   DOWNLOAD PDF DO INGRESSO
+═══════════════════════════════════════════ */
 async function downloadTicket(ticketId) {
-    try {
-        const res = await fetch(`${API_URL}/ingressos/${ticketId}/download`);
-        if (!res.ok) throw new Error();
-        const blob = await res.blob();
-        const url  = URL.createObjectURL(blob);
-        const a    = Object.assign(document.createElement('a'), { href: url, download: `ingresso-${ticketId}.pdf` });
-        a.click();
-        URL.revokeObjectURL(url);
-        showToast('Download iniciado!');
-    } catch {
-        showToast('Erro ao baixar o ingresso. Tente novamente.', 'error');
-    }
-}
+    const t = _allTickets.find(x => String(x.id) === String(ticketId));
+    if (!t) return;
 
-/* Filtros */
-document.querySelectorAll('.filter-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        _currentFilter = btn.dataset.filter;
-        if (_allTickets.length) renderTickets(_allTickets, _currentFilter);
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF({ unit: 'mm', format: 'a4' });
+
+    const nomeEvento = t.nome_evento || t.evento || t.titulo || 'Evento';
+    const dataEvento = t.data_evento ? new Date(t.data_evento) : null;
+    const dataStr    = dataEvento ? dataEvento.toLocaleDateString('pt-BR', { day: '2-digit', month: 'long', year: 'numeric' }) : '—';
+    const horaStr    = dataEvento ? dataEvento.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' }) : '—';
+    const local      = t.local_evento || t.local || t.cidade || '—';
+    const tipo       = t.tipo_ingresso || '—';
+    const preco      = t.preco ? `R$ ${parseFloat(t.preco).toFixed(2).replace('.', ',')}` : '—';
+    const pedido     = `#${String(t.id).padStart(5, '0')}`;
+    const pagamento  = t.forma_pagamento || '—';
+
+    // Fundo roxo no topo
+    doc.setFillColor(108, 29, 206);
+    doc.rect(0, 0, 210, 45, 'F');
+
+    // Título
+    doc.setTextColor(255, 255, 255);
+    doc.setFontSize(22);
+    doc.setFont('helvetica', 'bold');
+    doc.text('INGRESSO', 105, 18, { align: 'center' });
+
+    doc.setFontSize(14);
+    doc.setFont('helvetica', 'normal');
+    doc.text(nomeEvento, 105, 30, { align: 'center' });
+
+    doc.setFontSize(10);
+    doc.text('Rolés — Sua plataforma de eventos', 105, 40, { align: 'center' });
+
+    // Linha divisória
+    doc.setDrawColor(108, 29, 206);
+    doc.setLineWidth(0.5);
+    doc.line(15, 52, 195, 52);
+
+    // Informações do ingresso
+    doc.setTextColor(50, 50, 50);
+    doc.setFontSize(11);
+
+    const campos = [
+        ['Pedido',     pedido],
+        ['Status',     'Confirmado'],
+        ['Data',       dataStr],
+        ['Horário',    horaStr],
+        ['Local',      local],
+        ['Tipo',       tipo],
+        ['Valor pago', preco],
+        ['Pagamento',  pagamento],
+    ];
+
+    let y = 65;
+    campos.forEach(([label, valor]) => {
+        doc.setFont('helvetica', 'bold');
+        doc.setTextColor(108, 29, 206);
+        doc.text(label + ':', 20, y);
+
+        doc.setFont('helvetica', 'normal');
+        doc.setTextColor(50, 50, 50);
+        doc.text(String(valor), 70, y);
+
+        y += 12;
     });
-});
+
+    // Caixa QR Code
+    doc.setDrawColor(200, 200, 200);
+    doc.setFillColor(245, 245, 245);
+    doc.roundedRect(55, y + 5, 100, 50, 4, 4, 'FD');
+
+    doc.setTextColor(108, 29, 206);
+    doc.setFontSize(12);
+    doc.setFont('helvetica', 'bold');
+    doc.text('[ QR CODE ]', 105, y + 34, { align: 'center' });
+
+    doc.setTextColor(120, 120, 120);
+    doc.setFontSize(9);
+    doc.setFont('helvetica', 'normal');
+    doc.text('Apresente este ingresso na entrada do evento', 105, y + 48, { align: 'center' });
+
+    // Rodapé
+    doc.setFillColor(240, 240, 240);
+    doc.rect(0, 275, 210, 22, 'F');
+    doc.setTextColor(150, 150, 150);
+    doc.setFontSize(8);
+    doc.text('Este ingresso é pessoal e intransferível. Gerado em ' + new Date().toLocaleDateString('pt-BR'), 105, 284, { align: 'center' });
+    doc.text('Rolés © ' + new Date().getFullYear(), 105, 290, { align: 'center' });
+
+    doc.save(`ingresso-${pedido}.pdf`);
+    showToast('PDF baixado com sucesso! 🎉', 'success');
+}
 
 /* ═══════════════════════════════════════════
    TRANSFER MODAL
@@ -785,20 +866,38 @@ g('confirm-transfer-btn').addEventListener('click', async () => {
 });
 
 /* ═══════════════════════════════════════════
-   FAVORITOS
+   FAVORITOS — lê do localStorage (roles_favoritos_dados)
+   com fallback para o backend
 ═══════════════════════════════════════════ */
 let _favoritosLoaded = false;
 
 async function loadFavoritos() {
     const userId = getUserId();
-    if (!userId) return;
     showState('favoritos', 'loading');
+
+    // ── 1. Tenta carregar do localStorage primeiro ──────────────────────
+    const localItems = getFavoritosDoStorage();
+
+    if (localItems.length > 0) {
+        renderFavoritos(localItems);
+        _favoritosLoaded = true;
+        if (userId) sincronizarFavoritosComBackend(userId, localItems);
+        return;
+    }
+
+    // ── 2. Fallback: busca no backend ────────────────────────────────────
+    if (!userId) {
+        _favoritosLoaded = true;
+        showState('favoritos', 'empty');
+        return;
+    }
 
     const endpoints = [
         `${API_URL}/favoritos/usuario/${userId}`,
         `${API_URL}/favoritos?usuarioId=${userId}`,
         `${API_URL}/usuarios/${userId}/favoritos`,
     ];
+
     let raw = null;
     for (const url of endpoints) {
         try {
@@ -806,52 +905,132 @@ async function loadFavoritos() {
             if (res.ok) { raw = await res.json(); break; }
         } catch (_) {}
     }
-    _favoritosLoaded = true;
 
+    _favoritosLoaded = true;
     const items = Array.isArray(raw) ? raw : (raw?.favoritos || raw?.data || []);
     if (!items.length) { showState('favoritos', 'empty'); return; }
 
-    const iconMap = {
-        Bar: 'fa-cocktail', Restaurante: 'fa-utensils',
-        Balada: 'fa-music', Show: 'fa-star', Parque: 'fa-tree',
-        default: 'fa-map-marker-alt'
-    };
+    renderFavoritos(items);
+}
+
+/**
+ * Lê os favoritos salvos pelo favoritoCompartilhar.js no localStorage.
+ * Chave: 'roles_favoritos_dados' → { [eventoId]: { titulo, categoria, data, local, preco, imagem, url } }
+ */
+function getFavoritosDoStorage() {
+    try {
+        const raw = localStorage.getItem('roles_favoritos_dados');
+        if (!raw) return [];
+        const dados = JSON.parse(raw);
+        return Object.values(dados).filter(Boolean);
+    } catch {
+        return [];
+    }
+}
+
+/**
+ * Renderiza a lista de eventos favoritos na aba do perfil.
+ * Aceita tanto itens do localStorage quanto do backend.
+ */
+function renderFavoritos(items) {
+    if (!items.length) { showState('favoritos', 'empty'); return; }
 
     g('favoritos-list').innerHTML = items.map(f => {
-        const icon = iconMap[f.categoria] || iconMap.default;
-        const nota = parseFloat(f.avaliacao || f.nota || 0);
+        const nome      = f.titulo || f.nome || f.nome_local || '—';
+        const categoria = f.categoria || '';
+        const sub       = [f.data, f.local || f.cidade].filter(Boolean).join(' • ') || '—';
+        const preco     = f.preco || '';
+        const url       = f.url  || '#';
+        const id        = f.id   || '';
+
+        const iconMap = {
+            'Show': 'fa-star', 'Shows e Música': 'fa-music',
+            'Festa e Balada': 'fa-music', 'Balada': 'fa-music',
+            'Gastronomia': 'fa-utensils', 'Restaurante': 'fa-utensils',
+            'Bar': 'fa-cocktail', 'Parque': 'fa-tree',
+            'Esportes': 'fa-running', 'Cultura e Arte': 'fa-palette',
+            'Tecnologia': 'fa-laptop', 'Infantil e Família': 'fa-child',
+            'default': 'fa-calendar-star'
+        };
+        const icon = iconMap[categoria] || iconMap['default'];
+
         return `
-        <div class="list-item">
-            <div class="item-icon"><i class="fas ${icon}"></i></div>
-            <div class="item-info">
-                <div class="item-name">${f.nome || f.nome_local || '—'}</div>
-                <div class="item-sub">${[f.cidade, f.estado].filter(Boolean).join(' — ') || '—'}</div>
+        <div class="list-item" data-evento-id="${id}">
+            <div class="item-icon">
+                ${f.imagem
+                    ? `<img src="${f.imagem}" alt="${nome}" style="width:48px;height:48px;object-fit:cover;border-radius:8px;">`
+                    : `<i class="fas ${icon}"></i>`
+                }
             </div>
-            ${f.categoria ? `<span class="category-tag">${f.categoria}</span>` : ''}
-            ${nota ? `<span class="rating-badge"><i class="fas fa-star star-icon"></i>${nota.toFixed(1)}</span>` : ''}
-            <button class="btn btn-ghost btn-sm" onclick="removeFavorito('${f.id}', this)" title="Remover">
-                <i class="fas fa-trash"></i>
-            </button>
+            <div class="item-info">
+                <div class="item-name">${nome}</div>
+                <div class="item-sub">${sub}${preco ? ' • ' + preco : ''}</div>
+            </div>
+            ${categoria ? `<span class="category-tag">${categoria}</span>` : ''}
+            <div class="item-actions">
+                <a href="${url}" class="btn btn-primary btn-sm" title="Ver evento">
+                    <i class="fas fa-eye"></i> Ver
+                </a>
+                <button class="btn btn-ghost btn-sm" onclick="removeFavoritoLocal('${id}', this)" title="Remover">
+                    <i class="fas fa-trash"></i>
+                </button>
+            </div>
         </div>`;
     }).join('');
 
     showState('favoritos', 'list');
 }
 
-async function removeFavorito(id, btn) {
-    btn.classList.add('loading');
+/**
+ * Remove o favorito do localStorage e atualiza a UI.
+ */
+function removeFavoritoLocal(id, btn) {
     try {
-        const res = await fetch(`${API_URL}/favoritos/${id}`, { method: 'DELETE' });
-        if (!res.ok) throw new Error();
-        const item = btn.closest('.list-item');
-        item.style.transition = 'opacity .3s';
-        item.style.opacity    = '0';
-        setTimeout(() => { item.remove(); showToast('Favorito removido.'); }, 300);
-    } catch {
-        showToast('Erro ao remover favorito.', 'error');
-    } finally {
-        btn.classList.remove('loading');
+        const dados = JSON.parse(localStorage.getItem('roles_favoritos_dados') || '{}');
+        delete dados[id];
+        localStorage.setItem('roles_favoritos_dados', JSON.stringify(dados));
+    } catch (_) {}
+
+    try {
+        const raw = localStorage.getItem('roles_favoritos');
+        const set = new Set(raw ? JSON.parse(raw) : []);
+        set.delete(id);
+        localStorage.setItem('roles_favoritos', JSON.stringify([...set]));
+    } catch (_) {}
+
+    const item = btn.closest('.list-item');
+    item.style.transition = 'opacity .3s, transform .3s';
+    item.style.opacity    = '0';
+    item.style.transform  = 'translateX(20px)';
+    setTimeout(() => {
+        item.remove();
+        const remaining = g('favoritos-list').querySelectorAll('.list-item');
+        if (!remaining.length) showState('favoritos', 'empty');
+        showToast('Removido dos favoritos.');
+    }, 310);
+}
+
+/**
+ * Sincroniza os favoritos locais com o backend em segundo plano.
+ */
+async function sincronizarFavoritosComBackend(userId, localItems) {
+    try {
+        for (const item of localItems) {
+            if (!item.id) continue;
+            await fetch(`${API_URL}/favoritos`, {
+                method:  'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body:    JSON.stringify({ usuarioId: userId, eventoId: item.id, ...item })
+            });
+        }
+    } catch (_) {
+        // Silencioso — sync em segundo plano; não afeta a UX
     }
+}
+
+// Mantém compatibilidade com chamadas antigas de removeFavorito
+async function removeFavorito(id, btn) {
+    removeFavoritoLocal(id, btn);
 }
 
 /* ═══════════════════════════════════════════
@@ -884,9 +1063,8 @@ async function loadVisitas() {
     g('visitas-list').innerHTML = items.map(v => {
         const nota    = parseInt(v.nota || v.avaliacao || 0);
         const dataStr = v.data_visita
-            ? new Date(v.data_visita).toLocaleDateString('pt-BR')
-            : '—';
-        const stars   = [1,2,3,4,5].map(i =>
+            ? new Date(v.data_visita).toLocaleDateString('pt-BR') : '—';
+        const stars   = [1, 2, 3, 4, 5].map(i =>
             `<i class="fas fa-star ${i <= nota ? 'filled' : 'empty'}"></i>`
         ).join('');
         return `
@@ -962,13 +1140,21 @@ document.querySelectorAll('.faq-question').forEach(q => {
    INIT
 ═══════════════════════════════════════════ */
 document.addEventListener('DOMContentLoaded', () => {
-    // Aplica dados em cache do localStorage imediatamente (evita flash sem foto)
+    requireLogin();
     const cachedName  = localStorage.getItem('profileName')     || '';
     const cachedEmail = localStorage.getItem('profileEmail')    || '';
     const cachedPhoto = localStorage.getItem('profilePhotoUrl') || DEFAULT_AVATAR_URL;
     waitForHeaderAndApply(cachedName, cachedEmail, cachedPhoto);
 
-    // Depois busca dados atualizados do backend
     loadProfileData();
     loadTickets();
+
+    // Se a URL tiver ?section=favoritos, abre a aba automaticamente
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('section') === 'ingressos') {
+        document.querySelector('.nav-item[data-section="ingressos"]')?.click();
+    }
+    if (urlParams.get('section') === 'favoritos') {
+        document.querySelector('.nav-item[data-section="favoritos"]')?.click();
+    }
 });

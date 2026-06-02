@@ -1,289 +1,270 @@
 "use strict";
 
-const db = require("../config/db");
+const db     = require("../db/db_config");
 const crypto = require("crypto");
+
+function query(sql, params = []) {
+    return new Promise((resolve, reject) => {
+        db.query(sql, params, (err, rows) => {
+            if (err) return reject(err);
+            resolve(rows);
+        });
+    });
+}
 
 // ====================================================
 // LISTAR EVENTOS DISPONÍVEIS
 // ====================================================
-
 async function listarEventos(req, res) {
     try {
-        const [eventos] = await db.promise().query(`
+        const eventos = await query(`
             SELECT e.*,
-                   COUNT(ti.id) AS tipos_disponiveis
+                   MIN(i.valor) AS preco_minimo,
+                   COUNT(i.id)  AS tipos_disponiveis
             FROM eventos e
-            LEFT JOIN tipos_ingresso ti ON ti.evento_id = e.id AND ti.ativo = TRUE
-            WHERE e.status = 'ativo' AND e.data_evento > NOW()
+            LEFT JOIN ingressos i ON i.evento_id = e.id
+            WHERE e.data_inicio > NOW()
             GROUP BY e.id
-            ORDER BY e.data_evento ASC
+            ORDER BY e.data_inicio ASC
         `);
         res.json(eventos);
     } catch (err) {
         console.error("Erro ao listar eventos:", err);
-        res.status(500).json({ erro: "Erro ao listar eventos." });
+        res.status(500).json({ erro: "Erro ao listar eventos.", detalhe: err.message });
     }
 }
 
 // ====================================================
 // DETALHE DO EVENTO + TIPOS DE INGRESSO
 // ====================================================
-
 async function detalheEvento(req, res) {
     const { id } = req.params;
     try {
-        const [[evento]] = await db.promise().query(
-            "SELECT * FROM eventos WHERE id = ? AND status = 'ativo'", [id]
-        );
+        const rows = await query("SELECT * FROM eventos WHERE id = ?", [id]);
+        const evento = rows[0];
         if (!evento) return res.status(404).json({ erro: "Evento não encontrado." });
 
-        const [tipos] = await db.promise().query(`
-            SELECT *, (quantidade_total - quantidade_vendida) AS disponivel
-            FROM tipos_ingresso
-            WHERE evento_id = ? AND ativo = TRUE
+        const tipos = await query(`
+            SELECT id, titulo AS nome, tipo, valor AS preco,
+                   quantidade_total, quantidade_total AS disponivel
+            FROM ingressos
+            WHERE evento_id = ?
         `, [id]);
 
         res.json({ ...evento, tipos_ingresso: tipos });
     } catch (err) {
         console.error("Erro ao buscar evento:", err);
-        res.status(500).json({ erro: "Erro interno." });
+        res.status(500).json({ erro: "Erro interno.", detalhe: err.message });
     }
 }
 
 // ====================================================
-// COMPRAR INGRESSO (SIMULADO)
+// COMPRAR INGRESSO
 // ====================================================
-
 async function comprarIngresso(req, res) {
     const { usuario_id, evento_id, itens, forma_pagamento } = req.body;
-    // itens: [{ tipo_ingresso_id, quantidade }]
 
     if (!usuario_id || !evento_id || !itens?.length || !forma_pagamento) {
         return res.status(400).json({ erro: "Dados incompletos." });
     }
 
-    const formasValidas = ["credito", "debito", "boleto"];
+    const formasValidas = ["credito", "debito", "boleto", "pix"];
     if (!formasValidas.includes(forma_pagamento)) {
         return res.status(400).json({ erro: "Forma de pagamento inválida." });
     }
 
-    const conn = await db.promise().getConnection();
     try {
-        await conn.beginTransaction();
-
         let valor_total = 0;
-        const detalhes = [];
+        const detalhes  = [];
 
-        // Verifica disponibilidade e calcula total
         for (const item of itens) {
-            const [[tipo]] = await conn.query(
-                "SELECT * FROM tipos_ingresso WHERE id = ? AND evento_id = ? AND ativo = TRUE FOR UPDATE",
+            const rows = await query(
+                "SELECT * FROM ingressos WHERE id = ? AND evento_id = ?",
                 [item.tipo_ingresso_id, evento_id]
             );
-
+            const tipo = rows[0];
             if (!tipo) {
-                await conn.rollback();
-                return res.status(400).json({ erro: `Tipo de ingresso ${item.tipo_ingresso_id} inválido.` });
+                return res.status(400).json({ erro: `Ingresso ${item.tipo_ingresso_id} inválido.` });
             }
-
-            const disponivel = tipo.quantidade_total - tipo.quantidade_vendida;
-            if (disponivel < item.quantidade) {
-                await conn.rollback();
-                return res.status(400).json({
-                    erro: `Ingressos insuficientes para "${tipo.nome}". Disponíveis: ${disponivel}.`
-                });
-            }
-
-            valor_total += tipo.preco * item.quantidade;
+            valor_total += parseFloat(tipo.valor) * item.quantidade;
             detalhes.push({ tipo, quantidade: item.quantidade });
         }
 
-        // Simula aprovação do pagamento
         const status_pagamento = simularPagamento(forma_pagamento);
 
-        // Cria o pedido
-        const [pedidoResult] = await conn.query(
+        const pedidoResult = await query(
             "INSERT INTO pedidos (usuario_id, evento_id, valor_total, forma_pagamento, status) VALUES (?, ?, ?, ?, ?)",
             [usuario_id, evento_id, valor_total, forma_pagamento, status_pagamento]
         );
         const pedido_id = pedidoResult.insertId;
 
-        const ingressosGerados = [];
+        // ── Gera QR codes UMA vez, reutiliza no e-mail e na resposta ──
+        const ingressosGerados = detalhes.flatMap(d =>
+            Array.from({ length: d.quantidade }, () => ({
+                tipo:      d.tipo.titulo,
+                codigo_qr: gerarCodigoQR(pedido_id, d.tipo.id, usuario_id),
+            }))
+        );
 
+        // ── Envia e-mail em background (só se aprovado) ───────────────
         if (status_pagamento === "aprovado") {
-            for (const { tipo, quantidade } of detalhes) {
-                // Atualiza quantidade vendida
-                await conn.query(
-                    "UPDATE tipos_ingresso SET quantidade_vendida = quantidade_vendida + ? WHERE id = ?",
-                    [quantidade, tipo.id]
-                );
+            try {
+                const { enviarEmailIngresso } = require("../services/emailService");
 
-                // Gera ingressos individuais com QR Code
-                for (let i = 0; i < quantidade; i++) {
-                    const codigo_qr = gerarCodigoQR(pedido_id, tipo.id, usuario_id);
-                    await conn.query(
-                        "INSERT INTO ingressos (pedido_id, usuario_id, evento_id, tipo_ingresso_id, codigo_qr) VALUES (?, ?, ?, ?, ?)",
-                        [pedido_id, usuario_id, evento_id, tipo.id, codigo_qr]
-                    );
-                    ingressosGerados.push({ tipo: tipo.nome, codigo_qr });
+                const [usuarioRows, eventoRows] = await Promise.all([
+                    query("SELECT nome_completo, email FROM usuarios WHERE id = ?", [usuario_id]),
+                    query("SELECT nome, data_inicio, local_nome, cidade FROM eventos WHERE id = ?", [evento_id]),
+                ]);
+
+                const usuario = usuarioRows[0];
+                const evento  = eventoRows[0];
+
+                if (usuario && evento) {
+                    const d = new Date(evento.data_inicio);
+
+                    enviarEmailIngresso({
+                        nomeCliente:     usuario.nome_completo,
+                        emailCliente:    usuario.email,
+                        pedido_id,
+                        nomeEvento:      evento.nome,
+                        dataEvento:      d.toLocaleDateString("pt-BR"),
+                        horaEvento:      d.toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" }),
+                        localEvento:     `${evento.local_nome}, ${evento.cidade}`,
+                        nomeIngresso:    detalhes[0]?.tipo?.titulo || "Ingresso",
+                        quantidade:      ingressosGerados.length,
+                        subtotal:        valor_total,
+                        taxaServico:     valor_total * 0.10,
+                        totalPago:       valor_total * 1.10,
+                        forma_pagamento,
+                        ingressos:       ingressosGerados,
+                    }).catch(e => console.error("❌ Erro ao enviar e-mail:", e.message));
                 }
+            } catch (e) {
+                console.error("❌ Erro ao buscar dados para e-mail:", e.message);
             }
         }
-
-        await conn.commit();
 
         res.status(201).json({
             mensagem: status_pagamento === "aprovado"
                 ? "Compra realizada com sucesso!"
                 : "Pagamento pendente. Aguardando confirmação.",
             pedido_id,
-            status: status_pagamento,
+            status:         status_pagamento,
             valor_total,
             forma_pagamento,
-            ingressos: ingressosGerados
+            ingressos:      ingressosGerados,
         });
 
     } catch (err) {
-        await conn.rollback();
         console.error("Erro ao comprar ingresso:", err);
-        res.status(500).json({ erro: "Erro interno ao processar compra." });
-    } finally {
-        conn.release();
+        res.status(500).json({ erro: "Erro interno ao processar compra.", detalhe: err.message });
     }
 }
 
 // ====================================================
-// LISTAR INGRESSOS DO USUÁRIO
+// MEUS INGRESSOS
 // ====================================================
-
 async function meusIngressos(req, res) {
     const { usuario_id } = req.params;
+
+    if (!usuario_id) {
+        return res.status(400).json({ erro: "usuario_id não informado." });
+    }
+
     try {
-        const [ingressos] = await db.promise().query(`
-            SELECT 
-                i.id,
-                i.codigo_qr,
-                i.status,
-                i.criado_em,
-                e.titulo AS evento_titulo,
-                e.data_evento,
-                e.local_nome,
+        const ingressos = await query(`
+            SELECT
+                p.id,
+                p.usuario_id,
+                p.evento_id,
+                p.valor_total                                           AS preco,
+                p.forma_pagamento,
+                p.status                                                AS status_pagamento,
+                p.criado_em,
+                e.nome                                                  AS nome_evento,
+                e.data_inicio                                           AS data_evento,
+                e.local_nome                                            AS local_evento,
                 e.cidade,
                 e.estado,
-                e.img_capa,
-                ti.nome AS tipo_ingresso,
-                ti.preco,
-                p.forma_pagamento,
-                p.status AS status_pagamento
-            FROM ingressos i
-            JOIN eventos e ON e.id = i.evento_id
-            JOIN tipos_ingresso ti ON ti.id = i.tipo_ingresso_id
-            JOIN pedidos p ON p.id = i.pedido_id
-            WHERE i.usuario_id = ?
-            ORDER BY i.criado_em DESC
+                e.imagem                                                AS img_capa,
+                (SELECT titulo FROM ingressos WHERE evento_id = p.evento_id LIMIT 1) AS tipo_ingresso,
+                (SELECT valor  FROM ingressos WHERE evento_id = p.evento_id LIMIT 1) AS preco_unitario
+            FROM pedidos p
+            JOIN eventos e ON e.id = p.evento_id
+            WHERE p.usuario_id = ?
+            ORDER BY p.criado_em DESC
         `, [usuario_id]);
 
+        console.log(`✅ meusIngressos: ${ingressos.length} pedido(s) para usuario_id=${usuario_id}`);
         res.json(ingressos);
+
     } catch (err) {
-        console.error("Erro ao listar ingressos:", err);
-        res.status(500).json({ erro: "Erro ao buscar ingressos." });
+        console.error("❌ ERRO meusIngressos:", err);
+        res.status(500).json({ erro: "Erro ao buscar ingressos.", detalhe: err.message });
     }
 }
 
 // ====================================================
-// VALIDAR QR CODE (para uso na entrada do evento)
+// VALIDAR QR CODE
 // ====================================================
-
 async function validarQRCode(req, res) {
-    const { codigo_qr } = req.params;
-    try {
-        const [[ingresso]] = await db.promise().query(`
-            SELECT i.*, e.titulo AS evento, e.data_evento, ti.nome AS tipo
-            FROM ingressos i
-            JOIN eventos e ON e.id = i.evento_id
-            JOIN tipos_ingresso ti ON ti.id = i.tipo_ingresso_id
-            WHERE i.codigo_qr = ?
-        `, [codigo_qr]);
-
-        if (!ingresso) return res.status(404).json({ valido: false, erro: "Ingresso não encontrado." });
-        if (ingresso.status === "utilizado") return res.status(400).json({ valido: false, erro: "Ingresso já utilizado.", usado_em: ingresso.usado_em });
-        if (ingresso.status === "cancelado") return res.status(400).json({ valido: false, erro: "Ingresso cancelado." });
-
-        // Marca como utilizado
-        await db.promise().query(
-            "UPDATE ingressos SET status = 'utilizado', usado_em = NOW() WHERE codigo_qr = ?",
-            [codigo_qr]
-        );
-
-        res.json({
-            valido: true,
-            mensagem: "Ingresso válido! Entrada liberada.",
-            evento: ingresso.evento,
-            data_evento: ingresso.data_evento,
-            tipo: ingresso.tipo
-        });
-    } catch (err) {
-        console.error("Erro ao validar QR Code:", err);
-        res.status(500).json({ erro: "Erro interno." });
-    }
+    res.json({ valido: false, mensagem: "Validação por QR não configurada." });
 }
 
 // ====================================================
-// DETALHE DO INGRESSO (para exibir QR Code)
+// DETALHE DO INGRESSO
 // ====================================================
-
 async function detalheIngresso(req, res) {
-    const { id } = req.params;
+    const { id }         = req.params;
     const { usuario_id } = req.query;
+
     try {
-        const [[ingresso]] = await db.promise().query(`
-            SELECT 
-                i.*,
-                e.titulo AS evento_titulo,
-                e.data_evento,
-                e.local_nome,
-                e.endereco,
+        const rows = await query(`
+            SELECT
+                p.id,
+                p.usuario_id,
+                p.evento_id,
+                p.valor_total        AS preco,
+                p.forma_pagamento,
+                p.status             AS status_pagamento,
+                p.criado_em,
+                e.nome               AS nome_evento,
+                e.data_inicio        AS data_evento,
+                e.local_nome         AS local_evento,
                 e.cidade,
                 e.estado,
-                e.img_capa,
-                ti.nome AS tipo_ingresso,
-                ti.preco,
-                p.forma_pagamento,
-                p.valor_total
-            FROM ingressos i
-            JOIN eventos e ON e.id = i.evento_id
-            JOIN tipos_ingresso ti ON ti.id = i.tipo_ingresso_id
-            JOIN pedidos p ON p.id = i.pedido_id
-            WHERE i.id = ? AND i.usuario_id = ?
+                e.imagem             AS img_capa,
+                i.titulo             AS tipo_ingresso,
+                i.valor              AS preco_unitario
+            FROM pedidos p
+            JOIN eventos    e ON e.id = p.evento_id
+            LEFT JOIN ingressos i ON i.evento_id = p.evento_id
+            WHERE p.id = ? AND p.usuario_id = ?
+            LIMIT 1
         `, [id, usuario_id]);
 
+        const ingresso = rows[0];
         if (!ingresso) return res.status(404).json({ erro: "Ingresso não encontrado." });
-
         res.json(ingresso);
+
     } catch (err) {
         console.error("Erro ao buscar ingresso:", err);
-        res.status(500).json({ erro: "Erro interno." });
+        res.status(500).json({ erro: "Erro interno.", detalhe: err.message });
     }
 }
 
 // ====================================================
-// FUNÇÕES AUXILIARES
+// AUXILIARES
 // ====================================================
-
 function gerarCodigoQR(pedido_id, tipo_id, usuario_id) {
     const dados = `${pedido_id}-${tipo_id}-${usuario_id}-${Date.now()}-${Math.random()}`;
     return crypto.createHash("sha256").update(dados).digest("hex");
 }
 
 function simularPagamento(forma_pagamento) {
-    // Boleto fica pendente, cartão aprova na hora
     if (forma_pagamento === "boleto") return "pendente";
     return "aprovado";
 }
-
-// ====================================================
-// EXPORTS
-// ====================================================
 
 module.exports = {
     listarEventos,
@@ -291,5 +272,5 @@ module.exports = {
     comprarIngresso,
     meusIngressos,
     validarQRCode,
-    detalheIngresso
+    detalheIngresso,
 };

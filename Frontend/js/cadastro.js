@@ -1,7 +1,7 @@
 // ========================
 // CONFIG API
 // ========================
-const API_URL = "http://localhost:3000";
+const API_URL = window.API_BASE || "http://localhost:3000";
 
 // ========================
 // DEBUG INICIAL
