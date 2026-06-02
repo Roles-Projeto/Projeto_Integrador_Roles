@@ -1,67 +1,81 @@
+(function () {
+    'use strict';
 
-function formatarMoeda(valor) {
-    return valor.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
-}
-
-function carregarDadosConfirmacao() {
-    const dadosCompraJSON = localStorage.getItem('compraConfirmada');
-    if (!dadosCompraJSON) {
-        document.querySelector('.page-content').innerHTML = '<h1>Erro na Compra</h1><p>Não foi possível carregar os detalhes do pedido.</p>';
-        return;
-    }
-
-    const dados = JSON.parse(dadosCompraJSON);
-
-    document.querySelectorAll('.order-id').forEach(el => {
-        el.textContent = `Pedido #${dados.pedidoID || 'N/A'}`;
-    });
-
-    document.querySelector('.event-image').src = dados.imagem || '/frontend/imagens/placeholder.jpg';
-    document.querySelector('.event-info h4').textContent = dados.nome || 'Evento Desconhecido';
-
-    const eventMeta = document.querySelector('.event-meta').querySelectorAll('p');
-    if (eventMeta.length >= 3) {
-        eventMeta[0].innerHTML = `<i class="fas fa-calendar-alt"></i> ${dados.data || 'N/A'}`;
-        eventMeta[1].innerHTML = `<i class="fas fa-clock"></i> ${dados.hora || 'N/A'}`;
-        eventMeta[2].innerHTML = `<i class="fas fa-map-marker-alt"></i> ${dados.local || 'N/A'}`;
-    }
-
-    const precoPorIngresso = formatarMoeda(dados.ingressoPreco);
-    document.querySelector('.ticket-type').innerHTML = `<i class="fas fa-ticket-alt"></i> ${dados.ingressoNome || 'N/A'}`;
-    document.querySelector('.ticket-price').textContent = `${precoPorIngresso} cada`;
-    document.querySelector('.ticket-summary p').textContent = `Quantidade: ${dados.quantidade || 1}`;
-
-    document.querySelector('.price-row:nth-child(1) .price').textContent = formatarMoeda(dados.subtotal || 0);
-    document.querySelector('.price-row:nth-child(2) .price').textContent = formatarMoeda(dados.taxaServico || 0);
-    document.querySelector('.total-row .price').textContent = formatarMoeda(dados.totalPago || 0);
-}
-
-document.addEventListener('DOMContentLoaded', carregarDadosConfirmacao);
-
-// --- Toast ---
-function mostrarToast(mensagem) {
-    const toast = document.getElementById('toast');
-    toast.textContent = mensagem;
-    toast.style.visibility = 'visible';
-    toast.style.opacity = '1';
-    toast.style.bottom = '50px';
-
-    setTimeout(() => {
-        toast.style.opacity = '0';
-        toast.style.bottom = '30px';
-        setTimeout(() => {
-            toast.style.visibility = 'hidden';
-        }, 500);
-    }, 2000);
-}
-
-document.querySelectorAll('.btn-action').forEach(botao => {
-    botao.addEventListener('click', function (e) {
-        e.preventDefault();
-        if (botao.textContent.includes('Baixar')) {
-            mostrarToast('Ingressos baixados com sucesso!');
-        } else if (botao.textContent.includes('Reenviar')) {
-            mostrarToast('Ingressos reenviados para seu email!');
+    // ── Lê os dados salvos pelo detalheseventos.js no localStorage ──────────
+    // O objeto "eventoSelecionado" é montado em detalheseventos.js assim:
+    // window._eventoAtual = { nome, data, hora, local, imagem, ... }
+    // localStorage.setItem('eventoSelecionado', JSON.stringify(dadosParaCheckout))
+    function getDadosEvento() {
+        try {
+            const raw = localStorage.getItem('eventoSelecionado');
+            return raw ? JSON.parse(raw) : null;
+        } catch (e) {
+            console.warn('[PresencaConfirmada] Erro ao ler localStorage:', e);
+            return null;
         }
+    }
+
+    // ── Popula o card com os dados do evento ─────────────────────────────────
+    // Não faz nova chamada ao backend — usa o que já foi salvo pelo fluxo:
+    // detalheseventos.js → window._eventoAtual → localStorage → esta tela
+    function popularCardEvento(dados) {
+        if (!dados) return;
+
+        // Thumbnail
+        const thumb = document.getElementById('pc-thumb');
+        if (thumb && dados.imagem) {
+            const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+            const API_BASE = isLocal ? 'http://localhost:3000' : window.location.origin;
+            const imgUrl = dados.imagem.startsWith('http') ? dados.imagem : `${API_BASE}${dados.imagem}`;
+            thumb.innerHTML = `<img src="${imgUrl}" alt="Capa do evento" onerror="this.parentElement.textContent='🎪'">`;
+        }
+
+        // Nome — vem de eventoSelecionado.nome
+        const nomeEl = document.getElementById('pc-nome-evento');
+        if (nomeEl && dados.nome) nomeEl.textContent = dados.nome;
+
+        // Data — vem de eventoSelecionado.data (já formatada em detalheseventos.js)
+        const dataTxt = document.getElementById('pc-data-txt');
+        if (dataTxt && dados.data) dataTxt.textContent = dados.data;
+
+        // Hora — vem de eventoSelecionado.hora (já formatada em detalheseventos.js)
+        const horaTxt = document.getElementById('pc-hora-txt');
+        if (horaTxt && dados.hora) horaTxt.textContent = dados.hora;
+
+        // Local — vem de eventoSelecionado.local
+        const localTxt = document.getElementById('pc-local-txt');
+        if (localTxt && dados.local) localTxt.textContent = dados.local;
+    }
+
+    // ── Clima via wttr.in (API gratuita, sem chave) ──────────────────────────
+    // Usa o local do evento como cidade; fallback para "Brasil"
+    function inicializarClima(dados) {
+        const weatherText = document.getElementById('pc-weather-text');
+        const tipClima    = document.getElementById('tip-clima');
+        if (!weatherText || !tipClima) return;
+
+        const cidade = (dados && dados.local) ? dados.local : 'Brasil';
+        const weatherSiteUrl = `https://wttr.in/${encodeURIComponent(cidade)}`;
+
+        fetch(`https://wttr.in/${encodeURIComponent(cidade)}?format=%C+%t`)
+            .then(r => r.text())
+            .then(txt => {
+                weatherText.textContent = txt.trim() || 'Toque para ver a previsão.';
+            })
+            .catch(() => {
+                weatherText.textContent = 'Toque para ver a previsão do tempo.';
+            });
+
+        tipClima.addEventListener('click', () => {
+            window.open(weatherSiteUrl, '_blank');
+        });
+    }
+
+    // ── Init ─────────────────────────────────────────────────────────────────
+    document.addEventListener('DOMContentLoaded', function () {
+        const dados = getDadosEvento();
+        popularCardEvento(dados);
+        inicializarClima(dados);
     });
-});
+
+})();
