@@ -3,7 +3,45 @@ console.log("🔥 CONTROLLER CARREGADO - CAMINHO:", __filename);
 const bcrypt = require("bcrypt");
 const connection = require("../db/db_config");
 const { Resend } = require("resend");
-const resend = new Resend(process.env.RESEND_API_KEY);
+const nodemailer = require("nodemailer");
+
+// ========================
+// SERVIÇO DE EMAIL (RESEND ou GMAIL)
+// ========================
+async function enviarEmail(para, assunto, html) {
+  if (process.env.RESEND_API_KEY) {
+    console.log("📧 Usando Resend...");
+    const resend = new Resend(process.env.RESEND_API_KEY);
+    const { error } = await resend.emails.send({
+      from: "Roles App <onboarding@resend.dev>",
+      to: para,
+      subject: assunto,
+      html,
+    });
+    if (error) throw new Error(error.message);
+
+  } else if (process.env.EMAIL_USER && process.env.EMAIL_PASS) {
+    console.log("📧 Usando Gmail...");
+    const transporter = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS,
+      },
+    });
+    await transporter.sendMail({
+      from: `"Roles App" <${process.env.EMAIL_USER}>`,
+      to: para,
+      subject: assunto,
+      html,
+    });
+
+  } else {
+    throw new Error("Nenhum serviço de e-mail configurado.");
+  }
+
+  console.log("✅ EMAIL ENVIADO!");
+}
 
 // ========================
 // GERAR CÓDIGO ALEATÓRIO
@@ -13,31 +51,26 @@ function gerarCodigo() {
 }
 
 // ========================
-// ENVIAR EMAIL (RESEND)
+// ENVIAR EMAIL DE VERIFICAÇÃO
 // ========================
 async function enviarEmailCodigo(email, codigo) {
   console.log("📩 TENTANDO ENVIAR EMAIL PARA:", email);
   console.log("🔑 CÓDIGO GERADO:", codigo);
 
-  const { data, error } = await resend.emails.send({
-    from: "Roles App <onboarding@resend.dev>",
-    to: email,
-    subject: "Seu codigo de verificacao - Roles",
-    html: `
-      <div style="font-family: Arial, sans-serif; max-width: 480px; margin: 0 auto; padding: 32px; background: #f9f9f9; border-radius: 12px;">
-        <h2 style="color: #333;">Verificacao de Conta 🎉</h2>
-        <p style="color: #555;">Use o codigo abaixo para ativar sua conta:</p>
-        <div style="text-align: center; margin: 24px 0;">
-          <span style="font-size: 40px; font-weight: bold; letter-spacing: 8px; color: #6c3dff;">${codigo}</span>
-        </div>
-        <p style="color: #999; font-size: 13px;">Este codigo expira em 10 minutos. Se voce nao solicitou isso, ignore este email.</p>
-      </div>
+  await enviarEmail(
+    email,
+    "Seu codigo de verificacao - Roles",
     `
-  });
-
-  if (error) throw new Error(error.message);
-  console.log("✅ EMAIL ENVIADO!", data);
-  return data;
+    <div style="font-family: Arial, sans-serif; max-width: 480px; margin: 0 auto; padding: 32px; background: #f9f9f9; border-radius: 12px;">
+      <h2 style="color: #333;">Verificacao de Conta 🎉</h2>
+      <p style="color: #555;">Use o codigo abaixo para ativar sua conta:</p>
+      <div style="text-align: center; margin: 24px 0;">
+        <span style="font-size: 40px; font-weight: bold; letter-spacing: 8px; color: #6c3dff;">${codigo}</span>
+      </div>
+      <p style="color: #999; font-size: 13px;">Este codigo expira em 10 minutos. Se voce nao solicitou isso, ignore este email.</p>
+    </div>
+    `
+  );
 }
 
 // ========================
@@ -138,7 +171,6 @@ function buscarUsuarioPorId(req, res) {
 
   if (!id) return res.status(400).json({ erro: "ID do usuario e obrigatorio." });
 
-  // Primeiro busca as colunas que certamente existem
   connection.query(
     "SELECT id, nome_completo, email, telefone, criado_em FROM usuarios WHERE id = ?",
     [id],
@@ -153,7 +185,6 @@ function buscarUsuarioPorId(req, res) {
 
       const usuario = results[0];
 
-      // Busca colunas opcionais que podem não existir ainda na tabela
       connection.query(
         "SELECT sobrenome, foto_perfil, cpf, nascimento, sexo, cidade, estado FROM usuarios WHERE id = ?",
         [id],
@@ -231,21 +262,20 @@ async function recuperarSenha(req, res) {
       if (result.affectedRows === 0) return res.status(404).json({ erro: "Usuario nao encontrado" });
 
       try {
-        await resend.emails.send({
-          from: "Roles App <onboarding@resend.dev>",
-          to: email,
-          subject: "Recuperacao de senha - Roles",
-          html: `
-            <div style="font-family: Arial; padding: 30px;">
-              <h2>Recuperacao de senha</h2>
-              <p>Use o codigo abaixo para redefinir sua senha:</p>
-              <div style="font-size: 40px; font-weight: bold; letter-spacing: 8px; color: #6c3dff; margin: 20px 0;">
-                ${codigo}
-              </div>
-              <p>Esse codigo expira em 10 minutos.</p>
-            </div>
+        await enviarEmail(
+          email,
+          "Recuperacao de senha - Roles",
           `
-        });
+          <div style="font-family: Arial; padding: 30px;">
+            <h2>Recuperacao de senha</h2>
+            <p>Use o codigo abaixo para redefinir sua senha:</p>
+            <div style="font-size: 40px; font-weight: bold; letter-spacing: 8px; color: #6c3dff; margin: 20px 0;">
+              ${codigo}
+            </div>
+            <p>Esse codigo expira em 10 minutos.</p>
+          </div>
+          `
+        );
         res.json({ mensagem: "Codigo enviado no e-mail." });
       } catch (erroEmail) {
         console.log(erroEmail);
