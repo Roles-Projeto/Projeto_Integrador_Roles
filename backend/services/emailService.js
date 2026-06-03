@@ -11,6 +11,7 @@ const PDFDocument = require("pdfkit");
 // ─────────────────────────────────────────────────────────
 const transporter = nodemailer.createTransport({
     service: "gmail",
+    family: 4,
     family: 4,       
     auth: {
         user: process.env.EMAIL_USER,
