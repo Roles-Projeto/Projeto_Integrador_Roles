@@ -375,3 +375,4 @@ function gerarPdfIngresso(dados) {
 }
 
 module.exports = { enviarEmailIngresso };
+
