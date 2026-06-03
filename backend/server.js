@@ -138,3 +138,6 @@ app.listen(PORT, () => {
   console.log(`📧 Email: ${process.env.EMAIL_USER || "⚠️ NÃO DEFINIDO"}`);
   console.log("================================");
 });
+
+
+

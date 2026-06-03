@@ -132,3 +132,6 @@ exports.excluirEvento = (req, res) => {
     res.json({ mensagem: "Evento excluído com sucesso!" });
   });
 };
+
+
+

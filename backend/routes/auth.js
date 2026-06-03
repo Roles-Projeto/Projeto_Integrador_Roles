@@ -6,3 +6,4 @@ const authController = require("../controllers/authController");
 router.post("/login", authController.loginUsuario);
 
 module.exports = router;
+

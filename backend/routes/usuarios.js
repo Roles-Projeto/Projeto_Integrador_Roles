@@ -21,3 +21,4 @@ router.get("/:id", usuariosController.buscarUsuarioPorId);
 console.log("📡 ROTAS DE USUÁRIOS CARREGADAS");
 
 module.exports = router;
+

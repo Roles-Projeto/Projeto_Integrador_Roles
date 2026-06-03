@@ -274,3 +274,6 @@ module.exports = {
     validarQRCode,
     detalheIngresso,
 };
+
+
+

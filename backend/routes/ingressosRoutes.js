@@ -30,3 +30,4 @@ const pedidosRouter = express.Router();
 pedidosRouter.get("/usuario/:usuario_id", meusIngressos);
 
 module.exports = { eventosRouter, ingressosRouter, pedidosRouter };
+
