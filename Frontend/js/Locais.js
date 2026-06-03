@@ -22,7 +22,6 @@
         'shows':        'https://images.unsplash.com/photo-1501386761578-eac5c94b800a?w=1400&h=500&fit=crop&q=80',
     };
 
-    // Cor de fallback enquanto a imagem carrega (por categoria)
     const coresPorCategoria = {
         'todos':        '#1a1a2e',
         'baladas':      '#5d3fd3',
@@ -32,32 +31,35 @@
     };
 
     // =========================================================
-    // APLICAR IMAGEM NO HERO (.todos-locais1)
+    // ESTADO GLOBAL
+    // =========================================================
+    let termoAtual      = '';
+    let categoriaAtual  = 'todos';
+    let ordenacaoAtual  = 'padrao';
+    let paginaAtual     = 1;
+    const CARDS_POR_PAGINA = 6;
+
+    // =========================================================
+    // HERO
     // =========================================================
     function aplicarImagemHero(categoria) {
         const hero = document.querySelector('.todos-locais1');
         if (!hero) return;
 
         const imgUrl = imagensPorCategoria[categoria] || imagensPorCategoria['todos'];
-        const cor    = coresPorCategoria[categoria]    || '#1a1a2e';
+        const cor    = coresPorCategoria[categoria]   || '#1a1a2e';
 
-        // Aplica cor imediatamente como placeholder
         hero.style.backgroundColor = cor;
-
-        // Fade out suave antes de trocar
-        hero.style.transition = 'background-image 0.5s ease, opacity 0.3s ease';
-        hero.style.opacity = '0.7';
-
-        // Aplica a imagem
-        hero.style.backgroundImage    = `linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.55)), url('${imgUrl}')`;
+        hero.style.transition       = 'background-image 0.5s ease, opacity 0.3s ease';
+        hero.style.opacity          = '0.7';
+        hero.style.backgroundImage  = `linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.55)), url('${imgUrl}')`;
         hero.style.backgroundSize     = 'cover';
         hero.style.backgroundPosition = 'center center';
         hero.style.backgroundRepeat   = 'no-repeat';
+        hero.style.color              = '#ffffff';
 
-        // Restaura opacidade
         setTimeout(() => { hero.style.opacity = '1'; }, 50);
 
-        // Fallback: se imagem falhar, mantém cor sólida
         const img = new Image();
         img.onerror = () => {
             hero.style.backgroundImage = 'none';
@@ -65,8 +67,6 @@
         };
         img.src = imgUrl;
 
-        // Garante que textos fiquem legíveis em cima da imagem
-        hero.style.color = '#ffffff';
         const h1 = hero.querySelector('h1');
         const p  = hero.querySelector('p');
         if (h1) h1.style.color = '#ffffff';
@@ -80,11 +80,9 @@
         return (s || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
     }
 
-    let termoAtual      = '';
-    let categoriaAtual  = 'todos';
-    let ordenacaoAtual  = 'padrao';
-
-    // ─── FETCH ────────────────────────────────────────────────
+    // =========================================================
+    // FETCH
+    // =========================================================
     async function fetchEstabelecimentos() {
         try {
             const res = await fetch(`${API_URL}/estabelecimentos`);
@@ -96,12 +94,13 @@
         }
     }
 
-    // ─── CRIAR CARD ───────────────────────────────────────────
+    // =========================================================
+    // CRIAR CARD
+    // =========================================================
     function criarCardDinamico(estab) {
-        const imgSrc = estab.img_capa || estab.img_logo || "/frontend/imagens/placeholder.png";
-        const categoriaLabel   = estab.tipo || "Local";
-        const enderecoDisplay  = estab.endereco
-            || `${estab.bairro ? estab.bairro + ", " : ""}${estab.cidade || "Goiânia"}`;
+        const imgSrc          = estab.img_capa || estab.img_logo || "/frontend/imagens/placeholder.png";
+        const categoriaLabel  = estab.tipo     || "Local";
+        const enderecoDisplay = estab.endereco || `${estab.bairro ? estab.bairro + ", " : ""}${estab.cidade || "Goiânia"}`;
 
         const comodidadesArr = estab.comodidades
             ? estab.comodidades.split(',').map(c => c.trim()).filter(Boolean).slice(0, 3)
@@ -111,15 +110,14 @@
             ? comodidadesArr.map(t => `<span>${t}</span>`).join("")
             : `<span>${categoriaLabel}</span>`;
 
-        const nota       = parseFloat(estab.nota)       || 0;
-        const avaliacoes = parseInt(estab.avaliacoes)   || 0;
+        const nota       = parseFloat(estab.nota)     || 0;
+        const avaliacoes = parseInt(estab.avaliacoes)  || 0;
+
         const notaDisplay = nota > 0
             ? `<span class="nota"><i class="fas fa-star"></i> ${nota.toFixed(1)}</span>`
             : `<span class="nota nova">Novo</span>`;
 
-        const horarioDisplay     = estab.horario    || "Verificar agenda";
-        const telefoneDisplay    = estab.telefone   || "";
-        const faixaPrecoDisplay  = faixaPrecoMap[estab.faixa_preco] || estab.faixa_preco || "";
+        const faixaPrecoDisplay = faixaPrecoMap[estab.faixa_preco] || estab.faixa_preco || "";
 
         const card = document.createElement('div');
         card.className = 'card';
@@ -130,17 +128,17 @@
 
         card.innerHTML = `
             <div class="card-img">
-                <img src="${imgSrc}" alt="${estab.nome}" onerror="this.src='/frontend/imagens/placeholder.png'">
+                <img src="${imgSrc}" alt="${estab.nome}" loading="lazy" onerror="this.src='/frontend/imagens/placeholder.png'">
                 <span class="categoria">${categoriaLabel}</span>
                 ${notaDisplay}
             </div>
             <div class="card-content">
-                <h3>${estab.nome} ${faixaPrecoDisplay ? `<span class="preco">${faixaPrecoDisplay}</span>` : ""}</h3>
+                <h3>${estab.nome}${faixaPrecoDisplay ? ` <span class="preco">${faixaPrecoDisplay}</span>` : ""}</h3>
                 <p class="local"><i class="fa-solid fa-location-dot"></i> ${enderecoDisplay}</p>
                 <p class="descricao">${estab.descricao || "Estabelecimento cadastrado."}</p>
                 <div class="info">
-                    <p><i class="fa-regular fa-clock"></i> ${horarioDisplay}</p>
-                    ${telefoneDisplay ? `<p><i class="fa-solid fa-phone"></i> ${telefoneDisplay}</p>` : ""}
+                    <p><i class="fa-regular fa-clock"></i> ${estab.horario || "Verificar agenda"}</p>
+                    ${estab.telefone ? `<p><i class="fa-solid fa-phone"></i> ${estab.telefone}</p>` : ""}
                 </div>
                 <div class="tags">${tagsHTML}</div>
                 <div class="footer">
@@ -152,7 +150,9 @@
         return card;
     }
 
-    // ─── CARREGAR CARDS ───────────────────────────────────────
+    // =========================================================
+    // CARREGAR CARDS
+    // =========================================================
     async function carregarEstabelecimentosDinamicos() {
         const container = document.getElementById('cards-container-locais');
         if (!container) return;
@@ -168,13 +168,33 @@
         container.style.visibility = 'visible';
     }
 
-    // ─── CONTADOR ─────────────────────────────────────────────
+    // =========================================================
+    // CONTADOR E MENSAGEM VAZIA
+    // =========================================================
     function atualizarContador(total) {
         const el = document.getElementById('contador-locais');
         if (el) el.textContent = total;
     }
 
-    // ─── FILTRO ───────────────────────────────────────────────
+    function atualizarMensagemVazia(total) {
+        const ID = 'locais-sem-resultado';
+        let msg  = document.getElementById(ID);
+        if (total === 0) {
+            if (!msg) {
+                msg = document.createElement('div');
+                msg.id = ID;
+                msg.style.cssText = "text-align:center;padding:40px;color:#888;font-family:Poppins,sans-serif;";
+                msg.innerHTML = `<p>Nenhum local encontrado para esta busca.</p>`;
+                document.getElementById('cards-container-locais')?.after(msg);
+            }
+        } else {
+            msg?.remove();
+        }
+    }
+
+    // =========================================================
+    // FILTRO + ORDENAÇÃO
+    // =========================================================
     function textoDoCard(card) {
         const nome      = card.querySelector('h3')?.textContent        || '';
         const local     = card.querySelector('.local')?.textContent     || '';
@@ -191,58 +211,80 @@
         const cards  = Array.from(container.querySelectorAll('.card'));
         const tNorm  = norm(termoAtual);
         const cNorm  = norm(categoriaAtual);
-        let contador = 0;
 
-        cards.forEach(card => {
+        // Filtra
+        let visiveis = cards.filter(card => {
             const texto   = textoDoCard(card);
             const catCard = norm(card.getAttribute('data-categoria-card') || '');
-            const bateTexto = tNorm === '' || texto.includes(tNorm);
-            const bateCat   = cNorm === 'todos' || catCard === cNorm;
-
-            if (bateTexto && bateCat) {
-                card.style.display = '';
-                contador++;
-            } else {
-                card.style.display = 'none';
-            }
+            return (tNorm === '' || texto.includes(tNorm)) &&
+                   (cNorm === 'todos' || catCard === cNorm);
         });
 
-        // Ordenação
-        const visiveis = cards.filter(c => c.style.display !== 'none');
-
+        // Ordena
         if (ordenacaoAtual === 'melhor-avaliados') {
             visiveis.sort((a, b) =>
-                (parseFloat(b.getAttribute('data-nota'))       || 0) -
-                (parseFloat(a.getAttribute('data-nota'))       || 0));
+                (parseFloat(b.getAttribute('data-nota'))     || 0) -
+                (parseFloat(a.getAttribute('data-nota'))     || 0));
         } else if (ordenacaoAtual === 'mais-avaliados') {
             visiveis.sort((a, b) =>
-                (parseInt(b.getAttribute('data-avaliacoes'))   || 0) -
-                (parseInt(a.getAttribute('data-avaliacoes'))   || 0));
+                (parseInt(b.getAttribute('data-avaliacoes')) || 0) -
+                (parseInt(a.getAttribute('data-avaliacoes')) || 0));
         }
 
+        // Reordena no DOM
         visiveis.forEach(card => container.appendChild(card));
 
-        atualizarContador(contador);
-        atualizarMensagemVazia(contador);
+        // Reseta paginação sempre que filtro muda
+        paginaAtual = 1;
+
+        renderizarPagina(cards, visiveis);
+        atualizarContador(visiveis.length);
+        atualizarMensagemVazia(visiveis.length);
     }
 
-    function atualizarMensagemVazia(total) {
-        const ID  = 'locais-sem-resultado';
-        let msg   = document.getElementById(ID);
-        if (total === 0) {
-            if (!msg) {
-                msg = document.createElement('div');
-                msg.id = ID;
-                msg.style.cssText = "text-align:center;padding:40px;color:#888;font-family:Poppins,sans-serif;";
-                msg.innerHTML = `<p>Nenhum local encontrado para esta busca.</p>`;
-                document.getElementById('cards-container-locais')?.after(msg);
-            }
+    // =========================================================
+    // VER MAIS
+    // =========================================================
+    function renderizarPagina(todosCards, visiveis) {
+        const visivelAte = paginaAtual * CARDS_POR_PAGINA;
+
+        // Esconde todos
+        todosCards.forEach(card => card.style.display = 'none');
+
+        // Mostra acumulado até a página atual
+        visiveis.slice(0, visivelAte).forEach(card => card.style.display = '');
+
+        atualizarBotaoVerMais(visiveis);
+    }
+
+    function atualizarBotaoVerMais(visiveis) {
+        const btn = document.getElementById('btn-ver-mais');
+        if (!btn) return;
+
+        const jaExibidos = paginaAtual * CARDS_POR_PAGINA;
+        const temMais    = jaExibidos < visiveis.length;
+
+        if (temMais) {
+            btn.style.display = 'inline-block';
+            btn.textContent   = 'Ver Mais';
+            // Remove listener anterior para não acumular
+            btn.replaceWith(btn.cloneNode(true));
+            const btnNovo = document.getElementById('btn-ver-mais');
+            btnNovo.addEventListener('click', () => {
+                paginaAtual++;
+                renderizarPagina(
+                    Array.from(document.querySelectorAll('#cards-container-locais .card')),
+                    visiveis
+                );
+            });
         } else {
-            msg?.remove();
+            btn.style.display = 'none';
         }
     }
 
-    // ─── DROPDOWN GENÉRICO ────────────────────────────────────
+    // =========================================================
+    // DROPDOWN GENÉRICO
+    // =========================================================
     function criarDropdown(botao, itens, onSelect) {
         function fecharDropdown() {
             document.getElementById('dropdown-aberto')?.remove();
@@ -297,7 +339,9 @@
         document.addEventListener('click', () => fecharDropdown());
     }
 
-    // ─── INICIALIZAR FILTROS ──────────────────────────────────
+    // =========================================================
+    // INICIALIZAR FILTROS
+    // =========================================================
     function inicializarFiltros() {
         // Busca por texto
         const inputBusca = document.getElementById('search-locais');
@@ -308,25 +352,22 @@
             });
         }
 
-        // Botões de categoria — também trocam a imagem do hero
+        // Botões de categoria
         const botoesCat = document.querySelectorAll('#botoes-categoria-locais [data-categoria]');
         botoesCat.forEach(btn => {
             btn.addEventListener('click', () => {
                 botoesCat.forEach(b => b.classList.remove('ativo', 'active'));
                 btn.classList.add('ativo', 'active');
                 categoriaAtual = btn.getAttribute('data-categoria') || 'todos';
-
-                // ✅ Troca imagem do hero
                 aplicarImagemHero(categoriaAtual);
-
                 aplicarFiltro();
             });
         });
 
-        // Dropdown "Todas as Categorias"
-        const botoesDropdown  = document.querySelectorAll('.botao-dropdown1');
-        const botaoCategoria  = botoesDropdown[0];
-        const botaoOrdenacao  = botoesDropdown[1];
+        // Dropdowns
+        const botoesDropdown = document.querySelectorAll('.botao-dropdown1');
+        const botaoCategoria = botoesDropdown[0];
+        const botaoOrdenacao = botoesDropdown[1];
 
         if (botaoCategoria) {
             criarDropdown(botaoCategoria, [
@@ -337,10 +378,7 @@
                 { label: 'Shows',               valor: 'shows'        },
             ], (item) => {
                 categoriaAtual = item.valor;
-
-                // ✅ Troca imagem do hero também pelo dropdown
                 aplicarImagemHero(categoriaAtual);
-
                 botoesCat.forEach(b => {
                     b.classList.remove('ativo', 'active');
                     if (b.getAttribute('data-categoria') === item.valor) {
@@ -351,7 +389,6 @@
             });
         }
 
-        // Dropdown "Melhor avaliados"
         if (botaoOrdenacao) {
             criarDropdown(botaoOrdenacao, [
                 { label: 'Padrão',           valor: 'padrao'           },
@@ -364,17 +401,17 @@
         }
     }
 
-    // ─── INIT ─────────────────────────────────────────────────
+    // =========================================================
+    // INIT
+    // =========================================================
     document.addEventListener('DOMContentLoaded', async () => {
-
-        // ✅ Aplica imagem inicial (categoria "todos") assim que a página abre
         aplicarImagemHero('todos');
 
         await carregarEstabelecimentosDinamicos();
         inicializarFiltros();
         aplicarFiltro();
 
-        // Delegação de clique para "Ver Detalhes"
+        // Delegação de clique — Ver Detalhes
         const container = document.getElementById('cards-container-locais');
         if (container) {
             container.addEventListener('click', (e) => {
