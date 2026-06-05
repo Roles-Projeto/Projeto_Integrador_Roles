@@ -32,33 +32,18 @@ if (isProduction) {
 
 // Wrapper que funciona nos dois bancos
 const db = {
-  query: (sql, params, callback) => {
-    if (typeof params === "function") {
-      callback = params;
-      params = [];
-    }
-
+  query: (sql, params = []) => {
     if (isProduction) {
-      let i = 0;
-      const pgSql = sql
-        .replace(/\?/g, () => `$${++i}`)
-        .replace(/GROUP_CONCAT\((.+?)\s+SEPARATOR\s+'.+?'\)/gi, "STRING_AGG($1::text, ',')")
-        .replace(/`/g, '"');
-
-      pool.query(pgSql, params || [])
-        .then(result => {
-          const rows = result.rows;
-          if (result.rows[0]?.id) rows.insertId = result.rows[0].id;
-          callback(null, rows);
-        })
-        .catch(err => callback(err, null));
+      return pool.query(sql, params).then(r => r.rows);
     } else {
-      pool.query(sql, params, callback);
+      return new Promise((resolve, reject) => {
+        pool.query(sql, params, (err, results) => {
+          if (err) return reject(err);
+          resolve(results);
+        });
+      });
     }
   }
 };
 
 module.exports = db;
-
-
-

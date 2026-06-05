@@ -123,7 +123,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   const container          = document.getElementById("eventosContainer");
   const btnCarregar        = document.getElementById("carregarMais");
-  const EVENTOS_POR_PAGINA = 9;
+  const EVENTOS_POR_PAGINA = 6;
   let eventosFiltrados     = [];
   let quantidadeVisiveis   = EVENTOS_POR_PAGINA;
   let filtroData           = 'todas';
@@ -330,7 +330,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     const restantes = eventosFiltrados.length - quantidadeVisiveis;
     if (restantes <= 0) { btnCarregar.style.display = "none"; return; }
     btnCarregar.style.display = "inline-flex";
-    btnCarregar.innerHTML = `<i class="fa-solid fa-rotate"></i> Carregar mais ${Math.min(restantes, EVENTOS_POR_PAGINA)} eventos`;
+    btnCarregar.innerHTML = `<i class="fa-solid fa-rotate"></i> Ver Mais ${Math.min(restantes, EVENTOS_POR_PAGINA)} `;
   }
 
   function atualizarContador() {

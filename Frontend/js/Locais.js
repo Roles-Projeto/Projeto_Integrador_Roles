@@ -33,11 +33,15 @@
     // =========================================================
     // ESTADO GLOBAL
     // =========================================================
-    let termoAtual      = '';
-    let categoriaAtual  = 'todos';
-    let ordenacaoAtual  = 'padrao';
-    let paginaAtual     = 1;
+    let termoAtual         = '';
+    let categoriaAtual     = 'todos';
+    let ordenacaoAtual     = 'padrao';
+    let quantidadeVisiveis = 0;
     const CARDS_POR_PAGINA = 6;
+
+    // Guarda todos os cards e os filtrados para reusar no "Ver Mais"
+    let todosCards   = [];
+    let cardsFiltrados = [];
 
     // =========================================================
     // HERO
@@ -49,10 +53,10 @@
         const imgUrl = imagensPorCategoria[categoria] || imagensPorCategoria['todos'];
         const cor    = coresPorCategoria[categoria]   || '#1a1a2e';
 
-        hero.style.backgroundColor = cor;
-        hero.style.transition       = 'background-image 0.5s ease, opacity 0.3s ease';
-        hero.style.opacity          = '0.7';
-        hero.style.backgroundImage  = `linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.55)), url('${imgUrl}')`;
+        hero.style.backgroundColor   = cor;
+        hero.style.transition         = 'background-image 0.5s ease, opacity 0.3s ease';
+        hero.style.opacity            = '0.7';
+        hero.style.backgroundImage    = `linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.55)), url('${imgUrl}')`;
         hero.style.backgroundSize     = 'cover';
         hero.style.backgroundPosition = 'center center';
         hero.style.backgroundRepeat   = 'no-repeat';
@@ -110,8 +114,8 @@
             ? comodidadesArr.map(t => `<span>${t}</span>`).join("")
             : `<span>${categoriaLabel}</span>`;
 
-        const nota       = parseFloat(estab.nota)     || 0;
-        const avaliacoes = parseInt(estab.avaliacoes)  || 0;
+        const nota       = parseFloat(estab.nota)    || 0;
+        const avaliacoes = parseInt(estab.avaliacoes) || 0;
 
         const notaDisplay = nota > 0
             ? `<span class="nota"><i class="fas fa-star"></i> ${nota.toFixed(1)}</span>`
@@ -160,11 +164,14 @@
         container.style.visibility = 'hidden';
         const estabelecimentos = await fetchEstabelecimentos();
 
+        // Remove cards estáticos do HTML antes de inserir os dinâmicos
+        container.querySelectorAll('.card').forEach(c => c.remove());
+
         if (estabelecimentos.length > 0) {
-            container.innerHTML = '';
             estabelecimentos.forEach(estab => container.appendChild(criarCardDinamico(estab)));
         }
 
+        todosCards = Array.from(container.querySelectorAll('.card'));
         container.style.visibility = 'visible';
     }
 
@@ -208,12 +215,11 @@
         const container = document.getElementById('cards-container-locais');
         if (!container) return;
 
-        const cards  = Array.from(container.querySelectorAll('.card'));
-        const tNorm  = norm(termoAtual);
-        const cNorm  = norm(categoriaAtual);
+        const tNorm = norm(termoAtual);
+        const cNorm = norm(categoriaAtual);
 
         // Filtra
-        let visiveis = cards.filter(card => {
+        cardsFiltrados = todosCards.filter(card => {
             const texto   = textoDoCard(card);
             const catCard = norm(card.getAttribute('data-categoria-card') || '');
             return (tNorm === '' || texto.includes(tNorm)) &&
@@ -222,64 +228,51 @@
 
         // Ordena
         if (ordenacaoAtual === 'melhor-avaliados') {
-            visiveis.sort((a, b) =>
+            cardsFiltrados.sort((a, b) =>
                 (parseFloat(b.getAttribute('data-nota'))     || 0) -
                 (parseFloat(a.getAttribute('data-nota'))     || 0));
         } else if (ordenacaoAtual === 'mais-avaliados') {
-            visiveis.sort((a, b) =>
+            cardsFiltrados.sort((a, b) =>
                 (parseInt(b.getAttribute('data-avaliacoes')) || 0) -
                 (parseInt(a.getAttribute('data-avaliacoes')) || 0));
         }
 
         // Reordena no DOM
-        visiveis.forEach(card => container.appendChild(card));
+        cardsFiltrados.forEach(card => container.appendChild(card));
 
-        // Reseta paginação sempre que filtro muda
-        paginaAtual = 1;
+        // Reseta paginação e renderiza
+        quantidadeVisiveis = CARDS_POR_PAGINA;
+        renderizarPagina();
 
-        renderizarPagina(cards, visiveis);
-        atualizarContador(visiveis.length);
-        atualizarMensagemVazia(visiveis.length);
+        atualizarContador(cardsFiltrados.length);
+        atualizarMensagemVazia(cardsFiltrados.length);
     }
 
     // =========================================================
-    // VER MAIS
+    // RENDERIZAR PÁGINA (igual ao Evento.js)
     // =========================================================
-    function renderizarPagina(todosCards, visiveis) {
-        const visivelAte = paginaAtual * CARDS_POR_PAGINA;
-
+    function renderizarPagina() {
         // Esconde todos
         todosCards.forEach(card => card.style.display = 'none');
 
-        // Mostra acumulado até a página atual
-        visiveis.slice(0, visivelAte).forEach(card => card.style.display = '');
+        // Mostra acumulado até quantidadeVisiveis
+        cardsFiltrados.slice(0, quantidadeVisiveis).forEach(card => card.style.display = '');
 
-        atualizarBotaoVerMais(visiveis);
+        atualizarBotaoVerMais();
     }
 
-    function atualizarBotaoVerMais(visiveis) {
+    function atualizarBotaoVerMais() {
         const btn = document.getElementById('btn-ver-mais');
         if (!btn) return;
 
-        const jaExibidos = paginaAtual * CARDS_POR_PAGINA;
-        const temMais    = jaExibidos < visiveis.length;
-
-        if (temMais) {
-            btn.style.display = 'inline-block';
-            btn.textContent   = 'Ver Mais';
-            // Remove listener anterior para não acumular
-            btn.replaceWith(btn.cloneNode(true));
-            const btnNovo = document.getElementById('btn-ver-mais');
-            btnNovo.addEventListener('click', () => {
-                paginaAtual++;
-                renderizarPagina(
-                    Array.from(document.querySelectorAll('#cards-container-locais .card')),
-                    visiveis
-                );
-            });
-        } else {
+        const restantes = cardsFiltrados.length - quantidadeVisiveis;
+        if (restantes <= 0) {
             btn.style.display = 'none';
+            return;
         }
+
+        btn.style.display = 'inline-flex';
+        btn.innerHTML = `<i class="fa-solid fa-rotate"></i> Ver Mais ${Math.min(restantes, CARDS_POR_PAGINA)}`;
     }
 
     // =========================================================
@@ -352,7 +345,7 @@
             });
         }
 
-        // Botões de categoria
+        // Botões de categoria (pills)
         const botoesCat = document.querySelectorAll('#botoes-categoria-locais [data-categoria]');
         botoesCat.forEach(btn => {
             btn.addEventListener('click', () => {
@@ -397,6 +390,15 @@
             ], (item) => {
                 ordenacaoAtual = item.valor;
                 aplicarFiltro();
+            });
+        }
+
+        // Botão Ver Mais
+        const btnVerMais = document.getElementById('btn-ver-mais');
+        if (btnVerMais) {
+            btnVerMais.addEventListener('click', () => {
+                quantidadeVisiveis += CARDS_POR_PAGINA;
+                renderizarPagina();
             });
         }
     }
