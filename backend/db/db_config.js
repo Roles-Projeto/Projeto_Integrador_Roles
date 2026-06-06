@@ -28,33 +28,45 @@ if (isProduction) {
   console.log("🟡 Usando MySQL (local)");
 }
 
-/* Converte ? para $1, $2, $3... (necessário para PostgreSQL) */
+/* Converte ? → $1, $2... */
 function converterParams(sql) {
   let i = 0;
   return sql.replace(/\?/g, () => `$${++i}`);
 }
 
+/* Converte sintaxe MySQL → PostgreSQL (só roda em produção) */
+function converterSQL(sql) {
+  if (!isProduction) return sql;
+
+  let result = sql
+    .replace(/GROUP_CONCAT\((.+?)\s+SEPARATOR\s+'(.+?)'\)/gi, "STRING_AGG($1, '$2')")
+    .replace(/GROUP_CONCAT\((.+?)\)/gi, "STRING_AGG($1, ',')")
+    .replace(/IFNULL\(/gi, "COALESCE(");
+
+  // Adiciona RETURNING id em INSERTs automaticamente
+  if (/^\s*INSERT\s+/i.test(result) && !/RETURNING/i.test(result)) {
+    result = result.trimEnd().replace(/;?\s*$/, '') + ' RETURNING id';
+  }
+
+  return result;
+}
+
 const db = {
-  /**
-   * Funciona nos dois estilos:
-   *
-   * 1) COM CALLBACK (controllers antigos):
-   *    db.query(sql, params, (err, results) => { ... })
-   *
-   * 2) COM ASYNC/AWAIT (controllers novos):
-   *    const results = await db.query(sql, params)
-   *
-   * Funciona com MySQL (local) e PostgreSQL (produção/Render).
-   * Os ? são convertidos automaticamente para $1,$2... no PostgreSQL.
-   */
   query: (sql, params = [], callback) => {
 
     // ── MODO CALLBACK ──────────────────────────────────
     if (typeof callback === 'function') {
       if (isProduction) {
-        const pgSql = converterParams(sql);
+        const pgSql = converterParams(converterSQL(sql));
         pool.query(pgSql, params)
-          .then(r => callback(null, r.rows))
+          .then(r => {
+            const rows = r.rows;
+            // Simula insertId para controllers que usam results.insertId
+            if (r.command === 'INSERT' && rows.length > 0 && rows[0].id) {
+              rows.insertId = rows[0].id;
+            }
+            callback(null, rows);
+          })
           .catch(err => callback(err));
       } else {
         pool.query(sql, params, callback);
@@ -64,8 +76,14 @@ const db = {
 
     // ── MODO PROMISE / ASYNC-AWAIT ─────────────────────
     if (isProduction) {
-      const pgSql = converterParams(sql);
-      return pool.query(pgSql, params).then(r => r.rows);
+      const pgSql = converterParams(converterSQL(sql));
+      return pool.query(pgSql, params).then(r => {
+        const rows = r.rows;
+        if (r.command === 'INSERT' && rows.length > 0 && rows[0].id) {
+          rows.insertId = rows[0].id;
+        }
+        return rows;
+      });
     } else {
       return new Promise((resolve, reject) => {
         pool.query(sql, params, (err, results) => {
