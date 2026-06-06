@@ -1,3 +1,7 @@
+const API_URL = window.API_BASE
+    || (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+        ? 'http://localhost:3000'
+        : 'https://projeto-integrador-roles.onrender.com');
 
 // Se não encontrar os elementos do login, encerra o script
 if (!document.getElementById("login-form") && !document.getElementById("forgotPasswordBox")) {
@@ -114,7 +118,7 @@ if (form) {
         try {
 
             const response = await fetch(
-                "http://localhost:3000/usuarios/login",
+                `${API_URL}/usuarios/login`,
                 {
                     method: "POST",
                     headers: {
@@ -133,67 +137,29 @@ if (form) {
 
             if (response.ok) {
 
-                localStorage.setItem(
-                    "userIsLoggedIn",
-                    "true"
-                );
+                localStorage.setItem("userIsLoggedIn", "true");
+                localStorage.setItem("userType", "usuario");
+                localStorage.setItem("userId", data.id);
+                localStorage.setItem("token", data.token);
 
-                localStorage.setItem(
-                    "userType",
-                    "usuario"
-                );
-
-                localStorage.setItem(
-                    "userId",
-                    data.id
-                );
-
-                localStorage.setItem(
-                    "token",
-                    data.token
-                );
-
-                const nome =
-                    data.nome_completo ||
-                    "Cliente Rolês";
-
+                const nome = data.nome_completo || "Cliente Rolês";
                 localStorage.setItem("profileName", nome);
 
                 const foto = data.foto_perfil || "";
-
                 if (foto) {
                     localStorage.setItem("profilePhotoUrl", foto);
                 } else {
                     localStorage.removeItem("profilePhotoUrl");
                 }
 
-                localStorage.setItem(
-                    "profileEmail",
-                    email
-                );
+                localStorage.setItem("profileEmail", email);
 
-                enviarLoginParaHeader(
-                    nome,
-                    email,
-                    "usuario",
-                    foto
-                );
+                enviarLoginParaHeader(nome, email, "usuario", foto);
 
-                if (
-                    window.parent &&
-                    window.parent !== window
-                ) {
-
-                    window.parent.postMessage(
-                        "LOGIN_SUCCESS",
-                        "*"
-                    );
-
+                if (window.parent && window.parent !== window) {
+                    window.parent.postMessage("LOGIN_SUCCESS", "*");
                 } else {
-
-                    window.location.href =
-                        "../index.html";
-
+                    window.location.href = "../index.html";
                 }
 
             } else {
@@ -205,7 +171,6 @@ if (form) {
         } catch (err) {
 
             console.error(err);
-
             mostrarNotificacao("notificacaoLogin", "Não foi possível conectar ao servidor.", "erro");
 
         }
@@ -218,17 +183,14 @@ if (form) {
 ================ CADASTRO ===========================
 ================================================== */
 
-const btnCadastrar =
-    document.getElementById("btnCadastrar");
+const btnCadastrar = document.getElementById("btnCadastrar");
 
 if (btnCadastrar) {
 
     btnCadastrar.addEventListener("click", (e) => {
 
         e.preventDefault();
-
-        window.parent.location.href =
-            "/Frontend/Cadastro/cadastro.html";
+        window.parent.location.href = "/Frontend/Cadastro/cadastro.html";
 
     });
 
@@ -238,29 +200,19 @@ if (btnCadastrar) {
 ================ MOSTRAR SENHA ======================
 ================================================== */
 
-const togglePassword =
-    document.getElementById("togglePassword");
-
-const password =
-    document.getElementById("password");
+const togglePassword = document.getElementById("togglePassword");
+const password = document.getElementById("password");
 
 if (togglePassword && password) {
 
     password.addEventListener("input", () => {
 
         if (password.value.length > 0) {
-
             togglePassword.classList.add("show");
-
         } else {
-
             togglePassword.classList.remove("show");
-
             password.type = "password";
-
-            togglePassword.textContent =
-                "visibility";
-
+            togglePassword.textContent = "visibility";
         }
 
     });
@@ -268,19 +220,11 @@ if (togglePassword && password) {
     togglePassword.addEventListener("click", () => {
 
         if (password.type === "password") {
-
             password.type = "text";
-
-            togglePassword.textContent =
-                "visibility_off";
-
+            togglePassword.textContent = "visibility_off";
         } else {
-
             password.type = "password";
-
-            togglePassword.textContent =
-                "visibility";
-
+            togglePassword.textContent = "visibility";
         }
 
     });
@@ -291,42 +235,28 @@ if (togglePassword && password) {
 ================ RECUPERAR SENHA ====================
 ================================================== */
 
-const forgotPasswordLink =
-    document.getElementById("forgotPasswordLink");
-
-const forgotPasswordBox =
-    document.getElementById("forgotPasswordBox");
-
-const backToLogin =
-    document.getElementById("backToLogin");
-
-const loginContent =
-    document.getElementById("loginContent");
-
-/* ABRIR BOX */
+const forgotPasswordLink = document.getElementById("forgotPasswordLink");
+const forgotPasswordBox  = document.getElementById("forgotPasswordBox");
+const backToLogin        = document.getElementById("backToLogin");
+const loginContent       = document.getElementById("loginContent");
 
 if (forgotPasswordLink) {
 
     forgotPasswordLink.addEventListener("click", (e) => {
 
         e.preventDefault();
-
         loginContent.style.display = "none";
-
         forgotPasswordBox.classList.add("active");
 
     });
 
 }
 
-/* VOLTAR LOGIN */
-
 if (backToLogin) {
 
     backToLogin.addEventListener("click", () => {
 
         forgotPasswordBox.classList.remove("active");
-
         loginContent.style.display = "block";
 
     });
@@ -337,56 +267,43 @@ if (backToLogin) {
 ================ ENVIAR CÓDIGO ======================
 ================================================== */
 
-const sendRecoveryBtn =
-    document.getElementById("sendRecoveryBtn");
+const sendRecoveryBtn = document.getElementById("sendRecoveryBtn");
 
 if (sendRecoveryBtn) {
 
     sendRecoveryBtn.addEventListener("click", async () => {
 
-        const email =
-            document.getElementById("recoveryEmail").value.trim();
+        const email = document.getElementById("recoveryEmail").value.trim();
+
         if (!email) {
-
             mostrarNotificacao("notificacaoRecuperar", "Digite seu e-mail.", "aviso");
-
             return;
-
         }
 
         try {
 
             const response = await fetch(
-                "http://localhost:3000/usuarios/recuperar-senha",
+                `${API_URL}/usuarios/recuperar-senha`,
                 {
                     method: "POST",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify({
-                        email
-                    })
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ email })
                 }
             );
 
             const data = await response.json();
+
             if (response.ok) {
-
                 mostrarNotificacao("notificacaoRecuperar", "Código enviado para seu e-mail.", "sucesso");
-                document.getElementById("etapaEmail").style.display = "none";
-
+                document.getElementById("etapaEmail").style.display    = "none";
                 document.getElementById("etapaRedefinir").style.display = "flex";
-
             } else {
-
                 mostrarNotificacao("notificacaoRecuperar", data.erro, "erro");
-
             }
 
         } catch (err) {
 
             console.log(err);
-
             mostrarNotificacao("notificacaoRecuperar", "Erro ao enviar o código.", "erro");
 
         }
@@ -394,48 +311,34 @@ if (sendRecoveryBtn) {
     });
 
 }
+
 /* ==================================================
 ================ REDEFINIR SENHA ====================
 ================================================== */
 
-const redefinirSenhaBtn =
-    document.getElementById("redefinirSenhaBtn");
+const redefinirSenhaBtn = document.getElementById("redefinirSenhaBtn");
 
 if (redefinirSenhaBtn) {
 
     redefinirSenhaBtn.addEventListener("click", async () => {
 
-        const email =
-            document.getElementById("recoveryEmail").value.trim();
-
-        const codigo =
-            document.getElementById("codigoRecuperacao").value.trim();
-
-        const novaSenha =
-            document.getElementById("novaSenha").value;
+        const email     = document.getElementById("recoveryEmail").value.trim();
+        const codigo    = document.getElementById("codigoRecuperacao").value.trim();
+        const novaSenha = document.getElementById("novaSenha").value;
 
         if (!email || !codigo || !novaSenha) {
-
             mostrarNotificacao("notificacaoRecuperar", "Preencha todos os campos.", "aviso");
-
             return;
-
         }
 
         try {
 
             const response = await fetch(
-                "http://localhost:3000/usuarios/redefinir-senha",
+                `${API_URL}/usuarios/redefinir-senha`,
                 {
                     method: "POST",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify({
-                        email,
-                        codigo,
-                        novaSenha
-                    })
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ email, codigo, novaSenha })
                 }
             );
 
@@ -445,27 +348,26 @@ if (redefinirSenhaBtn) {
 
                 mostrarNotificacao("notificacaoRecuperar", "Senha redefinida com sucesso!", "sucesso");
 
-                document.getElementById("recoveryEmail").value = "";
-                document.getElementById("codigoRecuperacao").value = "";
-                document.getElementById("novaSenha").value = "";
-                document.getElementById("etapaEmail").style.cssText = "display: none !important";
+                document.getElementById("recoveryEmail").value       = "";
+                document.getElementById("codigoRecuperacao").value   = "";
+                document.getElementById("novaSenha").value           = "";
+                document.getElementById("etapaEmail").style.cssText    = "display: none !important";
                 document.getElementById("etapaRedefinir").style.cssText = "display: none !important";
+
                 setTimeout(() => {
-                    document.getElementById("etapaEmail").style.cssText = "";
+                    document.getElementById("etapaEmail").style.cssText    = "";
                     document.getElementById("etapaRedefinir").style.cssText = "";
                     forgotPasswordBox.classList.remove("active");
                     loginContent.style.display = "block";
                 }, 2000);
+
             } else {
-
                 mostrarNotificacao("notificacaoRecuperar", data.erro, "erro");
-
             }
 
         } catch (err) {
 
             console.log(err);
-
             mostrarNotificacao("notificacaoRecuperar", "Erro ao redefinir a senha.", "erro");
 
         }
