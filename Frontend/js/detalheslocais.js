@@ -389,8 +389,26 @@ document.addEventListener("DOMContentLoaded", async () => {
     preencherNomeLogado();
     setupStarSelector();
     await carregarAvaliacoes();
-});
 
+    // ── Registra visita ──
+    const userId = localStorage.getItem('userId');
+    if (userId && data) {
+        fetch(`${API_BASE}/visitas`, {
+            method:  'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body:    JSON.stringify({
+                usuarioId:   userId,
+                nome:        data.nome || 'Local',
+                nome_local:  data.local_nome || data.endereco || '',
+                data_visita: new Date().toISOString().split('T')[0],
+                tipo:        'estabelecimento',
+                item_id:     data.id || 0,
+                imagem:      data.img_capa || data.img_logo || '',
+                url:         window.location.href
+            })
+        }).catch(() => {});
+    }
+});
 // ─── LIGHTBOX ─────────────────────────────────────────────────────────────────
 function abrirLightbox(fotos, indiceInicial) {
     let indice = indiceInicial;

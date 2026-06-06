@@ -42,13 +42,20 @@ router.get("/usuario/:id", async (req, res) => {
 
 /* ─── POST /visitas ─── */
 router.post("/", async (req, res) => {
-    const { usuarioId, nome, data_visita, nota } = req.body;
+    const { usuarioId, nome, nome_local, data_visita, nota } = req.body;
     if (!usuarioId)
         return res.status(400).json({ erro: "usuarioId obrigatório." });
     try {
+        // Apaga visitas com mais de 7 dias
         await db.query(
-            "INSERT INTO visitas (usuario_id, nome, data_visita, nota) VALUES (?, ?, ?, ?)",
-            [usuarioId, nome || null, data_visita || null, nota || 0]
+            "DELETE FROM visitas WHERE usuario_id = ? AND data_visita < DATE_SUB(NOW(), INTERVAL 7 DAY)",
+            [usuarioId]
+        ).catch(() => {});
+
+        await db.query(
+            `INSERT INTO visitas (usuario_id, nome, nome_local, data_visita, nota)
+             VALUES (?, ?, ?, ?, ?)`,
+            [usuarioId, nome || null, nome_local || null, data_visita || null, nota || 0]
         );
         res.status(201).json({ mensagem: "Visita registrada." });
     } catch (err) {

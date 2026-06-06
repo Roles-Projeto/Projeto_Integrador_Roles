@@ -920,41 +920,104 @@ function getFavoritosDoStorage() {
 
 function renderFavoritos(items) {
     if (!items.length) { showState('favoritos', 'empty'); return; }
-    const iconMap = {
-        'Show': 'fa-star', 'Shows e Música': 'fa-music', 'Festa e Balada': 'fa-music',
-        'Balada': 'fa-music', 'Gastronomia': 'fa-utensils', 'Restaurante': 'fa-utensils',
-        'Bar': 'fa-cocktail', 'Parque': 'fa-tree', 'Esportes': 'fa-running',
-        'Cultura e Arte': 'fa-palette', 'Tecnologia': 'fa-laptop',
-        'Infantil e Família': 'fa-child', 'default': 'fa-calendar-star'
+
+    const colorMap = {
+        'Shows e Música':      { color: '#7F77DD', light: '#EEEDFE' },
+        'Festa e Balada':      { color: '#D4537E', light: '#FBEAF0' },
+        'Balada':              { color: '#D4537E', light: '#FBEAF0' },
+        'Gastronomia':         { color: '#D85A30', light: '#FAECE7' },
+        'Restaurante':         { color: '#D85A30', light: '#FAECE7' },
+        'Bar':                 { color: '#BA7517', light: '#FAEEDA' },
+        'Parque':              { color: '#3B6D11', light: '#EAF3DE' },
+        'Esportes':            { color: '#0F6E56', light: '#E1F5EE' },
+        'Cultura e Arte':      { color: '#534AB7', light: '#EEEDFE' },
+        'Tecnologia':          { color: '#185FA5', light: '#E6F1FB' },
+        'Infantil e Família':  { color: '#993C1D', light: '#FAECE7' },
+        'default':             { color: '#7F77DD', light: '#EEEDFE' },
     };
+
+    const iconMap = {
+        'Shows e Música':      'fa-music',
+        'Festa e Balada':      'fa-music',
+        'Balada':              'fa-music',
+        'Gastronomia':         'fa-utensils',
+        'Restaurante':         'fa-utensils',
+        'Bar':                 'fa-cocktail',
+        'Parque':              'fa-tree',
+        'Esportes':            'fa-running',
+        'Cultura e Arte':      'fa-palette',
+        'Tecnologia':          'fa-laptop',
+        'Infantil e Família':  'fa-child',
+        'default':             'fa-calendar-star',
+    };
+
     g('favoritos-list').innerHTML = items.map(f => {
         const nome      = f.titulo || f.nome || f.nome_local || '—';
         const categoria = f.categoria || '';
-        const sub       = [f.data, f.local || f.cidade].filter(Boolean).join(' • ') || '—';
-        const preco     = f.preco || '';
-        const url       = f.url  || '#';
-        const id        = f.id   || '';
-        const icon      = iconMap[categoria] || iconMap['default'];
+        const data      = f.data   || '';
+        const local     = f.local  || f.cidade || '';
+        const preco     = f.preco  || '';
+        const url       = f.url    || '#';
+        const id        = f.id     || '';
+
+        const palette   = colorMap[categoria] || colorMap['default'];
+        const icon      = iconMap[categoria]  || iconMap['default'];
+
+        // Iniciais para o thumb (até 3 letras)
+        const initials = nome
+            .split(' ')
+            .filter(Boolean)
+            .slice(0, 3)
+            .map(w => w[0].toUpperCase())
+            .join('');
+
+        const thumbHtml = f.imagem
+            ? `<img src="${f.imagem}" alt="${nome}"
+                    style="width:100%;height:100%;object-fit:cover;display:block;">`
+            : `<span style="font-size:13px;font-weight:600;letter-spacing:.5px;
+                            color:${palette.color};">${initials}</span>`;
+
+        const metaDate  = data  ? `<span class="fav-meta-item"><i class="fas fa-calendar-alt"></i>${data}</span>`  : '';
+        const metaLocal = local ? `<span class="fav-meta-item"><i class="fas fa-map-marker-alt"></i>${local}</span>` : '';
+
         return `
-        <div class="list-item" data-evento-id="${id}">
-            <div class="item-icon">
-                ${f.imagem
-                    ? `<img src="${f.imagem}" alt="${nome}" style="width:48px;height:48px;object-fit:cover;border-radius:8px;">`
-                    : `<i class="fas ${icon}"></i>`}
+        <div class="fav-event-card" data-evento-id="${id}">
+            <div class="fav-accent" style="background:${palette.color};"></div>
+
+            <div class="fav-thumb" style="background:${palette.light};">
+                ${thumbHtml}
             </div>
-            <div class="item-info">
-                <div class="item-name">${nome}</div>
-                <div class="item-sub">${sub}${preco ? ' • ' + preco : ''}</div>
-            </div>
-            ${categoria ? `<span class="category-tag">${categoria}</span>` : ''}
-            <div class="item-actions">
-                <a href="${url}" class="btn btn-primary btn-sm"><i class="fas fa-eye"></i> Ver</a>
-                <button class="btn btn-ghost btn-sm" onclick="removeFavoritoLocal('${id}', this)" title="Remover">
-                    <i class="fas fa-trash"></i>
-                </button>
+
+            <div class="fav-body">
+                <div class="fav-top">
+                    <p class="fav-name">${nome}</p>
+                    ${categoria ? `<span class="fav-cat-tag">${categoria}</span>` : ''}
+                </div>
+
+                ${(metaDate || metaLocal) ? `
+                <div class="fav-meta">
+                    ${metaDate}
+                    ${metaLocal}
+                </div>` : ''}
+
+                <div class="fav-foot">
+                    ${preco ? `<span class="fav-price">${preco}</span>` : '<span></span>'}
+                    <div class="fav-actions">
+                        <a href="${url}" class="btn btn-primary btn-sm">
+                            <i class="fas fa-eye"></i> Ver evento
+                        </a>
+                        <button class="btn btn-ghost btn-sm fav-del-btn"
+                                onclick="removeFavoritoLocal('${id}', this)"
+                                title="Remover dos favoritos"
+                                aria-label="Remover ${nome} dos favoritos">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                </div>
             </div>
         </div>`;
     }).join('');
+
     showState('favoritos', 'list');
 }
 

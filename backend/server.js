@@ -20,7 +20,17 @@ const rateLimit = require("express-rate-limit");
 const app = express();
 
 /* ─── Segurança de headers HTTP ─── */
-app.use(helmet());
+/* ─── Segurança de headers HTTP ─── */
+app.use(helmet({
+    crossOriginResourcePolicy: { policy: "cross-origin" },
+    crossOriginEmbedderPolicy: false,
+    contentSecurityPolicy: false,
+}));
+
+app.use((req, res, next) => {
+    res.setHeader('Cross-Origin-Resource-Policy', 'cross-origin');
+    next();
+});
 
 /* ─── Rate limiting geral — 100 requests por IP a cada 15 min ─── */
 const limiter = rateLimit({
@@ -88,12 +98,14 @@ const { ingressosRouter, pedidosRouter } = require("./routes/ingressosRoutes");
 
 // Rotas opcionais — carregadas só se o arquivo existir
 function tryRequire(routePath) {
-  const full = path.join(__dirname, routePath);
-  if (fs.existsSync(full)) return require(full);
-  console.warn(`⚠️  Rota não encontrada (ignorada): ${routePath}`);
-  return null;
+  try {
+    const mod = require(path.join(__dirname, routePath));
+    return mod;
+  } catch (e) {
+    console.warn(`⚠️  Rota não encontrada (ignorada): ${routePath} — ${e.message}`);
+    return null;
+  }
 }
-
 const favoritosRoutes = tryRequire("./routes/favoritos");
 const visitasRoutes   = tryRequire("./routes/visitas");
 const comprasRoutes   = tryRequire("./routes/compras");
