@@ -74,7 +74,7 @@ function waitForHeaderAndApply(name, email, photo, tries = 0) {
    GET USER ID
 ═══════════════════════════════════════════ */
 function getUserId() {
-    const directKeys = ['userId', 'id', 'user_id', 'usuarioId', 'usuario_id'];
+    const directKeys = ['cachedProfileUserId', 'userId', 'id', 'user_id', 'usuarioId', 'usuario_id'];
     for (const key of directKeys) {
         const val = localStorage.getItem(key);
         if (val && val !== 'undefined' && val !== 'null') return val;
@@ -519,7 +519,7 @@ g('form-senha').addEventListener('submit', async e => {
         }
         if (!res.ok) throw new Error('HTTP ' + res.status);
 
-        showToast('Senha alterada com sucesso! 🔒', 'success');
+        showToast('Senha alterada com sucesso!', 'success');
         resetSenhaForm();
 
     } catch (err) {
@@ -1047,12 +1047,22 @@ document.querySelectorAll('.session-close-btn').forEach(btn => {
 });
 
 g('logout-all-btn')?.addEventListener('click', () => {
-    const cards = document.querySelectorAll('.session-card:not(.current)');
-    cards.forEach((card, i) => setTimeout(() => {
+    const outras = document.querySelectorAll('.session-card:not(.current)');
+    if (outras.length === 0) {
+        // Só tem a sessão atual — encerra tudo e faz logout
+        showToast('Sessão encerrada. Saindo...', 'warning');
+        setTimeout(() => {
+            localStorage.clear();
+            window.location.href = '/frontend/login/login.html';
+        }, 1500);
+        return;
+    }
+    // Remove outras sessões visualmente
+    outras.forEach((card, i) => setTimeout(() => {
         card.style.transition = 'opacity .3s'; card.style.opacity = '0';
         setTimeout(() => card.remove(), 310);
     }, i * 80));
-    setTimeout(() => showToast('Todas as outras sessões foram encerradas.'), cards.length * 80 + 100);
+    setTimeout(() => showToast('Todas as outras sessões foram encerradas.'), outras.length * 80 + 100);
 });
 
 /* ═══════════════════════════════════════════
@@ -1093,6 +1103,183 @@ document.querySelectorAll('.faq-question').forEach(q => {
     });
 });
 
+/* ═══════════════════════════════════════════
+   RECUPERAR SENHA — modal inline no perfil
+═══════════════════════════════════════════ */
+g('btn-abrir-recuperar-senha').addEventListener('click', () => {
+    // reseta o modal
+    g('recuperar-etapa-1').style.display = 'block';
+    g('recuperar-etapa-2').style.display = 'none';
+    g('recuperar-email').value           = '';
+    g('recuperar-codigo').value          = '';
+    g('recuperar-nova-senha').value      = '';
+    document.querySelectorAll('#recuperar-senha-modal .field-error')
+        .forEach(e => e.classList.remove('visible'));
+    g('recuperar-senha-modal').classList.add('open');
+});
+
+g('btn-cancelar-recuperar').addEventListener('click', () => {
+    g('recuperar-senha-modal').classList.remove('open');
+});
+
+g('recuperar-senha-modal').addEventListener('click', e => {
+    if (e.target === e.currentTarget) e.currentTarget.classList.remove('open');
+});
+
+// Etapa 1 — enviar código
+g('btn-enviar-codigo-recuperar').addEventListener('click', async () => {
+    const email = g('recuperar-email').value.trim();
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        g('erro-recuperar-email').classList.add('visible'); return;
+    }
+    g('erro-recuperar-email').classList.remove('visible');
+
+    const btn = g('btn-enviar-codigo-recuperar');
+    btn.classList.add('loading');
+
+    try {
+        const res = await fetch(`${API_URL}/usuarios/recuperar-senha`, {
+            method:  'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body:    JSON.stringify({ email }),
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.erro || 'Erro ao enviar código.');
+
+        showToast('Código enviado para ' + email + '!', 'success');
+        g('recuperar-etapa-1').style.display = 'none';
+        g('recuperar-etapa-2').style.display = 'block';
+
+    } catch (err) {
+        showToast(err.message, 'error');
+    } finally {
+        btn.classList.remove('loading');
+    }
+});
+
+// Voltar para etapa 1
+g('btn-voltar-recuperar').addEventListener('click', () => {
+    g('recuperar-etapa-1').style.display = 'block';
+    g('recuperar-etapa-2').style.display = 'none';
+});
+
+// Etapa 2 — redefinir senha
+g('btn-redefinir-senha').addEventListener('click', async () => {
+    const email    = g('recuperar-email').value.trim();
+    const codigo   = g('recuperar-codigo').value.trim();
+    const novaSenha = g('recuperar-nova-senha').value;
+
+    let valid = true;
+    if (!codigo) { g('erro-recuperar-codigo').classList.add('visible'); valid = false; }
+    else g('erro-recuperar-codigo').classList.remove('visible');
+
+    if (!/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&]).{8,}$/.test(novaSenha)) {
+        g('erro-recuperar-nova-senha').classList.add('visible'); valid = false;
+    } else {
+        g('erro-recuperar-nova-senha').classList.remove('visible');
+    }
+    if (!valid) return;
+
+    const btn = g('btn-redefinir-senha');
+    btn.classList.add('loading');
+
+    try {
+        const res = await fetch(`${API_URL}/usuarios/redefinir-senha`, {
+            method:  'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body:    JSON.stringify({ email, codigo, novaSenha }),
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.erro || 'Erro ao redefinir senha.');
+
+        showToast('Senha redefinida com sucesso! 🔒', 'success');
+        g('recuperar-senha-modal').classList.remove('open');
+
+    } catch (err) {
+        showToast(err.message, 'error');
+    } finally {
+        btn.classList.remove('loading');
+    }
+});
+
+/* ═══════════════════════════════════════════
+   HISTÓRICO DE ACESSOS
+═══════════════════════════════════════════ */
+g('btn-ver-historico').addEventListener('click', async () => {
+    const card = g('historico-card');
+    card.style.display = 'block';
+    card.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+    g('historico-loading').style.display = 'flex';
+    g('historico-empty').style.display   = 'none';
+    g('historico-list').style.display    = 'none';
+
+    const userId = getUserId();
+    try {
+        const res  = await fetch(`${API_URL}/usuarios/historico-acessos/${userId}`);
+        const rows = await res.json();
+
+        g('historico-loading').style.display = 'none';
+
+        if (!rows.length) {
+            g('historico-empty').style.display = 'flex'; return;
+        }
+
+        g('historico-list').innerHTML = rows.map(r => {
+            const data = new Date(r.criado_em).toLocaleString('pt-BR', {
+                day: '2-digit', month: 'short', year: 'numeric',
+                hour: '2-digit', minute: '2-digit'
+            });
+            const icon = r.dispositivo?.includes('Mobile') ? 'fa-mobile-alt' : 'fa-laptop';
+            return `
+            <div class="list-item">
+                <div class="item-icon"><i class="fas ${icon}"></i></div>
+                <div class="item-info">
+                    <div class="item-name">${r.dispositivo || 'Dispositivo desconhecido'}</div>
+                    <div class="item-sub">${data} · IP: ${r.ip || '—'}</div>
+                </div>
+            </div>`;
+        }).join('');
+
+        g('historico-list').style.display = 'block';
+
+    } catch (err) {
+        g('historico-loading').style.display = 'none';
+        showToast('Erro ao carregar histórico.', 'error');
+    }
+});
+
+g('btn-fechar-historico').addEventListener('click', () => {
+    g('historico-card').style.display = 'none';
+});
+
+/* ── TOGGLE ALERTA NOVO DISPOSITIVO ── */
+g('btn-toggle-alerta')?.addEventListener('click', async () => {
+    const userId = getUserId();
+    const ativo  = g('btn-toggle-alerta').textContent.trim() === 'Desativar';
+    const novoVal = ativo ? 0 : 1;
+
+    try {
+        await fetch(`${API_URL}/usuarios/alerta-dispositivo`, {
+            method:  'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body:    JSON.stringify({ id: userId, alerta: novoVal })
+        });
+
+        if (novoVal === 0) {
+            g('alerta-status').className = 'status-badge off';
+            g('alerta-status').innerHTML = '<i class="fas fa-times-circle"></i> Desativado';
+            g('btn-toggle-alerta').textContent = 'Ativar';
+        } else {
+            g('alerta-status').className = 'status-badge ok';
+            g('alerta-status').innerHTML = '<i class="fas fa-check-circle"></i> Ativo';
+            g('btn-toggle-alerta').textContent = 'Desativar';
+        }
+        showToast(novoVal === 0 ? 'Alertas desativados.' : 'Alertas ativados.');
+    } catch {
+        showToast('Erro ao atualizar preferência.', 'error');
+    }
+});
 /* ═══════════════════════════════════════════
    INIT
 ═══════════════════════════════════════════ */
