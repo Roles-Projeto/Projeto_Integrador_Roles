@@ -75,7 +75,19 @@ $sql = [regex]::Replace($sql, 'INSERT INTO "(\w+)"', 'INSERT INTO "$1"')
 # Ordem: usuarios -> estabelecimentos -> eventos -> tipos_ingresso
 #        -> pedidos -> ingressos -> avaliacoes -> contatos -> contato_respostas
 
-$tableOrder = @('usuarios','estabelecimentos','eventos','tipos_ingresso','pedidos','ingressos','avaliacoes','contatos','contato_respostas')
+$tableOrder = @(
+    'usuarios',
+    'estabelecimentos',
+    'eventos',
+    'tipos_ingresso',
+    'pedidos',
+    'ingressos',
+    'visitas',
+    'login_historico',
+    'avaliacoes',
+    'contatos',
+    'contato_respostas'
+)
 
 # Extrai cada bloco CREATE TABLE + INSERT INTO por tabela
 $blocks = @{}
@@ -129,3 +141,63 @@ if ($LASTEXITCODE -eq 0) {
 } else {
     Write-Host "AVISO - Aplicado com erros, verifique o log acima"
 }
+
+# 5. APLICA ROW LEVEL SECURITY
+Write-Host "Aplicando Row Level Security..."
+
+$rlsSql = @"
+-- Habilita RLS em todas as tabelas
+ALTER TABLE usuarios           ENABLE ROW LEVEL SECURITY;
+ALTER TABLE estabelecimentos   ENABLE ROW LEVEL SECURITY;
+ALTER TABLE eventos            ENABLE ROW LEVEL SECURITY;
+ALTER TABLE tipos_ingresso     ENABLE ROW LEVEL SECURITY;
+ALTER TABLE pedidos            ENABLE ROW LEVEL SECURITY;
+ALTER TABLE ingressos          ENABLE ROW LEVEL SECURITY;
+ALTER TABLE visitas            ENABLE ROW LEVEL SECURITY;
+ALTER TABLE login_historico    ENABLE ROW LEVEL SECURITY;
+ALTER TABLE avaliacoes         ENABLE ROW LEVEL SECURITY;
+ALTER TABLE contatos           ENABLE ROW LEVEL SECURITY;
+ALTER TABLE contato_respostas  ENABLE ROW LEVEL SECURITY;
+
+-- Remove policies antigas para nao duplicar
+DROP POLICY IF EXISTS "leitura publica" ON usuarios;
+DROP POLICY IF EXISTS "leitura publica" ON estabelecimentos;
+DROP POLICY IF EXISTS "leitura publica" ON eventos;
+DROP POLICY IF EXISTS "leitura publica" ON tipos_ingresso;
+DROP POLICY IF EXISTS "leitura publica" ON pedidos;
+DROP POLICY IF EXISTS "leitura publica" ON ingressos;
+DROP POLICY IF EXISTS "leitura publica" ON visitas;
+DROP POLICY IF EXISTS "leitura publica" ON login_historico;
+DROP POLICY IF EXISTS "leitura publica" ON avaliacoes;
+DROP POLICY IF EXISTS "leitura publica" ON contatos;
+DROP POLICY IF EXISTS "leitura publica" ON contato_respostas;
+
+-- Policies de leitura publica (tabelas de conteudo)
+CREATE POLICY "leitura publica" ON eventos           FOR SELECT USING (true);
+CREATE POLICY "leitura publica" ON estabelecimentos  FOR SELECT USING (true);
+CREATE POLICY "leitura publica" ON ingressos         FOR SELECT USING (true);
+CREATE POLICY "leitura publica" ON avaliacoes        FOR SELECT USING (true);
+CREATE POLICY "leitura publica" ON tipos_ingresso    FOR SELECT USING (true);
+CREATE POLICY "leitura publica" ON visitas           FOR SELECT USING (true);
+
+-- Policies de acesso total (service role bypassa RLS automaticamente)
+CREATE POLICY "acesso total" ON usuarios          USING (true) WITH CHECK (true);
+CREATE POLICY "acesso total" ON pedidos           USING (true) WITH CHECK (true);
+CREATE POLICY "acesso total" ON login_historico   USING (true) WITH CHECK (true);
+CREATE POLICY "acesso total" ON contatos          USING (true) WITH CHECK (true);
+CREATE POLICY "acesso total" ON contato_respostas USING (true) WITH CHECK (true);
+"@
+
+$rlsFile = "rls_policies.sql"
+Set-Content -Path $rlsFile -Value $rlsSql -Encoding utf8
+
+& "C:\Program Files\PostgreSQL\17\bin\psql.exe" $SUPABASE_URL -f $rlsFile
+
+if ($LASTEXITCODE -eq 0) {
+    Write-Host "OK - RLS aplicado com sucesso!"
+} else {
+    Write-Host "AVISO - RLS aplicado com erros, verifique o log acima"
+}
+
+# Remove arquivo temporario
+Remove-Item $rlsFile -ErrorAction SilentlyContinue
