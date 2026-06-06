@@ -224,8 +224,27 @@ function inicializarAcaoBotaoComprar() {
         botaoComprar.addEventListener('click', realizarAcaoComprar);
     }
 }
-
 document.addEventListener('DOMContentLoaded', async function () {
     await carregarDetalhesEvento();
     inicializarAcaoBotaoComprar();
+
+    // ── Registra visita ──
+    const userId = localStorage.getItem('userId');
+    if (userId && window._eventoAtual) {
+        const e = window._eventoAtual;
+        fetch(`${API_BASE}/visitas`, {
+            method:  'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body:    JSON.stringify({
+                usuarioId:   userId,
+                nome:        e.nome || 'Evento',
+                nome_local:  e.local || '',
+                data_visita: new Date().toISOString().split('T')[0],
+                tipo:        'evento',
+                item_id:     e.evento_id || 0,
+                imagem:      e.imagem || '',
+                url:         window.location.href
+            })
+        }).catch(() => {});
+    }
 });
