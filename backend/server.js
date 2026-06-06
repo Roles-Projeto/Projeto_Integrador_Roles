@@ -10,12 +10,33 @@
 
 require("dotenv").config();
 
-const express = require("express");
-const cors    = require("cors");
-const path    = require("path");
-const fs      = require("fs");
+const express   = require("express");
+const cors      = require("cors");
+const path      = require("path");
+const fs        = require("fs");
+const helmet    = require("helmet");
+const rateLimit = require("express-rate-limit");
 
 const app = express();
+
+/* ─── Segurança de headers HTTP ─── */
+app.use(helmet());
+
+/* ─── Rate limiting geral — 100 requests por IP a cada 15 min ─── */
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 100,
+  message: { erro: "Muitas requisições. Tente novamente em 15 minutos." }
+});
+app.use("/api", limiter);
+
+/* ─── Rate limiting para login — 10 tentativas por 15 min ─── */
+const loginLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 10,
+  message: { erro: "Muitas tentativas de login. Tente novamente em 15 minutos." }
+});
+app.use("/usuarios/login", loginLimiter);
 
 /* ─── Middlewares globais ─── */
 app.use(cors({
@@ -138,6 +159,3 @@ app.listen(PORT, () => {
   console.log(`📧 Email: ${process.env.EMAIL_USER || "⚠️ NÃO DEFINIDO"}`);
   console.log("================================");
 });
-
-
-
