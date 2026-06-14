@@ -4,7 +4,7 @@
    CONFIGURAÇÃO
 ================================================== */
 const BASE_URL = window.API_BASE_URL || window.API_BASE || "";
-console.log("🔍 BASE_URL:", BASE_URL, "| window.API_BASE:", window.API_BASE);
+
 
 
 
@@ -398,10 +398,13 @@ async function loadEventData() {
 
             const img = document.getElementById("event-image");
             const imgFile = evento.imagem || evento.img_capa;
+            
             if (img && imgFile) {
-                img.src = imgFile.startsWith("/uploads/") || imgFile.startsWith("http")
+                const finalSrc = imgFile.startsWith("/uploads/") || imgFile.startsWith("http")
                     ? `${BASE_URL}${imgFile.startsWith("/") ? imgFile : "/" + imgFile}`
                     : `${BASE_URL}/uploads/${imgFile}`;
+                
+                img.src = finalSrc;
             }
             document.getElementById("event-name").textContent = evento.titulo || evento.nome || "—";
             document.getElementById("event-location").textContent = evento.local_nome || "—";
@@ -429,7 +432,14 @@ async function loadEventData() {
     const stored = localStorage.getItem("eventoSelecionado");
     if (stored) {
         const ev = JSON.parse(stored);
-        document.getElementById("event-image").src = ev.imagem || "/frontend/imagens/placeholder.jpg";
+        const imgFileFallback = ev.imagem;
+        if (imgFileFallback) {
+            document.getElementById("event-image").src = imgFileFallback.startsWith("/uploads/") || imgFileFallback.startsWith("http")
+                ? `${BASE_URL}${imgFileFallback.startsWith("/") ? imgFileFallback : "/" + imgFileFallback}`
+                : `${BASE_URL}/uploads/${imgFileFallback}`;
+        } else {
+            document.getElementById("event-image").src = "/frontend/imagens/placeholder.jpg";
+        }
         document.getElementById("event-name").textContent = ev.nome || "Evento Desconhecido";
         document.getElementById("event-date").textContent = ev.data || "--/--/----";
         document.getElementById("event-time").textContent = ev.hora || "--:--";
@@ -536,7 +546,16 @@ async function finalizarCompra(forma_pagamento) {
 /* ==================================================
    INICIALIZAÇÃO
 ================================================== */
+/* ==================================================
+   INICIALIZAÇÃO
+================================================== */
 document.addEventListener("DOMContentLoaded", async () => {
+    if (typeof estaLogado === "function" ? !estaLogado() : !getUserId()) {
+        alert("Você precisa estar logado ou criar uma conta para comprar ingressos.");
+        window.location.href = "/frontend/login/login.html";
+        return;
+    }
+
     await loadEventData();
     aplicarMascaras();
     configurarValidacaoRealTime();
