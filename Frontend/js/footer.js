@@ -1,4 +1,7 @@
 document.addEventListener("DOMContentLoaded", function () {
+
+    const anoAtual = new Date().getFullYear();
+
     const footerHTML = `
     <footer class="roles-footer-main">
         <div class="roles-footer-wrapper">
@@ -37,7 +40,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     <li><a href="/frontend/Contato/contato.html">Contato</a></li>
                     <li><a href="/frontend/Cadastro/cadastro.html">Cadastrar Local</a></li>
                     <li><a href="/frontend/empresario/empresario.html">Para empresas</a></li>
-                    <li><a href="/frontend/termodeuso/termodeuso.html">Termo de Uso</a></li>
+                    <li><a href="/frontend/termodeuso/termoDeUso.html">Termo de Uso</a></li>
                 </ul>
             </div>
 
@@ -53,7 +56,7 @@ document.addEventListener("DOMContentLoaded", function () {
         </div>
 
         <div class="roles-footer-bottom">
-            <p class="roles-footer-copy">&copy; 2025 Rolês. Todos os direitos reservados.</p>
+            <p class="roles-footer-copy">&copy; ${anoAtual} Rolês. Todos os direitos reservados.</p>
             <nav class="roles-footer-legal" aria-label="Links legais">
                 <a href="/frontend/termodeuso/termodeuso.html">Privacidade</a>
                 <a href="/frontend/termodeuso/termodeuso.html">Termos</a>
@@ -62,8 +65,6 @@ document.addEventListener("DOMContentLoaded", function () {
     </footer>
     `;
 
-    // Substitui o <footer> vazio que já existe no HTML
-    // evitando duplicar ou injetar fora do lugar
     const existingFooter = document.querySelector('footer');
     if (existingFooter) {
         existingFooter.outerHTML = footerHTML;

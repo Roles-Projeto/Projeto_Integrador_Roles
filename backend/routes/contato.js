@@ -6,20 +6,9 @@
 const express    = require("express");
 const router     = express.Router();
 const connection = require("../db/db_config");
-const nodemailer = require("nodemailer");
+const { Resend } = require("resend");
 
-// ── Transporter de e-mail (Gmail SMTP) ──────────────
-// No seu .env defina:  EMAIL_USER=seu@gmail.com  EMAIL_PASS=sua_senha_de_app
-const transporter = nodemailer.createTransport({
-    host: "smtp.gmail.com",
-  family: 4,
-    port: 465,
-    secure: true,
-    auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS,
-    },
-});
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 // ── POST /contato ────────────────────────────────────
 router.post("/", async (req, res) => {
@@ -43,9 +32,9 @@ router.post("/", async (req, res) => {
 
             // 2. Envia e-mail de notificação para o suporte
             try {
-                await transporter.sendMail({
-                    from: `"Rolês Contato" <${process.env.EMAIL_USER}>`,
-                    to:   process.env.EMAIL_USER,   // roles.suporte@gmail.com
+                await resend.emails.send({
+                    from: "Rolês Contato <onboarding@resend.dev>",
+                    to:   process.env.EMAIL_USER,
                     replyTo: email,
                     subject: `[Rolês] ${tipo.toUpperCase()} – ${assunto}`,
                     html: `
@@ -71,14 +60,13 @@ router.post("/", async (req, res) => {
                     `,
                 });
             } catch (mailErr) {
-                // E-mail falhou mas mensagem já está salva — não bloqueia a resposta
                 console.error("Aviso: e-mail não enviado:", mailErr.message);
             }
 
             // 3. Envia e-mail de confirmação para o usuário
             try {
-                await transporter.sendMail({
-                    from: `"Rolês" <${process.env.EMAIL_USER}>`,
+                await resend.emails.send({
+                    from: "Rolês <onboarding@resend.dev>",
                     to:   email,
                     subject: `Recebemos sua mensagem – ${assunto}`,
                     html: `

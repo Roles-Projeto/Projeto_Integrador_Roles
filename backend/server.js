@@ -10,12 +10,43 @@
 
 require("dotenv").config();
 
-const express = require("express");
-const cors    = require("cors");
-const path    = require("path");
-const fs      = require("fs");
+const express   = require("express");
+const cors      = require("cors");
+const path      = require("path");
+const fs        = require("fs");
+const helmet    = require("helmet");
+const rateLimit = require("express-rate-limit");
 
 const app = express();
+
+/* ─── Segurança de headers HTTP ─── */
+/* ─── Segurança de headers HTTP ─── */
+app.use(helmet({
+    crossOriginResourcePolicy: { policy: "cross-origin" },
+    crossOriginEmbedderPolicy: false,
+    contentSecurityPolicy: false,
+}));
+
+app.use((req, res, next) => {
+    res.setHeader('Cross-Origin-Resource-Policy', 'cross-origin');
+    next();
+});
+
+/* ─── Rate limiting geral — 100 requests por IP a cada 15 min ─── */
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 100,
+  message: { erro: "Muitas requisições. Tente novamente em 15 minutos." }
+});
+app.use("/api", limiter);
+
+/* ─── Rate limiting para login — 10 tentativas por 15 min ─── */
+const loginLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 10,
+  message: { erro: "Muitas tentativas de login. Tente novamente em 15 minutos." }
+});
+app.use("/usuarios/login", loginLimiter);
 
 /* ─── Middlewares globais ─── */
 app.use(cors({
@@ -67,12 +98,14 @@ const { ingressosRouter, pedidosRouter } = require("./routes/ingressosRoutes");
 
 // Rotas opcionais — carregadas só se o arquivo existir
 function tryRequire(routePath) {
-  const full = path.join(__dirname, routePath);
-  if (fs.existsSync(full)) return require(full);
-  console.warn(`⚠️  Rota não encontrada (ignorada): ${routePath}`);
-  return null;
+  try {
+    const mod = require(path.join(__dirname, routePath));
+    return mod;
+  } catch (e) {
+    console.warn(`⚠️  Rota não encontrada (ignorada): ${routePath} — ${e.message}`);
+    return null;
+  }
 }
-
 const favoritosRoutes = tryRequire("./routes/favoritos");
 const visitasRoutes   = tryRequire("./routes/visitas");
 const comprasRoutes   = tryRequire("./routes/compras");

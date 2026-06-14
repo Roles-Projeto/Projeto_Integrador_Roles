@@ -68,7 +68,7 @@ exports.listarEventos = (req, res) => {
     GROUP BY e.id
     ORDER BY e.data_inicio ASC
   `;
-  connection.query(sql, (err, results) => {
+  connection.query(sql, [], (err, results) => {  // ← adiciona [] aqui
     if (err) return res.status(500).json({ erro: "Erro ao buscar eventos.", detalhes: err.message });
     res.json(results);
   });
@@ -132,3 +132,6 @@ exports.excluirEvento = (req, res) => {
     res.json({ mensagem: "Evento excluído com sucesso!" });
   });
 };
+
+
+

@@ -2,7 +2,6 @@
 
 /* ═══════════════════════════════════════════
    CONFIG
-   window.API_BASE é definido em /frontend/js/config.js
 ═══════════════════════════════════════════ */
 const API_URL = window.API_BASE || '';
 
@@ -12,7 +11,17 @@ const API_URL = window.API_BASE || '';
 const g  = id => document.getElementById(id);
 const gv = id => g(id)?.value.trim() || '';
 
-/* ═══════════════════════════════════════════s
+/* ═══════════════════════════════════════════
+   AUTH GUARD — redireciona se não logado
+═══════════════════════════════════════════ */
+function requireLogin() {
+    const userId = getUserId();
+    if (!userId) {
+        window.location.href = '/frontend/login/login.html';
+    }
+}
+
+/* ═══════════════════════════════════════════
    AVATAR PADRÃO
 ═══════════════════════════════════════════ */
 const DEFAULT_AVATAR_URL =
@@ -65,7 +74,7 @@ function waitForHeaderAndApply(name, email, photo, tries = 0) {
    GET USER ID
 ═══════════════════════════════════════════ */
 function getUserId() {
-    const directKeys = ['userId', 'id', 'user_id', 'usuarioId', 'usuario_id'];
+    const directKeys = ['cachedProfileUserId', 'userId', 'id', 'user_id', 'usuarioId', 'usuario_id'];
     for (const key of directKeys) {
         const val = localStorage.getItem(key);
         if (val && val !== 'undefined' && val !== 'null') return val;
@@ -278,11 +287,11 @@ function setAvatar(src) {
     const img = g('profile-picture');
     const svg = g('avatar-default-svg');
 
-    const cached      = localStorage.getItem('profilePhotoUrl') || '';
+    const cached       = localStorage.getItem('profilePhotoUrl') || '';
     const isRealCached = cached && cached !== DEFAULT_AVATAR_URL && cached.length > 10;
-    const finalSrc    = (src && src.length > 10 && !src.endsWith('/'))
-                            ? src
-                            : (isRealCached ? cached : '');
+    const finalSrc     = (src && src.length > 10 && !src.endsWith('/'))
+                             ? src
+                             : (isRealCached ? cached : '');
 
     if (finalSrc) {
         img.onload  = () => { img.style.display = 'block'; svg.style.display = 'none'; };
@@ -330,19 +339,23 @@ g('picture-upload').addEventListener('change', function (e) {
 async function loadProfileData() {
     const userId = getUserId();
     if (!userId) {
-        console.warn('Perfil: nenhum userId encontrado no localStorage. Redirecionando para login.');
         window.location.href = '/frontend/login/login.html';
         return;
     }
 
     try {
         const res = await fetch(`${API_URL}/usuarios/${userId}`);
+        if (res.status === 401 || res.status === 403) {
+            window.location.href = '/frontend/login/login.html';
+            return;
+        }
         if (!res.ok) throw new Error('HTTP ' + res.status);
         const data = await res.json();
 
-        g('profile-name-display').textContent  = data.nome_completo || 'Usuário';
-        g('profile-email-display').textContent = data.email         || '—';
-        g('profile-phone-display').textContent = data.telefone      || '—';
+        // ── Painel esquerdo ──
+        g('profile-name-display').textContent  = data.nome_completo || data.nome || 'Usuário';
+        g('profile-email-display').textContent = data.email  || '—';
+        g('profile-phone-display').textContent = data.telefone || '—';
 
         if (data.cidade || data.estado) {
             g('profile-city-display').textContent =
@@ -357,6 +370,7 @@ async function loadProfileData() {
                 `Membro desde ${months[d.getMonth()]} ${d.getFullYear()}`;
         }
 
+        // ── Avatar ──
         const backendPhoto = data.foto_perfil || data.avatar || '';
         const cachedPhoto  = localStorage.getItem('profilePhotoUrl') || '';
         const isRealCached = cachedPhoto && cachedPhoto !== DEFAULT_AVATAR_URL;
@@ -364,16 +378,18 @@ async function loadProfileData() {
 
         setAvatar(photoUrl);
         if (photoUrl) localStorage.setItem('profilePhotoUrl', photoUrl);
-        waitForHeaderAndApply(data.nome_completo, data.email, photoUrl || DEFAULT_AVATAR_URL);
+        waitForHeaderAndApply(data.nome_completo || data.nome, data.email, photoUrl || DEFAULT_AVATAR_URL);
 
-        if (data.nome_completo) g('nome').value       = data.nome_completo;
-        if (data.sobrenome)     g('sobrenome').value  = data.sobrenome;
-        if (data.email)         g('email').value      = data.email;
-        if (data.telefone)      g('telefone').value   = data.telefone;
-        if (data.cpf)           g('cpf').value        = data.cpf;
-        if (data.nascimento)    g('nascimento').value = data.nascimento.split('T')[0];
-        if (data.sexo)          g('sexo').value       = data.sexo;
+        // ── Formulário ──
+        if (data.nome_completo || data.nome) g('nome').value = data.nome_completo || data.nome;
+        if (data.sobrenome)    g('sobrenome').value  = data.sobrenome;
+        if (data.email)        g('email').value      = data.email;
+        if (data.telefone)     g('telefone').value   = data.telefone;
+        if (data.cpf)          g('cpf').value        = data.cpf;
+        if (data.nascimento)   g('nascimento').value = data.nascimento.split('T')[0];
+        if (data.sexo)         g('sexo').value       = data.sexo;
 
+        // ── Sessão atual ──
         const ua      = navigator.userAgent;
         const browser = ua.includes('Firefox') ? 'Firefox'
                       : ua.includes('Edg')     ? 'Edge'
@@ -434,11 +450,16 @@ g('save-info-btn').addEventListener('click', async () => {
             headers: { 'Content-Type': 'application/json' },
             body:    JSON.stringify(body)
         });
-        if (!res.ok) throw new Error('HTTP ' + res.status);
+        if (!res.ok) {
+            const err = await res.json().catch(() => ({}));
+            throw new Error(err.erro || err.message || 'HTTP ' + res.status);
+        }
 
         if (picSrc && picSrc !== DEFAULT_AVATAR_URL) {
             localStorage.setItem('profilePhotoUrl', picSrc);
         }
+        localStorage.setItem('profileName',  body.nome_completo);
+        localStorage.setItem('profileEmail', body.email);
 
         g('profile-name-display').textContent  = body.nome_completo;
         g('profile-email-display').textContent = body.email;
@@ -448,7 +469,7 @@ g('save-info-btn').addEventListener('click', async () => {
 
     } catch (err) {
         console.error('saveProfile:', err);
-        showToast('Falha ao salvar. Verifique o servidor.', 'error');
+        showToast(err.message || 'Falha ao salvar. Verifique o servidor.', 'error');
     } finally {
         btn.classList.remove('loading');
     }
@@ -498,7 +519,7 @@ g('form-senha').addEventListener('submit', async e => {
         }
         if (!res.ok) throw new Error('HTTP ' + res.status);
 
-        showToast('Senha alterada com sucesso! 🔒', 'success');
+        showToast('Senha alterada com sucesso!', 'success');
         resetSenhaForm();
 
     } catch (err) {
@@ -539,28 +560,51 @@ async function loadTickets() {
     ];
 
     let raw = null;
-for (const url of endpoints) {
-    try {
-        const res = await fetch(url);
-        console.log(`🔍 ${url} → status ${res.status}`);
-        if (res.ok) {
-            raw = await res.json();
-            console.log('✅ Dados recebidos:', raw);
-            break;
-        }
-    } catch (err) {
-        console.warn(`❌ Falhou: ${url}`, err);
+    for (const url of endpoints) {
+        try {
+            const res = await fetch(url);
+            if (res.ok) { raw = await res.json(); break; }
+        } catch (_) {}
     }
-}
-console.log('👤 userId:', getUserId());
-console.log('📦 Items:', Array.isArray(raw) ? raw : (raw?.ingressos || raw?.data || raw?.pedidos || []));
 
     _ticketsLoaded = true;
     const items = Array.isArray(raw) ? raw : (raw?.ingressos || raw?.data || raw?.pedidos || []);
+
+    // Atualiza badge no nav
+    const badge = g('nav-ticket-count');
+    if (badge && items.length > 0) {
+        badge.textContent = items.length;
+        badge.style.display = 'inline-block';
+    }
+
+    // Resumo
+    if (items.length > 0) {
+        const hoje     = new Date(); hoje.setHours(0,0,0,0);
+        const proximos = items.filter(t => t.data_evento && new Date(t.data_evento) >= hoje).length;
+        const gasto    = items.reduce((acc, t) => acc + (parseFloat(t.preco) || 0), 0);
+        g('summary-total')?.setAttribute('data-val', items.length);
+        g('summary-proximos')?.setAttribute('data-val', proximos);
+        const sumEl = g('tickets-summary');
+        if (sumEl) sumEl.style.display = 'block';
+        if (g('summary-total'))    g('summary-total').textContent    = items.length;
+        if (g('summary-proximos')) g('summary-proximos').textContent = proximos;
+        if (g('summary-gasto'))    g('summary-gasto').textContent    = `R$ ${gasto.toFixed(2).replace('.', ',')}`;
+    }
+
     if (!items.length) { showState('tickets', 'empty'); return; }
 
     _allTickets = items;
-renderTickets(_allTickets, _currentFilter);
+    renderTickets(_allTickets, _currentFilter);
+
+    // Filtros de ingressos
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            _currentFilter = btn.dataset.filter;
+            renderTickets(_allTickets, _currentFilter);
+        });
+    });
 }
 
 function renderTickets(tickets, filter) {
@@ -581,7 +625,6 @@ function renderTickets(tickets, filter) {
         const isProximo   = dataEvento && dataEvento >= hoje;
         const isHoje      = dataEvento && dataEvento.toDateString() === new Date().toDateString();
         const isPendente  = (t.status_pagamento || t.status) === 'pendente';
-        const isUsado     = !isProximo && !isHoje;
 
         const accentColor = isPendente ? '#f57f17'
             : isHoje    ? '#E24B4A'
@@ -600,11 +643,13 @@ function renderTickets(tickets, filter) {
         const dataStr    = dataEvento ? dataEvento.toLocaleDateString('pt-BR', { day: '2-digit', month: 'short', year: 'numeric' }) : '—';
         const horaStr    = dataEvento ? dataEvento.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' }) : '';
         const precoStr   = t.preco ? `R$ ${parseFloat(t.preco).toFixed(2).replace('.', ',')}` : '';
-        const stubLabel  = isPendente ? 'PEND.' : isUsado ? 'USADO' : 'SCAN';
-        const imgSrc     = t.img_capa ? `${API_URL}${t.img_capa.startsWith('/') ? t.img_capa : '/uploads/' + t.img_capa}` : ''
+        const stubLabel  = isPendente ? 'PEND.' : (!isProximo && !isHoje) ? 'USADO' : 'SCAN';
+        const imgSrc     = t.img_capa
+            ? (t.img_capa.startsWith('http') ? t.img_capa : `${API_URL}${t.img_capa.startsWith('/') ? t.img_capa : '/uploads/' + t.img_capa}`)
+            : '';
 
         return `
-        <div class="ticket-card" style="${isUsado ? 'opacity:0.65' : ''}"
+        <div class="ticket-card" style="${(!isProximo && !isHoje) ? 'opacity:0.65' : ''}"
              onclick="openTicketDetail('${t.id}')">
             <div class="tc-accent" style="background:${accentColor}"></div>
             <div class="tc-image">
@@ -658,7 +703,9 @@ function openTicketDetail(ticketId) {
     const isHoje     = dataEvento && dataEvento.toDateString() === new Date().toDateString();
     const isPendente = (t.status_pagamento || t.status) === 'pendente';
     const nomeEvento = t.nome_evento || t.evento || t.titulo || 'Evento';
-    const imgSrc     = t.img_capa ? `${API_URL}${t.img_capa.startsWith('/') ? t.img_capa : '/uploads/' + t.img_capa}` : ''
+    const imgSrc     = t.img_capa
+        ? (t.img_capa.startsWith('http') ? t.img_capa : `${API_URL}${t.img_capa.startsWith('/') ? t.img_capa : '/uploads/' + t.img_capa}`)
+        : '';
     const dataStr    = dataEvento ? dataEvento.toLocaleDateString('pt-BR', { day: '2-digit', month: 'long', year: 'numeric' }) : '—';
     const horaStr    = dataEvento ? dataEvento.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' }) : '—';
     const precoStr   = t.preco ? `R$ ${parseFloat(t.preco).toFixed(2).replace('.', ',')}` : '—';
@@ -666,7 +713,6 @@ function openTicketDetail(ticketId) {
     const tipo       = t.tipo_ingresso || '—';
     const pedidoNum  = `#${String(t.id).padStart(5, '0')}`;
 
-    // Cria modal se não existir
     let overlay = g('ticket-detail-overlay');
     if (!overlay) {
         overlay = document.createElement('div');
@@ -683,9 +729,7 @@ function openTicketDetail(ticketId) {
             <button class="tdm-close" onclick="document.getElementById('ticket-detail-overlay').classList.remove('open')">
                 <i class="fas fa-times"></i>
             </button>
-            <div class="tdm-header-info">
-                <h3>${nomeEvento}</h3>
-            </div>
+            <div class="tdm-header-info"><h3>${nomeEvento}</h3></div>
         </div>
         <div class="tdm-body">
             <div class="tdm-info-grid">
@@ -721,7 +765,7 @@ function openTicketDetail(ticketId) {
 }
 
 /* ═══════════════════════════════════════════
-   DOWNLOAD PDF DO INGRESSO
+   DOWNLOAD PDF
 ═══════════════════════════════════════════ */
 async function downloadTicket(ticketId) {
     const t = _allTickets.find(x => String(x.id) === String(ticketId));
@@ -740,76 +784,45 @@ async function downloadTicket(ticketId) {
     const pedido     = `#${String(t.id).padStart(5, '0')}`;
     const pagamento  = t.forma_pagamento || '—';
 
-    // Fundo roxo no topo
     doc.setFillColor(108, 29, 206);
     doc.rect(0, 0, 210, 45, 'F');
-
-    // Título
     doc.setTextColor(255, 255, 255);
-    doc.setFontSize(22);
-    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(22); doc.setFont('helvetica', 'bold');
     doc.text('INGRESSO', 105, 18, { align: 'center' });
-
-    doc.setFontSize(14);
-    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(14); doc.setFont('helvetica', 'normal');
     doc.text(nomeEvento, 105, 30, { align: 'center' });
-
     doc.setFontSize(10);
     doc.text('Rolés — Sua plataforma de eventos', 105, 40, { align: 'center' });
 
-    // Linha divisória
-    doc.setDrawColor(108, 29, 206);
-    doc.setLineWidth(0.5);
+    doc.setDrawColor(108, 29, 206); doc.setLineWidth(0.5);
     doc.line(15, 52, 195, 52);
 
-    // Informações do ingresso
-    doc.setTextColor(50, 50, 50);
-    doc.setFontSize(11);
-
+    doc.setTextColor(50, 50, 50); doc.setFontSize(11);
     const campos = [
-        ['Pedido',     pedido],
-        ['Status',     'Confirmado'],
-        ['Data',       dataStr],
-        ['Horário',    horaStr],
-        ['Local',      local],
-        ['Tipo',       tipo],
-        ['Valor pago', preco],
-        ['Pagamento',  pagamento],
+        ['Pedido', pedido], ['Status', 'Confirmado'],
+        ['Data', dataStr],  ['Horário', horaStr],
+        ['Local', local],   ['Tipo', tipo],
+        ['Valor pago', preco], ['Pagamento', pagamento],
     ];
 
     let y = 65;
     campos.forEach(([label, valor]) => {
-        doc.setFont('helvetica', 'bold');
-        doc.setTextColor(108, 29, 206);
+        doc.setFont('helvetica', 'bold'); doc.setTextColor(108, 29, 206);
         doc.text(label + ':', 20, y);
-
-        doc.setFont('helvetica', 'normal');
-        doc.setTextColor(50, 50, 50);
+        doc.setFont('helvetica', 'normal'); doc.setTextColor(50, 50, 50);
         doc.text(String(valor), 70, y);
-
         y += 12;
     });
 
-    // Caixa QR Code
-    doc.setDrawColor(200, 200, 200);
-    doc.setFillColor(245, 245, 245);
+    doc.setDrawColor(200, 200, 200); doc.setFillColor(245, 245, 245);
     doc.roundedRect(55, y + 5, 100, 50, 4, 4, 'FD');
-
-    doc.setTextColor(108, 29, 206);
-    doc.setFontSize(12);
-    doc.setFont('helvetica', 'bold');
+    doc.setTextColor(108, 29, 206); doc.setFontSize(12); doc.setFont('helvetica', 'bold');
     doc.text('[ QR CODE ]', 105, y + 34, { align: 'center' });
-
-    doc.setTextColor(120, 120, 120);
-    doc.setFontSize(9);
-    doc.setFont('helvetica', 'normal');
+    doc.setTextColor(120, 120, 120); doc.setFontSize(9); doc.setFont('helvetica', 'normal');
     doc.text('Apresente este ingresso na entrada do evento', 105, y + 48, { align: 'center' });
 
-    // Rodapé
-    doc.setFillColor(240, 240, 240);
-    doc.rect(0, 275, 210, 22, 'F');
-    doc.setTextColor(150, 150, 150);
-    doc.setFontSize(8);
+    doc.setFillColor(240, 240, 240); doc.rect(0, 275, 210, 22, 'F');
+    doc.setTextColor(150, 150, 150); doc.setFontSize(8);
     doc.text('Este ingresso é pessoal e intransferível. Gerado em ' + new Date().toLocaleDateString('pt-BR'), 105, 284, { align: 'center' });
     doc.text('Rolés © ' + new Date().getFullYear(), 105, 290, { align: 'center' });
 
@@ -837,11 +850,9 @@ g('transfer-modal').addEventListener('click', e => {
 g('confirm-transfer-btn').addEventListener('click', async () => {
     const email = g('transfer-email').value.trim();
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-        g('erro-transfer-email').classList.add('visible');
-        return;
+        g('erro-transfer-email').classList.add('visible'); return;
     }
     g('erro-transfer-email').classList.remove('visible');
-
     const btn = g('confirm-transfer-btn');
     btn.classList.add('loading');
     try {
@@ -866,8 +877,7 @@ g('confirm-transfer-btn').addEventListener('click', async () => {
 });
 
 /* ═══════════════════════════════════════════
-   FAVORITOS — lê do localStorage (roles_favoritos_dados)
-   com fallback para o backend
+   FAVORITOS
 ═══════════════════════════════════════════ */
 let _favoritosLoaded = false;
 
@@ -875,9 +885,7 @@ async function loadFavoritos() {
     const userId = getUserId();
     showState('favoritos', 'loading');
 
-    // ── 1. Tenta carregar do localStorage primeiro ──────────────────────
     const localItems = getFavoritosDoStorage();
-
     if (localItems.length > 0) {
         renderFavoritos(localItems);
         _favoritosLoaded = true;
@@ -885,95 +893,127 @@ async function loadFavoritos() {
         return;
     }
 
-    // ── 2. Fallback: busca no backend ────────────────────────────────────
-    if (!userId) {
-        _favoritosLoaded = true;
-        showState('favoritos', 'empty');
-        return;
-    }
+    if (!userId) { _favoritosLoaded = true; showState('favoritos', 'empty'); return; }
 
     const endpoints = [
         `${API_URL}/favoritos/usuario/${userId}`,
         `${API_URL}/favoritos?usuarioId=${userId}`,
         `${API_URL}/usuarios/${userId}/favoritos`,
     ];
-
     let raw = null;
     for (const url of endpoints) {
-        try {
-            const res = await fetch(url);
-            if (res.ok) { raw = await res.json(); break; }
-        } catch (_) {}
+        try { const res = await fetch(url); if (res.ok) { raw = await res.json(); break; } } catch (_) {}
     }
-
     _favoritosLoaded = true;
     const items = Array.isArray(raw) ? raw : (raw?.favoritos || raw?.data || []);
     if (!items.length) { showState('favoritos', 'empty'); return; }
-
     renderFavoritos(items);
 }
 
-/**
- * Lê os favoritos salvos pelo favoritoCompartilhar.js no localStorage.
- * Chave: 'roles_favoritos_dados' → { [eventoId]: { titulo, categoria, data, local, preco, imagem, url } }
- */
 function getFavoritosDoStorage() {
     try {
         const raw = localStorage.getItem('roles_favoritos_dados');
         if (!raw) return [];
-        const dados = JSON.parse(raw);
-        return Object.values(dados).filter(Boolean);
-    } catch {
-        return [];
-    }
+        return Object.values(JSON.parse(raw)).filter(Boolean);
+    } catch { return []; }
 }
 
-/**
- * Renderiza a lista de eventos favoritos na aba do perfil.
- * Aceita tanto itens do localStorage quanto do backend.
- */
 function renderFavoritos(items) {
     if (!items.length) { showState('favoritos', 'empty'); return; }
+
+    const colorMap = {
+        'Shows e Música':      { color: '#7F77DD', light: '#EEEDFE' },
+        'Festa e Balada':      { color: '#D4537E', light: '#FBEAF0' },
+        'Balada':              { color: '#D4537E', light: '#FBEAF0' },
+        'Gastronomia':         { color: '#D85A30', light: '#FAECE7' },
+        'Restaurante':         { color: '#D85A30', light: '#FAECE7' },
+        'Bar':                 { color: '#BA7517', light: '#FAEEDA' },
+        'Parque':              { color: '#3B6D11', light: '#EAF3DE' },
+        'Esportes':            { color: '#0F6E56', light: '#E1F5EE' },
+        'Cultura e Arte':      { color: '#534AB7', light: '#EEEDFE' },
+        'Tecnologia':          { color: '#185FA5', light: '#E6F1FB' },
+        'Infantil e Família':  { color: '#993C1D', light: '#FAECE7' },
+        'default':             { color: '#7F77DD', light: '#EEEDFE' },
+    };
+
+    const iconMap = {
+        'Shows e Música':      'fa-music',
+        'Festa e Balada':      'fa-music',
+        'Balada':              'fa-music',
+        'Gastronomia':         'fa-utensils',
+        'Restaurante':         'fa-utensils',
+        'Bar':                 'fa-cocktail',
+        'Parque':              'fa-tree',
+        'Esportes':            'fa-running',
+        'Cultura e Arte':      'fa-palette',
+        'Tecnologia':          'fa-laptop',
+        'Infantil e Família':  'fa-child',
+        'default':             'fa-calendar-star',
+    };
 
     g('favoritos-list').innerHTML = items.map(f => {
         const nome      = f.titulo || f.nome || f.nome_local || '—';
         const categoria = f.categoria || '';
-        const sub       = [f.data, f.local || f.cidade].filter(Boolean).join(' • ') || '—';
-        const preco     = f.preco || '';
-        const url       = f.url  || '#';
-        const id        = f.id   || '';
+        const data      = f.data   || '';
+        const local     = f.local  || f.cidade || '';
+        const preco     = f.preco  || '';
+        const url       = f.url    || '#';
+        const id        = f.id     || '';
 
-        const iconMap = {
-            'Show': 'fa-star', 'Shows e Música': 'fa-music',
-            'Festa e Balada': 'fa-music', 'Balada': 'fa-music',
-            'Gastronomia': 'fa-utensils', 'Restaurante': 'fa-utensils',
-            'Bar': 'fa-cocktail', 'Parque': 'fa-tree',
-            'Esportes': 'fa-running', 'Cultura e Arte': 'fa-palette',
-            'Tecnologia': 'fa-laptop', 'Infantil e Família': 'fa-child',
-            'default': 'fa-calendar-star'
-        };
-        const icon = iconMap[categoria] || iconMap['default'];
+        const palette   = colorMap[categoria] || colorMap['default'];
+        const icon      = iconMap[categoria]  || iconMap['default'];
+
+        // Iniciais para o thumb (até 3 letras)
+        const initials = nome
+            .split(' ')
+            .filter(Boolean)
+            .slice(0, 3)
+            .map(w => w[0].toUpperCase())
+            .join('');
+
+        const thumbHtml = f.imagem
+            ? `<img src="${f.imagem}" alt="${nome}"
+                    style="width:100%;height:100%;object-fit:cover;display:block;">`
+            : `<span style="font-size:13px;font-weight:600;letter-spacing:.5px;
+                            color:${palette.color};">${initials}</span>`;
+
+        const metaDate  = data  ? `<span class="fav-meta-item"><i class="fas fa-calendar-alt"></i>${data}</span>`  : '';
+        const metaLocal = local ? `<span class="fav-meta-item"><i class="fas fa-map-marker-alt"></i>${local}</span>` : '';
 
         return `
-        <div class="list-item" data-evento-id="${id}">
-            <div class="item-icon">
-                ${f.imagem
-                    ? `<img src="${f.imagem}" alt="${nome}" style="width:48px;height:48px;object-fit:cover;border-radius:8px;">`
-                    : `<i class="fas ${icon}"></i>`
-                }
+        <div class="fav-event-card" data-evento-id="${id}">
+            <div class="fav-accent" style="background:${palette.color};"></div>
+
+            <div class="fav-thumb" style="background:${palette.light};">
+                ${thumbHtml}
             </div>
-            <div class="item-info">
-                <div class="item-name">${nome}</div>
-                <div class="item-sub">${sub}${preco ? ' • ' + preco : ''}</div>
-            </div>
-            ${categoria ? `<span class="category-tag">${categoria}</span>` : ''}
-            <div class="item-actions">
-                <a href="${url}" class="btn btn-primary btn-sm" title="Ver evento">
-                    <i class="fas fa-eye"></i> Ver
-                </a>
-                <button class="btn btn-ghost btn-sm" onclick="removeFavoritoLocal('${id}', this)" title="Remover">
-                    <i class="fas fa-trash"></i>
-                </button>
+
+            <div class="fav-body">
+                <div class="fav-top">
+                    <p class="fav-name">${nome}</p>
+                    ${categoria ? `<span class="fav-cat-tag">${categoria}</span>` : ''}
+                </div>
+
+                ${(metaDate || metaLocal) ? `
+                <div class="fav-meta">
+                    ${metaDate}
+                    ${metaLocal}
+                </div>` : ''}
+
+                <div class="fav-foot">
+                    ${preco ? `<span class="fav-price">${preco}</span>` : '<span></span>'}
+                    <div class="fav-actions">
+                        <a href="${url}" class="btn btn-primary btn-sm">
+                            <i class="fas fa-eye"></i> Ver evento
+                        </a>
+                        <button class="btn btn-ghost btn-sm fav-del-btn"
+                                onclick="removeFavoritoLocal('${id}', this)"
+                                title="Remover dos favoritos"
+                                aria-label="Remover ${nome} dos favoritos">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                </div>
             </div>
         </div>`;
     }).join('');
@@ -981,57 +1021,40 @@ function renderFavoritos(items) {
     showState('favoritos', 'list');
 }
 
-/**
- * Remove o favorito do localStorage e atualiza a UI.
- */
 function removeFavoritoLocal(id, btn) {
     try {
         const dados = JSON.parse(localStorage.getItem('roles_favoritos_dados') || '{}');
         delete dados[id];
         localStorage.setItem('roles_favoritos_dados', JSON.stringify(dados));
     } catch (_) {}
-
     try {
-        const raw = localStorage.getItem('roles_favoritos');
-        const set = new Set(raw ? JSON.parse(raw) : []);
+        const set = new Set(JSON.parse(localStorage.getItem('roles_favoritos') || '[]'));
         set.delete(id);
         localStorage.setItem('roles_favoritos', JSON.stringify([...set]));
     } catch (_) {}
-
     const item = btn.closest('.list-item');
     item.style.transition = 'opacity .3s, transform .3s';
-    item.style.opacity    = '0';
-    item.style.transform  = 'translateX(20px)';
+    item.style.opacity = '0'; item.style.transform = 'translateX(20px)';
     setTimeout(() => {
         item.remove();
-        const remaining = g('favoritos-list').querySelectorAll('.list-item');
-        if (!remaining.length) showState('favoritos', 'empty');
+        if (!g('favoritos-list').querySelectorAll('.list-item').length) showState('favoritos', 'empty');
         showToast('Removido dos favoritos.');
     }, 310);
 }
 
-/**
- * Sincroniza os favoritos locais com o backend em segundo plano.
- */
 async function sincronizarFavoritosComBackend(userId, localItems) {
     try {
         for (const item of localItems) {
             if (!item.id) continue;
             await fetch(`${API_URL}/favoritos`, {
-                method:  'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body:    JSON.stringify({ usuarioId: userId, eventoId: item.id, ...item })
+                method: 'POST', headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ usuarioId: userId, eventoId: item.id, ...item })
             });
         }
-    } catch (_) {
-        // Silencioso — sync em segundo plano; não afeta a UX
-    }
+    } catch (_) {}
 }
 
-// Mantém compatibilidade com chamadas antigas de removeFavorito
-async function removeFavorito(id, btn) {
-    removeFavoritoLocal(id, btn);
-}
+async function removeFavorito(id, btn) { removeFavoritoLocal(id, btn); }
 
 /* ═══════════════════════════════════════════
    VISITAS
@@ -1050,23 +1073,17 @@ async function loadVisitas() {
     ];
     let raw = null;
     for (const url of endpoints) {
-        try {
-            const res = await fetch(url);
-            if (res.ok) { raw = await res.json(); break; }
-        } catch (_) {}
+        try { const res = await fetch(url); if (res.ok) { raw = await res.json(); break; } } catch (_) {}
     }
     _visitasLoaded = true;
-
     const items = Array.isArray(raw) ? raw : (raw?.visitas || raw?.data || []);
     if (!items.length) { showState('visitas', 'empty'); return; }
 
     g('visitas-list').innerHTML = items.map(v => {
         const nota    = parseInt(v.nota || v.avaliacao || 0);
-        const dataStr = v.data_visita
-            ? new Date(v.data_visita).toLocaleDateString('pt-BR') : '—';
-        const stars   = [1, 2, 3, 4, 5].map(i =>
-            `<i class="fas fa-star ${i <= nota ? 'filled' : 'empty'}"></i>`
-        ).join('');
+        const dataStr = v.data_visita ? new Date(v.data_visita).toLocaleDateString('pt-BR') : '—';
+        const stars   = [1,2,3,4,5].map(i =>
+            `<i class="fas fa-star ${i <= nota ? 'filled' : 'empty'}"></i>`).join('');
         return `
         <div class="list-item">
             <div class="item-icon"><i class="fas fa-map-marker-alt"></i></div>
@@ -1077,7 +1094,6 @@ async function loadVisitas() {
             <div class="stars">${stars}</div>
         </div>`;
     }).join('');
-
     showState('visitas', 'list');
 }
 
@@ -1088,20 +1104,28 @@ document.querySelectorAll('.session-close-btn').forEach(btn => {
     btn.addEventListener('click', () => {
         const card = btn.closest('.session-card');
         card.style.transition = 'opacity .3s, transform .3s';
-        card.style.opacity    = '0';
-        card.style.transform  = 'translateX(20px)';
+        card.style.opacity = '0'; card.style.transform = 'translateX(20px)';
         setTimeout(() => { card.remove(); showToast('Sessão encerrada.'); }, 310);
     });
 });
 
 g('logout-all-btn')?.addEventListener('click', () => {
-    const cards = document.querySelectorAll('.session-card:not(.current)');
-    cards.forEach((card, i) => setTimeout(() => {
-        card.style.transition = 'opacity .3s';
-        card.style.opacity    = '0';
+    const outras = document.querySelectorAll('.session-card:not(.current)');
+    if (outras.length === 0) {
+        // Só tem a sessão atual — encerra tudo e faz logout
+        showToast('Sessão encerrada. Saindo...', 'warning');
+        setTimeout(() => {
+            localStorage.clear();
+            window.location.href = '/frontend/login/login.html';
+        }, 1500);
+        return;
+    }
+    // Remove outras sessões visualmente
+    outras.forEach((card, i) => setTimeout(() => {
+        card.style.transition = 'opacity .3s'; card.style.opacity = '0';
         setTimeout(() => card.remove(), 310);
     }, i * 80));
-    setTimeout(() => showToast('Todas as outras sessões foram encerradas.'), cards.length * 80 + 100);
+    setTimeout(() => showToast('Todas as outras sessões foram encerradas.'), outras.length * 80 + 100);
 });
 
 /* ═══════════════════════════════════════════
@@ -1112,7 +1136,13 @@ g('cancel-delete-btn').addEventListener('click',  () => g('delete-modal').classL
 g('delete-modal').addEventListener('click', e => {
     if (e.target === e.currentTarget) e.currentTarget.classList.remove('open');
 });
-g('confirm-delete-btn').addEventListener('click', () => {
+g('confirm-delete-btn').addEventListener('click', async () => {
+    const userId = getUserId();
+    if (userId) {
+        try {
+            await fetch(`${API_URL}/usuarios/${userId}`, { method: 'DELETE' });
+        } catch (_) {}
+    }
     showToast('Conta excluída. Redirecionando...', 'warning');
     g('delete-modal').classList.remove('open');
     setTimeout(() => { localStorage.clear(); window.location.href = '/frontend/login/login.html'; }, 2200);
@@ -1137,10 +1167,188 @@ document.querySelectorAll('.faq-question').forEach(q => {
 });
 
 /* ═══════════════════════════════════════════
+   RECUPERAR SENHA — modal inline no perfil
+═══════════════════════════════════════════ */
+g('btn-abrir-recuperar-senha').addEventListener('click', () => {
+    // reseta o modal
+    g('recuperar-etapa-1').style.display = 'block';
+    g('recuperar-etapa-2').style.display = 'none';
+    g('recuperar-email').value           = '';
+    g('recuperar-codigo').value          = '';
+    g('recuperar-nova-senha').value      = '';
+    document.querySelectorAll('#recuperar-senha-modal .field-error')
+        .forEach(e => e.classList.remove('visible'));
+    g('recuperar-senha-modal').classList.add('open');
+});
+
+g('btn-cancelar-recuperar').addEventListener('click', () => {
+    g('recuperar-senha-modal').classList.remove('open');
+});
+
+g('recuperar-senha-modal').addEventListener('click', e => {
+    if (e.target === e.currentTarget) e.currentTarget.classList.remove('open');
+});
+
+// Etapa 1 — enviar código
+g('btn-enviar-codigo-recuperar').addEventListener('click', async () => {
+    const email = g('recuperar-email').value.trim();
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        g('erro-recuperar-email').classList.add('visible'); return;
+    }
+    g('erro-recuperar-email').classList.remove('visible');
+
+    const btn = g('btn-enviar-codigo-recuperar');
+    btn.classList.add('loading');
+
+    try {
+        const res = await fetch(`${API_URL}/usuarios/recuperar-senha`, {
+            method:  'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body:    JSON.stringify({ email }),
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.erro || 'Erro ao enviar código.');
+
+        showToast('Código enviado para ' + email + '!', 'success');
+        g('recuperar-etapa-1').style.display = 'none';
+        g('recuperar-etapa-2').style.display = 'block';
+
+    } catch (err) {
+        showToast(err.message, 'error');
+    } finally {
+        btn.classList.remove('loading');
+    }
+});
+
+// Voltar para etapa 1
+g('btn-voltar-recuperar').addEventListener('click', () => {
+    g('recuperar-etapa-1').style.display = 'block';
+    g('recuperar-etapa-2').style.display = 'none';
+});
+
+// Etapa 2 — redefinir senha
+g('btn-redefinir-senha').addEventListener('click', async () => {
+    const email    = g('recuperar-email').value.trim();
+    const codigo   = g('recuperar-codigo').value.trim();
+    const novaSenha = g('recuperar-nova-senha').value;
+
+    let valid = true;
+    if (!codigo) { g('erro-recuperar-codigo').classList.add('visible'); valid = false; }
+    else g('erro-recuperar-codigo').classList.remove('visible');
+
+    if (!/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&]).{8,}$/.test(novaSenha)) {
+        g('erro-recuperar-nova-senha').classList.add('visible'); valid = false;
+    } else {
+        g('erro-recuperar-nova-senha').classList.remove('visible');
+    }
+    if (!valid) return;
+
+    const btn = g('btn-redefinir-senha');
+    btn.classList.add('loading');
+
+    try {
+        const res = await fetch(`${API_URL}/usuarios/redefinir-senha`, {
+            method:  'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body:    JSON.stringify({ email, codigo, novaSenha }),
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.erro || 'Erro ao redefinir senha.');
+
+        showToast('Senha redefinida com sucesso! 🔒', 'success');
+        g('recuperar-senha-modal').classList.remove('open');
+
+    } catch (err) {
+        showToast(err.message, 'error');
+    } finally {
+        btn.classList.remove('loading');
+    }
+});
+
+/* ═══════════════════════════════════════════
+   HISTÓRICO DE ACESSOS
+═══════════════════════════════════════════ */
+g('btn-ver-historico').addEventListener('click', async () => {
+    const card = g('historico-card');
+    card.style.display = 'block';
+    card.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+    g('historico-loading').style.display = 'flex';
+    g('historico-empty').style.display   = 'none';
+    g('historico-list').style.display    = 'none';
+
+    const userId = getUserId();
+    try {
+        const res  = await fetch(`${API_URL}/usuarios/historico-acessos/${userId}`);
+        const rows = await res.json();
+
+        g('historico-loading').style.display = 'none';
+
+        if (!rows.length) {
+            g('historico-empty').style.display = 'flex'; return;
+        }
+
+        g('historico-list').innerHTML = rows.map(r => {
+            const data = new Date(r.criado_em).toLocaleString('pt-BR', {
+                day: '2-digit', month: 'short', year: 'numeric',
+                hour: '2-digit', minute: '2-digit'
+            });
+            const icon = r.dispositivo?.includes('Mobile') ? 'fa-mobile-alt' : 'fa-laptop';
+            return `
+            <div class="list-item">
+                <div class="item-icon"><i class="fas ${icon}"></i></div>
+                <div class="item-info">
+                    <div class="item-name">${r.dispositivo || 'Dispositivo desconhecido'}</div>
+                    <div class="item-sub">${data} · IP: ${r.ip || '—'}</div>
+                </div>
+            </div>`;
+        }).join('');
+
+        g('historico-list').style.display = 'block';
+
+    } catch (err) {
+        g('historico-loading').style.display = 'none';
+        showToast('Erro ao carregar histórico.', 'error');
+    }
+});
+
+g('btn-fechar-historico').addEventListener('click', () => {
+    g('historico-card').style.display = 'none';
+});
+
+/* ── TOGGLE ALERTA NOVO DISPOSITIVO ── */
+g('btn-toggle-alerta')?.addEventListener('click', async () => {
+    const userId = getUserId();
+    const ativo  = g('btn-toggle-alerta').textContent.trim() === 'Desativar';
+    const novoVal = ativo ? 0 : 1;
+
+    try {
+        await fetch(`${API_URL}/usuarios/alerta-dispositivo`, {
+            method:  'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body:    JSON.stringify({ id: userId, alerta: novoVal })
+        });
+
+        if (novoVal === 0) {
+            g('alerta-status').className = 'status-badge off';
+            g('alerta-status').innerHTML = '<i class="fas fa-times-circle"></i> Desativado';
+            g('btn-toggle-alerta').textContent = 'Ativar';
+        } else {
+            g('alerta-status').className = 'status-badge ok';
+            g('alerta-status').innerHTML = '<i class="fas fa-check-circle"></i> Ativo';
+            g('btn-toggle-alerta').textContent = 'Desativar';
+        }
+        showToast(novoVal === 0 ? 'Alertas desativados.' : 'Alertas ativados.');
+    } catch {
+        showToast('Erro ao atualizar preferência.', 'error');
+    }
+});
+/* ═══════════════════════════════════════════
    INIT
 ═══════════════════════════════════════════ */
 document.addEventListener('DOMContentLoaded', () => {
     requireLogin();
+
     const cachedName  = localStorage.getItem('profileName')     || '';
     const cachedEmail = localStorage.getItem('profileEmail')    || '';
     const cachedPhoto = localStorage.getItem('profilePhotoUrl') || DEFAULT_AVATAR_URL;
@@ -1149,12 +1357,9 @@ document.addEventListener('DOMContentLoaded', () => {
     loadProfileData();
     loadTickets();
 
-    // Se a URL tiver ?section=favoritos, abre a aba automaticamente
     const urlParams = new URLSearchParams(window.location.search);
-    if (urlParams.get('section') === 'ingressos') {
-        document.querySelector('.nav-item[data-section="ingressos"]')?.click();
-    }
-    if (urlParams.get('section') === 'favoritos') {
-        document.querySelector('.nav-item[data-section="favoritos"]')?.click();
+    const section   = urlParams.get('section');
+    if (section) {
+        document.querySelector(`.nav-item[data-section="${section}"]`)?.click();
     }
 });

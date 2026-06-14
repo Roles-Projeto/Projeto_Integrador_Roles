@@ -3,21 +3,12 @@
 const db     = require("../db/db_config");
 const crypto = require("crypto");
 
-function query(sql, params = []) {
-    return new Promise((resolve, reject) => {
-        db.query(sql, params, (err, rows) => {
-            if (err) return reject(err);
-            resolve(rows);
-        });
-    });
-}
-
 // ====================================================
 // LISTAR EVENTOS DISPONÍVEIS
 // ====================================================
 async function listarEventos(req, res) {
     try {
-        const eventos = await query(`
+        const eventos = await db.query(`
             SELECT e.*,
                    MIN(i.valor) AS preco_minimo,
                    COUNT(i.id)  AS tipos_disponiveis
@@ -40,11 +31,11 @@ async function listarEventos(req, res) {
 async function detalheEvento(req, res) {
     const { id } = req.params;
     try {
-        const rows = await query("SELECT * FROM eventos WHERE id = ?", [id]);
+        const rows = await db.query("SELECT * FROM eventos WHERE id = ?", [id]);
         const evento = rows[0];
         if (!evento) return res.status(404).json({ erro: "Evento não encontrado." });
 
-        const tipos = await query(`
+        const tipos = await db.query(`
             SELECT id, titulo AS nome, tipo, valor AS preco,
                    quantidade_total, quantidade_total AS disponivel
             FROM ingressos
@@ -78,7 +69,7 @@ async function comprarIngresso(req, res) {
         const detalhes  = [];
 
         for (const item of itens) {
-            const rows = await query(
+            const rows = await db.query(
                 "SELECT * FROM ingressos WHERE id = ? AND evento_id = ?",
                 [item.tipo_ingresso_id, evento_id]
             );
@@ -92,13 +83,12 @@ async function comprarIngresso(req, res) {
 
         const status_pagamento = simularPagamento(forma_pagamento);
 
-        const pedidoResult = await query(
+        const pedidoResult = await db.query(
             "INSERT INTO pedidos (usuario_id, evento_id, valor_total, forma_pagamento, status) VALUES (?, ?, ?, ?, ?)",
             [usuario_id, evento_id, valor_total, forma_pagamento, status_pagamento]
         );
-        const pedido_id = pedidoResult.insertId;
+        const pedido_id = pedidoResult.insertId ?? pedidoResult[0]?.id;
 
-        // ── Gera QR codes UMA vez, reutiliza no e-mail e na resposta ──
         const ingressosGerados = detalhes.flatMap(d =>
             Array.from({ length: d.quantidade }, () => ({
                 tipo:      d.tipo.titulo,
@@ -106,22 +96,17 @@ async function comprarIngresso(req, res) {
             }))
         );
 
-        // ── Envia e-mail em background (só se aprovado) ───────────────
         if (status_pagamento === "aprovado") {
             try {
                 const { enviarEmailIngresso } = require("../services/emailService");
-
                 const [usuarioRows, eventoRows] = await Promise.all([
-                    query("SELECT nome_completo, email FROM usuarios WHERE id = ?", [usuario_id]),
-                    query("SELECT nome, data_inicio, local_nome, cidade FROM eventos WHERE id = ?", [evento_id]),
+                    db.query("SELECT nome_completo, email FROM usuarios WHERE id = ?", [usuario_id]),
+                    db.query("SELECT nome, data_inicio, local_nome, cidade FROM eventos WHERE id = ?", [evento_id]),
                 ]);
-
                 const usuario = usuarioRows[0];
                 const evento  = eventoRows[0];
-
                 if (usuario && evento) {
                     const d = new Date(evento.data_inicio);
-
                     enviarEmailIngresso({
                         nomeCliente:     usuario.nome_completo,
                         emailCliente:    usuario.email,
@@ -166,13 +151,12 @@ async function comprarIngresso(req, res) {
 // ====================================================
 async function meusIngressos(req, res) {
     const { usuario_id } = req.params;
-
     if (!usuario_id) {
         return res.status(400).json({ erro: "usuario_id não informado." });
     }
 
     try {
-        const ingressos = await query(`
+        const ingressos = await db.query(`
             SELECT
                 p.id,
                 p.usuario_id,
@@ -219,7 +203,7 @@ async function detalheIngresso(req, res) {
     const { usuario_id } = req.query;
 
     try {
-        const rows = await query(`
+        const rows = await db.query(`
             SELECT
                 p.id,
                 p.usuario_id,

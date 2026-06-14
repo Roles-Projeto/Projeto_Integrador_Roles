@@ -124,3 +124,6 @@ function deletarAvaliacao(req, res) {
 }
 
 module.exports = { listarAvaliacoes, criarAvaliacao, deletarAvaliacao };
+
+
+
